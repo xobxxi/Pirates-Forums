@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="pollsList" title="Polls List" version_string="1.0.1" version_id="1" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <code_events/>
+  <code_event_listeners/>
+  <cron/>
+  <email_templates/>
+  <optiongroups>
+    <group group_id="pollsList" display_order="1000" debug_only="0"/>
+    <option option_id="pollsList_max" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>10</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="pollsList" display_order="0"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="option_group_pollsList" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Polls List]]></phrase>
+    <phrase title="option_group_pollsList_description" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Options for the list of recent polls]]></phrase>
+    <phrase title="option_pollsList_max" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Max Polls]]></phrase>
+    <phrase title="option_pollsList_max_explain" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[The maximum number of polls to display]]></phrase>
+    <phrase title="pollsList_recent_polls" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Recent Polls]]></phrase>
+    <phrase title="pollsList_showing_total_recent_polls" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Showing {total} recent polls]]></phrase>
+    <phrase title="pollsList_viewing_recent_polls" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Viewing recent polls]]></phrase>
+    <phrase title="pollsList_votes" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Votes]]></phrase>
+  </phrases>
+  <route_prefixes>
+    <route_type type="public">
+      <prefix original_prefix="polls" class="PollsList_Route_Prefix_Polls" build_link="all"/>
+    </route_type>
+  </route_prefixes>
+  <style_properties/>
+  <templates>
+    <template title="pollsList_list" version_id="0" version_string="1.0.0"><![CDATA[<xen:require css="discussion_list.css" />
+<xen:require css="pollsList_list.css" />
+
+<xen:title>{xen:phrase pollsList_recent_polls}</xen:title>
+
+<div class="discussionList section sectionMain"> 
+	<dl class="sectionHeaders">
+		<dt class="posterAvatar"><a><span>&nbsp;</span></a></dt>
+		<dd class="main">
+			<span class="title">{xen:phrase question}</span>
+			<span class="postDate">{xen:phrase start_date}</span>
+		</dd>
+		<dd class="stats">
+			<span class="major">{xen:phrase pollsList_votes}</span>
+			<span class="minor">{xen:phrase replies}</span>
+		</dd>
+		<dd class="lastPost"><span>{xen:phrase last_message}</span></dd>
+	</dl>
+
+	<ol class="discussionListItems">
+	<xen:if is="{$polls}">
+		
+		<xen:foreach loop="$polls" value="$poll">
+			<xen:include template="pollsList_list_item" />
+		</xen:foreach>
+		
+		<div class="sectionFooter SelectionCountContainer">
+		<span class="contentSummary">{xen:phrase pollsList_showing_total_recent_polls, 'total={xen:number $pollsTotal}'}</span>
+		</div>
+	<xen:else />
+		<li class="primaryContent">{xen:phrase pollsList_there_no_polls_to_display}</li>
+	</xen:if>
+	</ol>
+</div>]]></template>
+    <template title="pollsList_list.css" version_id="0" version_string="1.0.0"><![CDATA[.discussionList .sectionHeaders span {
+        padding: 0 4px;
+}
+.discussionList .sectionHeaders span.postDate, span.minor {
+        float: right;
+}]]></template>
+    <template title="pollsList_list_item" version_id="0" version_string="1.0.0"><![CDATA[<xen:require css="discussion_list.css" />
+
+<li id="poll-{$poll.content_id}" class="discussionListItem {$poll.discussion_state} {xen:if {$poll.sticky}, 'sticky'}" data-author="{$poll.username}">
+
+	<div class="listBlock posterAvatar">
+		<span class="avatarContainer">
+			<xen:avatar user="$poll.userInfo" size="s" img="true" />
+		</span>
+	</div>
+
+	<div class="listBlock main">
+
+		<div class="titleText">
+			<h3 class="title">
+				<!-- TODO: Thread prefix here -->
+				<a href="{xen:link threads, $poll}">{xen:helper wrap, $poll.question, 50}</a>
+			</h3>
+
+			<div class="secondRow">
+				<div class="posterDate muted">
+					<a href="{xen:link members, $poll}" class="username" title="{xen:phrase thread_starter}">{$poll.username}</a>,
+					<a{xen:if {$visitor.user_id}, ' href="{xen:link threads, $poll}"'} class="faint"><xen:datetime time="$poll.post_date" title="{xen:if {$visitor.user_id}, '{xen:phrase go_to_first_message_in_thread}'}" /></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="listBlock stats pairsJustified" title="{xen:phrase members_who_liked_first_message}: {xen:number $poll.first_post_likes}">
+		<dl class="major"><dt>{xen:phrase pollsList_votes}:</dt> <dd>{xen:number $poll.voter_count}</dd></dl>
+		<dl class="minor"><dt>{xen:phrase replies}:</dt> <dd>{xen:number $poll.reply_count}</dd></dl>
+	</div>
+
+	<div class="listBlock lastPost">
+			<dl class="lastPostInfo">
+				<dt><a href="{xen:link members, $poll.lastPostInfo}" class="username">{$poll.lastPostInfo.username}</a></dt>
+				<dd class="muted"><a{xen:if '{$visitor.user_id}', ' href="{xen:link posts, $poll.lastPostInfo}" title="{xen:phrase go_to_last_message}"'} class="dateTime"><xen:datetime time="$poll.lastPostInfo.post_date" /></a></dd>
+			</dl>
+	</div>
+
+</li>]]></template>
+    <template title="pollsList_navigation_list_item" version_id="0" version_string="1.0.0"><![CDATA[<li><a href="{xen:link polls}">{xen:phrase pollsList_recent_polls}</a></li>]]></template>
+  </templates>
+</addon>

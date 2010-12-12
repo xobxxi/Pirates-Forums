@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="recentActivityBlock" title="Recent Activity Block" version_string="1.0.3" version_id="3" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="RecentActivityBlock_Listener" callback_method="loadClassController" active="1" description="Listens for XenForo_ControllerPublic_Index class"/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <optiongroups>
+    <group group_id="recentActivity" display_order="1000" debug_only="0"/>
+    <option option_id="recentActivity_max" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>5</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="recentActivity" display_order="1"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="option_group_recentActivity" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Recent Activity Block]]></phrase>
+    <phrase title="option_group_recentActivity_description" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Options for the recent activity block in the sidebar.]]></phrase>
+    <phrase title="option_recentActivity_max" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Maximum Items]]></phrase>
+    <phrase title="option_recentActivity_max_explain" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Maximum number of recent activity items to be displayed in the block.]]></phrase>
+    <phrase title="recentActivity_view_more_recent_activity" global_cache="0" version_id="1" version_string="1.0.1"><![CDATA[View more recent activity]]></phrase>
+    <phrase title="sidebar_recent_activity_profile_post_insert" global_cache="0" version_id="2" version_string="1.0.2"><![CDATA[{usernamePoster} left a message on <a href="{profileReceiver}">{usernameReceiver}'s profile</a>.]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates>
+    <template title="sidebar_recent_activity" version_id="1" version_string="1.0.1"><![CDATA[<div id="recentActivity" class="section avatarList">
+        <div class="secondaryContent">
+	        <h3><a href="{xen:link recent-activity}" title="{xen:phrase recentActivity_view_more_recent_activity}">{xen:phrase recent_activity}</a></h3>
+	        <xen:include template="sidebar_recent_activity_feed">
+		        <xen:set var="$noContentHtml">{xen:phrase news_feed_is_currently_empty}</xen:set>
+	        </xen:include>
+        </div>
+</div>]]></template>
+    <template title="sidebar_recent_activity_feed" version_id="0" version_string="1.0.0"><![CDATA[<xen:if is="{$newsFeed}">
+	<ol>
+		<xen:foreach loop="$newsFeed" value="$item">		
+			<xen:include template="sidebar_recent_activity_feed_item" />
+		</xen:foreach>
+	</ol>
+<xen:else />
+	{xen:raw $noContentHtml}
+</xen:if>]]></template>
+    <template title="sidebar_recent_activity_feed_item" version_id="2" version_string="1.0.2"><![CDATA[<xen:require css="sidebar_recent_activity_feed_item.css" />
+
+<li data-author="{$item.username}">
+	<xen:avatar user="$item" size="s" img="true" />
+	<div>		
+    	<xen:if is="{$item.action} == 'status'">
+        	<a href="{xen:link members, $item.user}" class="username primaryText">{$item.user.username}</a> <em>{xen:helper bodyText, $item.status.new}</em>
+        </xen:if>
+
+        <xen:if is="{$item.action} == 'insert' AND {$item.content_type} == 'profile_post'">
+                {xen:phrase sidebar_recent_activity_profile_post_insert, 'usernamePoster=<a href="{xen:link members, $item.user}" class="username primaryText">{$item.user.username}</a>', 'profileReceiver={xen:link members, $item.userReceiver}', 'usernameReceiver={$item.userReceiver.username}'}
+        </xen:if>
+
+        <xen:if is="{$item.action} == 'like' AND {$item.content_type} == 'profile_post'">
+        	<xen:if is="{$item.content.user_id} == {$item.content.profile_user_id}">
+				<xen:if is="{$item.content.user_id} == {$visitor.user_id}">
+					<xen:comment><!-- $item.user liked your status --></xen:comment>
+					{xen:phrase x_liked_your_status,'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'status_attributes=href="{xen:link profile-posts, $item.content}"'}.
+				<xen:else />
+					<xen:comment><!-- $item.user liked $contentUser's status --></xen:comment>
+					{xen:phrase x_liked_ys_status, 'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'status_params=href="{xen:link profile-posts, $item.content}"', 'poster={$item.content.username}'}.
+				</xen:if>
+				<xen:else />
+				<xen:if is="{$item.content.user_id} == {$visitor.user_id}">
+					<xen:comment><!-- $item.user liked your post on $profileUser's profile --></xen:comment>
+					{xen:phrase x_liked_your_post_on_ys_profile, 'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'post_attributes=href="{xen:link profile-posts, $item.content}"', 'profile={$item.content.profile_username}'}.
+				<xen:elseif is="{$item.content.profile_user_id} == {$visitor.user_id}" />
+					<xen:comment><!-- $item.user liked $contentUser's post on your profile --></xen:comment>
+					{xen:phrase x_liked_ys_post_on_your_profile, 'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'post_params=href="{xen:link profile-posts, $item.content}"', 'poster={$item.content.username}'}.
+				<xen:else />
+					<xen:comment><!-- $item.user liked $contentUser's post on $profileUser's profile --></xen:comment>
+					{xen:phrase x_liked_ys_post_on_zs_profile, 'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'post_params=href="{xen:link profile-posts, $item.content}"', 'poster={$item.content.username}', 'profile={$item.content.profile_username}'}.
+				</xen:if>
+			</xen:if>
+    	</xen:if>
+
+        <xen:if is="{$item.action} == 'avatar_change'">
+                {xen:phrase news_feed_user_avatar_change,'username=<a href="{xen:link members, $item.user}" class="username primaryText">{$item.user.username}</a>'}
+        </xen:if>
+
+		<xen:if is="{$item.action} == 'insert' AND {$item.content_type} == 'thread'">
+            {xen:phrase news_feed_thread_insert, 'username=<a href="{xen:link members, $item.user}" class="username primaryText">{$item.user.username}</a>'}
+
+			<a href="{xen:link threads, $item.content}">{$item.content.title}</a>
+		</xen:if>
+
+        <xen:if is="{$item.action} == 'insert' AND {$item.content_type} == 'post'">
+        	{xen:phrase news_feed_post_insert, 'username=<a href="{xen:link members, $item.user}" class="username primaryText">{$item.user.username}</a>', 'threadTitle=<a href="{xen:link posts, $item.content}">{$item.content.title}</a>'}
+        </xen:if>
+
+        <xen:if is="{$item.action} == 'like' AND {$item.content_type} == 'post'">
+        	<xen:if is="{$item.content.user_id} == {$visitor.user_id}">
+
+					<xen:comment><!-- $item.user liked your post --></xen:comment>
+					{xen:phrase x_liked_your_post_in_the_thread_y, 'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'title=<a href="{xen:link posts, $item.content}">{$item.content.title}</a>'}
+
+				<xen:else />
+
+					<xen:comment><!-- $item.user liked $item.contentUser's post --></xen:comment>
+					{xen:phrase x_liked_ys_post_in_the_thread_z, 'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'posterParams=href="{xen:link posts, $item.content}"', 'poster={$item.content.username}', 'title=<a href="{xen:link posts, $item.content}">{$item.content.title}</a>'}
+
+				</xen:if>
+		</xen:if>
+		<br />
+     	<span class="muted"><xen:datetime time="$item.event_date" /></span>
+	</div>
+</li>]]></template>
+    <template title="sidebar_recent_activity_feed_item.css" version_id="0" version_string="1.0.0"><![CDATA[#recentActivity .username {
+        font-size: 11px !important;
+        display: inline !important;
+}
+#recentActivity em {
+        font-style:italic;
+}]]></template>
+  </templates>
+</addon>

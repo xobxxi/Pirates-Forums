@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="subscribeUsers" title="Subscribe Users" version_string="1.0.0" version_id="0" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="SubscribeUsers_Listener" callback_method="loadClassController" active="1" description="Listens for XenForo_ControllerPublic_Forum class"/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <optiongroups>
+    <group group_id="subscribeUsers" display_order="1000" debug_only="0"/>
+    <option option_id="subscribeUsers_state" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>watch_email</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="subscribeUsers" display_order="1"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions>
+      <permission permission_group_id="forum" permission_id="subscribeUsers" permission_type="flag" default_value="unset" interface_group_id="forumModeratorPermissions" display_order="1000"/>
+    </permissions>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="option_group_subscribeUsers" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Subscribe Users]]></phrase>
+    <phrase title="option_group_subscribeUsers_description" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Options for subscribing users to threads]]></phrase>
+    <phrase title="option_subscribeUsers_state" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Watch State]]></phrase>
+    <phrase title="option_subscribeUsers_state_explain" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[The state of watch for the subscribed users. Can be 'watch_email' or 'watch_no_email'.]]></phrase>
+    <phrase title="permission_forum_subscribeUsers" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Subscribe Users]]></phrase>
+    <phrase title="subscribeUser_subscribe_users" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Subscribe Users]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates>
+    <template title="subscribeUsers_input" version_id="0" version_string="1.0.0"><![CDATA[<xen:if is="{$subscribeUsers}">
+        <dl class="ctrlUnit">
+                <dt><label for="ctrl_subscribe_users">{xen:phrase subscribeUser_subscribe_users}:</label></dt>
+                <dd><input type="text" name="subscribe_users" class="textCtrl AutoComplete" id="ctrl_subscribe_users" maxlength="100" />
+                <p class="explain">{xen:phrase separate_names_with_comma}</p></dd>
+        </dl>
+</xen:if>]]></template>
+  </templates>
+</addon>

@@ -1,0 +1,6 @@
+TO INSTALL:
+1) Upload all files
+2) Import the XML file
+3) Open up thread_create and include the subscribeUsers_input template where you want it to appear
+4) Modify the state in the options if desired
+5) Set usergroup permissions for "Subscribe Users"
