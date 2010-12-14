@@ -1,0 +1,1891 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style title="Pirates">
+  <properties>
+    <property property_name="header" property_type="css"><![CDATA[[]]]></property>
+    <property property_name="imagePath" property_type="scalar"><![CDATA[http://piratesoffline.org/pirates]]></property>
+    <property property_name="button" property_type="css"><![CDATA[{"background-color":"rgb(55, 0, 0)","background-image":"@imagePath\/images\/buttons\/button.gif","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"rgb(179, 179, 189)","border-color":"rgb(221, 221, 235)","border-radius":"7px","border-style":"solid","border-top-color":"rgb(255, 255, 255)","border-width":"1px","color":"rgb(255, 255, 255)","extra":"text-align: center;\nbox-shadow: 0px 1px 4px 0px rgb(200,200,210);\ntext-shadow: 0px -1px 2px white;\noutline: none;\nline-height: 23px;\ndisplay: inline-block;\ncursor: pointer;\nbox-sizing: border-box;","font-family":"Calibri, 'Trebuchet MS', Verdana, Geneva, Arial, Helvetica, sans-serif","font-size":"12px","height":"23px","padding-bottom":"0px","padding-left":"6px","padding-right":"6px","padding-top":"0px"}]]></property>
+    <property property_name="html" property_type="css"><![CDATA[{"background-image":"@imagePath\/images\/wood.jpg","background-repeat":"repeat","color":"rgb(100, 100, 100)","extra":"background-attachment: fixed;"}]]></property>
+    <property property_name="overlaySection" property_type="css"><![CDATA[{"border-color":"rgb(55, 0, 0)","border-radius":"20px","border-style":"solid","border-width":"20px","padding-all":"0px"}]]></property>
+    <property property_name="buttonFocus" property_type="css"><![CDATA[{"border-color":"rgb(153, 0, 0)"}]]></property>
+    <property property_name="categoryStripTitle" property_type="css"><![CDATA[{"color":"rgb(255, 239, 255)","font-size":"10pt"}]]></property>
+    <property property_name="message" property_type="css"><![CDATA[{"border-top-color":"rgb(153, 0, 0)","border-top-style":"solid","border-top-width":"1px","padding-bottom":"30px","padding-top":"10px"}]]></property>
+    <property property_name="navTabs" property_type="css"><![CDATA[{"background-color":"rgb(55, 0, 0)","border-bottom-color":"rgb(255, 255, 255)","border-bottom-style":"solid","border-bottom-width":"1px","border-color":"rgb(153, 0, 0)","border-style":"solid","border-top-left-radius":"10px","border-top-right-radius":"10px","border-width":"1px","font-size":"11px","padding-bottom":"0","padding-left":"25px","padding-right":"25px","padding-top":"0"}]]></property>
+    <property property_name="buttonHover" property_type="css"><![CDATA[{"background-color":"rgb(202, 187, 156)","background-image":"@imagePath\/images\/buttons\/button_hover.gif","border-bottom-color":"rgb(190,190,170)","border-color":"rgb(255,255,200)","border-top-color":"white","color":"rgb(255, 255, 255)","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="categoryStripDescription" property_type="css"><![CDATA[{"color":"rgb(255, 239, 255)","font-size":"10px"}]]></property>
+    <property property_name="content" property_type="css"><![CDATA[{"background-color":"rgb(249, 217, 176)","background-image":"@imagePath\/images\/parchment.jpg","background-repeat":"repeat","color":"rgb(0, 0, 0)","padding-bottom":"10px","padding-left":"20px","padding-right":"20px","padding-top":"10px"}]]></property>
+    <property property_name="navLink" property_type="css"><![CDATA[{"color":"rgb(255, 255, 255)","extra":"display: block;\nfloat: left;\nvertical-align: text-bottom;\ntext-align: center;\noutline: 0 none;"}]]></property>
+    <property property_name="pageWidth" property_type="css"><![CDATA[{"extra":"min-width: 853px;\n_width: 976px;\n_margin: 0 auto;","margin-all":"auto","width":"960px"}]]></property>
+    <property property_name="headerLogoPath" property_type="scalar"><![CDATA[@imagePath/images/logo.png]]></property>
+    <property property_name="navTabSelected" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/navigation-tab.png","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"black","border-bottom-style":"none","border-bottom-width":"1px","border-color":"rgb(255, 255, 255)","border-style":"solid","border-top-left-radius":"2px","border-top-right-radius":"2px","border-width":"1px","color":"rgb(255, 255, 255)","extra":"text-shadow: 0px 0px 3px @primaryLightest;","font-weight":"bold","margin-top":"-2px","padding-top":"2px"}]]></property>
+    <property property_name="headerLogoHeight" property_type="scalar"><![CDATA[96px]]></property>
+    <property property_name="sectionMain" property_type="css"><![CDATA[{"border-color":"rgb(220, 53, 53)","border-radius":"10px","border-style":"solid","border-width":"1px","margin-bottom":"10px","margin-left":"auto","margin-right":"auto","margin-top":"10px","padding-all":"10px"}]]></property>
+    <property property_name="breadcrumb" property_type="css"><![CDATA[{"background-color":"rgb(243, 237, 211)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-position":"top","background-repeat":"repeat-x","border-color":"rgb(220, 53, 53)","border-radius":"5px","border-style":"solid","border-width":"1px","extra":"overflow: hidden;\nzoom: 1;","font-size":"11px"}]]></property>
+    <property property_name="popupControl" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/tab-unselected-25px-light.png","background-position":"top","background-repeat":"repeat-x","border-bottom-left-radius":"0px","border-bottom-right-radius":"0px","border-top-left-radius":"3px","border-top-right-radius":"3px","color":"rgb(255, 255, 255)","extra":"text-shadow: 1px 1px 2px white;\nbox-shadow: 0px 5px 5px rgba(0,0,0, 0.5);"}]]></property>
+    <property property_name="visitorPanelAvatar" property_type="css"><![CDATA[{"extra":"float: left;","height":"80px","margin-right":"5px","width":"80px"}]]></property>
+    <property property_name="bbCodeBlockType" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"rgb(220, 53, 53)","border-bottom-style":"solid","border-bottom-width":"1px","border-top-left-radius":"4px","border-top-right-radius":"4px","color":"rgb(255, 255, 255)","font-family":"@body.font-family","font-size":"11px","padding-bottom":"5px","padding-left":"10px","padding-right":"10px","padding-top":"5px"}]]></property>
+    <property property_name="ctrlUnitLabelHint" property_type="css"><![CDATA[{"color":"rgb(100, 100, 100)","extra":"display: block;","font-size":"10px","font-style":"italic","margin-left":"@ctrlUnitEdgeSpacer"}]]></property>
+    <property property_name="messageUserBlock" property_type="css"><![CDATA[{"background-color":"rgb(223, 212, 182)","background-image":"@imagePath\/xenforo\/gradients\/tab-selected-light.png","background-position":"bottom","background-repeat":"repeat-x","border-color":"rgb(153, 0, 0)","border-radius":"5px","border-style":"solid","border-width":"1px"}]]></property>
+    <property property_name="overlayMaskColor" property_type="scalar"><![CDATA[rgb(73, 60, 60)]]></property>
+    <property property_name="visitorPanelUsername" property_type="css"><![CDATA[{"color":"rgb(153, 0, 0)","font-size":"11pt","font-weight":"bold"}]]></property>
+    <property property_name="messageAvatarHolder" property_type="css"><![CDATA[{"background-color":"rgb(102, 38, 0)","border-radius":"4px","padding-all":"10px"}]]></property>
+    <property property_name="bbCodeCode" property_type="css"><![CDATA[{"background-color":"rgb(255, 244, 229)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-position":"top","background-repeat":"repeat-x","border-radius":"5px","extra":"word-wrap: normal;\noverflow: auto;\nline-height: 1.24;\nmin-height: 30px;\nmax-height: 500px;\n_width: 600px;","font-family":"Consolas, 'Courier New', Courier, monospace","font-size":"10pt","padding-all":"10px"}]]></property>
+    <property property_name="heading" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-bottom-color":"rgb(84, 29, 29)","border-bottom-style":"solid","border-bottom-width":"1px","border-top-left-radius":"5px","border-top-right-radius":"5px","color":"@primaryLightest","font-size":"11pt","font-weight":"bold","margin-bottom":"3px","padding-bottom":"5px","padding-left":"10px","padding-right":"10px","padding-top":"5px"}]]></property>
+    <property property_name="dimmedTextColor" property_type="scalar"><![CDATA[rgb(0, 0, 0)]]></property>
+    <property property_name="formOverlayHeading" property_type="css"><![CDATA[{"background-color":"rgb(84, 29, 29)","border-color":"rgb(55, 0, 0)","border-radius":"5px","border-style":"solid","border-width":"1px","color":"@primaryLightest","font-size":"12pt","font-weight":"bold","margin-bottom":"10px","padding-bottom":"5px","padding-left":"10px","padding-right":"10px","padding-top":"5px"}]]></property>
+    <property property_name="messageInfo" property_type="css"><![CDATA[{"background-color":"rgb(249, 217, 176)","background-image":"@imagePath\/images\/parchment.jpg","border-bottom-style":"none","margin-left":"140px","padding-all":"0"}]]></property>
+    <property property_name="nodeLastPost" property_type="css"><![CDATA[{"border-color":"rgb(153, 0, 0)","border-radius":"3px","border-style":"solid","border-width":"1px","extra":"position: absolute;\ntop: 0;\nright: 0;\nline-height: 14px;\nwhite-space: nowrap;\nword-wrap: normal;\noverflow: hidden;","font-size":"11px","height":"28px","margin-all":"10px","padding-bottom":"3px","padding-left":"10px","padding-right":"10px","padding-top":"3px","width":"210px"}]]></property>
+    <property property_name="sidebarBlockHeading" property_type="css"><![CDATA[{"border-bottom-color":"rgb(153, 0, 0)","border-bottom-style":"solid","border-bottom-width":"1px","color":"rgb(153, 0, 0)","font-size":"12pt","margin-bottom":"5px","padding-bottom":"2px"}]]></property>
+    <property property_name="subHeading" property_type="css"><![CDATA[{"background-color":"rgb(54, 34, 69)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"@secondaryLight","border-bottom-style":"solid","border-bottom-width":"1px","border-top-color":"@secondaryLighter","border-top-style":"solid","border-top-width":"1px","color":"rgb(255, 239, 255)","font-size":"11px","margin-bottom":"0","margin-left":"auto","margin-right":"auto","margin-top":"3px","padding-bottom":"5px","padding-left":"10px","padding-right":"10px","padding-top":"5px"}]]></property>
+    <property property_name="breadcrumbItemCrumb" property_type="css"><![CDATA[{"background-color":"rgb(243, 237, 211)","border-bottom-color":"rgb(220, 53, 53)","border-bottom-style":"solid","border-bottom-width":"1px","color":"rgb(153, 0, 0)","extra":"outline: 0 none;\n-moz-outline-style: 0 none;\ndisplay: block;\nline-height: 24px;\n_border-bottom: none;","margin-bottom":"-1px","padding-bottom":"0","padding-left":"18px","padding-right":"10px","padding-top":"0","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="formOverlaySubHeading" property_type="css"><![CDATA[{"background-color":"rgb(55, 0, 0)","border-color":"rgb(84, 29, 29)","border-radius":"3px","border-style":"solid","border-width":"1px","color":"@primaryLightest","font-size":"11px","font-weight":"bold","margin-bottom":"10px","padding-bottom":"5px","padding-left":"10px","padding-right":"10px","padding-top":"5px"}]]></property>
+    <property property_name="messageSignature" property_type="css"><![CDATA[{"border-top-color":"rgb(153, 0, 0)","border-top-style":"dashed","border-top-width":"1px","font-size":"9pt","margin-top":"5px","padding-bottom":"0","padding-left":"0","padding-right":"0","padding-top":"5px"}]]></property>
+    <property property_name="mutedTextColor" property_type="scalar"><![CDATA[rgb(100, 100, 100)]]></property>
+    <property property_name="pageNavLink" property_type="css"><![CDATA[{"background-color":"rgb(247, 243, 226)","border-color":"rgb(220, 53, 53)","border-radius":"3px","border-style":"solid","border-width":"1px","color":"rgb(153, 0, 0)","extra":"text-align: center;","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="sidebarBlockFootnote" property_type="css"><![CDATA[{"color":"rgb(153, 0, 0)","margin-top":"5px"}]]></property>
+    <property property_name="subHeadingHover" property_type="css"><![CDATA[{"background-color":"rgb(54, 34, 69)","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="breadcrumbItemCrumbHover" property_type="css"><![CDATA[{"background-color":"rgb(198, 191, 160)"}]]></property>
+    <property property_name="faintTextColor" property_type="scalar"><![CDATA[rgb(150, 150, 150)]]></property>
+    <property property_name="pageNavPage" property_type="css"><![CDATA[{"background-color":"rgb(247, 243, 226)","border-color":"rgb(220, 53, 53)","color":"rgb(153, 0, 0)","extra":"\/* url('@imagePath\/xenforo\/gradients\/category-23px-light.png') repeat-x top*\/"}]]></property>
+    <property property_name="textHeading" property_type="css"><![CDATA[{"border-bottom-color":"rgb(153, 0, 0)","border-bottom-style":"solid","border-bottom-width":"1px","color":"black","extra":"\/*font-size: 11px;*\/","font-weight":"bold","margin-bottom":"0","margin-left":"auto","margin-right":"auto","margin-top":"10px","padding-bottom":"2px","padding-left":"5px","padding-right":"5px","padding-top":"0px"}]]></property>
+    <property property_name="pageNavCurrentPage" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-color":"rgb(153, 0, 0)","color":"rgb(255, 255, 255)","extra":"position: relative;"}]]></property>
+    <property property_name="pageNavPageHover" property_type="css"><![CDATA[{"background-color":"rgb(198, 191, 160)","color":"rgb(153, 0, 0)","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="pageNavScroller" property_type="css"><![CDATA[{"background-color":"transparent","border-style":"none","border-width":"1px","extra":"cursor: pointer;","padding-all":"1px"}]]></property>
+    <property property_name="primaryContent" property_type="css"><![CDATA[{"background-color":"rgb(249, 217, 176)","border-bottom-color":"rgb(153, 0, 0)","border-bottom-style":"solid","border-bottom-width":"1px","padding-all":"10px"}]]></property>
+    <property property_name="bbCodeQuote" property_type="css"><![CDATA[[]]]></property>
+    <property property_name="breadcrumbItemArrowOuter" property_type="css"><![CDATA[{"border-color":"transparent","border-left-color":"rgb(220, 53, 53)","border-right-color":"black","border-right-style":"none","border-right-width":"1px","border-style":"solid","border-width":"12px","extra":"display: block;\nposition: absolute;\nright: -12px;\ntop: 0px;\nz-index: 50;","height":"0px","width":"0px"}]]></property>
+    <property property_name="bbCodeQuoteAttribution" property_type="css"><![CDATA[[]]]></property>
+    <property property_name="breadcrumbItemArrowInner" property_type="css"><![CDATA[{"border-color":"transparent","border-left-color":"rgb(243, 237, 211)","border-right-color":"black","border-right-style":"none","border-right-width":"1px","border-style":"solid","border-width":"12px","extra":"display: block;\nposition: absolute;\nleft: -13px;\ntop: -12px;\nz-index: 51;\nwhite-space: nowrap;\noverflow: hidden;\ntext-indent: 9999px;","height":"0px","width":"0px"}]]></property>
+    <property property_name="messageLikesSummary" property_type="css"><![CDATA[{"border-color":"rgb(153, 0, 0)","border-radius":"5px","border-style":"solid","border-width":"1px","margin-top":"10px","padding-all":"5px"}]]></property>
+    <property property_name="secondaryContent" property_type="css"><![CDATA[{"background-color":"rgb(243, 237, 211)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"rgb(153, 0, 0)","border-bottom-style":"solid","border-bottom-width":"1px","padding-all":"10px"}]]></property>
+    <property property_name="formOverlayTextCtrl" property_type="css"><![CDATA[{"background-color":"black","border-color":"rgb(220, 53, 53)","color":"@primaryLightest"}]]></property>
+    <property property_name="tabsContainer" property_type="css"><![CDATA[{"border-bottom-color":"rgb(220, 53, 53)","border-bottom-style":"solid","border-bottom-width":"1px","extra":"white-space: nowrap;\nword-wrap: normal;","font-size":"11px","height":"19px"}]]></property>
+    <property property_name="profilePageTab" property_type="css"><![CDATA[{"background-color":"@primaryLighterStill","background-image":"@imagePath\/xenforo\/gradients\/tab-unselected-25px-light.png","background-position":"top","background-repeat":"repeat-x","color":"@contentBackground","font-size":"11px","font-weight":"bold"}]]></property>
+    <property property_name="discussionListItemPageNavLink" property_type="css"><![CDATA[{"background-color":"rgb(244, 239, 216)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-repeat":"repeat-x","border-color":"rgb(220, 53, 53)","border-style":"solid","border-width":"1px","color":"rgb(153, 0, 0)"}]]></property>
+    <property property_name="formOverlayTextCtrlFocus" property_type="css"><![CDATA[{"background-image":"none"}]]></property>
+    <property property_name="memberListItemGuest" property_type="css"><![CDATA[{"font-style":"italic","font-weight":"bold"}]]></property>
+    <property property_name="sidebarUserListUsernameInvisible" property_type="css"><![CDATA[[]]]></property>
+    <property property_name="tab" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-color":"rgb(220, 53, 53)","border-style":"solid","border-top-left-radius":"5px","border-top-right-radius":"5px","border-width":"1px","color":"rgb(255, 255, 255)","extra":"display: inline-block;\nline-height: 18px;\ncursor: pointer;\noutline: 0 none;","height":"18px","margin-bottom":"-1px","margin-right":"-1px","padding-bottom":"0","padding-left":"5px","padding-right":"5px","padding-top":"0","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="profilePageTabHover" property_type="css"><![CDATA[{"background-color":"rgb(220, 53, 53)"}]]></property>
+    <property property_name="discussionListItemPageNavLinkHover" property_type="css"><![CDATA[{"background-color":"rgb(198, 191, 160)","border-color":"rgb(220, 53, 53)","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="sidebarUserListUsernameFollowed" property_type="css"><![CDATA[{"font-weight":"bold"}]]></property>
+    <property property_name="tabHover" property_type="css"><![CDATA[{"background-color":"rgb(220, 53, 53)","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="profilePageTabSelected" property_type="css"><![CDATA[{"background-image":"@imagePath\/images\/parchment.jpg","color":"rgb(55, 0, 0)"}]]></property>
+    <property property_name="tabActive" property_type="css"><![CDATA[{"background-color":"transparent","background-image":"@imagePath\/images\/parchment.jpg","border-bottom-color":"black","border-bottom-style":"none","border-bottom-width":"1px","color":"rgb(55, 0, 0)","padding-bottom":"1px"}]]></property>
+    <property property_name="sectionFooter" property_type="css"><![CDATA[{"background-color":"rgb(55, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"rgb(220, 53, 53)","border-bottom-style":"solid","border-bottom-width":"1px","color":"rgb(255, 255, 255)","extra":"line-height: 16px;","font-size":"11px","padding-bottom":"4px","padding-left":"10px","padding-right":"10px","padding-top":"4px"}]]></property>
+    <property property_name="avatar" property_type="css"><![CDATA[{"background-color":"@contentBackground","border-color":"rgb(220, 53, 53)","border-radius":"4px","border-style":"solid","border-width":"1px","padding-all":"2px"}]]></property>
+    <property property_name="ctrlUnitCtrlExplain" property_type="css"><![CDATA[{"color":"rgb(100, 100, 100)","font-size":"11px","margin-right":"@ctrlUnitEdgeSpacer","margin-top":"2px"}]]></property>
+    <property property_name="discussionListOptions" property_type="css"><![CDATA[{"border-color":"rgb(220, 53, 53)","border-radius":"5px","border-style":"solid","border-width":"1px","extra":"line-height: 20px;\noverflow: hidden;\nzoom: 1;","margin-bottom":"10px","margin-left":"auto","margin-right":"auto","margin-top":"10px"}]]></property>
+    <property property_name="formOverlayTabs" property_type="css"><![CDATA[{"border-color":"rgb(220, 53, 53)"}]]></property>
+    <property property_name="forumIconReadPath" property_type="scalar"><![CDATA[@imagePath/images/icons/forum-read.png]]></property>
+    <property property_name="menu" property_type="css"><![CDATA[{"background-color":"white","border-color":"rgb(153, 0, 0)","border-style":"solid","border-top-color":"rgb(153, 0, 0)","border-top-style":"solid","border-top-width":"5px","border-width":"1px","extra":"overflow: hidden;\nbox-shadow: 0px 5px 5px rgba(0,0,0, 0.5);","font-size":"11px"}]]></property>
+    <property property_name="formOverlayTab" property_type="css"><![CDATA[{"background-color":"transparent","border-color":"rgb(220, 53, 53)"}]]></property>
+    <property property_name="forumIconUnreadPath" property_type="scalar"><![CDATA[@imagePath/images/icons/forum-unread.png]]></property>
+    <property property_name="navTabLinkHover" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-color":"rgb(153, 0, 0)","border-radius":"5px","border-style":"solid","border-width":"1px","color":"@primaryLightest","extra":"outline: 0;\ntext-shadow: 1px 1px 0px rgb(0, 0, 0);","padding-bottom":"0","padding-left":"9px","padding-right":"9px","padding-top":"0","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="discussionListOptionsHandleLink" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-bottom-left-radius":"10px","border-bottom-right-radius":"10px","border-color":"rgb(220, 53, 53)","border-style":"solid","border-top-color":"black","border-top-style":"none","border-top-width":"1px","border-width":"1px","color":"rgb(255, 255, 255)","extra":"display: block;\noutline: 0;","font-size":"11px","margin-bottom":"0","margin-left":"auto","margin-right":"auto","margin-top":"0","width":"200px"}]]></property>
+    <property property_name="pageIconPath" property_type="scalar"><![CDATA[@imagePath/images/icons/page.png]]></property>
+    <property property_name="linkIconPath" property_type="scalar"><![CDATA[@imagePath/images/icons/link.png]]></property>
+    <property property_name="feedIconPath" property_type="scalar"><![CDATA[@imagePath/images/icons/feed-14.png]]></property>
+    <property property_name="formOverlayTabPanel" property_type="css"><![CDATA[{"background-color":"transparent","background-image":"@imagePath\/xenforo\/color-picker\/panel.png","background-position":"top","background-repeat":"repeat-x","border-color":"rgb(220, 53, 53)","border-style":"solid","border-width":"1px"}]]></property>
+    <property property_name="callToAction" property_type="css"><![CDATA[{"background-color":"rgb(220, 53, 53)","background-image":"@imagePath\/xenforo\/gradients\/form-button-white-25px.png","background-position":"center top","background-repeat":"repeat-x","border-color":"rgb(220, 53, 53)","border-radius":"6px","border-style":"solid","border-width":"1px","extra":"display: inline-block;\nline-height: 20px;\nbox-shadow: 1px 1px 5px rgba(0,0,0, 0.15);\noutline: 0 none;","height":"20px","padding-all":"2px"}]]></property>
+    <property property_name="blockLinksListItem" property_type="css"><![CDATA[{"border-radius":"5px","color":"rgb(84, 29, 29)","extra":"display: block;\noutline: 0 none;","padding-bottom":"5px","padding-left":"10px","padding-right":"10px","padding-top":"5px"}]]></property>
+    <property property_name="callToActionSpan" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/form-button-white-25px.png","background-position":"center -8px","background-repeat":"repeat-x","border-radius":"3px","color":"@textCtrlBackground","extra":"display: block;\n\/*text-shadow: 0px 0px 3px @primaryMedium;*\/","font-family":"@button.font-family","font-size":"11px","font-weight":"bold","padding-bottom":"0","padding-left":"15px","padding-right":"15px","padding-top":"0"}]]></property>
+    <property property_name="blockLinksListItemHover" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="callToActionHover" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)"}]]></property>
+    <property property_name="blockLinksListItemActive" property_type="css"><![CDATA[{"background-color":"rgb(220, 53, 53)","color":"rgb(255, 255, 255)"}]]></property>
+    <property property_name="messageNewIndicator" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-position":"top","background-repeat":"repeat-x","border-color":"rgb(153, 0, 0)","border-radius":"3px","border-style":"solid","border-top-right-radius":"0px","border-width":"1px","color":"@contentBackground","extra":"display: block;\nfloat: right;\nposition: relative;\nbox-shadow: 1px 1px 3px rgba(0,0,0, 0.25);","font-size":"10px","font-weight":"bold","margin-bottom":"5px","margin-left":"5px","margin-right":"-5px","margin-top":"-5px","padding-bottom":"1px","padding-left":"5px","padding-right":"5px","padding-top":"1px"}]]></property>
+    <property property_name="messageNewIndicatorInner" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-top-right-radius":"3px","extra":"position: absolute;\ntop: -4px;\nright: -1px;","height":"4px","width":"5px"}]]></property>
+    <property property_name="primaryMedium" property_type="scalar"><![CDATA[rgb(84, 29, 29)]]></property>
+    <property property_name="primaryLighterStill" property_type="scalar"><![CDATA[rgb(153, 0, 0)]]></property>
+  </properties>
+  <templates>
+    <template title="account_personal_details" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:title>{xen:phrase personal_details}</xen:title>
+
+<xen:require css="account.css" />
+<xen:require js="js/xenforo/personal_details_editor.js" />
+
+<xen:edithint template="account_avatar_overlay.css" />
+<xen:edithint template="account_avatar_overlay" />
+
+<form method="post" class="xenForm personalDetailsForm AutoValidator"
+	action="{xen:link 'account/personal-details-save'}"
+	data-fieldValidatorUrl="{xen:link 'account/validate-field.json'}">
+
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_status">{xen:phrase status_message}:</label></dt>
+		<dd>
+			<textarea name="status" rows="2" cols="60" id="ctrl_status" autofocus="autofocus" class="textCtrl StatusEditor Elastic OptOut" data-statusEditorCounter="#statusEditorCounter"></textarea>
+			<span id="statusEditorCounter" title="{xen:phrase characters_remaining}"></span>
+			<div class="explain"><h3 class="statusHeader">{xen:phrase current_status}:</h3> <span class="CurrentStatus"><xen:if is="{$visitor.status}">{xen:string censor, $visitor.status}<xen:else />({xen:phrase none})</xen:if></span><!--TODO: clearing--></div>
+		</dd>
+	</dl>
+
+	<xen:if hascontent="true">
+		<fieldset>
+			<xen:contentcheck>
+				<xen:if is="{$canEditAvatar}">
+					<dl class="ctrlUnit avatarEditor">
+						<dt><label>{xen:phrase avatar}:</label></dt>
+						<dd>
+							<xen:avatar user="$visitor" size="m" class="OverlayTrigger" href="{xen:link account/avatar}" />
+							<p class="explain">{xen:phrase click_image_to_change_your_avatar}</p>
+						</dd>
+					</dl>
+				</xen:if>
+				
+				<xen:if is="{$canEditCustomTitle}">
+					<dl class="ctrlUnit">
+						<dt><label for="ctrl_custom_title">{xen:phrase custom_title}:</label></dt>
+						<dd>
+							<input type="text" name="custom_title" value="{$visitor.custom_title}" id="ctrl_custom_title" class="textCtrl" />
+							<p class="explain">{xen:phrase if_specified_replace_title_that_displays_under_name_in_posts}</p>
+						</dd>
+					</dl>
+				</xen:if>
+			</xen:contentcheck>
+		</fieldset>
+	</xen:if>
+
+	<fieldset>
+		<dl class="ctrlUnit">
+			<dt><label>{xen:phrase gender}:</label></dt>
+			<dd>
+				<ul>
+					<li><label for="ctrl_gender_male"><input type="radio" name="gender" value="male" id="ctrl_gender_male" {xen:checked "{$visitor.gender} == 'male'"} /> {xen:phrase male}</label></li>
+					<li><label for="ctrl_gender_female"><input type="radio" name="gender" value="female" id="ctrl_gender_female" {xen:checked "{$visitor.gender} == 'female'"}  /> {xen:phrase female}</label></li>
+					<li><label for="ctrl_gender_"><input type="radio" name="gender" value="" id="ctrl_gender_" {xen:checked "{$visitor.gender} == ''"}  /> ({xen:phrase unspecified})</label></li>
+				</ul>
+			</dd>
+		</dl>
+
+		<dl class="ctrlUnit OptOut">
+			<dt>{xen:phrase date_of_birth}:</dt>
+			<dd>
+				<xen:if is="{$visitor.dob_day} && {$visitor.dob_month} && {$visitor.dob_year}">
+					{xen:date $birthday.timeStamp, $birthday.format}
+					<p class="explain">{xen:phrase once_your_birthday_has_been_entered_it_cannot_be_changed}</p>
+				<xen:else />
+					<xen:include template="helper_birthday_input">
+						<xen:map from="$visitor" to="$user" />
+					</xen:include>
+				</xen:if>
+			</dd>
+		</dl>
+
+		<xen:include template="account_privacy_dob" />
+	</fieldset>
+
+	<dl class="ctrlUnit OptOut">
+		<dt><label for="ctrl_about">{xen:phrase about_you}:</label> <dfn>{xen:phrase you_may_use_bb_code}</dfn></dt>
+		<dd>{xen:raw $aboutEditor}</dd>
+	</dl>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd><input type="submit" name="save" value="{xen:phrase save}" accesskey="s" class="button primary" /></dd>
+	</dl>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="account_privacy_dob" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<dl class="ctrlUnit{xen:if '!{$isPrivacySettings}', ' sectionLink'}">
+	<xen:if is="{$isPrivacySettings}">
+		<dt><label>{xen:phrase date_of_birth_privacy}:</label></dt>
+	<xen:else />
+		<dt><a href="{xen:link 'account/privacy'}">{xen:phrase edit_your_privacy_settings}</a></dt>
+	</xen:if>
+	<dd>
+		<ul>
+			<li><label for="ctrl_show_dob_date"><input type="checkbox" name="show_dob_date" value="1" id="ctrl_show_dob_date" {xen:checked "{$visitor.show_dob_date}"} /> {xen:phrase show_day_and_month_of_birth}</label></li>
+		</ul>
+	</dd>
+</dl>]]></template>
+    <template title="account_wrapper" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:require css="account.css" />
+
+<div class="container">
+	<div class="accountSideBar">
+		<ul>
+			<li class="section"><h4 class="heading">{xen:phrase your_account}</h4>
+				<!--<h4 class="subHeading">{xen:phrase alerts}</h4>-->
+				<ul>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'alerts/latest'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/alerts}">{xen:phrase your_alerts}</a></li>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'alerts/newsFeed'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/news-feed}">{xen:phrase your_news_feed}</a></li>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'alerts/likes'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/likes}">{xen:phrase likes_received}</a></li>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'alerts/watchThreads'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link watched/threads}">{xen:phrase watched_threads}</a></li>
+				</ul>
+			</li>
+			<li class="section"><h4 class="subHeading">{xen:phrase conversations}</h4>
+				<ul>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'conversations/view'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link conversations}">{xen:phrase view_conversations}</a></li>
+					<xen:if is="{$canStartConversation}"><li><a
+						class="{xen:if "{$selectedKey} == 'conversations/add'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link conversations/add}">{xen:phrase start_new_conversation}</a></li></xen:if>
+				</ul>
+			</li>
+			<li class="section"><h4 class="subHeading">{xen:phrase settings}</h4>
+				<ul>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'account/personalDetails'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/personal-details}">{xen:phrase personal_details}</a></li>
+                                        <xen:include template="pirateProfile_account_management_list_item" />
+					<xen:if is="{$canEditSignature}"><li><a
+						class="{xen:if "{$selectedKey} == 'account/signature'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/signature}">{xen:phrase signature}</a></li></xen:if>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'account/contactDetails'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/contact-details}">{xen:phrase contact_details}</a></li>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'account/privacy'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/privacy}">{xen:phrase privacy}</a></li>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'account/preferences'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/preferences}">{xen:phrase preferences}</a></li>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'account/alertPreferences'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/alert-preferences}">{xen:phrase alert_preferences}</a></li>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'account/following'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/following}">{xen:phrase people_you_follow}</a></li>
+					<xen:if is="{$xenCache.userUpgradeCount}"><li><a
+						class="{xen:if "{$selectedKey} == 'account/upgrades'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/upgrades}">{xen:phrase account_upgrades}</a></li></xen:if>
+					<xen:if is="{$xenOptions.facebookAppId}"><li><a
+						class="{xen:if "{$selectedKey} == 'account/facebook'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/facebook}">{xen:phrase facebook_integration}</a></li></xen:if>
+					<li><a
+						class="{xen:if "{$selectedKey} == 'account/security'", 'secondaryContent', 'primaryContent'}"
+						href="{xen:link account/security}">{xen:phrase password}</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="accountContent section sectionMain">{xen:raw $_subView}</div>
+</div>]]></template>
+    <template title="editor" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:if is="{$showWysiwyg}">
+	<textarea name="{$formCtrlNameHtml}" id="{$editorId}_html" style="height:{$height}; display:none" class="textCtrl MessageEditor">{$messageHtml}</textarea>
+	<noscript><textarea name="{$formCtrlName}" id="{$editorId}" style="height:{$height};" class="textCtrl MessageEditor">{$message}</textarea></noscript>
+<xen:else />
+	<textarea name="{$formCtrlName}" id="{$editorId}" style="height:{$height};" class="textCtrl MessageEditor">{$message}</textarea>
+</xen:if>
+<input type="hidden" name="_xfRelativeResolver" value="{$requestPaths.fullUri}" />
+
+<xen:if is="{$showWysiwyg}">
+	<xen:include template="editor_js_setup" />
+        <xen:include template="editor_smiliesDropdown" />
+</xen:if>
+
+<xen:edithint template="editor_contents.css" />
+<xen:edithint template="editor_ui.css" />
+<xen:edithint template="form.css" />]]></template>
+    <template title="editor_quick_reply" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:if is="{$showWysiwyg}">
+	<textarea name="{$formCtrlNameHtml}" id="{$editorId}_html" style="display:none" class="textCtrl MessageEditor">{$messageHtml}</textarea>
+	<noscript><textarea name="{$formCtrlName}" id="{$editorId}" class="textCtrl MessageEditor">{$message}</textarea></noscript>
+<xen:else />
+	<textarea name="{$formCtrlName}" id="{$editorId}" class="textCtrl MessageEditor">{$message}</textarea>
+</xen:if>
+<input type="hidden" name="_xfRelativeResolver" value="{$requestPaths.fullUri}" />
+
+<xen:if is="{$showWysiwyg}">
+	<xen:include template="editor_js_setup" />
+        <xen:include template="editor_smiliesDropdown_quick_reply" />
+</xen:if>
+
+<xen:comment><xen:require css="editor_contents.css" /></xen:comment>]]></template>
+    <template title="editor_ui.css" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[/* Reset */
+.xenForoSkin table, .xenForoSkin tbody, .xenForoSkin a, .xenForoSkin img, .xenForoSkin tr, .xenForoSkin div, .xenForoSkin td, .xenForoSkin iframe, .xenForoSkin span, .xenForoSkin *, .xenForoSkin .mceText {border:0; margin:0; padding:0; background:transparent; white-space:nowrap; text-decoration:none; font-weight:normal; cursor:default; color:#000; vertical-align:baseline; width:auto; border-collapse:separate; text-align:left}
+.xenForoSkin a:hover, .xenForoSkin a:link, .xenForoSkin a:visited, .xenForoSkin a:active {text-decoration:none; font-weight:normal; cursor:default; color:#000}
+.xenForoSkin table td {vertical-align:middle}
+
+/* Containers */
+.xenForoSkin table {background:#F0F0EE}
+.xenForoSkin iframe {display:block; background:#FFF}
+.xenForoSkin .mceToolbar {height:26px}
+.xenForoSkin .mceLeft {text-align:left}
+.xenForoSkin .mceRight {text-align:right}
+
+/* External */
+.xenForoSkin .mceExternalToolbar {position:absolute; border:1px solid #CCC; border-bottom:0; display:none;}
+.xenForoSkin .mceExternalToolbar td.mceToolbar {padding-right:13px;}
+.xenForoSkin .mceExternalClose {position:absolute; top:3px; right:3px; width:7px; height:7px; background:url({xen:property imagePath}/xenforo/editor/icons.png) -820px 0}
+
+/* Layout */
+.xenForoSkin table.mceLayout {border:0; border-left:1px solid #CCC; border-right:1px solid #CCC}
+.xenForoSkin table.mceLayout tr.mceFirst td {border-top:1px solid #CCC}
+.xenForoSkin table.mceLayout tr.mceLast td {border-bottom:1px solid #CCC}
+.xenForoSkin table.mceToolbar, .xenForoSkin tr.mceFirst .mceToolbar tr td, .xenForoSkin tr.mceLast .mceToolbar tr td {border:0; margin:0; padding:0;}
+.xenForoSkin td.mceToolbar {padding-top:1px; vertical-align:top}
+.xenForoSkin .mceIframeContainer {border-top:1px solid #CCC; border-bottom:1px solid #CCC}
+.xenForoSkin .mceStatusbar {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; color:#000; display:block; height:20px}
+.xenForoSkin .mceStatusbar div {float:left; margin:2px}
+.xenForoSkin .mceStatusbar a.mceResize {display:block; float:right; background:url({xen:property imagePath}/xenforo/editor/icons.png) -800px 0; width:20px; height:20px; cursor:se-resize}
+.xenForoSkin .mceStatusbar a:hover {text-decoration:underline}
+.xenForoSkin table.mceToolbar {margin-left:3px}
+.xenForoSkin span.mceIcon, .xenForoSkin img.mceIcon {display:block; width:20px; height:20px}
+.xenForoSkin .mceIcon {background:url({xen:property imagePath}/xenforo/editor/icons.png) no-repeat 20px 20px}
+.xenForoSkin td.mceCenter {text-align:center;}
+.xenForoSkin td.mceCenter table {margin:0 auto; text-align:left;}
+.xenForoSkin td.mceRight table {margin:0 0 0 auto;}
+
+/* Button */
+.xenForoSkin .mceButton {display:block; border:1px solid #F0F0EE; width:20px; height:20px; margin-right:1px}
+.xenForoSkin a.mceButtonEnabled:hover {border:1px solid #0A246A; background-color:#B2BBD0}
+.xenForoSkin a.mceButtonActive, .xenForoSkin a.mceButtonSelected {border:1px solid #0A246A; background-color:#C2CBE0}
+.xenForoSkin .mceButtonDisabled .mceIcon {opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
+.xenForoSkin .mceButtonLabeled {width:auto}
+.xenForoSkin .mceButtonLabeled span.mceIcon {float:left}
+.xenForoSkin span.mceButtonLabel {display:block; font-size:10px; padding:4px 6px 0 22px; font-family:Tahoma,Verdana,Arial,Helvetica}
+.xenForoSkin .mceButtonDisabled .mceButtonLabel {color:#888}
+
+/* Separator */
+.xenForoSkin .mceSeparator {display:block; background:url({xen:property imagePath}/xenforo/editor/icons.png) -180px 0; width:2px; height:20px; margin:2px 2px 0 4px}
+
+/* ListBox */
+.xenForoSkin .mceListBox {direction:ltr}
+.xenForoSkin .mceListBox, .xenForoSkin .mceListBox a {display:block}
+.xenForoSkin .mceListBox .mceText {padding-left:4px; width:70px; text-align:left; border:1px solid #CCC; border-right:0; background:#FFF; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; height:20px; line-height:20px; overflow:hidden}
+.xenForoSkin .mceListBox .mceOpen {width:9px; height:20px; background:url({xen:property imagePath}/xenforo/editor/icons.png) -741px 0; margin-right:2px; border:1px solid #CCC;}
+.xenForoSkin table.mceListBoxEnabled:hover .mceText, .xenForoSkin .mceListBoxHover .mceText, .xenForoSkin .mceListBoxSelected .mceText {border:1px solid #A2ABC0; border-right:0; background:#FFF}
+.xenForoSkin table.mceListBoxEnabled:hover .mceOpen, .xenForoSkin .mceListBoxHover .mceOpen, .xenForoSkin .mceListBoxSelected .mceOpen {background-color:#FFF; border:1px solid #A2ABC0}
+.xenForoSkin .mceListBoxDisabled a.mceText {color:gray; background-color:transparent;}
+.xenForoSkin .mceListBoxMenu {overflow:auto; overflow-x:hidden}
+.xenForoSkin .mceOldBoxModel .mceListBox .mceText {height:22px}
+.xenForoSkin .mceOldBoxModel .mceListBox .mceOpen {width:11px; height:22px;}
+.xenForoSkin select.mceNativeListBox {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:7pt; background:#F0F0EE; border:1px solid gray; margin-right:2px;}
+
+/* SplitButton */
+.xenForoSkin .mceSplitButton {width:32px; height:20px; direction:ltr}
+.xenForoSkin .mceSplitButton a, .xenForoSkin .mceSplitButton span {height:20px; display:block}
+.xenForoSkin .mceSplitButton a.mceAction {width:20px; border:1px solid #F0F0EE; border-right:0;}
+.xenForoSkin .mceSplitButton span.mceAction {width:20px; background:url({xen:property imagePath}/xenforo/editor/icons.png) 20px 20px;}
+.xenForoSkin .mceSplitButton a.mceOpen {width:9px; background:url({xen:property imagePath}/xenforo/editor/icons.png) -741px 0; border:1px solid #F0F0EE;}
+.xenForoSkin .mceSplitButton span.mceOpen {display:none}
+.xenForoSkin table.mceSplitButtonEnabled:hover a.mceAction, .xenForoSkin .mceSplitButtonHover a.mceAction, .xenForoSkin .mceSplitButtonSelected a.mceAction {border:1px solid #0A246A; border-right:0; background-color:#B2BBD0}
+.xenForoSkin table.mceSplitButtonEnabled:hover a.mceOpen, .xenForoSkin .mceSplitButtonHover a.mceOpen, .xenForoSkin .mceSplitButtonSelected a.mceOpen {background-color:#B2BBD0; border:1px solid #0A246A;}
+.xenForoSkin .mceSplitButtonDisabled .mceAction, .xenForoSkin .mceSplitButtonDisabled a.mceOpen {opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
+.xenForoSkin .mceSplitButtonActive a.mceAction {border:1px solid #0A246A; background-color:#C2CBE0}
+.xenForoSkin .mceSplitButtonActive a.mceOpen {border-left:0;}
+
+/* ColorSplitButton */
+.xenForoSkin div.mceColorSplitMenu table {background:#FFF; border:1px solid gray}
+.xenForoSkin .mceColorSplitMenu td {padding:2px}
+.xenForoSkin .mceColorSplitMenu a {display:block; width:9px; height:9px; overflow:hidden; border:1px solid #808080}
+.xenForoSkin .mceColorSplitMenu td.mceMoreColors {padding:1px 3px 1px 1px}
+.xenForoSkin .mceColorSplitMenu a.mceMoreColors {width:100%; height:auto; text-align:center; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; line-height:20px; border:1px solid #FFF}
+.xenForoSkin .mceColorSplitMenu a.mceMoreColors:hover {border:1px solid #0A246A; background-color:#B6BDD2}
+.xenForoSkin a.mceMoreColors:hover {border:1px solid #0A246A}
+.xenForoSkin .mceColorPreview {margin-left:2px; width:16px; height:4px; overflow:hidden; background:#9a9b9a}
+.xenForoSkin .mce_forecolor span.mceAction, .xenForoSkin .mce_backcolor span.mceAction {overflow:hidden; height:16px}
+
+/* Menu */
+.xenForoSkin .mceMenu {position:absolute; left:0; top:0; z-index:1000; border:1px solid #D4D0C8}
+.xenForoSkin .mceNoIcons span.mceIcon {width:0;}
+.xenForoSkin .mceNoIcons a .mceText {padding-left:10px}
+.xenForoSkin .mceMenu table {background:#FFF}
+.xenForoSkin .mceMenu a, .xenForoSkin .mceMenu span, .xenForoSkin .mceMenu {display:block}
+.xenForoSkin .mceMenu td {height:20px}
+.xenForoSkin .mceMenu a {position:relative;padding:3px 0 4px 0}
+.xenForoSkin .mceMenu .mceText {position:relative; display:block; font-family:Tahoma,Verdana,Arial,Helvetica; color:#000; cursor:default; margin:0; padding:0 25px 0 25px; display:block}
+.xenForoSkin .mceMenu span.mceText, .xenForoSkin .mceMenu .mcePreview {font-size:11px}
+.xenForoSkin .mceMenu pre.mceText {font-family:Monospace}
+.xenForoSkin .mceMenu .mceIcon {position:absolute; top:0; left:0; width:22px;}
+.xenForoSkin .mceMenu .mceMenuItemEnabled a:hover, .xenForoSkin .mceMenu .mceMenuItemActive {background-color:#dbecf3}
+.xenForoSkin td.mceMenuItemSeparator {background:#DDD; height:1px}
+.xenForoSkin .mceMenuItemTitle a {border:0; background:#EEE; border-bottom:1px solid #DDD}
+.xenForoSkin .mceMenuItemTitle span.mceText {color:#000; font-weight:bold; padding-left:4px}
+.xenForoSkin .mceMenuItemDisabled .mceText {color:#888}
+.xenForoSkin .mceMenu span.mceMenuLine {display:none}
+
+/* Progress,Resize */
+.xenForoSkin .mceBlocker {position:absolute; left:0; top:0; z-index:1000; opacity:0.5; -ms-filter:'alpha(opacity=50)'; filter:alpha(opacity=50); background:#FFF}
+.xenForoSkin .mcePlaceHolder {border:1px dotted gray}
+
+/* Formats */
+.xenForoSkin .mce_formatPreview a {font-size:10px}
+.xenForoSkin .mce_p span.mceText {}
+.xenForoSkin .mce_address span.mceText {font-style:italic}
+.xenForoSkin .mce_pre span.mceText {font-family:monospace}
+.xenForoSkin .mce_h1 span.mceText {font-weight:bolder; font-size: 2em}
+.xenForoSkin .mce_h2 span.mceText {font-weight:bolder; font-size: 1.5em}
+.xenForoSkin .mce_h3 span.mceText {font-weight:bolder; font-size: 1.17em}
+.xenForoSkin .mce_h4 span.mceText {font-weight:bolder; font-size: 1em}
+.xenForoSkin .mce_h5 span.mceText {font-weight:bolder; font-size: .83em}
+.xenForoSkin .mce_h6 span.mceText {font-weight:bolder; font-size: .75em}
+
+/* Theme */
+.xenForoSkin span.mce_bold {background-position:0 0}
+.xenForoSkin span.mce_italic {background-position:-60px 0}
+.xenForoSkin span.mce_underline {background-position:-140px 0}
+.xenForoSkin span.mce_strikethrough {background-position:-120px 0}
+.xenForoSkin span.mce_undo {background-position:-160px 0}
+.xenForoSkin span.mce_redo {background-position:-100px 0}
+.xenForoSkin span.mce_cleanup {background-position:-40px 0}
+.xenForoSkin span.mce_bullist {background-position:-20px 0}
+.xenForoSkin span.mce_numlist {background-position:-80px 0}
+.xenForoSkin span.mce_justifyleft {background-position:-460px 0}
+.xenForoSkin span.mce_justifyright {background-position:-480px 0}
+.xenForoSkin span.mce_justifycenter {background-position:-420px 0}
+.xenForoSkin span.mce_justifyfull {background-position:-440px 0}
+.xenForoSkin span.mce_anchor {background-position:-200px 0}
+.xenForoSkin span.mce_indent {background-position:-400px 0}
+.xenForoSkin span.mce_outdent {background-position:-540px 0}
+.xenForoSkin span.mce_link {background-position:-500px 0}
+.xenForoSkin span.mce_unlink {background-position:-640px 0}
+.xenForoSkin span.mce_sub {background-position:-600px 0}
+.xenForoSkin span.mce_sup {background-position:-620px 0}
+.xenForoSkin span.mce_removeformat {background-position:-580px 0}
+.xenForoSkin span.mce_newdocument {background-position:-520px 0}
+.xenForoSkin span.mce_image {background-position:-380px 0}
+.xenForoSkin span.mce_help {background-position:-340px 0}
+.xenForoSkin span.mce_code {background-position:-260px 0}
+.xenForoSkin span.mce_hr {background-position:-360px 0}
+.xenForoSkin span.mce_visualaid {background-position:-660px 0}
+.xenForoSkin span.mce_charmap {background-position:-240px 0}
+.xenForoSkin span.mce_paste {background-position:-560px 0}
+.xenForoSkin span.mce_copy {background-position:-700px 0}
+.xenForoSkin span.mce_cut {background-position:-680px 0}
+.xenForoSkin span.mce_blockquote {background-position:-220px 0}
+.xenForoSkin .mce_forecolor span.mceAction {background-position:-720px 0}
+.xenForoSkin .mce_backcolor span.mceAction {background-position:-760px 0}
+.xenForoSkin span.mce_forecolorpicker {background-position:-720px 0}
+.xenForoSkin span.mce_backcolorpicker {background-position:-760px 0}
+
+/* Plugins */
+.xenForoSkin span.mce_advhr {background-position:-0px -20px}
+.xenForoSkin span.mce_ltr {background-position:-20px -20px}
+.xenForoSkin span.mce_rtl {background-position:-40px -20px}
+.xenForoSkin span.mce_emotions {background-position:-60px -20px}
+.xenForoSkin span.mce_fullpage {background-position:-80px -20px}
+.xenForoSkin span.mce_fullscreen {background-position:-100px -20px}
+.xenForoSkin span.mce_iespell {background-position:-120px -20px}
+.xenForoSkin span.mce_insertdate {background-position:-140px -20px}
+.xenForoSkin span.mce_inserttime {background-position:-160px -20px}
+.xenForoSkin span.mce_absolute {background-position:-180px -20px}
+.xenForoSkin span.mce_backward {background-position:-200px -20px}
+.xenForoSkin span.mce_forward {background-position:-220px -20px}
+.xenForoSkin span.mce_insert_layer {background-position:-240px -20px}
+.xenForoSkin span.mce_insertlayer {background-position:-260px -20px}
+.xenForoSkin span.mce_movebackward {background-position:-280px -20px}
+.xenForoSkin span.mce_moveforward {background-position:-300px -20px}
+.xenForoSkin span.mce_media {background-position:-320px -20px}
+.xenForoSkin span.mce_nonbreaking {background-position:-340px -20px}
+.xenForoSkin span.mce_pastetext {background-position:-360px -20px}
+.xenForoSkin span.mce_pasteword {background-position:-380px -20px}
+.xenForoSkin span.mce_selectall {background-position:-400px -20px}
+.xenForoSkin span.mce_preview {background-position:-420px -20px}
+.xenForoSkin span.mce_print {background-position:-440px -20px}
+.xenForoSkin span.mce_cancel {background-position:-460px -20px}
+.xenForoSkin span.mce_save {background-position:-480px -20px}
+.xenForoSkin span.mce_replace {background-position:-500px -20px}
+.xenForoSkin span.mce_search {background-position:-520px -20px}
+.xenForoSkin span.mce_styleprops {background-position:-560px -20px}
+.xenForoSkin span.mce_table {background-position:-580px -20px}
+.xenForoSkin span.mce_cell_props {background-position:-600px -20px}
+.xenForoSkin span.mce_delete_table {background-position:-620px -20px}
+.xenForoSkin span.mce_delete_col {background-position:-640px -20px}
+.xenForoSkin span.mce_delete_row {background-position:-660px -20px}
+.xenForoSkin span.mce_col_after {background-position:-680px -20px}
+.xenForoSkin span.mce_col_before {background-position:-700px -20px}
+.xenForoSkin span.mce_row_after {background-position:-720px -20px}
+.xenForoSkin span.mce_row_before {background-position:-740px -20px}
+.xenForoSkin span.mce_merge_cells {background-position:-760px -20px}
+.xenForoSkin span.mce_table_props {background-position:-980px -20px}
+.xenForoSkin span.mce_row_props {background-position:-780px -20px}
+.xenForoSkin span.mce_split_cells {background-position:-800px -20px}
+.xenForoSkin span.mce_template {background-position:-820px -20px}
+.xenForoSkin span.mce_visualchars {background-position:-840px -20px}
+.xenForoSkin span.mce_abbr {background-position:-860px -20px}
+.xenForoSkin span.mce_acronym {background-position:-880px -20px}
+.xenForoSkin span.mce_attribs {background-position:-900px -20px}
+.xenForoSkin span.mce_cite {background-position:-920px -20px}
+.xenForoSkin span.mce_del {background-position:-940px -20px}
+.xenForoSkin span.mce_ins {background-position:-960px -20px}
+.xenForoSkin span.mce_pagebreak {background-position:0 -40px}
+.xenForoSkin .mce_spellchecker span.mceAction {background-position:-540px -20px}
+
+.xenForoSkin a.bbCodeEditorButton
+{
+	float: right;
+	margin: 3px 3px 0 0;
+}
+
+.xenForoSkin a.bbCodeEditorButton span
+{
+	background: url({xen:property imagePath}/xenforo/editor/switchmode.png);
+}
+
+.editorInlinePopup
+{
+	position: absolute;
+}
+	.editorInlinePopup .popupContent
+	{
+		position: static;
+		border: 1px solid {xen:property primaryLightish};
+		{xen:property html.background}
+	}
+	
+.editorInlinePopup_modalBlocker
+{
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #FFF;
+	opacity: 0.6;
+	-ms-filter:'alpha(opacity=60)';
+	filter:alpha(opacity=60);
+	display: none;
+}
+
+.xenForoSkin span.mce_xenforo_media {background-position:-320px -20px}
+.xenForoSkin span.mce_xenforo_quote {background-position:-220px 0}
+.xenForoSkin span.mce_xenforo_code { background:url({xen:property imagePath}/xenforo/editor/code.png) no-repeat; }
+
+<xen:include template="editor_smiliesDropdown.css" />]]></template>
+    <template title="EXTRA.css" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[/* login bar */
+#loginBar
+{
+	color: rgb(252, 252, 255) !important; /* white text */
+	border-bottom-color:  rgb(153, 0, 0) !important; /* red bottom border */
+}
+#loginBar a
+{
+        color: rgb(252, 252, 255) !important; /* white text */
+}
+#loginBar,
+#loginBar #loginBarHandle
+{
+	background-color: rgb(54, 34, 69) !important; /* purple background */
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	-khtml-box-shadow: none !important;
+}
+#loginBar .textCtrl
+{
+	background-color: rgb(252, 252, 255) !important; /* white background */
+	color: rgb(55, 0, 0) !important; /* black text */
+	border-color:  rgb(153, 0, 0) !important; /* red border */
+}
+
+/* mod bar */
+#moderatorBar
+{
+	background-color: rgb(54, 34, 69); /* purple background */
+	border-bottom-color:  rgb(153, 0, 0); /* red bottom border */
+}
+#moderatorBar a
+{
+	color: rgb(252, 252, 255) !important; /* white links */
+}
+#moderatorBar a:hover
+{
+	background-color: rgb(153, 0, 0); /* red background */
+}
+#moderatorBar .itemCount
+{
+	background-color: rgb(252, 252, 255); /* white background */
+	color: rgb(55, 0, 0); /* brown text */
+}
+
+/* logo */
+#logo
+{
+        float: none;
+        text-align: center;
+}
+
+/* styling for tabs */
+.navTabs .navTab.PopupClosed .navLink
+{
+	color: rgb(220, 53, 53); /* bright red text */
+}
+.navTabs .navTab.PopupClosed.selected .navLink.accountPopup
+{
+	color: rgb(252, 252, 255); /* white text */
+}
+.navTabs .navTab.PopupClosed:hover
+{
+	background-color: rgb(84, 29, 29); /* brown background */
+}
+.blockLinksList a:hover,
+ul.blockLinksList li form label:hover
+{
+	color: rgb(252, 252, 255); /* white text */
+}
+
+/* quick search */
+#QuickSearch
+{
+	background-image: url('{xen:property imagePath}/images/parchment.jpg'); /* parchment background */
+}
+.formPopup .controlsWrapper
+{
+	background-color: rgb(243, 237, 211); /* tan background for dropdown */
+}
+.formPopup .advSearchLink
+{
+	border: 1px solid rgb(153, 0, 0); /* red border */
+	background-color: rgb(243, 237, 211); /* tan background */
+	color: rgb(153, 0, 0); /* red text */
+}
+.formPopup .advSearchLink:hover
+{
+	background-color: rgb(198, 191, 160); /* beige background */
+}
+#calroot,
+#caltitle,
+#caldays,
+#caldays span
+{
+	background-color: rgb(243, 237, 211); /* beige background */
+	color: rgb(153, 0, 0); /* red text */
+	border-color: rgb(220, 53, 53); /* bright red border */
+}
+#calcurrent
+{
+	background-color: rgb(153, 0, 0); /* red background */
+	color: rgb(252, 252, 255); /* whiteish color */
+}
+
+/* footer */
+.footer .pageContent
+{
+	background: rgb(84, 29, 29); /* brown background */
+}
+.footer a,
+.footer a:visited
+{
+	color: rgb(220, 53, 53); /* red links */
+}
+#legal li a
+{
+	color: rgb(100, 100, 100); /* grey links */
+}
+
+/* christmas snow helper */
+#navigation .helper
+{
+	/* IE8 */
+	background: url('{xen:property imagePath}/snow/left.png') top left no-repeat;
+
+	/* Decent browsers */
+	background: url('{xen:property imagePath}/snow/left.png') top left no-repeat,
+				url('{xen:property imagePath}/snow/right.png') top right no-repeat,
+				url('{xen:property imagePath}/snow/center.png') top center no-repeat;
+
+	/* IE6, IE7 */
+	_background: url('{xen:property imagePath}/snow/left.png') top left no-repeat;
+
+	display: block;
+	height: 30px;
+	left: -5px;
+	padding: 0px 5px;
+	position: absolute;
+	top: -16px;
+	width: 100%;
+}
+
+/* buttons */
+.button.primary
+{
+	background-color: rgb(55, 0, 0);
+}
+
+/* overlay */
+a.button,
+.xenOverlay .formOverlay a.button
+{
+	color: rgb(252, 252, 255); /* text white button */
+}
+
+/* popups */
+.Popup .PopupControl:hover,
+.Popup.PopupContainerControl:hover,
+.navPopup .PopupItemLinkActive:hover h3,
+.navPopup .PopupItemLinkActive:hover h3 a,
+.navPopup .PopupItemLinkActive:hover .muted,
+.navPopup .PopupItemLinkActive:hover .muted .username,
+.subForumsPopup:hover,
+.subForumsPopup:hover .dt,
+.subForumsPopup .PopupOpen,
+.subForumsPopup .PopupOpen .dt
+.navPopup,
+.chooserColumns li a:hover
+{
+	color: rgb(252, 252, 255) !important; /* white text */
+}
+
+/* autocomplete */
+ul.autoCompleteList li:hover,
+ul.autoCompleteList li.selected
+{
+	color: rgb(252, 252, 255); /* whiteish text */
+}
+
+/* node list */
+.nodeList,
+.bbCode dl dd
+{
+	background-color: rgb(252, 252, 255) !important; /* whiteish background */
+	border-color: rgb(220, 53, 53) !important; /* red border */
+}
+.nodeList .categoryForumNodeInfo,
+.nodeList .forumNodeInfo,
+.nodeList .pageNodeInfo,
+.nodeList .linkNodeInfo
+{
+	background-color: transparent !important; /* transparent background */
+}
+
+/* thread status */
+.thread_view .threadAlerts dt
+{
+	color: rgb(153, 0, 0) !important; /* red text */
+}
+
+/* quotes arrow */
+blockquote .bbCodeQuote aside .attribution a
+{
+	color: rgb(252, 252, 255); /* white text */
+}
+blockquote .bbCodeQuote aside .attribution a:hover
+{
+	color: rgb(55, 0, 0); /* black text */
+}
+
+/* notices */
+.message .messageNotices
+{
+        background-color: rgb(243, 237, 211) !important;
+        color: rgb(153, 0, 0);
+        border-color: rgb(153, 0, 0) !important;
+}
+.messageList .placeholder .placeholderContent,
+.messageSimpleList .placeholder .placeholderContent
+{
+        background-color: rgb(243, 237, 211) !important;
+        color: rgb(153, 0, 0) !important;
+}
+.importantMessage
+{
+        background: rgb(243, 237, 211) url('{xen:property imagePath}/xenforo/gradients/category-23px-light.png') repeat-x top;
+        border: 1px solid rgb(153, 0, 0);
+        color: rgb(153, 0, 0);
+}
+
+/* poll items */
+.pollBlock .question .questionText
+{
+	color: rgb(153, 0, 0) !important; /* red text */
+}
+.pollBlock .questionMark,
+.pollBlock .pollOption label:hover
+{
+	color: rgb(252, 252, 255) !important; /* white text */
+}
+
+/* attachments */
+.AttachmentEditor .AttachedFile .ProgressMeter .ProgressGraphic
+{
+	background-color: rgb(153, 0, 0) !important; /* red background */
+}
+.attachedFiles .attachedFilesHeader {
+         color: rgb(153, 0, 0) !important;
+}
+
+/* profile tabs */
+.textWithCount.subHeading .text
+{
+	color: rgb(252, 252, 255) !important; /* white text */
+}
+
+/* account / help sidebars */
+.helpSideBar a:hover,
+.accountSideBar a:hover
+{
+	background-color: rgb(220, 53, 53) !important; /* red background */
+	color: rgb(252, 252, 255) !important; /* white text */
+}
+
+/* smilie help */
+.smilieList .smilieText
+{
+	background-color: rgb(247, 243, 226) !important; /* tan background */
+	border: 1px solid rgb(220, 53, 53) !important; /* red border */
+	color: rgb(153, 0, 0) !important; /* red text */
+}
+.smilieList .smilieText:hover
+{
+	background-color: rgb(198, 191, 160) !important; /* beige background */
+}
+
+/* bbcode help */
+.bbCode .title .option,
+.bbCode dl dt
+{
+	color: rgb(153, 0, 0) !important; /* red text */
+}
+
+/* adsense */
+#adsenseFooter
+{
+	text-align: center;
+	padding: 7px;
+}]]></template>
+    <template title="member_card" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:edithint template="xenforo_overlay.css" />
+<xen:require css="member_card.css" />
+
+<div id="memberCard{$user.user_id}" data-overlayClass="memberCard">
+	<div class="avatarCropper">
+		<a class="avatar NoOverlay Av{$user.user_id}l" href="{xen:link members, $user}">
+			<img src="{xen:helper avatar, {$user}, l}" alt="" style="{xen:helper avatarCropCss, $user}" />
+		</a>
+	</div>
+	
+	<div class="userInfo">
+		<h3 class="username"><xen:username user="$user" class="NoOverlay" /></h3>
+		
+		<div class="userTitleBlurb">
+			<h4 class="userTitle">{xen:helper userTitle, $user}</h4>
+			<div class="userBlurb">{xen:helper userBlurb, $user, 0}</div>
+		</div>
+		
+		<blockquote class="status">{xen:helper bodytext, $user.status}</blockquote>
+
+		<div class="userLinks">
+			<a href="{xen:link members, $user}">{xen:phrase profile_page}</a>
+                        <xen:include template="pirateProfile_member_card_link_item" />
+			<xen:if is="{$user.user_id} != {$visitor.user_id}">
+				<xen:if is="{$canStartConversation}"><a href="{xen:link conversations/add, '', 'to={$user.username}'}">{xen:phrase start_conversation}</a></xen:if>
+				<xen:follow user="$user" class="Tooltip" />
+				<xen:if is="{$canCleanSpam}"><a href="{xen:link spam-cleaner, $user}" class="deleteSpam OverlayTrigger">{xen:phrase spam}</a></xen:if>
+			</xen:if>
+		</div>
+		
+		<table class="userStats">
+		<tr>
+			<th>{xen:phrase member_since}:</th> <td>{xen:date $user.register_date}</td>
+			<th>{xen:phrase message_count}:</th> <td><a href="{xen:link search/member, '', 'user_id={$user.user_id}'}" class="concealed">{xen:number $user.message_count}</a></td>	
+		</tr>
+		<tr>
+			<th>{xen:phrase trophy_points}:</th> <td><a href="{xen:link members/trophies, $user}" class="concealed OverlayTrigger">{xen:number $user.trophy_points}</a></td>
+			<th>{xen:phrase likes_received}:</th> <td>{xen:number $user.like_count}</td>
+		</tr>
+		</table>
+	
+		<xen:if is="{$canViewOnlineStatus}">
+			<dl class="pairsInline lastActivity">
+				<dt>{xen:phrase x_was_last_seen, 'username={$user.username}'}:</dt>
+				<dd>
+					<xen:if is="{$user.activity}">
+						<xen:if is="{$user.activity.description}">
+							{$user.activity.description}<xen:if is="{$user.activity.itemTitle}"> <em><a href="{$user.activity.itemUrl}" class="concealed">{$user.activity.itemTitle}</a></em></xen:if>,
+						<xen:else />
+							{xen:phrase viewing_unknown_page},
+						</xen:if>
+						<xen:datetime time="{$user.effective_last_activity}" class="muted" />
+					<xen:else />
+						<xen:datetime time="{$user.effective_last_activity}" />
+					</xen:if>
+				</dd>
+			</dl>
+		</xen:if>
+	</div>
+	
+	<a class="close OverlayCloser"></a>
+</div>]]></template>
+    <template title="member_view" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xen:title>{$user.username}</xen:title>
+<xen:h1></xen:h1> <xen:comment>H1 empty, do not render.</xen:comment>
+
+<xen:container var="$head.canonical">
+	<link rel="canonical" href="{xen:link 'canonical:members', $user, 'page={$page}'}" /></xen:container>
+
+<xen:container var="$head.description">
+	<meta name="description" content="{$user.username} is a {xen:helper stripHtml, {xen:helper usertitle, $user}} at {$xenOptions.boardTitle}" /></xen:container>
+	
+<xen:container var="$head.openGraph"><xen:include template="open_graph_meta">
+	<xen:set var="$url">{xen:link 'canonical:members', $user}</xen:set>
+	<xen:set var="$title">{$user.username}</xen:set>
+	<xen:set var="$image">{xen:helper avatar, $user, 'm', '', 'true'}</xen:set>
+</xen:include></xen:container>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+</xen:navigation>
+
+<xen:require css="member_view.css" />
+<xen:require js="js/xenforo/quick_reply_profile.js" />
+
+<div class="profilePage" itemscope="itemscope" itemtype="http://data-vocabulary.org/Person">
+
+	<div class="mast">
+		<div class="avatarScaler">
+			<xen:if is="{$visitor.user_id} == {$user.user_id}">
+				<a class="Av{$user.user_id}l OverlayTrigger" href="{xen:link account/avatar}">
+					<img src="{xen:helper avatar, $user, l}" alt="{$user.username}" style="{xen:helper avatarCropCss, $user}" itemprop="photo" />
+				</a>
+			<xen:else />
+				<span class="Av{$user.user_id}l">
+					<img src="{xen:helper avatar, $user, l}" alt="{$user.username}" style="{xen:helper avatarCropCss, $user}" itemprop="photo" />
+				</span>
+			</xen:if>
+		</div>
+
+		<div class="section infoBlock">
+			<dl class="secondaryContent pairs">
+
+				<xen:if is="{$canViewOnlineStatus}">
+					<dt>{xen:phrase last_activity}:</dt>
+						<dd><xen:datetime time="$user.effective_last_activity" /></dd>
+				</xen:if>
+
+				<dt>{xen:phrase joined}:</dt>
+					<dd>{xen:date $user.register_date}</dd>
+
+				<dt>{xen:phrase messages}:</dt>
+					<dd>{xen:number $user.message_count}</dd>
+
+				<dt>{xen:phrase likes_received}:</dt>
+					<dd>{xen:number $user.like_count}</dd>
+
+				<dt>{xen:phrase trophy_points}:</dt>
+					<dd><a href="{xen:link 'members/trophies', $user}" class="OverlayTrigger">{xen:number $user.trophy_points}</a></dd>
+
+			</dl>
+		</div>
+
+		<div class="followBlocks">
+			<xen:if is="{$following}">
+				<div class="section">
+					<h3 class="subHeading textWithCount" title="{xen:phrase x_is_following_y_members, 'name={$user.username}', 'count={xen:number $followingCount}'}">
+						<span class="text">{xen:phrase following}</span>
+						<a href="{xen:link 'members/following', $user}" class="count OverlayTrigger">{xen:number $followingCount}</a>
+					</h3>
+					<div class="primaryContent avatarHeap">
+						<ol>
+						<xen:foreach loop="$following" key="$followUserId" value="$followUser">
+							<li>
+								<xen:avatar user="$followUser" size="s" text="{$followUser.username}" class="Tooltip" title="{$followUser.username}" itemprop="contact" />
+							</li>
+						</xen:foreach>
+						</ol>
+					</div>
+					<xen:if is="{$followingCount} > {xen:count $following, false}">
+						<div class="sectionFooter"><a href="{xen:link 'members/following', $user}" class="OverlayTrigger">{xen:phrase show_all}</a></div>
+					</xen:if>
+				</div>
+			</xen:if>
+
+			<xen:if is="{$followers}">
+				<div class="section">
+					<h3 class="subHeading textWithCount" title="{xen:phrase x_is_being_followed_by_y_members, 'name={$user.username}', 'count={xen:number $followersCount}'}">
+						<span class="text">{xen:phrase followers}</span>
+						<a href="{xen:link 'members/followers', $user}" class="count OverlayTrigger">{xen:number $followersCount}</a>
+					</h3>
+					<div class="primaryContent avatarHeap">
+						<ol>
+						<xen:foreach loop="$followers" key="$followUserId" value="$followUser">
+							<li>
+								<xen:avatar user="$followUser" size="s" text="{$followUser.username}" class="Tooltip" title="{$followUser.username}" itemprop="contact" />
+							</li>
+						</xen:foreach>
+						</ol>
+					</div>
+					<xen:if is="{$followersCount} > {xen:count $followers, false}">
+						<div class="sectionFooter"><a href="{xen:link 'members/followers', $user}" class="OverlayTrigger">{xen:phrase show_all}</a></div>
+					</xen:if>
+				</div>
+			</xen:if>
+		</div>
+
+		<xen:if hascontent="true">
+		<div class="section infoBlock">
+			<dl class="secondaryContent pairs">
+			<xen:contentcheck>
+				<xen:if is="{$user.gender}">
+					<dt>{xen:phrase gender}:</dt>
+						<dd itemprop="gender"><xen:if is="{$user.gender} == 'male'">{xen:phrase male}<xen:else />{xen:phrase female}</xen:if></dd>
+				</xen:if>
+
+				<xen:if is="{$birthday}">
+					<dt>{xen:phrase birthday}:</dt>
+						<dd><span itemprop="dob">{xen:date $birthday.timeStamp, $birthday.format}</span> <xen:if is="{$birthday.age}">({xen:phrase age}: {xen:number $birthday.age})</xen:if></dd>
+				</xen:if>
+
+				<xen:if is="{$user.homepage}">
+					<dt>{xen:phrase home_page}:</dt>
+					<dd><a href="{xen:string censor, $user.homepage}" rel="nofollow" target="_blank" itemprop="url">{xen:string censor, $user.homepage}</a></dd>
+				</xen:if>
+
+				<xen:if is="{$user.location}">
+					<dt>{xen:phrase location}:</dt>
+					<dd itemprop="address">{xen:string censor, $user.location}</dd>
+				</xen:if>
+
+				<xen:if is="{$user.occupation}">
+					<dt>{xen:phrase occupation}:</dt>
+					<dd itemprop="role">{xen:string censor, $user.occupation}</dd>
+				</xen:if>
+			</xen:contentcheck>
+			</dl>
+		</div>
+		</xen:if>
+		
+		<xen:if is="{$xenOptions.facebookLike} AND {$user.allow_view_profile} == 'everyone'">
+			<xen:container var="$facebookSdk">1</xen:container>
+			<fb:like href="{$url}" layout="button_count" action="recommend" font="trebuchet ms"></fb:like>
+		</xen:if>
+
+	</div>
+
+	<div class="main">
+
+		<div class="section primaryUserBlock">
+			<div class="mainText secondaryContent">
+				<div class="followBlock">
+					<xen:follow user="$user" title="" />
+					<xen:if is="{$visitor.user_id} AND {$user.user_id} != {$visitor.user_id}">
+						<div class="muted">
+							<xen:if is="{$user.isFollowingVisitor}">
+								{xen:phrase user_is_following_you, 'user={$user.username}'}
+							<xen:else />
+								{xen:phrase user_is_not_following_you, 'user={$user.username}'}
+							</xen:if>
+						</div>
+					</xen:if>
+				</div>
+
+				<h1 itemprop="name">{xen:helper richUserName, $user}</h1>
+
+				<p class="userBlurb">
+					{xen:helper userBlurb, $user}
+					<xen:if is="{$canCleanSpam}"><a href="{xen:link spam-cleaner, $user}" class="deleteSpam OverlayTrigger">{xen:phrase spam_cleaner}</a></xen:if>
+				</p>
+
+				<xen:if is="{$user.status}"><p class="userStatus" id="UserStatus">{xen:helper bodyText, $user.status} <xen:datetime time="$user.status_date" /></p></xen:if>
+
+				<xen:if is="{$canViewOnlineStatus}">
+					<dl class="pairsInline lastActivity">
+						<dt>{xen:phrase x_was_last_seen, 'username={$user.username}'}:</dt>
+						<dd>
+							<xen:if is="{$user.activity}">
+								<xen:if is="{$user.activity.description}">
+									{$user.activity.description}<xen:if is="{$user.activity.itemTitle}"> <em><a href="{$user.activity.itemUrl}">{$user.activity.itemTitle}</a></em></xen:if>,
+								<xen:else />
+									{xen:phrase viewing_unknown_page},
+								</xen:if>
+								<xen:datetime time="{$user.effective_last_activity}" class="muted" />
+							<xen:else />
+								<xen:datetime time="{$user.effective_last_activity}" />
+							</xen:if>
+						</dd>
+					</dl>
+				</xen:if>
+			</div>
+			
+			<ul class="tabs mainTabs Tabs" data-panes="#ProfilePanes > li" data-history="on">
+				<li><a href="{$requestPaths.requestUri}#profilePosts">{xen:phrase profile_posts}</a></li>
+				<xen:if is="{$showRecentActivity}"><li><a href="{$requestPaths.requestUri}#recentActivity">{xen:phrase recent_activity}</a></li></xen:if>
+				<li><a href="{$requestPaths.requestUri}#postings">{xen:phrase postings}</a></li>
+				<li><a href="{$requestPaths.requestUri}#info">{xen:phrase information}</a></li>
+                                <xen:include template="pirateProfile_profile_tab" />
+			</ul>
+		</div>
+
+		<ul id="ProfilePanes">
+			<li id="profilePosts" class="profileContent">
+
+			<xen:if is="{$canViewProfilePosts}">
+				<xen:require css="message_simple.css" />
+
+				<xen:if is="{$canPostOnProfile}">
+					<form action="{xen:link members/post, $user}" method="post"
+						class="messageSimple profilePoster AutoValidator primaryContent" id="ProfilePoster"
+						data-optInOut="optIn">
+						<xen:avatar user="$visitor" size="s" />
+						<div class="messageInfo">
+							<xen:if is="{$visitor.user_id} == {$user.user_id}">
+								<textarea name="message" class="textCtrl StatusEditor Elastic" placeholder="{xen:phrase update_your_status}..." rows="3" cols="50" data-statusEditorCounter="#statusEditorCounter"></textarea>
+							<xen:else />
+								<textarea name="message" class="textCtrl Elastic" placeholder="{xen:phrase write_something}..." rows="3" cols="50"></textarea>
+							</xen:if>
+							<div class="submitUnit">
+								<span id="statusEditorCounter" title="{xen:phrase characters_remaining}"></span>
+								<input type="submit" class="button primary" value="{xen:phrase post}" accesskey="s" />
+								<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+							</div>
+						</div>
+					</form>
+				</xen:if>
+
+				<form action="{xen:link 'inline-mod/profile-post/switch'}" method="post"
+					class="InlineModForm section"
+					data-cookieName="profilePosts"
+					data-controls="#InlineModControls"
+					data-imodOptions="#ModerationSelect option">
+
+					<ol class="messageSimpleList" id="ProfilePostList">
+						<xen:if is="{$profilePosts}">
+							<xen:foreach loop="$profilePosts" value="$profilePost">
+								<xen:if is="{$profilePost.isDeleted}">
+									<xen:include template="profile_post_deleted" />
+								<xen:else />
+									<xen:include template="profile_post" />
+								</xen:if>
+							</xen:foreach>
+						<xen:else />
+							<li id="NoProfilePosts">{xen:phrase there_no_messages_on_xs_profile_yet, 'name={$user.username}'}</li>
+						</xen:if>
+					</ol>
+
+					<xen:if is="{$inlineModOptions}">
+						<div class="sectionFooter InlineMod Hide">
+							<label for="ModerationSelect">{xen:phrase perform_action_with_selected_posts}...</label>
+
+							<xen:include template="inline_mod_controls">
+								<xen:set var="$text">{xen:phrase post_moderation}</xen:set>
+								<xen:set var="$options">
+									<xen:if is="{$inlineModOptions.delete}"><option value="delete">{xen:phrase delete_posts}</option></xen:if>
+									<xen:if is="{$inlineModOptions.undelete}"><option value="undelete">{xen:phrase undelete_posts}</option></xen:if>
+									<xen:if is="{$inlineModOptions.approve}"><option value="approve">{xen:phrase approve_posts}</option></xen:if>
+									<xen:if is="{$inlineModOptions.unapprove}"><option value="unapprove">{xen:phrase unapprove_posts}</option></xen:if>
+									<option value="deselect">{xen:phrase deselect_posts}</option>
+								</xen:set>
+								<xen:set var="$checkboxTitle">{xen:phrase select_deselect_all_posts_on_this_page}</xen:set>
+								<xen:set var="$selectedItemsPhrase">{xen:phrase selected_posts}</xen:set>
+							</xen:include>
+						</div>
+					</xen:if>
+
+					<div class="pageNavLinkGroup">
+						<div class="linkGroup SelectionCountContainer"></div>
+						<xen:pagenav link="members" linkdata="{$user}" page="{$page}" perpage="{$profilePostsPerPage}" total="{$totalProfilePosts}" />
+					</div>
+
+					<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+				</form>
+
+			<xen:else />
+				<div id="NoProfilePosts">{xen:phrase there_no_messages_on_xs_profile_yet, 'name={$user.username}'}</div>
+			</xen:if>
+
+			</li>
+
+			<xen:if is="{$showRecentActivity}">
+			<li id="recentActivity" class="profileContent" data-loadUrl="{xen:link members/recent-activity, $user}">
+				{xen:phrase loading}...
+				<noscript><a href="{xen:link members/recent-activity, $user}">{xen:phrase view}</a></noscript>
+			</li>
+			</xen:if>
+
+			<li id="postings" class="profileContent" data-loadUrl="{xen:link members/recent-content, $user}">
+				{xen:phrase loading}...
+				<noscript><a href="{xen:link members/recent-content, $user}">{xen:phrase view}</a></noscript>
+			</li>
+
+			<li id="info" class="profileContent">
+
+				<xen:if is="{$user.signature}">
+					<div class="section">
+						<h3 class="textHeading">{xen:phrase signature}</h3>
+						<div class="primaryContent">
+							<div class="baseHtml signature ugc">{xen:raw $user.signatureHtml}</div>
+						</div>
+					</div>
+				</xen:if>
+
+				<xen:if hascontent="true">
+					<div class="section">
+						<h3 class="textHeading">{xen:phrase about}</h3>
+
+						<div class="secondaryContent">
+							<xen:contentcheck>
+								<xen:if hascontent="true">
+									<div class="pairsColumns aboutPairs">
+									<xen:contentcheck>
+										<xen:if is="{$user.gender}">
+											<dl><dt>{xen:phrase gender}:</dt> <dd><xen:if is="{$user.gender} == 'male'">{xen:phrase male}<xen:else />{xen:phrase female}</xen:if></dd></dl>
+										</xen:if>
+
+										<xen:if is="{$birthday}">
+											<dl><dt>{xen:phrase birthday}:</dt> <dd>{xen:date $birthday.timeStamp, $birthday.format} <xen:if is="{$birthday.age}">({xen:phrase age}: {xen:number $birthday.age})</xen:if></dd></dl>
+										</xen:if>
+
+										<xen:if is="{$user.homepage}">
+											<dl><dt>{xen:phrase home_page}:</dt> <dd><a href="{xen:string censor, $user.homepage}" rel="nofollow" target="_blank">{xen:string censor, $user.homepage}</a></dd></dl>
+										</xen:if>
+
+										<xen:if is="{$user.location}">
+											<dl><dt>{xen:phrase location}:</dt> <dd>{xen:string censor, $user.location}</dd></dl>
+										</xen:if>
+
+										<xen:if is="{$user.occupation}">
+											<dl><dt>{xen:phrase occupation}:</dt> <dd>{xen:string censor, $user.occupation}</dd></dl>
+										</xen:if>
+									</xen:contentcheck>
+									</div>
+								</xen:if>
+
+								<xen:if is="{$user.about}"><div class="baseHtml ugc">{xen:raw $user.aboutHtml}</div></xen:if>
+							</xen:contentcheck>
+						</div>
+					</div>
+				</xen:if>
+
+				<div class="section">
+					<h3 class="textHeading">{xen:phrase interact}</h3>
+
+					<div class="primaryContent">
+						<div class="pairsColumns contactInfo">
+							<dl>
+								<dt>{xen:phrase content}:</dt>
+								<dd><ul>
+									<li><a href="{xen:link search/member, '', 'user_id={$user.user_id}'}">{xen:phrase find_all_content_by_x, 'name={$user.username}'}</a></li>
+									<li><a href="{xen:link search/member, '', 'user_id={$user.user_id}', 'content=thread'}">{xen:phrase find_all_threads_by_x, 'name={$user.username}'}</a></li>
+								</ul></dd>
+							</dl>
+							<xen:if is="{$canStartConversation}">
+								<dl><dt>{xen:phrase conversation}:</dt> <dd><a href="{xen:link 'conversations/add', '', 'to={$user.username}'}">{xen:phrase start_conversation}</a></dd></dl>
+							</xen:if>
+							<xen:if is="{$identities}">
+								<xen:foreach loop="$identities" value="$identity">
+									<dl><dt>{$identity.title}:</dt> <dd>{xen:string censor, $identity.value}</dd></dl>
+								</xen:foreach>
+							</xen:if>
+						</div>
+					</div>
+				</div>
+			</li>
+
+                        <xen:include template="pirateProfile_profile_tab_content" />
+
+		</ul>
+	</div>
+
+</div>]]></template>
+    <template title="navigation" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:edithint template="navigation.css" />
+
+<div id="navigation" class="pageWidth">
+	<div class="pageContent">
+		<nav>
+
+<div class="navTabs">
+	<ul class="publicTabs">
+	
+		<!-- home -->
+		<xen:if is="{$showHomeLink}">
+			<li class="navTab home PopupClosed"><a href="{$homeLink}" class="navLink">{xen:phrase home}</a></li>
+		</xen:if>
+		
+		
+		<!-- extra tabs: home -->
+		<xen:if is="{$extraTabs.home}">
+		<xen:foreach loop="$extraTabs.home" key="$extraTabId" value="$extraTab">
+			<xen:if is="{$extraTab.linksTemplate}">
+				<li class="navTab {$extraTabId} {xen:if $extraTab.selected, 'selected', 'Popup PopupControl PopupClosed'}">
+			
+				<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
+				<a href="{$extraTab.href}" class="SplitCtrl" rel="Menu"></a>
+				
+				<div class="{xen:if {$extraTab.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
+					<div class="primaryContent menuHeader">
+						<h3>{$extraTab.title}</h3>
+						<div class="muted">{xen:phrase quick_links}</div>
+					</div>
+					{xen:raw $extraTab.linksTemplate}
+				</div>
+			</li>
+			<xen:else />
+				<li class="navTab {xen:if $extraTab.selected, 'selected', 'PopupClosed'}">
+					<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
+					<xen:if is="{$extraTab.selected}"><div class="tabLinks"></div></xen:if>
+				</li>
+			</xen:if>
+		</xen:foreach>
+		</xen:if>
+		
+		
+		<!-- forums -->
+		<xen:if is="{$tabs.forums}">
+			<li class="navTab forums {xen:if $tabs.forums.selected, 'selected', 'Popup PopupControl PopupClosed'}">
+			
+				<a href="{$tabs.forums.href}" class="navLink">{$tabs.forums.title}</a>
+				<a href="{$tabs.forums.href}" class="SplitCtrl" rel="Menu"></a>
+				
+				<div class="{xen:if {$tabs.forums.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
+					<div class="primaryContent menuHeader">
+						<h3>{$tabs.forums.title}</h3>
+						<div class="muted">{xen:phrase quick_links}</div>
+					</div>
+					<ul class="secondaryContent blockLinksList">
+                                                <xen:include template="pollsList_navigation_list_item" />
+						<xen:if is="{$visitor.user_id}"><li><a href="{xen:link 'forums/-/mark-read', '', 'date={$serverTime}'}" class="OverlayTrigger">{xen:phrase mark_all_forums_read}</a></li></xen:if>
+						<xen:if is="{$canSearch}"><li><a href="{xen:link search, '', 'type=post'}">{xen:phrase search_forums}</a></li></xen:if>
+						<xen:if is="{$visitor.user_id}"><li><a href="{xen:link 'watched/threads'}">{xen:phrase watched_threads}</a></li></xen:if>
+						<li><a href="{xen:link 'find-new/threads'}">{xen:phrase whats_new}</a></li>
+					</ul>
+				</div>
+			</li>
+		</xen:if>
+		
+		
+		<!-- extra tabs: middle -->
+		<xen:if is="{$extraTabs.middle}">
+		<xen:foreach loop="$extraTabs.middle" key="$extraTabId" value="$extraTab">
+			<xen:if is="{$extraTab.linksTemplate}">
+				<li class="navTab {$extraTabId} {xen:if $extraTab.selected, 'selected', 'Popup PopupControl PopupClosed'}">
+			
+				<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
+				<a href="{$extraTab.href}" class="SplitCtrl" rel="Menu"></a>
+				
+				<div class="{xen:if {$extraTab.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
+					<div class="primaryContent menuHeader">
+						<h3>{$extraTab.title}</h3>
+						<div class="muted">{xen:phrase quick_links}</div>
+					</div>
+					{xen:raw $extraTab.linksTemplate}
+				</div>
+			</li>
+			<xen:else />
+				<li class="navTab {xen:if $extraTab.selected, 'selected', 'PopupClosed'}">
+					<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
+					<xen:if is="{$extraTab.selected}"><div class="tabLinks"></div></xen:if>
+				</li>
+			</xen:if>
+		</xen:foreach>
+		</xen:if>
+		
+		
+		<!-- members -->
+		<xen:if is="{$tabs.members}">
+			<li class="navTab members {xen:if $tabs.members.selected, 'selected', 'Popup PopupControl PopupClosed'}">
+			
+				<a href="{$tabs.members.href}" class="navLink">{$tabs.members.title}</a>
+				<a href="{$tabs.members.href}" class="SplitCtrl" rel="Menu"></a>
+				
+				<div class="{xen:if {$tabs.members.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
+					<div class="primaryContent menuHeader">
+						<h3>{$tabs.members.title}</h3>
+						<div class="muted">{xen:phrase quick_links}</div>
+					</div>
+					<ul class="secondaryContent blockLinksList">
+						<li><a href="{xen:link members}">{xen:phrase registered_members}</a></li>
+						<li><a href="{xen:link online}">{xen:phrase current_visitors}</a></li>
+						<li><a href="{xen:link recent-activity}">{xen:phrase recent_activity}</a></li>
+					</ul>
+				</div>
+			</li>
+		</xen:if>		
+		
+		<!-- help -->
+		<xen:if is="{$tabs.help}">
+			<li class="navTab help {xen:if $tabs.help.selected, 'selected', 'Popup PopupControl PopupClosed'}">
+			
+				<a href="{$tabs.help.href}" class="navLink" rel="help">{$tabs.help.title}</a>
+				<a href="{$tabs.help.href}" class="SplitCtrl" rel="Menu"></a>
+				
+				<div class="{xen:if {$tabs.help.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
+					<div class="primaryContent menuHeader">
+						<h3>{$tabs.help.title}</h3>
+						<div class="muted">{xen:phrase quick_links}</div>
+					</div>
+					<ul class="secondaryContent blockLinksList">
+						<li><a href="{xen:link help/smilies}">{xen:phrase smilies}</a></li>
+						<li><a href="{xen:link help/bb-codes}">{xen:phrase bb_codes}</a></li>
+						<li><a href="{xen:link help/trophies}">{xen:phrase trophies}</a></li>
+					</ul>
+				</div>
+			</li>
+		</xen:if>
+		
+		
+		<!-- extra tabs: end -->
+		<xen:if is="{$extraTabs.end}">
+		<xen:foreach loop="$extraTabs.end" key="$extraTabId" value="$extraTab">
+			<xen:if is="{$extraTab.linksTemplate}">
+				<li class="navTab {$extraTabId} {xen:if $extraTab.selected, 'selected', 'Popup PopupControl PopupClosed'}">
+			
+				<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
+				<a href="{$extraTab.href}" class="SplitCtrl" rel="Menu"></a>
+				
+				<div class="{xen:if {$extraTab.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
+					<div class="primaryContent menuHeader">
+						<h3>{$extraTab.title}</h3>
+						<div class="muted">{xen:phrase quick_links}</div>
+					</div>
+					{xen:raw $extraTab.linksTemplate}
+				</div>
+			</li>
+			<xen:else />
+				<li class="navTab {xen:if $extraTab.selected, 'selected', 'PopupClosed'}">
+					<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
+					<xen:if is="{$extraTab.selected}"><div class="tabLinks"></div></xen:if>
+				</li>
+			</xen:if>
+		</xen:foreach>
+		</xen:if>
+		
+		
+		<!-- no selection -->
+		<xen:if is="!{$selectedTab}">
+			<li class="navTab selected"><div class="tabLinks"></div></li>
+		</xen:if>
+		
+	</ul>
+	
+	<xen:if is="{$visitor.user_id}"><xen:include template="navigation_visitor_tab" /></xen:if>
+</div>
+
+<span class="helper"></span>
+			
+		</nav>	
+	</div>
+</div>]]></template>
+    <template title="navigation_visitor_tab" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xen:edithint template="navigation.css" />
+
+<ul class="visitorTabs">
+
+	<!-- account -->
+	<li class="navTab account Popup PopupControl PopupClosed {xen:if $tabs.account.selected, 'selected'}">
+	
+		<a href="{xen:link account}" class="navLink accountPopup" rel="Menu"><strong>{$visitor.username}</strong></a>
+		
+		<div class="Menu JsOnly" id="AccountMenu">
+			<div class="primaryContent menuHeader">
+				<xen:avatar user="$visitor" size="m" class="NoOverlay plainImage" title="{xen:phrase view_your_profile}" />
+				
+				<h3><a href="{xen:link members, $visitor}" class="concealed" title="{xen:phrase view_your_profile}">{$visitor.username}</a></h3>
+				
+				<xen:if hascontent="true"><div class="muted"><xen:contentcheck>{xen:helper usertitle, $visitor}</xen:contentcheck></div></xen:if>
+				
+				<ul class="links">
+					<li class="fl"><a href="{xen:link members, $visitor}">{xen:phrase your_profile_page}</a></li>
+					<!--<li class="fr"><a href="{xen:link logout, '', '_xfToken={$visitor.csrf_token_page}'}" class="LogOut">{xen:phrase log_out}</a></li>-->
+				</ul>
+			</div>
+			<div class="menuColumns secondaryContent">
+				<ul class="col1 blockLinksList">
+					<li><a href="{xen:link account/personal-details}">{xen:phrase personal_details}</a></li>
+					<li><a href="{xen:link account/contact-details}">{xen:phrase contact_details}</a></li>
+					<li><a href="{xen:link account/preferences}">{xen:phrase preferences}</a></li>
+					<li><a href="{xen:link account/alert-preferences}">{xen:phrase alert_preferences}</a></li>
+					<li><a href="{xen:link account/privacy}">{xen:phrase privacy}</a></li>
+					<xen:if is="{$canEditSignature}"><li><a href="{xen:link account/signature}">{xen:phrase signature}</a></li></xen:if>
+					<xen:if is="{$canUploadAvatar}"><li><a href="{xen:link account/avatar}" class="OverlayTrigger" data-cacheOverlay="true">{xen:phrase avatar}</a></li></xen:if>
+				</ul>
+				<ul class="col2 blockLinksList">
+                                        <xen:include template="pirateProfile_navigation_visitor_tab_item" />
+					<li><a href="{xen:link account/news-feed}">{xen:phrase your_news_feed}</a></li>
+					<li><a href="{xen:link account/alerts}">{xen:phrase your_alerts}</a></li>
+					<li><a href="{xen:link watched/threads}">{xen:phrase watched_threads}</a></li>
+					<li><a href="{xen:link account/likes}">{xen:phrase likes_received}</a></li>
+					<li><a href="{xen:link search/member, '', 'user_id={$visitor.user_id}'}">{xen:phrase your_content}</a></li>
+					<li><a href="{xen:link account/following}">{xen:phrase people_you_follow}</a></li>
+					<xen:if is="{$xenCache.userUpgradeCount}"><li><a href="{xen:link account/upgrades}">{xen:phrase account_upgrades}</a></li></xen:if>
+					<xen:if is="{$xenOptions.facebookAppId}"><li><a href="{xen:link account/facebook}">{xen:phrase facebook_integration}</a></li></xen:if>
+				</ul>
+			</div>
+			<div class="menuColumns secondaryContent">
+				<ul class="col1 blockLinksList">
+					<li>				
+						<form action="{xen:link account/toggle-visibility}" method="post" class="AutoValidator visibilityForm">
+							<label><input type="checkbox" name="visible" value="1" class="SubmitOnChange" {xen:checked $visitor.visible} />
+								{xen:phrase show_online_status}</label>
+							<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+						</form>
+					</li>
+				</ul>
+				<ul class="col2 blockLinksList">
+					<li><a href="{xen:link logout, '', '_xfToken={$visitor.csrf_token_page}'}" class="LogOut">{xen:phrase log_out}</a></li>
+				</ul>
+			</div>
+			<xen:if is="{$canUpdateStatus}">
+				<form action="{xen:link members/post, $visitor}" method="post" class="sectionFooter statusPoster AutoValidator" data-optInOut="OptIn">
+					<textarea name="message" class="textCtrl StatusEditor Elastic" placeholder="{xen:phrase update_your_status}..." rows="1" cols="40" style="height:14px" data-statusEditorCounter="#visMenuSEdCount"></textarea>
+					<div class="submitUnit">
+						<span id="visMenuSEdCount" title="{xen:phrase characters_remaining}"></span>
+						<input type="submit" class="button primary MenuCloser" value="{xen:phrase post}" accesskey="s" />
+						<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+						<input type="hidden" name="return" value="1" /> 
+					</div>
+				</form>
+			</xen:if>
+		</div>		
+	</li>
+		
+	<xen:if is="{$tabs.account.selected}">
+	<li class="navTab selected PopupClosed">
+		<div class="tabLinks">
+			<div class="primaryContent menuHeader">
+				<h3>{$tabs.account.title}</h3>
+				<div class="muted">{xen:phrase quick_links}</div>
+			</div>
+			<ul class="secondaryContent blockLinksList">
+				<li><a href="{xen:link account/personal-details}">{xen:phrase personal_details}</a></li>
+				<li><a href="{xen:link conversations}">{xen:phrase conversations}</a></li>
+				<li><a href="{xen:link account/news-feed}">{xen:phrase your_news_feed}</a></li>
+				<li><a href="{xen:link account/likes}">{xen:phrase likes_received}</a></li>
+				<!--<li><a href="{xen:link 'watched/threads'}">{xen:phrase watched_threads}</a></li>-->
+			</ul>
+		</div>
+	</li>
+	</xen:if>
+	
+	<!-- conversations popup -->
+	<li class="navTab inbox Popup PopupControl PopupClosed">
+					
+		<a href="{xen:link conversations}" rel="Menu" class="navLink NoPopupGadget">{xen:phrase inbox}
+			<xen:if is="{$visitor.conversations_unread}">
+				<strong class="itemCount" id="ConversationsMenu_Counter">{xen:number $visitor.conversations_unread}
+					<span class="arrow"></span>
+				</strong>
+			</xen:if>
+		</a>
+		
+		<div class="Menu JsOnly navPopup" id="ConversationsMenu"
+			data-contentSrc="{xen:link 'conversations/popup'}"
+			data-contentDest="#ConversationsMenu .listPlaceholder">
+			
+			<div class="menuHeader primaryContent">
+				<h3>
+					<span class="Progress InProgress"></span>
+					<a href="{xen:link conversations}" class="concealed">{xen:phrase conversations}</a>
+				</h3>						
+			</div>
+			
+			<div class="listPlaceholder"></div>
+			
+			<div class="sectionFooter">
+				<a href="{xen:link conversations/add}" class="floatLink">{xen:phrase start_new_conversation}</a>
+				<a href="{xen:link conversations}">{xen:phrase show_all}...</a>
+			</div>
+		</div>
+	</li>
+	
+	<!-- alerts popup -->
+	<li class="navTab alerts Popup PopupControl PopupClosed">	
+					
+		<a href="{xen:link account/alerts}" rel="Menu" class="navLink NoPopupGadget">{xen:phrase alerts}						
+			<xen:if is="{$visitor.alerts_unread}">
+				<strong class="itemCount" id="AlertsMenu_Counter">{xen:number $visitor.alerts_unread}
+					<span class="arrow"></span>
+				</strong>
+			</xen:if>
+		</a>
+		
+		<div class="Menu JsOnly navPopup" id="AlertsMenu"
+			data-contentSrc="{xen:link 'account/alerts-popup'}"
+			data-contentDest="#AlertsMenu .listPlaceholder"
+			data-removeCounter="#AlertsMenu_Counter">
+			
+			<div class="menuHeader primaryContent">
+				<h3>
+					<span class="Progress InProgress"></span>
+					<a href="{xen:link account/alerts}" class="concealed">{xen:phrase alerts}</a>
+				</h3>
+			</div>
+			
+			<div class="listPlaceholder"></div>
+			
+			<div class="sectionFooter">
+				<a href="{xen:link account/alert-preferences}" class="floatLink">{xen:phrase alert_preferences}</a>
+				<a href="{xen:link account/alerts}">{xen:phrase show_all}...</a>
+			</div>
+		</div>
+	</li>
+	
+	<li class="navTab PopupClosed"><a href="{xen:link logout, '', '_xfToken={$visitor.csrf_token_page}'}" class="LogOut navLink visitorTabItem">{xen:phrase log_out}</a></li>
+</ul>]]></template>
+    <template title="PAGE_CONTAINER" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<!DOCTYPE html>
+<html id="XenForo" class="Public {xen:if {$visitor.user_id}, 'LoggedIn', 'LoggedOut'}">
+<head>
+<xen:hook name="page_container_head">
+	<meta charset="utf-8" />
+	<xen:if is="{$requestPaths.fullBasePath}"><base href="{$requestPaths.fullBasePath}" /></xen:if>
+	
+	<title><xen:if is="{$title}">{xen:raw $title} | {$xenOptions.boardTitle}<xen:else />{$xenOptions.boardTitle}</xen:if></title>
+	
+	<noscript><style type="text/css">.JsOnly { display: none !important; }</style></noscript>
+	<link rel="stylesheet" type="text/css" href="css.php?css=xenforo,form,public&amp;style={xen:urlencode $_styleId}&amp;d={$visitorStyle.last_modified_date}" />
+	<!--XenForo_Require:CSS-->
+
+	<xen:include template="google_analytics" />
+	<xen:include template="page_container_js_head" />
+	
+	<xen:if is="{$pageDescription.content} AND !{$pageDescription.skipmeta} AND !{$head.description}"><meta name="description" content="{xen:string wordTrim, {xen:helper stripHtml, {xen:raw $pageDescription.content}}, 200}" /></xen:if>
+	<xen:if is="{$head}"><xen:foreach loop="$head" value="$headElement">{xen:raw $headElement}</xen:foreach></xen:if>
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+</xen:hook>
+</head>
+<body>
+
+<xen:if is="{$visitor.is_moderator} || {$visitor.is_admin}">
+	<xen:include template="moderator_bar" />
+<xen:elseif is="!{$visitor.user_id} && !{$hideLoginBar}" />
+	<xen:include template="login_bar" />
+</xen:if>
+
+<div id="headerMover">
+	<div id="headerProxy"></div>
+
+<div id="content" class="{$contentTemplate}">
+	<div class="pageWidth">
+		<div class="pageContent">
+			
+			<!-- main content area -->
+			<xen:if is="{$sidebar}">
+				<div class="mainContainer">
+					<div class="mainContent"></xen:if>
+					
+						<xen:if is="{$showUpgradePendingNotice}">
+							<p class="importantMessage">
+								{xen:phrase upgrade_is_pending_forum_only_accessible_in_debug} <br />
+								<a href="install/">{xen:phrase complete_upgrade}</a>
+							</p>
+						</xen:if>
+						
+						<xen:if is="{$showBoardClosedNoticed}">
+							<p class="importantMessage">
+								{xen:phrase forum_is_currently_closed_only_admins_may_access}<br />
+								<a href="admin.php">{xen:phrase reopen_via_admin_control_panel}</a>
+							</p>
+						</xen:if>
+						
+						<xen:if is="{$isAwaitingEmailConfirmation}">
+							<p class="importantMessage">
+								{xen:phrase your_account_is_currently_awaiting_confirmation_confirmation_sent_to_x, 'email={$visitor.email}'}<br />
+								<a href="{xen:link account-confirmation/resend}" class="OverlayTrigger">{xen:phrase resend_confirmation_email}</a>
+							</p>
+						</xen:if>
+						
+						<!-- top breadcrumb, top ctrl -->
+						<div class="breadBoxTop">
+							<xen:if is="{$topctrl}"><div class="topCtrl">{xen:raw $topctrl}</div></xen:if>
+							<xen:include template="breadcrumb"><xen:set var="$microdata">1</xen:set></xen:include>
+						</div>
+						
+						<xen:if is="!{$noH1}">						
+							<!-- h1 title, description -->
+							<div class="titleBar">
+								<h1><xen:if
+									is="{$h1}">{xen:raw $h1}<xen:elseif
+									is="{$title}" />{xen:raw $title}<xen:else
+									/>{$xenOptions.boardTitle}</xen:if></h1>
+								
+								<xen:if is="{$pageDescription.content}"><p id="pageDescription" class="muted {$pageDescription.class}">{xen:raw $pageDescription.content}</p></xen:if>
+							</div>
+						</xen:if>
+						
+                                                <xen:include template="_siteStatusMessage" />
+
+						<!-- main template -->
+						{xen:raw $contents}
+						
+						<xen:if is="!{$visitor.user_id} && !{$hideLoginBar}">
+							<!-- login form, to be moved to the upper drop-down -->
+							<xen:include template="login_bar_form" />
+						</xen:if>
+						
+					<xen:if is="{$sidebar}"></div>
+				</div>
+				
+				<!-- sidebar -->
+				<aside>
+					<div class="sidebar">
+						<xen:if is="!{$noVisitorPanel}"><xen:include template="sidebar_visitor_panel" /></xen:if>
+						{xen:raw $sidebar}
+					</div>
+				</aside>
+			</xen:if>
+			
+                        <xen:include template="googleAdsense_footer" />
+
+			<div class="breadBoxBottom"><xen:include template="breadcrumb" /></div>
+						
+		</div>
+	</div>
+</div>
+
+<header>
+	<xen:include template="header" />
+	<xen:edithint template="navigation" />
+	<xen:edithint template="search_bar" />
+</header>
+
+</div>
+
+<footer>
+	<xen:include template="footer" />
+</footer>
+
+<xen:include template="page_container_js_body" />
+
+<xen:if is="{$cronLink}"><img src="{$cronLink}" width="1" height="1" alt="" /></xen:if>
+
+</body>
+</html>]]></template>
+    <template title="thread_create" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xen:title>{xen:phrase create_thread}</xen:title>
+
+<xen:navigation>
+	<xen:breadcrumb source="$nodeBreadCrumbs" />
+</xen:navigation>
+
+<form action="{xen:link 'forums/add-thread', $forum}" method="post"
+	class="xenForm Preview AutoValidator"
+	data-previewUrl="{xen:link 'forums/create-thread/preview', $forum}"
+	data-redirect="on"
+>
+
+	<xen:if is="{$visitor.user_id} == 0">
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_guestUsername">{xen:phrase name}:</label></dt>
+			<dd><input type="text" name="_guestUsername" value="{$visitor.username}" class="textCtrl" /></dd>
+		</dl>
+	</xen:if>
+
+	<xen:include template="helper_captcha_unit" />
+
+	<fieldset>
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_title">{xen:phrase title}:</label></dt>
+			<dd><input type="text" name="title" class="textCtrl" data-liveTitleTemplate="{xen:phrase create_thread}: <em>%s</em>" id="ctrl_title" maxlength="100" autofocus="true" /></dd>
+		</dl>
+
+		<dl class="ctrlUnit fullWidth">
+			<dt></dt>
+			<dd>{xen:raw $editorTemplate}</dd>
+		</dl>
+
+                <xen:include template="subscribeUsers_input">
+                        <xen:set var="$subscribeUsers">{$subscribeUsers}</xen:set>
+                </xen:include>
+	</fieldset>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<input type="submit" value="{xen:phrase create_thread}" accesskey="s" class="button primary" />
+			<xen:include template="attachment_upload_button" />
+			<input type="button" value="{xen:phrase preview}..." class="button PreviewButton JsOnly" />
+		</dd>
+	</dl>
+
+	<xen:if is="{$attachmentParams}">
+		<dl class="ctrlUnit AttachedFilesUnit">
+			<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
+			<dd><xen:include template="attachment_editor" /></dd>
+		</dl>
+	</xen:if>
+	
+	<xen:if is="{$visitor.user_id}">
+		<fieldset>
+			<dl class="ctrlUnit">
+				<dt>{xen:phrase options}:</dt>
+				<dd><ul>
+					<li><xen:include template="helper_thread_watch_input" /></li>
+				</ul></dd>
+			</dl>
+	
+			<xen:include template="thread_fields_status" />
+		</fieldset>
+	</xen:if>
+	
+	<xen:require js="js/xenforo/poll.js" />
+	<h3 class="textHeading">{xen:phrase post_poll}</h3>	
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_poll_question">{xen:phrase question}:</label></dt>
+		<dd><input type="text" name="poll[question]" class="textCtrl" id="ctrl_poll_question" maxlength="100" /></dd>
+	</dl>	
+	<dl class="ctrlUnit">
+		<dt>{xen:phrase possible_responses}:</dt>
+		<dd>
+			<ul class="PollResponseContainer">
+				<li><input type="text" name="poll[responses][]" class="textCtrl" placeholder="{xen:phrase poll_choice}..." maxlength="100" /></li>
+				<li class="PollAddResponseSource"><input type="text" name="poll[responses][]" class="textCtrl" placeholder="{xen:phrase poll_choice}..." maxlength="100" /></li>
+			</ul>
+			<input type="button" value="{xen:phrase add_additional_response}" class="PollAddResponseButton button" data-source="li.PollAddResponseSource" data-container=".PollResponseContainer" data-maximum="{$xenOptions.pollMaximumResponses}" />
+		</dd>
+	</dl>	
+	<dl class="ctrlUnit">
+		<dt></dt>
+		<dd>
+			<ul>
+				<li><label for="ctrl_poll_multiple"><input type="checkbox" name="poll[multiple]" value="1" id="ctrl_poll_multiple" /> {xen:phrase allow_selection_of_multiple_responses}</label></li>
+				<li><label for="ctrl_poll_public_votes"><input type="checkbox" name="poll[public_votes]" value="1" id="ctrl_poll_public_votes" /> {xen:phrase display_votes_publicly}</label></li>
+				<li><label for="ctrl_poll_close"><input type="checkbox" name="poll[close]" value="1" class="Disabler" id="ctrl_poll_close" /> {xen:phrase close_this_poll_after}:</label>
+					<ul id="ctrl_poll_close_Disabler">
+						<li>
+							<input type="text" size="5" name="poll[close_length]" value="7" class="textCtrl autoSize" />
+							<select name="poll[close_units]" class="textCtrl autoSize">
+								<option value="hours">{xen:phrase hours}</option>
+								<option value="days" selected="selected">{xen:phrase days}</option>
+								<option value="weeks">{xen:phrase weeks}</option>
+								<option value="months">{xen:phrase months}</option>
+							</select>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</dd>
+	</dl>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<input type="submit" value="{xen:phrase create_thread}" accesskey="s" class="button primary" />
+			<input type="button" value="{xen:phrase preview}..." class="button PreviewButton JsOnly" />
+		</dd>
+	</dl>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>
+
+<xen:comment><xen:include template="editor" /></xen:comment>]]></template>
+    <template title="thread_edit" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:title>{xen:phrase edit_thread}: {$thread.title}</xen:title>
+
+<xen:navigation>
+	<xen:breadcrumb source="$nodeBreadCrumbs" />
+	<xen:breadcrumb href="{xen:link full:threads, $thread}">{$thread.title}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link 'threads/save', $thread}" method="post" class="xenForm formOverlay">
+
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_title">{xen:phrase title}:</label></dt>
+		<dd><input type="text" name="title" value="{$thread.title}" class="textCtrl" id="ctrl_title" data-liveTitleTemplate="{xen:phrase edit_thread}: <em>%s</em>" maxlength="100" /></dd>
+	</dl>
+
+        <xen:include template="subscribeUsers_input">
+                <xen:set var="$subscribeUsers">{$subscribeUsers}</xen:set>
+        </xen:include>
+
+	<xen:include template="thread_fields_status" />
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<input type="submit" value="{xen:phrase save_changes}" accesskey="s" class="button primary" />
+			<xen:if is="{$canDeleteThread}">
+				<a href="{xen:link threads/delete, $thread}" type="button" class="button OverlayTrigger">{xen:phrase delete_thread}...</a>
+			</xen:if>
+		</dd>
+	</dl>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="_siteStatusMessage" addon_id="" version_id="0" version_string=""><![CDATA[<!--<div style="background-color:#880303;color:#fff;margin:4px;padding:4px;">
+<p><strong></strong></p>
+</div>-->]]></template>
+  </templates>
+</style>

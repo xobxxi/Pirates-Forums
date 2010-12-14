@@ -54,7 +54,7 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 			if ($i === 0) {
 				$inviteUser = $this->_getUserByName($senders[$i]);
 				$inviteUser['permissions']['conversation']['start'] = true;
-				$inviteUser['permissions']['conversation']['maxRecipients'] = $senderCount + 1;
+				$inviteUser['permissions']['conversation']['maxRecipients'] = count($senders) + 1;
 				
 				$conversation['title']               = $title;
 				$conversation['open_invite']         = 0;
