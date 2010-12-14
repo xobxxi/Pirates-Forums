@@ -2,9 +2,7 @@
 
 class RecentActivityBlock_Model_RecentActivity extends XenForo_Model
 {	
-	/**
-	 * Gets the global news feed
-	 */
+
 	public function getRecentActivity()
 	{
 		if(!$this->_checkNewsFeedEnabled()) return false;
@@ -20,15 +18,10 @@ class RecentActivityBlock_Model_RecentActivity extends XenForo_Model
 			$i++;
 		}
 		
-		//var_dump($activity);
-		
 		if (!empty($activity)) $params = array('newsFeed' => $activity);
 		return $params;
 	}
 
-	/**
-	 * Check if the news feed is available
-	 */
 	protected function _checkNewsFeedEnabled()
 	{
 		if (!XenForo_Application::get('options')->enableNewsFeed) return false;

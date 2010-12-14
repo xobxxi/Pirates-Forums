@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pollsList" title="Polls List" version_string="1.0.1" version_id="1" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="pollsList" title="Polls List" version_string="1.0.3" version_id="3" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -39,47 +39,40 @@
   </route_prefixes>
   <style_properties/>
   <templates>
-    <template title="pollsList_list" version_id="0" version_string="1.0.0"><![CDATA[<xen:require css="discussion_list.css" />
-<xen:require css="pollsList_list.css" />
+    <template title="pollsList_list" version_id="2" version_string="1.0.2"><![CDATA[<xen:require css="discussion_list.css" />
 
 <xen:title>{xen:phrase pollsList_recent_polls}</xen:title>
 
-<div class="discussionList section sectionMain"> 
+<div class="discussionList sectionMain"> 
 	<dl class="sectionHeaders">
-		<dt class="posterAvatar"><a><span>&nbsp;</span></a></dt>
+		<dt class="posterAvatar"></dt>
 		<dd class="main">
-			<span class="title">{xen:phrase question}</span>
-			<span class="postDate">{xen:phrase start_date}</span>
+			<a class="title"><span>{xen:phrase question}</span></a>
+			<a class="postDate"><span>{xen:phrase start_date}</span></a>
 		</dd>
 		<dd class="stats">
-			<span class="major">{xen:phrase pollsList_votes}</span>
-			<span class="minor">{xen:phrase replies}</span>
+			<a class="major"><span>{xen:phrase pollsList_votes}</span></a>
+			<a class="minor"><span>{xen:phrase replies}</span></a>
 		</dd>
-		<dd class="lastPost"><span>{xen:phrase last_message}</span></dd>
+		<dd class="lastPost"><a><span>{xen:phrase last_message}</span></a></dd>
 	</dl>
 
 	<ol class="discussionListItems">
 	<xen:if is="{$polls}">
-		
 		<xen:foreach loop="$polls" value="$poll">
 			<xen:include template="pollsList_list_item" />
 		</xen:foreach>
-		
-		<div class="sectionFooter SelectionCountContainer">
-		<span class="contentSummary">{xen:phrase pollsList_showing_total_recent_polls, 'total={xen:number $pollsTotal}'}</span>
-		</div>
 	<xen:else />
 		<li class="primaryContent">{xen:phrase pollsList_there_no_polls_to_display}</li>
 	</xen:if>
 	</ol>
+        <xen:if is="{$polls}">
+                <div class="sectionFooter SelectionCountContainer">
+		        <span class="contentSummary">{xen:phrase pollsList_showing_total_recent_polls, 'total={xen:number $pollsTotal}'}</span>
+		</div>
+        </xen:if>
 </div>]]></template>
-    <template title="pollsList_list.css" version_id="0" version_string="1.0.0"><![CDATA[.discussionList .sectionHeaders span {
-        padding: 0 4px;
-}
-.discussionList .sectionHeaders span.postDate, span.minor {
-        float: right;
-}]]></template>
-    <template title="pollsList_list_item" version_id="0" version_string="1.0.0"><![CDATA[<xen:require css="discussion_list.css" />
+    <template title="pollsList_list_item" version_id="2" version_string="1.0.2"><![CDATA[<xen:require css="discussion_list.css" />
 
 <li id="poll-{$poll.content_id}" class="discussionListItem {$poll.discussion_state} {xen:if {$poll.sticky}, 'sticky'}" data-author="{$poll.username}">
 
@@ -100,7 +93,7 @@
 			<div class="secondRow">
 				<div class="posterDate muted">
 					<a href="{xen:link members, $poll}" class="username" title="{xen:phrase thread_starter}">{$poll.username}</a>,
-					<a{xen:if {$visitor.user_id}, ' href="{xen:link threads, $poll}"'} class="faint"><xen:datetime time="$poll.post_date" title="{xen:if {$visitor.user_id}, '{xen:phrase go_to_first_message_in_thread}'}" /></a>
+					<a{xen:if {$visitor.user_id}, ' href="{xen:link threads, $poll}"'} class="faint"><xen:datetime time="$poll.post_date" /></a>
 				</div>
 			</div>
 		</div>

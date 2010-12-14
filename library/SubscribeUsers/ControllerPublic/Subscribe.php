@@ -45,13 +45,17 @@ class SubscribeUsers_ControllerPublic_Subscribe extends XFCP_SubscribeUsers_Cont
 	protected function _fireSubscribe($thread_id)
 	{
 		if (!XenForo_Visitor::getInstance()->hasPermission('forum', 'subscribeUsers'))
-			return;
+		{
+			return false;
+		}
 			
 		$input = $this->_input->filter(array(
 			'subscribe_users' => XenForo_Input::STRING));
 			
 		if (!isset($thread_id) OR (!isset($input['subscribe_users'])))
-			return;
+		{
+			return false;
+		}
 		
 		$usernames = explode(',', $input['subscribe_users']);
 		if (!isset($usernames)) return $response;
@@ -59,19 +63,24 @@ class SubscribeUsers_ControllerPublic_Subscribe extends XFCP_SubscribeUsers_Cont
 		
 		$options = XenForo_Application::get('options');
 		$state   = $options->subscribeUsers_state;
-		switch ($options->subscribeUsers_state) {
+		switch ($options->subscribeUsers_state)
+		{
 			case 'watch_email':
 			default:
 				$state = 'watch_email';
-				break;
+			break;
 			case 'watch_no_email':
 				$state = 'watch_no_email';
-				break;
+			break;
 		}
 		
 		foreach ($users as $user)
-				$this->_getThreadWatchModel()->setThreadWatchState($user['user_id'], $thread_id, 
-					$state);
+		{
+			$this->_getThreadWatchModel()->setThreadWatchState(
+				$user['user_id'], $thread_id, 
+				$state
+			);
+		}
 		
 		return;
 	}
@@ -82,10 +91,10 @@ class SubscribeUsers_ControllerPublic_Subscribe extends XFCP_SubscribeUsers_Cont
 			case false:
 			default:
 				$subscribeUsers = false;
-				break;
+			break;
 			case true:
 				$subscribeUsers = true;
-				break;
+			break;
 		}
 			
 		$response->params += array('subscribeUsers' => $subscribeUsers);

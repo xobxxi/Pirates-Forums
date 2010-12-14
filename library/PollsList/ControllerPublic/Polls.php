@@ -10,7 +10,7 @@ class PollsList_ControllerPublic_Polls extends XenForo_ControllerPublic_Abstract
 
 		$ftpHelper = $this->getHelper('ForumThreadPost');
 		$threadFetchOptions = array('readUserId' => $visitor['user_id'], 'watchUserId' => $visitor['user_id']);
-		$forumFetchOptions = array('readUserId' => $visitor['user_id']);
+		$forumFetchOptions  = array('readUserId' => $visitor['user_id']);
 		
 		$max = XenForo_Application::get('options')->pollsList_max;
 		
@@ -20,20 +20,27 @@ class PollsList_ControllerPublic_Polls extends XenForo_ControllerPublic_Abstract
 		foreach ($polls as $poll) {
 			try {
 				$ftpHelper->assertThreadValidAndViewable($poll['content_id'], $threadFetchOptions, $forumFetchOptions);
-				$threadInfo = $this->_getThreadModel()->getThreadById($poll['content_id']);
-				$poll['userInfo']   = $this->_getUserModel()->getUserById($threadInfo['user_id']);
+				
+				$threadInfo       = $this->_getThreadModel()->getThreadById($poll['content_id']);
+				$poll['userInfo'] = $this->_getUserModel()->getUserById($threadInfo['user_id']);
+				
 				$threadInfo['lastPostInfo'] = array(
 					'post_date'     => $threadInfo['last_post_date'],
 					'post_id'       => $threadInfo['last_post_id'],
 					'user_id'       => $threadInfo['last_post_user_id'],
 					'username'      => $threadInfo['last_post_username']
 				);
+				
 				$finals[] = array_merge_recursive($poll, $threadInfo);
 			} catch (XenForo_ControllerResponse_Exception $e) {}
 		}
 		
 		$pollsTotal = count($finals);
-		$viewParams = array('polls' => $finals, 'pollsTotal' => $pollsTotal);
+		$viewParams = array(
+			'polls'      => $finals,
+			'pollsTotal' => $pollsTotal
+		);
+		
 		return $this->responseView('PollsList_ViewPublic_Polls', 'pollsList_list', $viewParams);
 	}
 	

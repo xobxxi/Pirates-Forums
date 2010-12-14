@@ -50,7 +50,7 @@
 				this.$counter.addClass('error');
 				this.$counter.removeClass('warning');
 			}
-			else if (remaining <= this.charLimit - 130)
+			else if (remaining <= this.charLimit - 22)
 			{
 				this.$counter.removeClass('error');
 				this.$counter.addClass('warning');

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.0.0 Alpha 9" version_id="8" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.0.0 RC 1" version_id="11" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -30,9 +30,20 @@
     </option>
   </optiongroups>
   <permissions>
-    <permission_groups/>
-    <permissions/>
-    <interface_groups/>
+    <permission_groups>
+      <permission_group permission_group_id="pirateProfile"/>
+    </permission_groups>
+    <permissions>
+      <permission permission_group_id="pirateProfile" permission_id="canAdd" permission_type="flag" depend_permission_id="canView" default_value="unset" interface_group_id="pirateProfile" display_order="5"/>
+      <permission permission_group_id="pirateProfile" permission_id="canAttach" permission_type="flag" depend_permission_id="canAdd" default_value="unset" interface_group_id="pirateProfile" display_order="10"/>
+      <permission permission_group_id="pirateProfile" permission_id="canDelete" permission_type="flag" depend_permission_id="canEdit" default_value="unset" interface_group_id="pirateProfile" display_order="20"/>
+      <permission permission_group_id="pirateProfile" permission_id="canEdit" permission_type="flag" depend_permission_id="canAdd" default_value="unset" interface_group_id="pirateProfile" display_order="15"/>
+      <permission permission_group_id="pirateProfile" permission_id="canManage" permission_type="flag" depend_permission_id="canDelete" default_value="unset" interface_group_id="pirateProfile" display_order="25"/>
+      <permission permission_group_id="pirateProfile" permission_id="canView" permission_type="flag" default_value="allow" interface_group_id="pirateProfile" display_order="0"/>
+    </permissions>
+    <interface_groups>
+      <interface_group interface_group_id="pirateProfile" display_order="1000"/>
+    </interface_groups>
   </permissions>
   <phrases>
     <phrase title="option_group_pirateProfile" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Pirate Profiles]]></phrase>
@@ -43,16 +54,28 @@
     <phrase title="option_pirateProfile_maxLevelSkill_explain" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The maximum level obtainable for in-game skills.]]></phrase>
     <phrase title="option_pirateProfile_maxLevelWeapon" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Max Weapon Level]]></phrase>
     <phrase title="option_pirateProfile_maxLevelWeapon_explain" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The current maximum level obtainable for in-game weapons.]]></phrase>
+    <phrase title="permission_group_pirateProfile" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Pirate Profiles]]></phrase>
+    <phrase title="permission_interface_pirateProfile" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Pirate Profiles]]></phrase>
+    <phrase title="permission_pirateProfile_canAdd" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Add]]></phrase>
+    <phrase title="permission_pirateProfile_canAttach" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Attach]]></phrase>
+    <phrase title="permission_pirateProfile_canDelete" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Delete]]></phrase>
+    <phrase title="permission_pirateProfile_canEdit" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Edit]]></phrase>
+    <phrase title="permission_pirateProfile_canManage" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Manage]]></phrase>
+    <phrase title="permission_pirateProfile_canView" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can View]]></phrase>
     <phrase title="pirateProfile_adding_pirate" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Adding pirate]]></phrase>
     <phrase title="pirateProfile_add_pirate" global_cache="0" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Add Pirate]]></phrase>
-    <phrase title="pirateProfile_click_a_pirate_to_view_more_information" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Click a pirate name to view more information.]]></phrase>
+    <phrase title="pirateProfile_and" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[and]]></phrase>
+    <phrase title="pirateProfile_click_a_pirate_to_view_more_information" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Click a pirate to view info.]]></phrase>
+    <phrase title="pirateProfile_congrats" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Congratulations!]]></phrase>
     <phrase title="pirateProfile_delete_pirate" global_cache="0" version_id="2" version_string="1.0.0 Alpha 3"><![CDATA[Delete Pirate]]></phrase>
     <phrase title="pirateProfile_editing_pirate" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Editing pirate]]></phrase>
     <phrase title="pirateProfile_edit_pirate" global_cache="0" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Edit Pirate]]></phrase>
     <phrase title="pirateProfile_forces_all_image_content_into_card" global_cache="0" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Forces all image content into card.]]></phrase>
+    <phrase title="pirateProfile_formerly_x" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Formerly {old}]]></phrase>
     <phrase title="pirateProfile_last_updated" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Last updated]]></phrase>
+    <phrase title="pirateProfile_leveled" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[leveled]]></phrase>
     <phrase title="pirateProfile_make_fit" global_cache="0" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Make fit]]></phrase>
-    <phrase title="pirateProfile_notoriety_level_too_low" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The notoriety level is too low for some skill levels you've set]]></phrase>
+    <phrase title="pirateProfile_notoriety_level_too_low" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[The notoriety level is too low for some skill levels you've set.]]></phrase>
     <phrase title="pirateProfile_own_pirates" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[own pirates]]></phrase>
     <phrase title="pirateProfile_pirates" global_cache="0" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Pirates]]></phrase>
     <phrase title="pirateProfile_pirate_cannon" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Cannon]]></phrase>
@@ -72,15 +95,24 @@
     <phrase title="pirateProfile_pirate_staff" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Staff]]></phrase>
     <phrase title="pirateProfile_pirate_sword" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Sword]]></phrase>
     <phrase title="pirateProfile_please_enter_pirate_name" global_cache="0" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Please enter the pirate's name.]]></phrase>
+    <phrase title="pirateProfile_reached" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[reached]]></phrase>
     <phrase title="pirateProfile_remove_current_picture_before_uploading_new_one" global_cache="0" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Remove current picture before uploading a new one.]]></phrase>
     <phrase title="pirateProfile_removing_pirate" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Removing pirate]]></phrase>
     <phrase title="pirateProfile_requested_pirate_not_found" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The requested pirate could not be found.]]></phrase>
+    <phrase title="pirateProfile_required" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Required]]></phrase>
     <phrase title="pirateProfile_save_pirate" global_cache="0" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Save Pirate]]></phrase>
     <phrase title="pirateProfile_the_pirate_has_been_saved_successfully" global_cache="0" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[The pirate has been saved successfully.]]></phrase>
     <phrase title="pirateProfile_this_user_has_not_entered_any_pirates" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[This user has not entered any pirates.]]></phrase>
+    <phrase title="pirateProfile_up" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[up]]></phrase>
     <phrase title="pirateProfile_viewing" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Viewing]]></phrase>
     <phrase title="pirateProfile_viewing_pirate" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Viewing pirate:]]></phrase>
     <phrase title="pirateProfile_xs_pirates" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[{username}'s Pirates]]></phrase>
+    <phrase title="pirateProfile_xs_pirate_y_has" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has]]></phrase>
+    <phrase title="pirateProfile_xs_pirate_y_has_been_updated" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[{username}'s pirate: {pirate} has been updated.]]></phrase>
+    <phrase title="pirateProfile_xs_pirate_y_has_gotten_new_name" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has gotten a new name.]]></phrase>
+    <phrase title="pirateProfile_xs_pirate_y_has_joined_guild_z" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has joined the guild {guild}.]]></phrase>
+    <phrase title="pirateProfile_xs_pirate_y_has_new_card_picture" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has a new card picture.]]></phrase>
+    <phrase title="pirateProfile_x_has_added_a_new_pirate_y" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username} has added a new pirate: {pirate}.]]></phrase>
     <phrase title="pirateProfile_your_pirates" global_cache="0" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Your Pirates]]></phrase>
     <phrase title="pirateProfile_you_have_not_entered_any_pirates" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[You have not entered any pirates]]></phrase>
     <phrase title="pollsList_there_no_polls_to_display" global_cache="0" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[There are no polls to display.]]></phrase>
@@ -92,6 +124,71 @@
   </route_prefixes>
   <style_properties/>
   <templates>
+    <template title="news_feed_item_pirate_add" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<h3 class="description">
+{xen:phrase pirateProfile_x_has_added_a_new_pirate_y,
+       'username={xen:helper username, $user}',
+       'pirate=<a href="{xen:link pirates/card, $content}" class="primaryText">{$content.name}</a>'
+}
+</h3>
+<p class="snippet">{xen:phrase pirateProfile_pirate_notoriety} {xen:phrase pirateProfile_pirate_level}: {$content.level}</p>
+]]></template>
+    <template title="news_feed_item_pirate_extra" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[<h3 class="description">
+{xen:phrase pirateProfile_xs_pirate_y_has_been_updated,
+       'username={xen:helper username, $user}',
+       'pirate=<a href="{xen:link pirates/card, $content}" class="primaryText">{$content.name}</a>'
+}
+</h3>
+<p class="snippet">{$extra}</p>
+]]></template>
+    <template title="news_feed_item_pirate_guild" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<h3 class="description">
+{xen:phrase pirateProfile_xs_pirate_y_has_joined_guild_z,
+       'username={xen:helper username, $user}',
+       'pirate=<a href="{xen:link pirates/card, $content}" class="primaryText">{$content.name}</a>',
+       'guild=<em>{$guild.new}</em>'
+}
+</h3>
+<xen:if is="{$guild.old}">
+        <p class="snippet">{xen:phrase pirateProfile_formerly_x, 'old=in "<em>{$guild.old}</em>"'}</p>
+</xen:if>
+]]></template>
+    <template title="news_feed_item_pirate_level" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[<h3 class="description">
+{xen:phrase pirateProfile_xs_pirate_y_has,
+       'username={xen:helper username, $user}',
+       'pirate=<a href="{xen:link pirates/card, $content}" class="primaryText">{$content.name}</a>'
+}
+<xen:if is="{$none}">
+        <xen:foreach loop="$skills" key="$skill" value="$level">
+                {xen:phrase pirateProfile_reached} <em>{$skill} {xen:phrase pirateProfile_pirate_level} {$level}!</em>
+        </xen:foreach>
+<xen:else />
+        {xen:phrase pirateProfile_leveled}
+        <em>
+        <xen:foreach loop="$skills" key="$skill" value="$level">
+                <xen:if is="{$last} != {$skill}">
+                        {$skill} ({$level}),
+                <xen:else />
+                        {xen:phrase pirateProfile_and} {$skill} ({$level}).
+                </xen:if>
+        </xen:foreach>
+        </em>
+</xen:if>
+</h3>
+<p class="snippet">{xen:phrase pirateProfile_congrats}</p>]]></template>
+    <template title="news_feed_item_pirate_name" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<h3 class="description">
+{xen:phrase pirateProfile_xs_pirate_y_has_gotten_new_name,
+       'username={xen:helper username, $user}',
+       'pirate=<a href="{xen:link pirates/card, $content}" class="primaryText">{$content.name}</a>'
+}
+</h3>
+<p class="snippet">{xen:phrase pirateProfile_formerly_x, 'old=<em>{$name.old}</em>'}</p>
+]]></template>
+    <template title="news_feed_item_pirate_picture" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<h3 class="description">
+{xen:phrase pirateProfile_xs_pirate_y_has_new_card_picture,
+       'username={xen:helper username, $user}',
+       'pirate=<a href="{xen:link pirates/card, $content}" class="primaryText">{$content.name}</a>'
+}
+</h3>
+]]></template>
     <template title="pirateProfile_account_management_list_item" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[<li><a class="primaryContent" href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a></li>]]></template>
     <template title="pirateProfile_add" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[<xen:title>{xen:phrase pirateProfile_add_pirate}</xen:title>
 
@@ -132,7 +229,7 @@
 <form action="{xen:link 'pirates/save', $pirate}" method="post" class="xenForm formOverlay AutoValidator" id="pirateProfileEdit" data-redirect="on">
 	<xen:include template="pirateProfile_form" />
 </form>]]></template>
-    <template title="pirateProfile_form" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[<xen:require js="js/card/form.js" />
+    <template title="pirateProfile_form" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<xen:require js="js/card/form.js" />
 <xen:require css="pirateProfile_form.css" />
 
 <xen:if is="{$errors}">
@@ -149,12 +246,18 @@
 </xen:if>
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_name">{xen:phrase pirateProfile_pirate_name}:</label></dt>
+	<dt>
+                <label for="ctrl_pirateProfileAdd_name">{xen:phrase pirateProfile_pirate_name}:</label>
+                <dfn class="required">{xen:phrase pirateProfile_required}</dfn>
+        </dt>
 	<dd><input type="text" name="name" value="{$pirate.name}" id="ctrl_pirateProfileAdd_name" class="textCtrl" /></dd>
 </dl>
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_level">{xen:phrase pirateProfile_pirate_notoriety} {xen:phrase pirateProfile_pirate_level}:</label></dt>
+	<dt>
+                <label for="ctrl_pirateProfileAdd_level">{xen:phrase pirateProfile_pirate_notoriety} {xen:phrase pirateProfile_pirate_level}:</label>
+                <dfn class="required">{xen:phrase pirateProfile_required}</dfn>
+        </dt>
 	<dd><input type="text" name="level" value="{$pirate.level}" id="ctrl_pirateProfileAdd_level" class="textCtrl" /></dd>
 </dl>
 
@@ -253,17 +356,17 @@
 </xen:if>
 
 <input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />]]></template>
-    <template title="pirateProfile_form.css" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[.extraCounter
+    <template title="pirateProfile_form.css" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[dfn.required
+{
+        color: rgb(204, 0, 0) !important;
+}
+
+.extraCounter
 {
         position: absolute;
         top: 3px;
         right: 0px;
         color: green;
-}
-
-.ResetButton
-{
-        display: none;
 }
 
 div.AttachmentEditor
@@ -276,11 +379,10 @@ div.AttachmentEditor
         margin-top: 5px;
 }
 
-div.muted
-{
-        display: none;
-}
-
+div.muted,
+div.label,
+.ResetButton,
+.attachmentInsertAll,
 .AttachmentInserter
 {
         display: none;
@@ -290,8 +392,9 @@ div.muted
 {
         color: rgb(84, 29, 29) !important;
 }]]></template>
+    <template title="pirateProfile_member_card_link_item" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<a href="{xen:link pirates, $user}">{xen:phrase pirateProfile_pirates}</a>]]></template>
     <template title="pirateProfile_navigation_visitor_tab_item" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[<li><a href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a></li>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="10" version_string="1.0.0 Beta 1"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
 <xen:require js="js/card/skills.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
 
@@ -314,7 +417,7 @@ div.muted
 					<p>{xen:phrase pirateProfile_pirate_level} {$pirate.level}</p>
 				</div>
                                 <xen:if is="{$pirate.picture}">
-                                <img class="avatar" src="{xen:link attachments, $pirate.picture}" width="{$pirate.picture.width}px" height="{$pirate.picture.height}px" alt="Picture" <xen:if is="{$pirate.picture.margin}">style="margin-left:{$pirate.picture.margin}px;" </xen:if>/>
+                                <img class="avatar" src="{xen:link attachments, $pirate.picture}" width="{$pirate.picture.width}" height="{$pirate.picture.height}" alt="{xen:phrase pirateProfile_pirate_picture}" <xen:if is="{$pirate.picture.margin}">style="margin-left:{$pirate.picture.margin}px;" </xen:if>/>
                                 </xen:if>
 			</div>
 			<div class="pirateExtra">
@@ -336,13 +439,13 @@ div.muted
                 </xen:if>
                 <div class="pirateMisc">
                         <p class="muted">{xen:phrase pirateProfile_last_updated}: {xen:datetime $pirate.modified_date}</p>
-                        <xen:if is="{$visitor.user_id} == {$user.user_id}"> <a href="{xen:link pirates/edit, $pirate}" class="OverlayTrigger">{xen:phrase edit}</a> <a href="{xen:link pirates/delete, $pirate}" class="OverlayTrigger">{xen:phrase delete}</a></xen:if>
+                        <xen:if is="{$visitor.user_id} == {$user.user_id} || {$perms.manage}"><xen:if is="{$perms.edit}"><a href="{xen:link pirates/edit, $pirate}" class="OverlayTrigger">{xen:phrase edit}</a></xen:if> <xen:if is="{$perms.delete}"><a href="{xen:link pirates/delete, $pirate}" class="OverlayTrigger">{xen:phrase delete}</a></xen:if></xen:if>
                 </div>
 	</div>
 </div>]]></template>
     <template title="pirateProfile_pirate_card.css" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[#pirateProfile #cardLoader
 {
-	height: 444px;	
+	height: 444px;
 }
 
 .pirateCard
@@ -394,6 +497,8 @@ div.muted
 	margin-left: 5px;
 	background: rgb(147,122,84) url('{xen:property imagePath}/card/avatar.gif') no-repeat center center;
         overflow: hidden;
+        border-style: solid;
+        border-color: rgb(125, 125, 103);
 	border-width: 4px 7px 0px;
 	-moz-border-image: url({xen:property imagePath}/card/borders/border-frame.gif) 4 7 0 repeat;
 	-webkit-border-image: url({xen:property imagePath}/card/borders/border-frame.gif) 4 7 0 repeat;
@@ -434,6 +539,8 @@ div.muted
 	background: rgb(0,0,0) url('{xen:property imagePath}/card/skill_levels.jpg') no-repeat center 1px;
 	margin-top: 24px;
 	padding-top: 50px;
+        border-style: solid;
+        border-color: rgb(125, 125, 103);
 	border-width: 7px 7px 7px 0px;
 	-moz-border-image: url({xen:property imagePath}/card/borders/skills-border-frame.gif) 7 7 7 0 stretch;
 	-webkit-border-image: url({xen:property imagePath}/card/borders/skills-border-frame.gif) 7 7 7 0 stretch;
@@ -517,7 +624,7 @@ div.muted
 </li>
 
 <xen:edithint template="pirateProfile_view" />]]></template>
-    <template title="pirateProfile_view" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[<xen:require js="js/card/loader.js" />
+    <template title="pirateProfile_view" version_id="10" version_string="1.0.0 Beta 1"><![CDATA[<xen:require js="js/card/loader.js" />
 <xen:require css="pirateProfile_view.css" />
 
 <xen:title>{xen:phrase pirateProfile_xs_pirates, 'username={$user.username}'}</xen:title>
@@ -548,7 +655,7 @@ div.muted
         <p>{xen:phrase pirateProfile_you_have_not_entered_any_pirates}</p>
         </xen:if>
         </xen:if>
-        <xen:if is="{$visitor.user_id}">
+        <xen:if is="{$perms.add}">
         <div class="sectionFooter"> 
                 <xen:if is="{$visitor.user_id} == {$user.user_id}">
 	        <a href="{xen:link pirates/add}" class="OverlayTrigger">{xen:phrase pirateProfile_add_pirate}</a>
@@ -560,9 +667,10 @@ div.muted
 </div>
 
 <xen:edithint template="pirateProfile_pirate_card" />]]></template>
-    <template title="pirateProfile_view.css" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[#pirateProfile #pirateList
+    <template title="pirateProfile_view.css" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[#pirateList, #cardLoader
 {
-        display: inline;
+        display: inline-block;
+        vertical-align: top;
 }
 
 #pirateProfile ol li
@@ -570,17 +678,12 @@ div.muted
         margin-left: 20px;
         list-style-type: disc;
 }
-
-#pirateProfile #cardLoader
-{
-         display: inline-block;
-}
-
 #pirateContainer
 {
         background-color: transparent;
         padding: 0;
         border-bottom: none;
+        float: right;
 }
 
 .sectionFooter

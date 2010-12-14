@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="childProof" title="Child Proof" version_string="1.0.4" version_id="4" url="http://piratesforums.com" install_callback_class="ChildProof_Install" install_callback_method="install" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="childProof" title="Child Proof" version_string="1.0.5" version_id="5" url="http://piratesforums.com" install_callback_class="ChildProof_Install" install_callback_method="install" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -16,6 +16,10 @@
     <permissions/>
     <interface_groups/>
   </permissions>
+  <phrases>
+    <phrase title="childproof_birthday_hidden" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Your birthday will not be displayed publicly.]]></phrase>
+  </phrases>
   <route_prefixes/>
   <style_properties/>
+  <templates/>
 </addon>

@@ -7,7 +7,9 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 		$response = parent::actionRegister();
 
 		if (isset($response->params['user']['username']))
+		{
 			$this->_fireConversation($response->params['user']['username']);
+		}
 		
 		return $response;
 	}
@@ -48,7 +50,6 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 		$conversation['recipients'] = array_merge($senders, $recipients);
 		
 		$i = 0;
-		$senderCount = count($senders);
 		foreach ($messages as $message) {
 			if ($i === 0) {
 				$inviteUser = $this->_getUserByName($senders[$i]);
@@ -67,7 +68,7 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 				$conversationData = $this->_startConversation($conversation, $inviteUser);
 				$conversation['conversation_id'] = $conversationData['conversation_id'];
 			} else {
-				if (!$senders[$i]) $senders[$i] = $senders[$senderCount];
+				if (!$senders[$i]) $senders[$i] = end($senders);
 				$conversation['from']['name'] = $senders[$i];
 				$ids[]                        = $this->_getUserByName($senders[$i], true);
 				$conversation['from']['id']   = $ids[$i];
