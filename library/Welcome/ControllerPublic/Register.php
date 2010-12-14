@@ -21,28 +21,30 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 		$recipients = array($recipient);
 		$title      = $options->welcomeUsers_title;
 		/*$messages   = explode(',', $options->welcomeUsers_messages);*/
-		$davy       = 
-			"Ahoy,
-			
-			Welcome to the forums, we are glad you could join us. We are a friendly community of pirates, of all guilds and backgrounds.
-			
-			To get started, introduce yourself here: http://piratesforums.com/forums/new-members.2/
-			
-			We are committed to providing an enjoyable experience without bias for all members of the Pirates gaming community alike.
-			
-			You may upload a picture of yourself or your pirate here: http://piratesforums.com/account/avatar
-			and change your personal and account details here: http://piratesforums.com/account/personal-details";
-		$treasurer  =
-			"Everyone has a story to tell and we look forward to hearing yours!
-			
-			If you want to tell us a bit about your life as a pirate and experiences in the game, please read this: http://piratesforums.com/threads/information-key-points-to-talk-about-share.8/
-			
-			Additionally, we are also looking for people to fill some important positions here on the site. You may apply for such a position here: http://piratesforums.com/threads/positions-open-apply-now.14/
-			
-			We look forward to reading your posts!
-			Just reply if you have any questions, comments, or problems.
-			
-			Thank you!";
+		$davy      = 
+				"Ahoy,
+
+				Welcome to the forums, we are glad you could join us. We are a friendly community of pirates of all guilds and backgrounds.
+
+				To get started, introduce yourself here: http://piratesforums.com/forums/new-members.2/
+
+				We are committed to providing an enjoyable experience without bias for all members of the Pirates gaming community alike.
+
+				You may upload a picture to identify yourself or your pirate here: http://piratesforums.com/account/avatar
+				and change your personal and account details here: http://piratesforums.com/account/personal-details
+
+				To help us identify you better in-game, please add your pirates to your profile here: http://piratesforums.com/pirates";
+		$treasurer =
+				"Everyone has a story to tell and we look forward to hearing yours!
+
+				If you want to tell us a bit about your life as a pirate and experiences in the game, please read this: http://piratesforums.com/threads/information-key-points-to-talk-about-share.8/
+
+				Additionally, we are also looking for people to fill some important positions here on the site. You may apply for such a position here: http://piratesforums.com/threads/positions-open-apply-now.14/
+
+				We look forward to reading your posts!
+				Just reply if you have any questions, comments, or problems.
+
+				Thank you!";
 		
 	    $messages   = array($davy, $treasurer);
 		
