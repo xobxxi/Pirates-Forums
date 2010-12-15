@@ -1691,6 +1691,8 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
 						<!-- main template -->
 						{xen:raw $contents}
+
+                                                <xen:include template="dark_azucloud" />
 						
 						<xen:if is="!{$visitor.user_id} && !{$hideLoginBar}">
 							<!-- login form, to be moved to the upper drop-down -->
