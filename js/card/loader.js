@@ -3,26 +3,46 @@
 {
 	XenForo.PirateFormOverlay = function ($trigger)
 	{		
-			new XenForo.OverlayTrigger($trigger);
-			
-			
-			$trigger.click(function() {
-				function check()
+			$trigger.click(function(e) {
+				if (!parseInt(XenForo._enableOverlays))
 				{
-					var overlay = $('.xenOverlay:last');
-					offsetForm     = parseInt(overlay.css('top'));
-					heightForm     = overlay.outerHeight();
-					heightRequired = (offsetForm + heightForm);
-
-					heightWindow = $(window).height();
-
-					if (heightRequired > heightWindow)
-					{
-						window.location = $trigger.attr('href');
-					}
+					window.location = XenForo.canonicalizeUrl($trigger.attr('href'));
+					return false;
+				}
+				if (e.ctrlKey || e.shiftKey || e.altKey)
+				{
+					return true;
 				}
 
-				setTimeout(check, 200);
+				if (e.which > 1)
+				{
+					// right or middle click, don't open
+					return true;
+				}
+
+				e.preventDefault();
+				
+				this.overlayLoader = new XenForo.OverlayLoader($trigger, false, false);
+				
+				this.overlayLoader.load(function()
+				{
+					function check()
+					{
+						var overlay        = $trigger.closest('.xenOverlay'),
+						    offsetForm     = parseInt(overlay.css('top')),
+					     	heightForm     = overlay.outerHeight(),
+						    heightRequired = (offsetForm + heightForm);
+
+						var heightWindow = $(window).height();
+
+						if (heightRequired > heightWindow)
+						{
+							window.location = XenForo.canonicalizeUrl($trigger.attr('href'));
+						}
+					}
+					
+					setTimeout(check, 0);
+				});
 			});
 			
 	}
