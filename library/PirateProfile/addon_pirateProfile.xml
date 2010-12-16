@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.0.0 RC 1" version_id="11" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.0.0 RC 2" version_id="12" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -394,7 +394,8 @@ div.label,
 }]]></template>
     <template title="pirateProfile_member_card_link_item" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<a href="{xen:link pirates, $user}">{xen:phrase pirateProfile_pirates}</a>]]></template>
     <template title="pirateProfile_navigation_visitor_tab_item" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[<li><a href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a></li>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="10" version_string="1.0.0 Beta 1"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="11" version_string="1.0.0 RC 1"><![CDATA[<xen:require js="js/card/loader.js" />
+<xen:require js="js/card/jquery-ui.js" />
 <xen:require js="js/card/skills.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
 
@@ -439,7 +440,7 @@ div.label,
                 </xen:if>
                 <div class="pirateMisc">
                         <p class="muted">{xen:phrase pirateProfile_last_updated}: {xen:datetime $pirate.modified_date}</p>
-                        <xen:if is="{$visitor.user_id} == {$user.user_id} || {$perms.manage}"><xen:if is="{$perms.edit}"><a href="{xen:link pirates/edit, $pirate}" class="OverlayTrigger">{xen:phrase edit}</a></xen:if> <xen:if is="{$perms.delete}"><a href="{xen:link pirates/delete, $pirate}" class="OverlayTrigger">{xen:phrase delete}</a></xen:if></xen:if>
+                        <xen:if is="{$visitor.user_id} == {$user.user_id} || {$perms.manage}"><xen:if is="{$perms.edit}"><a href="{xen:link pirates/edit, $pirate}" class="PirateFormTrigger">{xen:phrase edit}</a></xen:if> <xen:if is="{$perms.delete}"><a href="{xen:link pirates/delete, $pirate}" class="OverlayTrigger">{xen:phrase delete}</a></xen:if></xen:if>
                 </div>
 	</div>
 </div>]]></template>
@@ -624,7 +625,7 @@ div.label,
 </li>
 
 <xen:edithint template="pirateProfile_view" />]]></template>
-    <template title="pirateProfile_view" version_id="10" version_string="1.0.0 Beta 1"><![CDATA[<xen:require js="js/card/loader.js" />
+    <template title="pirateProfile_view" version_id="11" version_string="1.0.0 RC 1"><![CDATA[<xen:require js="js/card/loader.js" />
 <xen:require css="pirateProfile_view.css" />
 
 <xen:title>{xen:phrase pirateProfile_xs_pirates, 'username={$user.username}'}</xen:title>
@@ -658,7 +659,7 @@ div.label,
         <xen:if is="{$perms.add}">
         <div class="sectionFooter"> 
                 <xen:if is="{$visitor.user_id} == {$user.user_id}">
-	        <a href="{xen:link pirates/add}" class="OverlayTrigger">{xen:phrase pirateProfile_add_pirate}</a>
+	        <a href="{xen:link pirates/add}" class="PirateFormTrigger">{xen:phrase pirateProfile_add_pirate}</a>
                 <xen:else />
                 <a href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a>
                 </xen:if>

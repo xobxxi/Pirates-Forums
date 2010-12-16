@@ -1,6 +1,32 @@
 /** @param {jQuery} $ jQuery Object */
 !function($, window, document, _undefined)
 {
+	XenForo.PirateFormOverlay = function ($trigger)
+	{		
+			new XenForo.OverlayTrigger($trigger);
+			
+			
+			$trigger.click(function() {
+				function check()
+				{
+					var overlay = $('.xenOverlay:last');
+					offsetForm     = parseInt(overlay.css('top'));
+					heightForm     = overlay.outerHeight();
+					heightRequired = (offsetForm + heightForm);
+
+					heightWindow = $(window).height();
+
+					if (heightRequired > heightWindow)
+					{
+						window.location = $trigger.attr('href');
+					}
+				}
+
+				setTimeout(check, 115);
+			});
+			
+	}
+	
 	XenForo.CardLoader = function($link)
 	{
 		$link.click(function(e) {
@@ -33,6 +59,7 @@
 	
 	// *********************************************************************
 
+	XenForo.register('a.PirateFormTrigger', 'XenForo.PirateFormOverlay');
 	XenForo.register('a.CardLoader', 'XenForo.CardLoader');
 
 }
