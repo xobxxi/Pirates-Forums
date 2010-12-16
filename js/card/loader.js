@@ -28,7 +28,7 @@
 				{
 					function check()
 					{
-						var overlay        = $trigger.closest('.xenOverlay'),
+						var overlay        = $('.xenOverlay:last'),
 						    offsetForm     = parseInt(overlay.css('top')),
 					     	heightForm     = overlay.outerHeight(),
 						    heightRequired = (offsetForm + heightForm);
