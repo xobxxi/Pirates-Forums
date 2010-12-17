@@ -480,8 +480,9 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			return $picture;
 		}
 
-		switch ($picture['width'] > $picture['height'])
+		switch ($picture['width'] >= $picture['height'])
 		{
+			default:
 			case true:
 				$ratio = ($picture['height'] / $height);
 				$picture['width']  = intval(round($picture['width'] / $ratio));
