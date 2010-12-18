@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.0.0 RC 3" version_id="13" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.0.0 RC 4" version_id="14" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -356,7 +356,7 @@
 </xen:if>
 
 <input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />]]></template>
-    <template title="pirateProfile_form.css" version_id="12" version_string="1.0.0 RC 2"><![CDATA[dfn.required
+    <template title="pirateProfile_form.css" version_id="13" version_string="1.0.0 RC 3"><![CDATA[dfn.required
 {
         color: rgb(204, 0, 0) !important;
 }
@@ -384,13 +384,11 @@ div.AttachmentEditor
         margin-top: 5px;
 }
 
-div.muted,
-div.label,
 .ResetButton,
-.attachmentInsertAll,
+div.label,
 .AttachmentInserter
 {
-        display: none;
+        display: none !important;
 }
 
 .Filename a

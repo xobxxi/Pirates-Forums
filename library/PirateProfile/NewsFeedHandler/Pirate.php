@@ -11,11 +11,13 @@ class PirateProfile_NewsFeedHandler_Pirate extends XenForo_NewsFeedHandler_Abstr
 		{
 			if (!isset($pirates[$contentId]))
 			{
-				$pirates[$contentId] = $model->getModelFromCache('PirateProfile_Model_Pirate')
-				                             ->getPirateById($contentId);
+				$pirate = $model->getModelFromCache('PirateProfile_Model_Pirate')
+				                ->getPirateById($contentId);
+				
+				if (!empty($pirate)) $pirates[$contentId] = $pirate;
 			}
 		}
-
+		
 		return $pirates;
 	}
 	
