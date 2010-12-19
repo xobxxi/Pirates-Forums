@@ -2,10 +2,10 @@
 !function($, window, document, _undefined)
 {	
 	XenForo.ResetButton = function($input)
-	{
+	{			
 		if ($input.parent().parent().parent().parent().hasClass('xenOverlay'))
 		{
-			$input.show();
+			$input.css('display', 'inline !important');
 		}
 	}
 	
