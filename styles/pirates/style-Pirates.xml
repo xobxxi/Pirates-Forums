@@ -796,6 +796,12 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	color: rgb(252, 252, 255) !important; /* white text */
 }
 
+/* tinymce */
+.editorInlinePopup .popupContent
+{
+        border-color: rgb(220, 53, 53) !important;
+}
+
 /* attachments */
 .AttachmentEditor .AttachedFile .ProgressMeter .ProgressGraphic
 {
