@@ -56,6 +56,18 @@ class PirateProfile_Install
 			DROP TABLE IF EXISTS
 				`pirates`;
 		");
+		
+		$db->query("
+			DELETE FROM `xf2`.`xf_content_type_field`
+			WHERE `xf_content_type_field`.`content_type` = 'pirate'
+			AND `xf_content_type_field`.`field_name` = 'attachment_handler_class'
+		");
+		
+		$db->query("
+			DELETE FROM `xf2`.`xf_content_type_field`
+			WHERE `xf_content_type_field`.`content_type` = 'pirate' 
+			AND `xf_content_type_field`.`field_name` = 'news_feed_handler_class'
+		");
 
 		return true;
 	}
