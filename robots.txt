@@ -1,6 +1,8 @@
 User-agent: *
 Disallow: /misc
 Disallow: /help
+Allow: /help/smilies
+Allow: /help/trohpies
 Disallow: /search
 Disallow: /register
 Disallow: /login
