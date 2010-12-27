@@ -11,6 +11,7 @@ class RecentActivityBlock_Listener
 				// Get recent activity
 				$recentActivity = new RecentActivityBlock_Model_RecentActivity;
 				$params         = $recentActivity->getRecentActivity();
+				if (empty($params)) return $contents;
 				$search         = '<!-- block: forum_stats -->';
 				$replace        = $template->create('sidebar_recent_activity', $params)->render();
 				$contents       = str_replace($search, $replace . $search, $contents);

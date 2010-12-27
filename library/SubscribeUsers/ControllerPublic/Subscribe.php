@@ -3,6 +3,14 @@
 class SubscribeUsers_ControllerPublic_Subscribe extends XFCP_SubscribeUsers_ControllerPublic_Subscribe
 {
 	
+	public function actionIndex()
+	{
+		$response = parent::actionIndex();
+		
+		$threadId = $this->_input->filterSingle('thread_id', XenForo_Input::UINT);
+		return $this->_getSubscribedUsers($threadId, $response);
+	}
+	
 	public function actionCreateThread()
 	{
 		$response = parent::actionCreateThread();
@@ -98,6 +106,25 @@ class SubscribeUsers_ControllerPublic_Subscribe extends XFCP_SubscribeUsers_Cont
 		}
 			
 		$response->params += array('subscribeUsers' => $subscribeUsers);
+		return $response;
+	}
+	
+	protected function _getSubscribedUsers($thread_id, $response)
+	{
+		$visitor = XenForo_Visitor::getInstance();
+		if (!$visitor['is_admin']) return false;
+		
+		$threadModel = $this->getModelFromCache('SubscribeUsers_Model_Thread');
+		$users = $threadModel->getSubscribedUsers($thread_id);
+		if (empty($users)) return false;
+		
+		$subscribedUsers = $this->_getUserModel()->getUsersByIds($users);
+		
+		$response->params += array(
+			'subscribedUsers'      => $subscribedUsers,
+			'subscribedUsersTotal' => count($subscribedUsers)
+		);
+		
 		return $response;
 	}
 	
