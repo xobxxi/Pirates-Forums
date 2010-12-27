@@ -2,7 +2,7 @@
 <style title="Pirates">
   <properties>
     <property property_name="header" property_type="css"><![CDATA[[]]]></property>
-    <property property_name="imagePath" property_type="scalar"><![CDATA[http://piratesoffline.org/pirates]]></property>
+    <property property_name="imagePath" property_type="scalar"><![CDATA[http://piratesforumscdn.appspot.com/media/pirates]]></property>
     <property property_name="button" property_type="css"><![CDATA[{"background-color":"rgb(55, 0, 0)","background-image":"@imagePath\/images\/buttons\/button.gif","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"rgb(179, 179, 189)","border-color":"rgb(221, 221, 235)","border-radius":"7px","border-style":"solid","border-top-color":"rgb(255, 255, 255)","border-width":"1px","color":"rgb(255, 255, 255)","extra":"text-align: center;\nbox-shadow: 0px 1px 4px 0px rgb(200,200,210);\ntext-shadow: 0px -1px 2px white;\noutline: none;\nline-height: 23px;\ndisplay: inline-block;\ncursor: pointer;\nbox-sizing: border-box;","font-family":"Calibri, 'Trebuchet MS', Verdana, Geneva, Arial, Helvetica, sans-serif","font-size":"12px","height":"23px","padding-bottom":"0px","padding-left":"6px","padding-right":"6px","padding-top":"0px"}]]></property>
     <property property_name="html" property_type="css"><![CDATA[{"background-image":"@imagePath\/images\/wood.jpg","background-repeat":"repeat","color":"rgb(100, 100, 100)","extra":"background-attachment: fixed;"}]]></property>
     <property property_name="overlaySection" property_type="css"><![CDATA[{"border-color":"rgb(55, 0, 0)","border-radius":"20px","border-style":"solid","border-width":"20px","padding-all":"0px"}]]></property>
@@ -15,7 +15,7 @@
     <property property_name="content" property_type="css"><![CDATA[{"background-color":"rgb(249, 217, 176)","background-image":"@imagePath\/images\/parchment.jpg","background-repeat":"repeat","color":"rgb(0, 0, 0)","padding-bottom":"10px","padding-left":"20px","padding-right":"20px","padding-top":"10px"}]]></property>
     <property property_name="navLink" property_type="css"><![CDATA[{"color":"rgb(255, 255, 255)","extra":"display: block;\nfloat: left;\nvertical-align: text-bottom;\ntext-align: center;\noutline: 0 none;"}]]></property>
     <property property_name="pageWidth" property_type="css"><![CDATA[{"extra":"min-width: 853px;\n_width: 976px;\n_margin: 0 auto;","margin-all":"auto","width":"960px"}]]></property>
-    <property property_name="headerLogoPath" property_type="scalar"><![CDATA[@imagePath/images/logo.png]]></property>
+    <property property_name="headerLogoPath" property_type="scalar"><![CDATA[@imagePath/images/logo.jpg]]></property>
     <property property_name="navTabSelected" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/navigation-tab.png","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"black","border-bottom-style":"none","border-bottom-width":"1px","border-color":"rgb(255, 255, 255)","border-style":"solid","border-top-left-radius":"2px","border-top-right-radius":"2px","border-width":"1px","color":"rgb(255, 255, 255)","extra":"text-shadow: 0px 0px 3px @primaryLightest;","font-weight":"bold","margin-top":"-2px","padding-top":"2px"}]]></property>
     <property property_name="headerLogoHeight" property_type="scalar"><![CDATA[96px]]></property>
     <property property_name="popupControl" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/tab-unselected-25px-light.png","background-position":"top","background-repeat":"repeat-x","border-bottom-left-radius":"0px","border-bottom-right-radius":"0px","border-top-left-radius":"3px","border-top-right-radius":"3px","color":"rgb(255, 255, 255)","extra":"text-shadow: 1px 1px 2px white;\nbox-shadow: 0px 5px 5px rgba(0,0,0, 0.5);"}]]></property>
@@ -41,6 +41,7 @@
     <property property_name="mutedTextColor" property_type="scalar"><![CDATA[rgb(100, 100, 100)]]></property>
     <property property_name="pageNavLink" property_type="css"><![CDATA[{"background-color":"rgb(247, 243, 226)","border-color":"rgb(220, 53, 53)","border-radius":"3px","border-style":"solid","border-width":"1px","color":"rgb(153, 0, 0)","extra":"text-align: center;","text-decoration":{"none":"none"}}]]></property>
     <property property_name="sidebarBlockFootnote" property_type="css"><![CDATA[{"color":"rgb(153, 0, 0)","margin-top":"5px"}]]></property>
+    <property property_name="signupButtonInner" property_type="css"><![CDATA[{"background-color":"@secondaryMedium","background-image":"@imagePath\/xenforo\/gradients\/form-button-white-25px.png","background-position":"center -7px","background-repeat":"repeat-x","border-radius":"4px","color":"@textCtrlBackground","extra":"display: block;\ntext-shadow: 0px 0px 3px rgba(0,0,0, 0.5);","font-family":"@button.font-family","font-size":"12pt","font-weight":"bold"}]]></property>
     <property property_name="subHeading" property_type="css"><![CDATA[{"background-color":"rgb(54, 34, 69)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"@secondaryLight","border-bottom-style":"solid","border-bottom-width":"1px","border-top-color":"@secondaryLighter","border-top-style":"solid","border-top-width":"1px","color":"rgb(255, 239, 255)","font-size":"11px","margin-bottom":"0","margin-left":"auto","margin-right":"auto","margin-top":"3px","padding-bottom":"5px","padding-left":"10px","padding-right":"10px","padding-top":"5px"}]]></property>
     <property property_name="breadcrumbItemCrumbHover" property_type="css"><![CDATA[{"background-color":"rgb(198, 191, 160)"}]]></property>
     <property property_name="faintTextColor" property_type="scalar"><![CDATA[rgb(150, 150, 150)]]></property>
@@ -83,7 +84,9 @@
     <property property_name="navTabLinkHover" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-color":"rgb(153, 0, 0)","border-radius":"5px","border-style":"solid","border-width":"1px","color":"@primaryLightest","extra":"outline: 0;\ntext-shadow: 1px 1px 0px rgb(0, 0, 0);","padding-bottom":"0","padding-left":"9px","padding-right":"9px","padding-top":"0","text-decoration":{"none":"none"}}]]></property>
     <property property_name="discussionListOptionsHandleLink" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-bottom-left-radius":"10px","border-bottom-right-radius":"10px","border-color":"rgb(220, 53, 53)","border-style":"solid","border-top-color":"black","border-top-style":"none","border-top-width":"1px","border-width":"1px","color":"rgb(255, 255, 255)","extra":"display: block;\noutline: 0;","font-size":"11px","margin-bottom":"0","margin-left":"auto","margin-right":"auto","margin-top":"0","width":"200px"}]]></property>
     <property property_name="pageIconPath" property_type="scalar"><![CDATA[@imagePath/images/icons/page.png]]></property>
+    <property property_name="signupButtonHover" property_type="css"><![CDATA[{"background-color":"@secondaryLight","text-decoration":{"none":"none"}}]]></property>
     <property property_name="linkIconPath" property_type="scalar"><![CDATA[@imagePath/images/icons/link.png]]></property>
+    <property property_name="signupButtonActive" property_type="css"><![CDATA[{"extra":"box-shadow: 0 0 3px rgba(0,0,0, 0.2);\nposition: relative;\ntop: 2px;"}]]></property>
     <property property_name="feedIconPath" property_type="scalar"><![CDATA[@imagePath/images/icons/feed-14.png]]></property>
     <property property_name="formOverlayTabPanel" property_type="css"><![CDATA[{"background-color":"transparent","background-image":"@imagePath\/xenforo\/color-picker\/panel.png","background-position":"top","background-repeat":"repeat-x","border-color":"rgb(220, 53, 53)","border-style":"solid","border-width":"1px"}]]></property>
     <property property_name="callToAction" property_type="css"><![CDATA[{"background-color":"rgb(220, 53, 53)","background-image":"@imagePath\/xenforo\/gradients\/form-button-white-25px.png","background-position":"center top","background-repeat":"repeat-x","border-color":"rgb(220, 53, 53)","border-radius":"6px","border-style":"solid","border-width":"1px","extra":"display: inline-block;\nline-height: 20px;\nbox-shadow: 1px 1px 5px rgba(0,0,0, 0.15);\noutline: 0 none;","height":"20px","padding-all":"2px"}]]></property>
@@ -749,6 +752,10 @@ ul.autoCompleteList li.selected
 }
 
 /* thread status */
+.subHeading dt
+{
+        color: rgb(252, 252, 255) !important; /* white text */
+}
 .thread_view .threadAlerts dt
 {
 	color: rgb(153, 0, 0) !important; /* red text */
@@ -794,6 +801,14 @@ blockquote .bbCodeQuote aside .attribution a:hover
 .pollBlock .pollOption label:hover
 {
 	color: rgb(252, 252, 255) !important; /* white text */
+}
+.pollResult .barContainer
+{
+        border-color: rgb(55, 0, 0) !important;
+}
+.pollResult .bar
+{
+        background-color: rgb(153, 0, 0) !important;
 }
 
 /* tinymce */
@@ -850,6 +865,17 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	text-align: center;
 	padding: 7px;
 }]]></template>
+    <template title="logo_block" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<div id="logoBlock">
+	<div class="pageWidth">
+		<div class="pageContent">
+			<div id="logo"><a href="{$logoLink}">
+				<span><xen:comment>This span fixes IE vertical positioning</xen:comment></span>
+				<img src="{xen:property headerLogoPath}" alt="{$xenOptions.boardTitle}" width="962" height="96" />
+			</a></div>
+			<span class="helper"></span>
+		</div>
+	</div>
+</div>]]></template>
     <template title="member_card" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:edithint template="xenforo_overlay.css" />
 <xen:require css="member_card.css" />
 
@@ -1893,6 +1919,208 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
+    <template title="thread_view" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xen:title>{$thread.title}{xen:helper pagenumber, $page}</xen:title>
+<xen:h1>{$thread.title}</xen:h1>
+
+<xen:description>
+	{xen:phrase discussion_in_x_started_by_y_date_z,
+		'forum=<a href="{xen:link forums, $forum}">{$forum.title}</a>',
+		'name={xen:helper username, $thread}',
+		'date=<a href="{xen:link threads, $thread}">{xen:datetime $thread.post_date, html}</a>'}
+</xen:description>
+
+<xen:navigation>
+	<xen:breadcrumb source="$nodeBreadCrumbs" />
+</xen:navigation>
+
+<xen:container var="$head.canonical">
+	<link rel="canonical" href="{xen:link 'canonical:threads', $thread, 'page={$page}'}" /></xen:container>
+<xen:container var="$head.description">
+	<meta name="description" content="{xen:helper snippet, $firstPost.message, 155}" /></xen:container>
+<xen:container var="$head.openGraph"><xen:include template="open_graph_meta">
+		<xen:set var="$url">{xen:link 'canonical:threads', $thread}</xen:set>
+		<xen:set var="$title">{$thread.title}</xen:set>
+	</xen:include></xen:container>
+
+<xen:if is="{$canReply}">
+	<xen:comment><xen:topctrl>
+		<a href="{xen:link 'threads/reply', $thread}" class="callToAction"><span>{xen:phrase reply_to_thread}</span></a>
+	</xen:topctrl></xen:comment>
+</xen:if>
+
+<xen:require css="thread_view.css" />
+
+<xen:edithint template="message" />
+
+<xen:if is="{$poll}">
+	<xen:include template="poll_block">
+		<xen:set var="$options">
+			<xen:if is="{$poll.canVote}">
+				<xen:include template="poll_block_vote" />
+			<xen:else />
+				<xen:include template="poll_block_result" />
+			</xen:if>
+		</xen:set>
+	</xen:include>
+</xen:if>
+
+<xen:if is="{$showPostedNotice}">
+	<div class="importantMessage">{xen:phrase message_submitted_displayed_pending_approval}</div>
+</xen:if>
+
+<xen:set var="$threadStatusHtml">
+	<xen:if hascontent="true">
+		<dl class="threadAlerts secondaryContent">
+			<dt>{xen:phrase thread_status}:</dt>
+			<xen:contentcheck>
+				<xen:if is="{$thread.discussion_state} == 'deleted'">
+					<dd>{xen:phrase removed_from_public_view}</dd>
+				<xen:elseif is="{$thread.discussion_state} == 'moderated'" />
+					<dd>{xen:phrase awaiting_moderation_before_being_displayed_publicly}</dd>
+				</xen:if>
+	
+				<xen:if is="!{$thread.discussion_open}">
+					<dd>{xen:phrase not_open_for_further_replies}</dd>
+				</xen:if>
+			</xen:contentcheck>
+		</dl>
+	</xen:if>
+</xen:set>
+{xen:raw $threadStatusHtml}
+
+<div class="pageNavLinkGroup">
+	<div class="linkGroup SelectionCountContainer">
+		<xen:if hascontent="true">
+			<div class="Popup">
+				<a rel="Menu">{xen:phrase thread_tools}</a>
+				<div class="Menu">
+					<div class="primaryContent menuHeader"><h3>{xen:phrase thread_tools}</h3></div>
+					<ul class="secondaryContent blockLinksList">
+						<xen:contentcheck>
+							<xen:if is="{$canEditThread}">
+								<li><a href="{xen:link 'threads/edit', $thread}" class="OverlayTrigger">{xen:phrase edit_thread}</a></li>
+							</xen:if>
+							<xen:if is="{$canDeleteThread}">
+								<li><a href="{xen:link 'threads/delete', $thread}" class="OverlayTrigger">{xen:phrase delete_thread}</a></li>
+							</xen:if>
+							<xen:if is="{$canMoveThread}">
+								<li><a href="{xen:link 'threads/move', $thread}" class="OverlayTrigger">{xen:phrase move_thread}</a></li>
+							</xen:if>
+							<xen:if is="{$deletedPosts}">
+								<li><a href="{xen:link threads/show-posts, $thread, 'page={$page}'}" class="MessageLoader" data-messageSelector="#messageList .message.deleted.placeholder">{xen:phrase show_deleted_posts}</a></li>
+							</xen:if>
+						</xen:contentcheck>
+					</ul>
+					<xen:if is="{$thread.canInlineMod}">
+					<form action="{xen:link inline-mod/thread/switch}" method="post" class="InlineModForm sectionFooter" id="threadViewThreadCheck"
+						data-cookieName="threads">
+						<label><input type="checkbox" name="threads[]" value="{$thread.thread_id}" class="InlineModCheck" /> {xen:phrase select_for_thread_moderation}</label>
+						<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+					</form>
+					</xen:if>
+				</div>
+			</div>
+		</xen:if>
+		<xen:if is="{$canWatchThread}">
+			<a href="{xen:link 'threads/watch-confirm', $thread}" class="OverlayTrigger" data-cacheOverlay="false">{xen:if $thread.thread_is_watched, '{xen:phrase unwatch_thread}', '{xen:phrase watch_thread}'}</a>
+		</xen:if>
+	</div>
+
+	<xen:pagenav link="threads" linkdata="{$thread}"
+		page="{$page}" perpage="{$postsPerPage}" total="{$totalPosts}"
+		unreadlink="{$unreadLink}" />
+</div>
+
+<form action="{xen:link 'inline-mod/post/switch'}" method="post"
+	class="InlineModForm section"
+	data-cookieName="posts"
+	data-controls="#InlineModControls"
+	data-imodOptions="#ModerationSelect option">
+
+	<ol class="messageList" id="messageList">
+		<xen:foreach loop="$posts" value="$post">
+			<xen:if is="{$post.message_state} == 'deleted'">
+				<xen:include template="post_deleted_placeholder" />
+			<xen:else />
+				<xen:include template="post" />
+			</xen:if>
+		</xen:foreach>
+		<xen:edithint template="attached_files" />
+	</ol>
+
+	<xen:if is="{$inlineModOptions}">
+		<div class="sectionFooter InlineMod Hide">
+			<label for="ModerationSelect">{xen:phrase perform_action_with_selected_posts}...</label>
+
+			<xen:include template="inline_mod_controls">
+				<xen:set var="$text">{xen:phrase post_moderation}</xen:set>
+				<xen:set var="$options">
+					<xen:if is="{$inlineModOptions.delete}"><option value="delete">{xen:phrase delete_posts}...</option></xen:if>
+					<xen:if is="{$inlineModOptions.undelete}"><option value="undelete">{xen:phrase undelete_posts}</option></xen:if>
+					<xen:if is="{$inlineModOptions.approve}"><option value="approve">{xen:phrase approve_posts}</option></xen:if>
+					<xen:if is="{$inlineModOptions.unapprove}"><option value="unapprove">{xen:phrase unapprove_posts}</option></xen:if>
+					<xen:if is="{$inlineModOptions.move}"><option value="move">{xen:phrase move_posts}...</option></xen:if>
+					<xen:if is="{$inlineModOptions.merge}"><option value="merge">{xen:phrase merge_posts}...</option></xen:if>
+					<option value="deselect">{xen:phrase deselect_posts}</option>
+				</xen:set>
+				<xen:set var="$checkboxTitle">{xen:phrase select_deselect_all_posts_on_this_page}</xen:set>
+				<xen:set var="$selectedItemsPhrase">{xen:phrase selected_posts}</xen:set>
+			</xen:include>
+		</div>
+	</xen:if>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+
+</form>
+
+<xen:if hascontent="true">
+	<div class="pageNavLinkGroup">
+		<xen:contentcheck>
+			<xen:if is="{$canQuickReply}">
+				<xen:if is="{$postsRemaining}">
+					<div class="linkGroup">
+						<xen:if is="{$postsRemaining} == 1">
+							<a href="{xen:link threads, $thread, 'page={xen:calc "{$page} + 1"}'}" class="postsRemaining">{xen:phrase 1_more_message}...</a>
+						<xen:else />
+							<a href="{xen:link threads, $thread, 'page={xen:calc "{$page} + 1"}'}" class="postsRemaining">{xen:phrase x_more_messages, 'count={xen:number $postsRemaining}'}...</a>
+						</xen:if>
+					</div>
+				</xen:if>
+			<xen:else />
+				<div class="linkGroup">
+					<xen:if is="{$canReply}">
+						<a href="{xen:link 'threads/reply', $thread}" class="callToAction"><span>{xen:phrase reply_to_thread}</span></a>
+					<xen:elseif is="{$visitor.user_id}" />
+						({xen:phrase no_permission_to_reply})
+					<xen:else />
+						<label for="LoginControl"><a href="{xen:link login}" class="concealed">({xen:phrase log_in_or_sign_up_to_reply})</a></label>
+					</xen:if>
+				</div>
+			</xen:if>
+
+			<xen:pagenav link="threads" linkdata="{$thread}"
+				page="{$page}" perpage="{$postsPerPage}" total="{$totalPosts}"
+				unreadlink="{$unreadLink}"
+			/>
+		</xen:contentcheck>
+	</div>
+</xen:if>
+
+<xen:if is="{$canQuickReply}">
+	<xen:include template="quick_reply">
+		<xen:set var="$formAction">{xen:link 'threads/add-reply', $thread}</xen:set>
+		<xen:set var="$lastDate">{$lastPost.post_date}</xen:set>
+		<xen:set var="$showMoreOptions">1</xen:set>
+	</xen:include>
+</xen:if>
+
+{xen:raw $threadStatusHtml}
+
+<xen:include template="subscribeUsers_subscribed_users" />
+
+<xen:include template="share_page">
+	<xen:set var="$url">{xen:link 'canonical:threads', $thread}</xen:set>
+</xen:include>]]></template>
     <template title="_siteStatusMessage" addon_id="" version_id="0" version_string=""><![CDATA[<!--<div style="background-color:#880303;color:#fff;margin:4px;padding:4px;">
 <p><strong></strong></p>
 </div>-->]]></template>
