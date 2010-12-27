@@ -9,7 +9,7 @@ class GoogleAdsense_Listener
 		{
 			case 'forum_list_sidebar':
 				$rightBar  = $template->create('googleAdsense_rightbar')->render();
-				if (empty($rightbar)) return $contents;
+				if (empty($rightBar)) return $contents;
 				$contents .= $rightBar;
 			return $contents;
 		}
