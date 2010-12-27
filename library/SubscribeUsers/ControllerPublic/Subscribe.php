@@ -6,7 +6,7 @@ class SubscribeUsers_ControllerPublic_Subscribe extends XFCP_SubscribeUsers_Cont
 	public function actionIndex()
 	{
 		$response = parent::actionIndex();
-		
+		return $response;
 		$threadId = $this->_input->filterSingle('thread_id', XenForo_Input::UINT);
 		return $this->_getSubscribedUsers($threadId, $response);
 	}
