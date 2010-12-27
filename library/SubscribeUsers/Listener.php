@@ -5,7 +5,12 @@ class SubscribeUsers_Listener
 	
 	public static function loadClassController($class, array &$extend)
     {
-		if (($class == 'XenForo_ControllerPublic_Forum') OR ($class == 'XenForo_ControllerPublic_Thread'))
-			$extend[] = 'SubscribeUsers_ControllerPublic_Subscribe';
+		switch ($class)
+		{
+			case 'XenForo_ControllerPublic_Forum':
+				$extend[] = 'SubscribeUsers_ControllerPublic_Forum';
+			case 'XenForo_ControllerPublic_Thread':
+				$extend[] = 'SubscribeUsers_ControllerPublic_Thread';
+		}
     }
 }

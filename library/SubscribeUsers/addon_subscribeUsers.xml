@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="subscribeUsers" title="Subscribe Users" version_string="1.0.1" version_id="1" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="subscribeUsers" title="Subscribe Users" version_string="1.0.2" version_id="2" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -45,12 +45,12 @@
                 <p class="explain">{xen:phrase separate_names_with_comma}</p></dd>
         </dl>
 </xen:if>]]></template>
-    <template title="subscribeUsers_subscribed_users" version_id="0" version_string="1.0.0"><![CDATA[<xen:if is="{$subscribedUsers}">
+    <template title="subscribeUsers_subscribed_users" version_id="1" version_string="1.0.1"><![CDATA[<xen:if is="{$subscribedUsers}">
 <dl class="threadAlerts secondaryContent">
 <dt>{xen:phrase subscribeUser_subscribed_users}:</dt>
 <dd>
 <xen:foreach loop="$subscribedUsers" value="$user" i="$i">
-        <a href="{xen:link members, $user}" class="username">{$user.username}</a><xen:if is="{$i} < {$subscribedUsersCount}">,</xen:if>
+        <a href="{xen:link members, $user}" class="username">{$user.username}</a><xen:if is="{$i} < {$subscribedUsersTotal}">,</xen:if>
 </xen:foreach>
 </dd>
 </dl>

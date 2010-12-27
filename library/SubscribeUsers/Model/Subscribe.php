@@ -1,64 +1,14 @@
 <?php
 
-class SubscribeUsers_ControllerPublic_Subscribe extends XFCP_SubscribeUsers_ControllerPublic_Subscribe
+class SubscribeUsers_Model_Subscribe extends XenForo_Model
 {
-	
-	public function actionIndex()
-	{
-		$response = parent::actionIndex();
-		return $response;
-		$threadId = $this->_input->filterSingle('thread_id', XenForo_Input::UINT);
-		return $this->_getSubscribedUsers($threadId, $response);
-	}
-	
-	public function actionCreateThread()
-	{
-		$response = parent::actionCreateThread();
-		
-		return $this->_checkCanSubscribe($response);
-	}
-	
-	public function actionEdit()
-	{
-		$response = parent::actionEdit();
-		
-		return $this->_checkCanSubscribe($response);
-	}	
-	
-	public function actionAddThread()
-	{
-		$response = parent::actionAddThread();
-		
-		if (!isset($response->redirectTarget)) return $response;
-		
-	  	preg_match("/.*?(\\d+)/is", $response->redirectTarget, $matches);
-		$thread_id = $matches[1];
-		
-		$this->_fireSubscribe($thread_id);
-		
-		return $response;	
-	}
-	
-	public function actionSave()
-	{
-		$response = parent::actionSave();
-		
-	  	$thread_id = $this->_input->filterSingle('thread_id', XenForo_Input::UINT);
-		
-		$this->_fireSubscribe($thread_id);
-		
-		return $response;
-	}
-	
-	protected function _fireSubscribe($thread_id)
+
+	public function fireSubscribe($thread_id, $input)
 	{
 		if (!XenForo_Visitor::getInstance()->hasPermission('forum', 'subscribeUsers'))
 		{
 			return false;
 		}
-			
-		$input = $this->_input->filter(array(
-			'subscribe_users' => XenForo_Input::STRING));
 			
 		if (!isset($thread_id) OR (!isset($input['subscribe_users'])))
 		{
@@ -93,7 +43,7 @@ class SubscribeUsers_ControllerPublic_Subscribe extends XFCP_SubscribeUsers_Cont
 		return;
 	}
 	
-	protected function _checkCanSubscribe($response)
+	public function checkCanSubscribe($response)
 	{
 		switch (XenForo_Visitor::getInstance()->hasPermission('forum', 'subscribeUsers')) {
 			case false:
@@ -109,14 +59,14 @@ class SubscribeUsers_ControllerPublic_Subscribe extends XFCP_SubscribeUsers_Cont
 		return $response;
 	}
 	
-	protected function _getSubscribedUsers($thread_id, $response)
+	public function getSubscribedUsers($thread_id, $response)
 	{
 		$visitor = XenForo_Visitor::getInstance();
-		if (!$visitor['is_admin']) return false;
+		if (!$visitor['is_admin']) return $response;
 		
 		$threadModel = $this->getModelFromCache('SubscribeUsers_Model_Thread');
 		$users = $threadModel->getSubscribedUsers($thread_id);
-		if (empty($users)) return false;
+		if (empty($users)) return $response;
 		
 		$subscribedUsers = $this->_getUserModel()->getUsersByIds($users);
 		
@@ -134,5 +84,10 @@ class SubscribeUsers_ControllerPublic_Subscribe extends XFCP_SubscribeUsers_Cont
 	protected function _getUserModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_User');
+	}
+	
+	protected function _getThreadWatchModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_ThreadWatch');
 	}
 }
