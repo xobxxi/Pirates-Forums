@@ -6,11 +6,16 @@ class SubscribeUsers_ControllerPublic_Thread extends XFCP_SubscribeUsers_Control
 	public function actionIndex()
 	{
 		$response = parent::actionIndex();
-
-		$threadId = $this->_input->filterSingle('thread_id', XenForo_Input::UINT);
-		return $this->getSubscribeModel()->getSubscribedUsers($threadId, $response);
+		
+		$canViewSubscribed = false;
+		$visitor = XenForo_Visitor::getInstance();
+		if ($visitor['is_admin']) $canViewSubscribed = true;
+		
+		$response->params += array('canViewSubscribed' => $canViewSubscribed);
+		
+		return $response;
 	}
-	
+		
 	public function actionEdit()
 	{
 		$response = parent::actionEdit();

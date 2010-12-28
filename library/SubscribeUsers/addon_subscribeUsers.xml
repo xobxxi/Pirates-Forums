@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="subscribeUsers" title="Subscribe Users" version_string="1.0.2" version_id="2" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="subscribeUsers" title="Subscribe Users" version_string="1.1.0" version_id="3" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -32,28 +32,58 @@
     <phrase title="option_subscribeUsers_state" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Watch State]]></phrase>
     <phrase title="option_subscribeUsers_state_explain" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[The state of watch for the subscribed users. Can be 'watch_email' or 'watch_no_email'.]]></phrase>
     <phrase title="permission_forum_subscribeUsers" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Subscribe Users]]></phrase>
-    <phrase title="subscribeUser_subscribed_users" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Subscribed Users]]></phrase>
-    <phrase title="subscribeUser_subscribe_users" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Subscribe Users]]></phrase>
+    <phrase title="subscribeUsers_no_users_subscribed" global_cache="0" version_id="2" version_string="1.0.2"><![CDATA[No users are subscribed to this thread.]]></phrase>
+    <phrase title="subscribeUsers_subscribed_users" global_cache="0" version_id="2" version_string="1.0.2"><![CDATA[Subscribed Users]]></phrase>
+    <phrase title="subscribeUsers_subscribe_users" global_cache="0" version_id="2" version_string="1.0.2"><![CDATA[Subscribe Users]]></phrase>
+    <phrase title="subscribeUsers_view_subscribed_users" global_cache="0" version_id="2" version_string="1.0.2"><![CDATA[View Subscribed Users]]></phrase>
   </phrases>
-  <route_prefixes/>
+  <route_prefixes>
+    <route_type type="public">
+      <prefix original_prefix="subscribed" class="SubscribeUsers_Route_Prefix_Subscribed" build_link="data_only"/>
+    </route_type>
+  </route_prefixes>
   <style_properties/>
   <templates>
-    <template title="subscribeUsers_input" version_id="0" version_string="1.0.0"><![CDATA[<xen:if is="{$subscribeUsers}">
+    <template title="subscribeUsers_input" version_id="2" version_string="1.0.2"><![CDATA[<xen:if is="{$subscribeUsers}">
         <dl class="ctrlUnit">
-                <dt><label for="ctrl_subscribe_users">{xen:phrase subscribeUser_subscribe_users}:</label></dt>
+                <dt><label for="ctrl_subscribe_users">{xen:phrase subscribeUsers_subscribe_users}:</label></dt>
                 <dd><input type="text" name="subscribe_users" class="textCtrl AutoComplete" id="ctrl_subscribe_users" maxlength="100" />
                 <p class="explain">{xen:phrase separate_names_with_comma}</p></dd>
         </dl>
 </xen:if>]]></template>
-    <template title="subscribeUsers_subscribed_users" version_id="1" version_string="1.0.1"><![CDATA[<xen:if is="{$subscribedUsers}">
-<dl class="threadAlerts secondaryContent">
-<dt>{xen:phrase subscribeUser_subscribed_users}:</dt>
-<dd>
-<xen:foreach loop="$subscribedUsers" value="$user" i="$i">
-        <a href="{xen:link members, $user}" class="username">{$user.username}</a><xen:if is="{$i} < {$subscribedUsersTotal}">,</xen:if>
-</xen:foreach>
-</dd>
-</dl>
+    <template title="subscribeUsers_subscribed_users" version_id="2" version_string="1.0.2"><![CDATA[<xen:require css="subscribeUsers_subscribed_users.css" />
+
+<xen:title>{xen:phrase subscribeUsers_subscribed_users}</xen:title>
+
+<xen:navigation>
+        <xen:breadcrumb source="$nodeBreadCrumbs" />
+        <xen:breadcrumb href="{xen:link threads, $thread}">{$thread.title}</xen:breadcrumb>
+</xen:navigation>
+
+<div class="section">
+<div id="subscribed" class="primaryContent">
+<xen:if is="{$subscribedUsers}">
+
+<ul>
+        <xen:foreach loop="$subscribedUsers" value="$user" i="$i">
+        <li><a href="{xen:link members, $user}" class="username">{$user.username}</a></li>
+        </xen:foreach>
+</ul>
+
+<xen:else />
+
+{xen:phrase subscribeUsers_no_users_subscribed}
+
+</xen:if>
+</div>
+</div>]]></template>
+    <template title="subscribeUsers_subscribed_users.css" version_id="2" version_string="1.0.2"><![CDATA[#subscribed ul li
+{
+        margin-left: 20px;
+        list-style-type: disc;
+}]]></template>
+    <template title="subscribeUsers_thread_tools_list_item" version_id="2" version_string="1.0.2"><![CDATA[<xen:if is="{$canViewSubscribed}">
+<li><a href="{xen:link subscribed, $thread}" class="OverlayTrigger">{xen:phrase subscribeUsers_view_subscribed_users}</a></li>
 </xen:if>]]></template>
   </templates>
 </addon>

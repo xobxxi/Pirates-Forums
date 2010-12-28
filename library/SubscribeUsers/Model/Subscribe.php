@@ -59,23 +59,15 @@ class SubscribeUsers_Model_Subscribe extends XenForo_Model
 		return $response;
 	}
 	
-	public function getSubscribedUsers($thread_id, $response)
-	{
-		$visitor = XenForo_Visitor::getInstance();
-		if (!$visitor['is_admin']) return $response;
-		
+	public function getSubscribedUsers($thread_id)
+	{	
 		$threadModel = $this->getModelFromCache('SubscribeUsers_Model_Thread');
 		$users = $threadModel->getSubscribedUsers($thread_id);
-		if (empty($users)) return $response;
+		if (empty($users)) return false;
 		
 		$subscribedUsers = $this->_getUserModel()->getUsersByIds($users);
 		
-		$response->params += array(
-			'subscribedUsers'      => $subscribedUsers,
-			'subscribedUsersTotal' => count($subscribedUsers)
-		);
-		
-		return $response;
+		return $subscribedUsers;
 	}
 	
 	/**
