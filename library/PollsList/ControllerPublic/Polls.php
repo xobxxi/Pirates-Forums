@@ -19,19 +19,11 @@ class PollsList_ControllerPublic_Polls extends XenForo_ControllerPublic_Abstract
 				
 		foreach ($polls as $poll) {
 			try {
-				$ftpHelper->assertThreadValidAndViewable($poll['content_id'], $threadFetchOptions, $forumFetchOptions);
+				list($thread, $forum) = $ftpHelper->assertThreadValidAndViewable($poll['content_id'], $threadFetchOptions, $forumFetchOptions);
+
+				$poll['userInfo'] = $this->_getUserModel()->getUserById($thread['user_id']);
 				
-				$threadInfo       = $this->_getThreadModel()->getThreadById($poll['content_id']);
-				$poll['userInfo'] = $this->_getUserModel()->getUserById($threadInfo['user_id']);
-				
-				$threadInfo['lastPostInfo'] = array(
-					'post_date'     => $threadInfo['last_post_date'],
-					'post_id'       => $threadInfo['last_post_id'],
-					'user_id'       => $threadInfo['last_post_user_id'],
-					'username'      => $threadInfo['last_post_username']
-				);
-				
-				$finals[] = array_merge_recursive($poll, $threadInfo);
+				$finals[] = array_merge_recursive($poll, $thread);
 			} catch (XenForo_ControllerResponse_Exception $e) {}
 		}
 		

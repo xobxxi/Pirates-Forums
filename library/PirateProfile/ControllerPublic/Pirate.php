@@ -472,7 +472,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		}
 		
 		$pictures          = $this->_getPirateModel()
-		                            ->getPicturesById($pirate['pirate_id']);
+		                          ->getPicturesById($pirate['pirate_id']);
 		$pirate['picture'] = $this->_preparePicture($pictures[0], $input['make_fit']);
 
 		return $pirate;
@@ -516,7 +516,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	{
 		$perms = $this->_getPirateModel()->getPermissions();
 		
-		if ($pirate['user_id'] == $visitor['user_id'] OR $perms['manage'])
+		if (($pirate['user_id'] == $visitor['user_id']) OR ($perms['manage']))
 		{
 			return true;
 		}

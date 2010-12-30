@@ -25,8 +25,10 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 				"Ahoy,
 
 				Welcome to the forums, we are glad you could join us. We are a friendly community of pirates of all guilds and backgrounds.
+				
+				Before we get going, it's important you go check your email so you may verify your account and begin posting.
 
-				To get started, introduce yourself here: http://piratesforums.com/forums/new-members.2/
+				Once you've done that, we invite you to introduce yourself here: http://piratesforums.com/forums/new-members.2/
 
 				We are committed to providing an enjoyable experience without bias for all members of the Pirates gaming community alike.
 
@@ -37,9 +39,9 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 		$treasurer =
 				"Everyone has a story to tell and we look forward to hearing yours!
 
-				If you want to tell us a bit about your life as a pirate and experiences in the game, please read this: http://piratesforums.com/threads/information-key-points-to-talk-about-share.8/
+				If you want to tell us a bit about your life as a pirate and experiences in the game, please read this: http://piratesforums.com/threads/key-points-to-talk-about-and-share.8/
 
-				Additionally, we are also looking for people to fill some important positions here on the site. You may apply for such a position here: http://piratesforums.com/threads/positions-open-apply-now.14/
+				Our site is run entirely by volunteers, so we appreciate all the help we can get. If you think you'd like to give us a hand, see what positions are available here: http://piratesforums.com/threads/852/
 
 				We look forward to reading your posts!
 				Just reply if you have any questions, comments, or problems.

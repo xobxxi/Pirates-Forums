@@ -14,6 +14,9 @@ class PirateProfile_AttachmentHandler_Pirate extends XenForo_AttachmentHandler_A
 
 	protected function _canViewAttachment(array $attachment, array $viewingUser)
 	{
+		$perms = XenForo_Model::create('PirateProfile_Model_Pirate')->getPermissions();
+		if (!$perms['view']) return false;
+		
 		return true;
 	}
 
