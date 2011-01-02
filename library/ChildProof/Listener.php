@@ -6,6 +6,8 @@ class ChildProof_Listener
 		{
 			
 			if ($model == 'XenForo_Model_UserProfile')
+			{
 				$extend[] = 'ChildProof_Model_UserProfile';
+			}
 		}
 }

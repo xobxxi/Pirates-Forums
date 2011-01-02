@@ -6,6 +6,8 @@ class Welcome_Listener
         {
 
 			if ($class == 'XenForo_ControllerPublic_Register') 
+			{
                 $extend[] = 'Welcome_ControllerPublic_Register';
+			}
         }
 }
