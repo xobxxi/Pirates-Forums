@@ -41,7 +41,7 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 
 				If you want to tell us a bit about your life as a pirate and experiences in the game, please read this: http://piratesforums.com/threads/key-points-to-talk-about-and-share.8/
 
-				Our site is run entirely by volunteers, so we appreciate all the help we can get. If you think you'd like to give us a hand, see what positions are available here: http://piratesforums.com/threads/852/
+				Our site is run entirely by volunteers, so we appreciate all the help we can get. If you think you'd like to give us a hand, see what positions are available here: http://piratesforums.com/threads/positions.976/
 
 				We look forward to reading your posts!
 				Just reply if you have any questions, comments, or problems.
