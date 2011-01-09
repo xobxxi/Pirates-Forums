@@ -75,7 +75,8 @@ class PirateProfile_Install
 			", $fields);
 		}
 		
-		XenForo_Model_ContentType::rebuildContentTypeCache();
+		$model = new XenForo_Model('XenForo_Model_ContentType');
+		$model->rebuildContentTypeCache();
 
 		return true;
 	}
