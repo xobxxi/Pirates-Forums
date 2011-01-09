@@ -112,6 +112,27 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			return $perms;
 	}
 	
+	public function canLikePirate(array $pirate, array $user, &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+
+		if (!$viewingUser['user_id'])
+		{
+			return false;
+		}
+
+		if ($pirate['user_id'] == $viewingUser['user_id'])
+		{
+			$errorPhraseKey = 'liking_own_content_cheating';
+			return false;
+		}
+		
+		$perms = $this->getPermissions($viewingUser);
+		if (!$perms['view']) return false;
+
+		return true;
+	}
+	
 	public function preparePirateFetchOptions(array $fetchOptions)
 	{
 		$selectFields = '';
