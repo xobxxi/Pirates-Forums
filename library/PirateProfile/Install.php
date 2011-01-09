@@ -44,6 +44,33 @@ class PirateProfile_Install
 				('pirate', 'news_feed_handler_class', 'PirateProfile_NewsFeedHandler_Pirate');
 			");
 		}
+		
+		if ($existingAddOn['version_id'] < 17)
+		{
+			$db->query("
+				INSERT INTO `xf_content_type_field` (`content_type`, `field_name`, `field_value`) VALUES
+				('pirate', 'like_handler_class', 'PirateProfile_LikeHandler_Pirate');
+			");
+			
+			$db->query("
+				INSERT INTO `xf_content_type_field` (`content_type`, `field_name`, `field_value`) VALUES
+				('pirate', 'alert_handler_class', 'PirateProfile_AlertHandler_Pirate');
+			");
+			
+			$fields = array(
+				'attachment_handler_class' => 'PirateProfile_AttachmentHandler_Pirate',
+				'news_feed_handler_class'  => 'PirateProfile_NewsFeedHandler_Pirate',
+				'like_handler_class'       => 'PirateProfile_LikeHandler_Pirate',
+				'alert_handler_class'      => 'PirateProfile_AlertHandler_Pirate',
+			);
+			
+			$fields = serialize($fields);
+			
+			$db->query("
+				INSERT INTO `xf_content_type` (`content_type`, `addon_id`, `fields`) VALUES
+				('pirate', 'pirateProfile', ?);
+			", $fields);
+		}
 
 		return true;
 	}
@@ -67,6 +94,23 @@ class PirateProfile_Install
 			DELETE FROM `xf2`.`xf_content_type_field`
 			WHERE `xf_content_type_field`.`content_type` = 'pirate' 
 			AND `xf_content_type_field`.`field_name` = 'news_feed_handler_class'
+		");
+		
+		$db->query("
+			DELETE FROM `xf2`.`xf_content_type_field`
+			WHERE `xf_content_type_field`.`content_type` = 'pirate' 
+			AND `xf_content_type_field`.`field_name` = 'like_handler_class'
+		");
+		
+		$db->query("
+			DELETE FROM `xf2`.`xf_content_type_field`
+			WHERE `xf_content_type_field`.`content_type` = 'pirate' 
+			AND `xf_content_type_field`.`field_name` = 'alert_handler_class'
+		");
+		
+		$db->query("
+			DELETE FROM `xf2`.`xf_content_type`
+			WHERE `xf_content_type`.`addon_id` = 'pirateProfile'
 		");
 
 		return true;
