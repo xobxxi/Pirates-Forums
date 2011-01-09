@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="recentActivityBlock" title="Recent Activity Block" version_string="1.0.3" version_id="3" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="recentActivityBlock" title="Recent Activity Block" version_string="1.0.6" version_id="5" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates/>
   <code_events/>
   <code_event_listeners>
-    <listener event_id="load_class_controller" execute_order="10" callback_class="RecentActivityBlock_Listener" callback_method="loadClassController" active="1" description="Listens for XenForo_ControllerPublic_Index class"/>
+    <listener event_id="template_hook" execute_order="10" callback_class="RecentActivityBlock_Listener" callback_method="template_hook" active="1" description="Uses template hook to spit into sidebar"/>
   </code_event_listeners>
   <cron/>
   <email_templates/>
@@ -52,7 +52,7 @@
 <xen:else />
 	{xen:raw $noContentHtml}
 </xen:if>]]></template>
-    <template title="sidebar_recent_activity_feed_item" version_id="2" version_string="1.0.2"><![CDATA[<xen:require css="sidebar_recent_activity_feed_item.css" />
+    <template title="sidebar_recent_activity_feed_item" version_id="4" version_string="1.0.5"><![CDATA[<xen:require css="sidebar_recent_activity_feed_item.css" />
 
 <li data-author="{$item.username}">
 	<xen:avatar user="$item" size="s" img="true" />
@@ -71,7 +71,7 @@
 					<xen:comment><!-- $item.user liked your status --></xen:comment>
 					{xen:phrase x_liked_your_status,'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'status_attributes=href="{xen:link profile-posts, $item.content}"'}.
 				<xen:else />
-					<xen:comment><!-- $item.user liked $contentUser's status --></xen:comment>
+					<xen:comment><!-- $item.user liked $item.contentUser's status --></xen:comment>
 					{xen:phrase x_liked_ys_status, 'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'status_params=href="{xen:link profile-posts, $item.content}"', 'poster={$item.content.username}'}.
 				</xen:if>
 				<xen:else />
@@ -79,10 +79,10 @@
 					<xen:comment><!-- $item.user liked your post on $profileUser's profile --></xen:comment>
 					{xen:phrase x_liked_your_post_on_ys_profile, 'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'post_attributes=href="{xen:link profile-posts, $item.content}"', 'profile={$item.content.profile_username}'}.
 				<xen:elseif is="{$item.content.profile_user_id} == {$visitor.user_id}" />
-					<xen:comment><!-- $item.user liked $contentUser's post on your profile --></xen:comment>
+					<xen:comment><!-- $item.user liked $item.contentUser's post on your profile --></xen:comment>
 					{xen:phrase x_liked_ys_post_on_your_profile, 'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'post_params=href="{xen:link profile-posts, $item.content}"', 'poster={$item.content.username}'}.
 				<xen:else />
-					<xen:comment><!-- $item.user liked $contentUser's post on $profileUser's profile --></xen:comment>
+					<xen:comment><!-- $item.user liked $item.contentUser's post on $profileUser's profile --></xen:comment>
 					{xen:phrase x_liked_ys_post_on_zs_profile, 'name=<a href="{xen:link members, $item.user}" class="primaryText username">{$item.user.username}</a>', 'post_params=href="{xen:link profile-posts, $item.content}"', 'poster={$item.content.username}', 'profile={$item.content.profile_username}'}.
 				</xen:if>
 			</xen:if>
@@ -99,7 +99,13 @@
 		</xen:if>
 
         <xen:if is="{$item.action} == 'insert' AND {$item.content_type} == 'post'">
-        	{xen:phrase news_feed_post_insert, 'username=<a href="{xen:link members, $item.user}" class="username primaryText">{$item.user.username}</a>', 'threadTitle=<a href="{xen:link posts, $item.content}">{$item.content.title}</a>'}
+                <xen:if is="{$item.content.attach_count}">
+                        {xen:phrase news_feed_post_insert_attachment,
+			'username={xen:helper username, $item.user, 'primaryText'}',
+			'threadTitle=<a href="{xen:link posts, $item.content}"}>{$item.content.title}</a>'}
+                <xen:else />
+        	        {xen:phrase news_feed_post_insert, 'username=<a href="{xen:link members, $item.user}" class="username primaryText">{$item.user.username}</a>', 'threadTitle=<a href="{xen:link posts, $item.content}">{$item.content.title}</a>'}
+                </xen:if>
         </xen:if>
 
         <xen:if is="{$item.action} == 'like' AND {$item.content_type} == 'post'">
@@ -115,6 +121,74 @@
 
 				</xen:if>
 		</xen:if>
+		
+		<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'add'">
+			{xen:phrase pirateProfile_x_has_added_a_new_pirate_y,
+			       'username={xen:helper username, $item.user}',
+			       'pirate=<a href="{xen:link pirates/card, $item.content}" class="primaryText">{$item.content.name}</a>'
+			}
+		</xen:if>
+		
+		<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'guild'">
+			{xen:phrase pirateProfile_xs_pirate_y_has_joined_guild_z,
+			       'username={xen:helper username, $item.user}',
+			       'pirate=<a href="{xen:link pirates/card, $item.content}" class="primaryText">{$item.content.name}</a>',
+			       'guild=<em>{$item.guild.new}</em>'
+			}
+		</xen:if>
+		
+		<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'level'">
+			{xen:phrase pirateProfile_xs_pirate_y_has,
+			       'username={xen:helper username, $item.user}',
+			       'pirate=<a href="{xen:link pirates/card, $item.content}" class="primaryText">{$item.content.name}</a>'
+			}
+			<xen:if is="{$item.none}">
+			       <xen:foreach loop="$item.skills" key="$skill" value="$level">
+                                       {xen:phrase pirateProfile_reached} <em>{$skill} {xen:phrase pirateProfile_pirate_level} {$level}!</em>
+                               </xen:foreach>
+			<xen:else />
+				{xen:phrase pirateProfile_leveled} {xen:phrase pirateProfile_up}!
+			</xen:if>
+		</xen:if>
+		
+		<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'name'">
+			{xen:phrase pirateProfile_xs_pirate_y_has_gotten_new_name,
+			       'username={xen:helper username, $item.user}',
+			       'pirate=<a href="{xen:link pirates/card, $item.content}" class="primaryText">{$item.content.name}</a>'
+			}
+		</xen:if>
+		
+		<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'picture'">
+			{xen:phrase pirateProfile_xs_pirate_y_has_new_card_picture,
+			       'username={xen:helper username, $item.user}',
+			       'pirate=<a href="{xen:link pirates/card, $item.content}" class="primaryText">{$item.content.name}</a>'
+			}
+		</xen:if>
+
+                <xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'extra'">                       
+                        {xen:phrase pirateProfile_xs_pirate_y_has_been_updated,
+                                'username={xen:helper username, $item.user}',
+                                'pirate=<a href="{xen:link pirates/card, $item.content}" class="primaryText">{$item.content.name}</a>'
+                        }
+                </xen:if>
+                
+                <xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'like'">
+                        <xen:if is="{$item.owner.user_id} != {$visitor.user_id}">
+                        {xen:phrase pirateProfile_x_liked_ys_pirate,
+	                        'name={xen:helper username, $item.user, 'subject'}',
+                                'username={xen:helper username, $item.owner}',
+	                        'pirate_attributes=href="{xen:link pirates/card, $item.content}" class="PopupItemLink primaryText"',
+                                'pirate={$item.content.name}'
+                        }.
+                        <xen:else />
+                        {xen:phrase pirateProfile_x_liked_your_pirate,
+	                        'name={xen:helper username, $item.user, 'subject'}',
+	                        'pirate_attributes=href="{xen:link pirates/card, $item.content}" class="PopupItemLink primaryText"',
+                                'pirate={$item.content.name}'
+                        }.
+                        </xen:if>
+                </xen:if>
+
 		<br />
      	<span class="muted"><xen:datetime time="$item.event_date" /></span>
 	</div>
