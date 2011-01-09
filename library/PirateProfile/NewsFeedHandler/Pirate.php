@@ -77,4 +77,12 @@ class PirateProfile_NewsFeedHandler_Pirate extends XenForo_NewsFeedHandler_Abstr
 		
 		return $item;
 	}
+	
+	protected function _prepareLike(array $item)
+	{
+		$item['owner'] = XenForo_Model::create('XenForo_Model_User')
+		                 	->getUserById($item['content']['user_id']);
+		
+		return $item;
+	}
 }

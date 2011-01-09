@@ -11,7 +11,7 @@
 		    function() { $(this).css('background-image', 'url(\'http://piratesoffline.org/pirates/card/handle/handle.gif\')')});
 	
 		$('.pirateCard .pirateSkills li').each(function() {
-			$(this).css('background-color', 'inherit').css('color', 'rgb(202,202,202)').css('margin-top', '3px').css('margin-bottom', '0');
+			$(this).css('background-color', 'inherit').css('color', 'rgb(202, 202, 202)').css('margin-top', '3px').css('margin-bottom', '0');
 		
 			$(this).append('<div class="pirateProgressBar"><p></p></div>');
 			var progress = ($(this).data('level')/$(this).data('max'))*100;
@@ -20,11 +20,11 @@
 	
 		$('.pirateCard .pirateSkills li div.pirateProgressBar')
 			.css('border-style', 'solid')
-			.css('border-color', 'rgb(48,46,43)')
+			.css('border-color', 'rgb(48, 46, 43)')
 		    .css('border-width', '0px 6px')
-			.css('border-image', 'url(../styles/pirates/card/borders/skills-border.gif) 0 6 stretch')
-			.css('-moz-border-image', 'url(../styles/pirates/card/borders/skills-border.gif) 0 6 stretch')
-			.css('-webkit-border-image', 'url(../styles/pirates/card/borders/skills-border.gif) 0 6 stretch');
+			.css('border-image', 'url(http://piratesoffline.org/pirates/card/borders/skills-border.gif) 0 6 stretch')
+			.css('-moz-border-image', 'url(http://piratesoffline.org/pirates/card/borders/skills-border.gif) 0 6 stretch')
+			.css('-webkit-border-image', 'url(http://piratesoffline.org/styles/pirates/card/borders/skills-border.gif) 0 6 stretch');
 	
 		function showHandle() {
 			$('.pirateCard div.pirateHandle:hidden').show("slide", { direction: "left" });

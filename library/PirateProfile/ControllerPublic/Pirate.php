@@ -80,11 +80,14 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 		$pirate = $this->_preparePirate($this->_censorPirate($pirate));
 		
-		$pirate['canLike'] = true;
+		$pirate['canLike'] = false;
 		$visitor = XenForo_Visitor::getInstance();
-		if (empty($visitor['user_id']) OR !$perms['view'])
+		if (!empty($visitor['user_id']))
 		{
-			$pirate['canLike'] = false;
+			if ($visitor['user_id'] != $pirate['user_id'])
+			{
+				$pirate['canLike'] = true;
+			}
 		}
 
 		$user = $this->_getUserModel()->getUserById($pirate['user_id']);

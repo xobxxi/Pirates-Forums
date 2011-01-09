@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.0.0" version_id="15" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.1.0 Beta 1" version_id="16" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -74,8 +74,11 @@
     <phrase title="pirateProfile_formerly_x" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Formerly {old}]]></phrase>
     <phrase title="pirateProfile_last_updated" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Last updated]]></phrase>
     <phrase title="pirateProfile_leveled" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[leveled]]></phrase>
+    <phrase title="pirateProfile_like_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[Like Pirate]]></phrase>
     <phrase title="pirateProfile_make_fit" global_cache="0" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Make fit]]></phrase>
+    <phrase title="pirateProfile_members_who_liked_this_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[Members Who Liked This Pirate]]></phrase>
     <phrase title="pirateProfile_notoriety_level_too_low" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[The notoriety level is too low for some skill levels you've set.]]></phrase>
+    <phrase title="pirateProfile_no_one_has_liked_this_pirate_yet" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[No one has liked this pirate yet.]]></phrase>
     <phrase title="pirateProfile_own_pirates" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[own pirates]]></phrase>
     <phrase title="pirateProfile_pirates" global_cache="0" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Pirates]]></phrase>
     <phrase title="pirateProfile_pirate_cannon" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Cannon]]></phrase>
@@ -103,6 +106,7 @@
     <phrase title="pirateProfile_save_pirate" global_cache="0" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Save Pirate]]></phrase>
     <phrase title="pirateProfile_the_pirate_has_been_saved_successfully" global_cache="0" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[The pirate has been saved successfully.]]></phrase>
     <phrase title="pirateProfile_this_user_has_not_entered_any_pirates" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[This user has not entered any pirates.]]></phrase>
+    <phrase title="pirateProfile_unlike_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[Unlike Pirate]]></phrase>
     <phrase title="pirateProfile_up" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[up]]></phrase>
     <phrase title="pirateProfile_viewing" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Viewing]]></phrase>
     <phrase title="pirateProfile_viewing_pirate" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Viewing pirate:]]></phrase>
@@ -113,8 +117,12 @@
     <phrase title="pirateProfile_xs_pirate_y_has_joined_guild_z" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has joined the guild {guild}.]]></phrase>
     <phrase title="pirateProfile_xs_pirate_y_has_new_card_picture" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has a new card picture.]]></phrase>
     <phrase title="pirateProfile_x_has_added_a_new_pirate_y" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username} has added a new pirate: {pirate}.]]></phrase>
+    <phrase title="pirateProfile_x_liked_your_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[{name} liked your pirate: <a {pirate_attributes}>{pirate}</a>]]></phrase>
+    <phrase title="pirateProfile_x_liked_ys_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[{name} liked {username}'s pirate: <a {pirate_attributes}>{pirate}</a>]]></phrase>
     <phrase title="pirateProfile_your_pirates" global_cache="0" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Your Pirates]]></phrase>
     <phrase title="pirateProfile_you_have_not_entered_any_pirates" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[You have not entered any pirates]]></phrase>
+    <phrase title="pirateProfile_you_sure_you_want_to_like_this_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[Are you sure you want to like this pirate?]]></phrase>
+    <phrase title="pirateProfile_you_sure_you_want_to_unlike_this_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[Are you sure you want to unlike this pirate?]]></phrase>
     <phrase title="pollsList_there_no_polls_to_display" global_cache="0" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[There are no polls to display.]]></phrase>
   </phrases>
   <route_prefixes>
@@ -124,6 +132,11 @@
   </route_prefixes>
   <style_properties/>
   <templates>
+    <template title="alert_pirate_like" version_id="15" version_string="1.0.0"><![CDATA[{xen:phrase pirateProfile_x_liked_your_pirate,
+	'name={xen:helper username, $user}',
+	'pirate_attributes=href="{xen:link pirates/card, $content}" class="PopupItemLink subject"',
+        'pirate={$content.name}'
+}]]></template>
     <template title="news_feed_item_pirate_add" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<h3 class="description">
 {xen:phrase pirateProfile_x_has_added_a_new_pirate_y,
        'username={xen:helper username, $user}',
@@ -174,6 +187,22 @@
 </xen:if>
 </h3>
 <p class="snippet">{xen:phrase pirateProfile_congrats}</p>]]></template>
+    <template title="news_feed_item_pirate_like" version_id="15" version_string="1.0.0"><![CDATA[<h3 class="description">
+<xen:if is="{$owner.user_id} != {$visitor.user_id}">
+{xen:phrase pirateProfile_x_liked_ys_pirate,
+	'name={xen:helper username, $user}',
+        'username={xen:helper username, $owner}',
+	'pirate_attributes=href="{xen:link pirates/card, $content}" class="PopupItemLink primaryText"',
+        'pirate={$content.name}'
+}.
+<xen:else />
+{xen:phrase pirateProfile_x_liked_your_pirate,
+	'name={xen:helper username, $user}',
+	'pirate_attributes=href="{xen:link pirates/card, $content}" class="PopupItemLink primaryText"',
+        'pirate={$content.name}'
+}.
+</xen:if>
+</h3>]]></template>
     <template title="news_feed_item_pirate_name" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<h3 class="description">
 {xen:phrase pirateProfile_xs_pirate_y_has_gotten_new_name,
        'username={xen:helper username, $user}',
@@ -397,7 +426,7 @@ div.label,
 }]]></template>
     <template title="pirateProfile_member_card_link_item" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<a href="{xen:link pirates, $user}">{xen:phrase pirateProfile_pirates}</a>]]></template>
     <template title="pirateProfile_navigation_visitor_tab_item" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[<li><a href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a></li>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="12" version_string="1.0.0 RC 2"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="15" version_string="1.0.0"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
 <xen:require js="js/card/skills.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
 
@@ -442,18 +471,35 @@ div.label,
                 </xen:if>
                 <div class="pirateMisc">
                         <p class="muted">{xen:phrase pirateProfile_last_updated}: {xen:datetime $pirate.modified_date}</p>
+                        <xen:if is="{$pirate.canLike}">
+				<a href="{xen:link 'pirates/like', $pirate}" class="LikeLink item control {xen:if $pirate.like_date, unlike, like}" data-container="#likes-wp-{$pirate.pirate_id}"><span></span><span class="LikeLabel">{xen:if $pirate.like_date, {xen:phrase unlike}, {xen:phrase like}}</span></a>
+			</xen:if>
                         <xen:if is="{$visitor.user_id} == {$user.user_id} || {$perms.manage}"><xen:if is="{$perms.edit}"><a href="{xen:link pirates/edit, $pirate}" class="OverlayTrigger">{xen:phrase edit}</a></xen:if> <xen:if is="{$perms.delete}"><a href="{xen:link pirates/delete, $pirate}" class="OverlayTrigger">{xen:phrase delete}</a></xen:if></xen:if>
+
+                        <ol class="messageResponse">
+
+			        <li id="likes-wp-{$pirate.pirate_id}">
+				        <xen:if is="{$pirate.likes}">
+					        <xen:include template="likes_summary">
+						        <xen:map from="$pirate" to="$message" />
+						        <xen:set var="$likesUrl">{xen:link pirates/likes, $pirate}</xen:set>
+					        </xen:include>
+				        </xen:if>
+			        </li>
+
+		        </ol>
+
                 </div>
 	</div>
 </div>]]></template>
-    <template title="pirateProfile_pirate_card.css" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[#pirateProfile #cardLoader
+    <template title="pirateProfile_pirate_card.css" version_id="15" version_string="1.0.0"><![CDATA[#pirateProfile #cardLoader
 {
-	height: 444px;
+	height: 468px;
 }
 
 .pirateCard
 {
-	height: 440px;
+	height: 464px;
 	width: 500px;
 	color: rgb(202,202,202);
         font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -613,7 +659,77 @@ div.label,
 .pirateCard .pirateMisc p
 {
         display: inline;
+}
+
+.pirateCard .messageResponse
+{
+        color: rgb(0, 0, 0);
+}
+
+.pirateCard .messageResponse .secondaryContent
+{
+        padding: 5px;
+}
+
+.pirateCard .messageResponse ol
+{
+        list-style-type: decimal !important;
+        margin-left: 0 !important;
+}
+
+.pirateCard .messageResponse li
+{
+        list-style: none !important;
+        margin-left: 0 !important;
 }]]></template>
+    <template title="pirateProfile_pirate_like" version_id="15" version_string="1.0.0"><![CDATA[<xen:title>{$pirate.name} - {xen:if $like, '{xen:phrase pirateProfile_unlike_pirate}', '{xen:phrase pirateProfile_like_pirate}'}</xen:title>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link 'pirates/like', $pirate}" method="post" class="xenForm">
+
+	<dl class="ctrlUnit fullWidth">
+		<dt></dt>
+		<dd>
+			<xen:if is="{$like}">
+				{xen:phrase pirateProfile_you_sure_you_want_to_unlike_this_pirate}
+			<xen:else />
+				{xen:phrase pirateProfile_you_sure_you_want_to_like_this_pirate}
+			</xen:if>
+		</dd>
+	</dl>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd><input type="submit" value="{xen:if $like, '{xen:phrase pirateProfile_unlike_pirate}', '{xen:phrase pirateProfile_like_pirate}'}" accesskey="s" class="button primary" autofocus="true" /></dd>
+	</dl>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="pirateProfile_pirate_likes" version_id="15" version_string="1.0.0"><![CDATA[<xen:title>{$pirate.name} - {xen:phrase pirateProfile_members_who_liked_this_pirate}</xen:title>
+
+<xen:container var="$head.noindex">
+	<meta name="robots" content="noindex" /></xen:container>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
+</xen:navigation>
+
+<div class="section">
+	<ol class="overlayScroll">
+	<xen:foreach loop="$likes" value="$like">
+		<xen:include template="member_list_item">
+			<xen:set var="$extraTemplate"><xen:datetime time="$like.like_date" /></xen:set>
+			<xen:map from="$like" to="$user" />
+		</xen:include>
+	</xen:foreach>
+	</ol>
+	<div class="sectionFooter overlayOnly"><a class="button primary OverlayCloser">{xen:phrase close}</a></div>
+</div>]]></template>
     <template title="pirateProfile_profile_tab" version_id="0" version_string="1.0.0 Alpha"><![CDATA[<li><a href="{$requestPaths.requestUri}#pirateProfile">Pirates</a></li>
 
 <xen:edithint template="pirateProfile_profile_tab_content" />
