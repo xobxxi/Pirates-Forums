@@ -69,8 +69,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$perms = $pirateModel->getPermissions();
 		if (!$perms['view']) throw $this->getNoPermissionResponseException();
 		
-
-		$pirate	= $pirateModel->getPirateById($pirate_id, array('likeUserId' => 1));
+		$pirate	= $pirateModel->getPirateById($pirate_id, array('likeUserId' => XenForo_Visitor::getUserId()));
 
 		if (empty($pirate))
 		{
