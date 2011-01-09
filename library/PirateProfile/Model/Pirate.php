@@ -2,6 +2,22 @@
 
 class PirateProfile_Model_Pirate extends XenForo_Model
 {
+	public function getAllPirates($limit, $page)
+	{
+		$start = ($limit * ($page - 1));
+		
+		$pirates = $this->_getDb()->fetchAll("
+			SELECT pirate_id, user_id, name
+			FROM pirates
+			ORDER BY name ASC
+			LIMIT {$start}, {$limit}
+		");
+		
+		if (empty($pirates)) return false;
+		
+		return $pirates;
+	}
+	
 	public function getUserPirates($user_id)
 	{
 		$pirates = $this->_getDb()->fetchAll('
@@ -15,11 +31,15 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		return $pirates;
 	}
 
-	public function getPirateById($id)
+	public function getPirateById($id, array $fetchOptions = array())
 	{
+		$sqlClauses = $this->preparePirateFetchOptions($fetchOptions);
+		
 		$pirate = $this->_getDb()->fetchRow('
 			SELECT *
-			FROM pirates
+					' . $sqlClauses['selectFields'] . '
+			FROM pirates AS pirate
+				' . $sqlClauses['joinTables'] . '
 			WHERE pirate_id = ?
 		', $id);
 
@@ -90,6 +110,38 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			);
 
 			return $perms;
+	}
+	
+	public function preparePirateFetchOptions(array $fetchOptions)
+	{
+		$selectFields = '';
+		$joinTables = '';
+		
+		$db = $this->_getDb();
+		
+		if (isset($fetchOptions['likeUserId']))
+		{
+			if (empty($fetchOptions['likeUserId']))
+			{
+				$selectFields .= ',
+					0 AS like_date';
+			}
+			else
+			{
+				$selectFields .= ',
+					liked_content.like_date';
+				$joinTables .= '
+					LEFT JOIN xf_liked_content AS liked_content
+						ON (liked_content.content_type = \'pirate\'
+							AND liked_content.content_id = pirate.pirate_id
+							AND liked_content.like_user_id = ' .$db->quote($fetchOptions['likeUserId']) . ')';
+			}
+		}
+
+		return array(
+			'selectFields' => $selectFields,
+			'joinTables'   => $joinTables
+		);
 	}
 	
 	protected function _hasPermission($permissions, $group, $permission)

@@ -42,6 +42,14 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 					'type'		=> self::TYPE_STRING,
 					'maxLength' => 32
 				),
+				'likes' => array(
+					'type' => self::TYPE_UINT_FORCED,
+					'default' => 0
+				),
+				'like_users' => array(
+					'type' => self::TYPE_SERIALIZED,
+					'default' => 'a:0:{}'
+				),
 				'sailing' => array(
 					'type' => self::TYPE_UINT,
 					'max'  => $maxLevelWeapon
@@ -215,10 +223,14 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 		
 			if ($this->isChanged('guild'))
 			{
-				$changes[] = array(
-					'action' => 'guild',
-					'data'   => array('old' => $this->getExisting('guild'), 'new' => $this->get('guild'))
-				);
+				$guild = $this->get('guild');
+				if (!empty($guild))
+				{
+					$changes[] = array(
+						'action' => 'guild',
+						'data'   => array('old' => $this->getExisting('guild'), 'new' => $guild)
+					);
+				}
 			}
 			
 			$skills = $this->_getChangedSkills();
