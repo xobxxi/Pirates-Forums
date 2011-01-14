@@ -18,10 +18,10 @@
     <property property_name="headerLogoPath" property_type="scalar"><![CDATA[@imagePath/images/logo.jpg]]></property>
     <property property_name="navTabSelected" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/navigation-tab.png","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"black","border-bottom-style":"none","border-bottom-width":"1px","border-color":"rgb(255, 255, 255)","border-style":"solid","border-top-left-radius":"2px","border-top-right-radius":"2px","border-width":"1px","color":"rgb(255, 255, 255)","extra":"text-shadow: 0px 0px 3px @primaryLightest;","font-weight":"bold","margin-top":"-2px","padding-top":"2px"}]]></property>
     <property property_name="headerLogoHeight" property_type="scalar"><![CDATA[96px]]></property>
-    <property property_name="popupControl" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/tab-unselected-25px-light.png","background-position":"top","background-repeat":"repeat-x","border-bottom-left-radius":"0px","border-bottom-right-radius":"0px","border-top-left-radius":"3px","border-top-right-radius":"3px","color":"rgb(255, 255, 255)","extra":"text-shadow: 1px 1px 2px white;\nbox-shadow: 0px 5px 5px rgba(0,0,0, 0.5);"}]]></property>
     <property property_name="sectionMain" property_type="css"><![CDATA[{"border-color":"rgb(220, 53, 53)","border-radius":"10px","border-style":"solid","border-width":"1px","margin-bottom":"10px","margin-left":"auto","margin-right":"auto","margin-top":"10px","padding-all":"10px"}]]></property>
     <property property_name="visitorPanelAvatar" property_type="css"><![CDATA[{"extra":"float: left;","height":"80px","margin-right":"5px","width":"80px"}]]></property>
     <property property_name="breadcrumb" property_type="css"><![CDATA[{"background-color":"rgb(243, 237, 211)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-position":"top","background-repeat":"repeat-x","border-color":"rgb(220, 53, 53)","border-radius":"5px","border-style":"solid","border-width":"1px","extra":"overflow: hidden;\nzoom: 1;","font-size":"11px"}]]></property>
+    <property property_name="popupControl" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/tab-unselected-25px-light.png","background-position":"top","background-repeat":"repeat-x","border-bottom-left-radius":"0px","border-bottom-right-radius":"0px","border-top-left-radius":"3px","border-top-right-radius":"3px","color":"rgb(255, 255, 255)","extra":"text-shadow: 1px 1px 2px white;\nbox-shadow: 0px 5px 5px rgba(0,0,0, 0.5);"}]]></property>
     <property property_name="bbCodeBlockType" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"rgb(220, 53, 53)","border-bottom-style":"solid","border-bottom-width":"1px","border-top-left-radius":"4px","border-top-right-radius":"4px","color":"rgb(255, 255, 255)","font-family":"@body.font-family","font-size":"11px","padding-bottom":"5px","padding-left":"10px","padding-right":"10px","padding-top":"5px"}]]></property>
     <property property_name="ctrlUnitLabelHint" property_type="css"><![CDATA[{"color":"rgb(100, 100, 100)","extra":"display: block;","font-size":"10px","font-style":"italic","margin-left":"@ctrlUnitEdgeSpacer"}]]></property>
     <property property_name="messageUserBlock" property_type="css"><![CDATA[{"background-color":"rgb(223, 212, 182)","background-image":"@imagePath\/xenforo\/gradients\/tab-selected-light.png","background-position":"bottom","background-repeat":"repeat-x","border-color":"rgb(153, 0, 0)","border-radius":"5px","border-style":"solid","border-width":"1px"}]]></property>
@@ -101,106 +101,6 @@
     <property property_name="primaryLighterStill" property_type="scalar"><![CDATA[rgb(153, 0, 0)]]></property>
   </properties>
   <templates>
-    <template title="account_personal_details" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:title>{xen:phrase personal_details}</xen:title>
-
-<xen:require css="account.css" />
-<xen:require js="js/xenforo/personal_details_editor.js" />
-
-<xen:edithint template="account_avatar_overlay.css" />
-<xen:edithint template="account_avatar_overlay" />
-
-<form method="post" class="xenForm personalDetailsForm AutoValidator"
-	action="{xen:link 'account/personal-details-save'}"
-	data-fieldValidatorUrl="{xen:link 'account/validate-field.json'}">
-
-	<dl class="ctrlUnit">
-		<dt><label for="ctrl_status">{xen:phrase status_message}:</label></dt>
-		<dd>
-			<textarea name="status" rows="2" cols="60" id="ctrl_status" autofocus="autofocus" class="textCtrl StatusEditor Elastic OptOut" data-statusEditorCounter="#statusEditorCounter"></textarea>
-			<span id="statusEditorCounter" title="{xen:phrase characters_remaining}"></span>
-			<div class="explain"><h3 class="statusHeader">{xen:phrase current_status}:</h3> <span class="CurrentStatus"><xen:if is="{$visitor.status}">{xen:string censor, $visitor.status}<xen:else />({xen:phrase none})</xen:if></span><!--TODO: clearing--></div>
-		</dd>
-	</dl>
-
-	<xen:if hascontent="true">
-		<fieldset>
-			<xen:contentcheck>
-				<xen:if is="{$canEditAvatar}">
-					<dl class="ctrlUnit avatarEditor">
-						<dt><label>{xen:phrase avatar}:</label></dt>
-						<dd>
-							<xen:avatar user="$visitor" size="m" class="OverlayTrigger" href="{xen:link account/avatar}" />
-							<p class="explain">{xen:phrase click_image_to_change_your_avatar}</p>
-						</dd>
-					</dl>
-				</xen:if>
-				
-				<xen:if is="{$canEditCustomTitle}">
-					<dl class="ctrlUnit">
-						<dt><label for="ctrl_custom_title">{xen:phrase custom_title}:</label></dt>
-						<dd>
-							<input type="text" name="custom_title" value="{$visitor.custom_title}" id="ctrl_custom_title" class="textCtrl" />
-							<p class="explain">{xen:phrase if_specified_replace_title_that_displays_under_name_in_posts}</p>
-						</dd>
-					</dl>
-				</xen:if>
-			</xen:contentcheck>
-		</fieldset>
-	</xen:if>
-
-	<fieldset>
-		<dl class="ctrlUnit">
-			<dt><label>{xen:phrase gender}:</label></dt>
-			<dd>
-				<ul>
-					<li><label for="ctrl_gender_male"><input type="radio" name="gender" value="male" id="ctrl_gender_male" {xen:checked "{$visitor.gender} == 'male'"} /> {xen:phrase male}</label></li>
-					<li><label for="ctrl_gender_female"><input type="radio" name="gender" value="female" id="ctrl_gender_female" {xen:checked "{$visitor.gender} == 'female'"}  /> {xen:phrase female}</label></li>
-					<li><label for="ctrl_gender_"><input type="radio" name="gender" value="" id="ctrl_gender_" {xen:checked "{$visitor.gender} == ''"}  /> ({xen:phrase unspecified})</label></li>
-				</ul>
-			</dd>
-		</dl>
-
-		<dl class="ctrlUnit OptOut">
-			<dt>{xen:phrase date_of_birth}:</dt>
-			<dd>
-				<xen:if is="{$visitor.dob_day} && {$visitor.dob_month} && {$visitor.dob_year}">
-					{xen:date $birthday.timeStamp, $birthday.format}
-					<p class="explain">{xen:phrase once_your_birthday_has_been_entered_it_cannot_be_changed}</p>
-				<xen:else />
-					<xen:include template="helper_birthday_input">
-						<xen:map from="$visitor" to="$user" />
-					</xen:include>
-				</xen:if>
-			</dd>
-		</dl>
-
-		<xen:include template="account_privacy_dob" />
-	</fieldset>
-
-	<dl class="ctrlUnit OptOut">
-		<dt><label for="ctrl_about">{xen:phrase about_you}:</label> <dfn>{xen:phrase you_may_use_bb_code}</dfn></dt>
-		<dd>{xen:raw $aboutEditor}</dd>
-	</dl>
-
-	<dl class="ctrlUnit submitUnit">
-		<dt></dt>
-		<dd><input type="submit" name="save" value="{xen:phrase save}" accesskey="s" class="button primary" /></dd>
-	</dl>
-
-	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
-</form>]]></template>
-    <template title="account_privacy_dob" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<dl class="ctrlUnit{xen:if '!{$isPrivacySettings}', ' sectionLink'}">
-	<xen:if is="{$isPrivacySettings}">
-		<dt><label>{xen:phrase date_of_birth_privacy}:</label></dt>
-	<xen:else />
-		<dt><a href="{xen:link 'account/privacy'}">{xen:phrase edit_your_privacy_settings}</a></dt>
-	</xen:if>
-	<dd>
-		<ul>
-			<li><label for="ctrl_show_dob_date"><input type="checkbox" name="show_dob_date" value="1" id="ctrl_show_dob_date" {xen:checked "{$visitor.show_dob_date}"} /> {xen:phrase show_day_and_month_of_birth}</label></li>
-		</ul>
-	</dd>
-</dl>]]></template>
     <template title="account_wrapper" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:require css="account.css" />
 
 <div class="container">
@@ -273,289 +173,138 @@
 	
 	<div class="accountContent section sectionMain">{xen:raw $_subView}</div>
 </div>]]></template>
-    <template title="editor" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:if is="{$showWysiwyg}">
-	<textarea name="{$formCtrlNameHtml}" id="{$editorId}_html" style="height:{$height}; display:none" class="textCtrl MessageEditor">{$messageHtml}</textarea>
-	<noscript><textarea name="{$formCtrlName}" id="{$editorId}" style="height:{$height};" class="textCtrl MessageEditor">{$message}</textarea></noscript>
-<xen:else />
-	<textarea name="{$formCtrlName}" id="{$editorId}" style="height:{$height};" class="textCtrl MessageEditor">{$message}</textarea>
-</xen:if>
-<input type="hidden" name="_xfRelativeResolver" value="{$requestPaths.fullUri}" />
+    <template title="bb_code.css" addon_id="" version_id="0" version_string=""><![CDATA[/* .bbCodeX classes are designed to exist inside .baseHtml. ie: they have no CSS reset applied */
 
-<xen:if is="{$showWysiwyg}">
-	<xen:include template="editor_js_setup" />
-        <xen:include template="editor_smiliesDropdown" />
-</xen:if>
-
-<xen:edithint template="editor_contents.css" />
-<xen:edithint template="editor_ui.css" />
-<xen:edithint template="form.css" />]]></template>
-    <template title="editor_quick_reply" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:if is="{$showWysiwyg}">
-	<textarea name="{$formCtrlNameHtml}" id="{$editorId}_html" style="display:none" class="textCtrl MessageEditor">{$messageHtml}</textarea>
-	<noscript><textarea name="{$formCtrlName}" id="{$editorId}" class="textCtrl MessageEditor">{$message}</textarea></noscript>
-<xen:else />
-	<textarea name="{$formCtrlName}" id="{$editorId}" class="textCtrl MessageEditor">{$message}</textarea>
-</xen:if>
-<input type="hidden" name="_xfRelativeResolver" value="{$requestPaths.fullUri}" />
-
-<xen:if is="{$showWysiwyg}">
-	<xen:include template="editor_js_setup" />
-        <xen:include template="editor_smiliesDropdown_quick_reply" />
-</xen:if>
-
-<xen:comment><xen:require css="editor_contents.css" /></xen:comment>]]></template>
-    <template title="editor_ui.css" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[/* Reset */
-.xenForoSkin table, .xenForoSkin tbody, .xenForoSkin a, .xenForoSkin img, .xenForoSkin tr, .xenForoSkin div, .xenForoSkin td, .xenForoSkin iframe, .xenForoSkin span, .xenForoSkin *, .xenForoSkin .mceText {border:0; margin:0; padding:0; background:transparent; white-space:nowrap; text-decoration:none; font-weight:normal; cursor:default; color:#000; vertical-align:baseline; width:auto; border-collapse:separate; text-align:left}
-.xenForoSkin a:hover, .xenForoSkin a:link, .xenForoSkin a:visited, .xenForoSkin a:active {text-decoration:none; font-weight:normal; cursor:default; color:#000}
-.xenForoSkin table td {vertical-align:middle}
-
-/* Containers */
-.xenForoSkin table {background:#F0F0EE}
-.xenForoSkin iframe {display:block; background:#FFF}
-.xenForoSkin .mceToolbar {height:26px}
-.xenForoSkin .mceLeft {text-align:left}
-.xenForoSkin .mceRight {text-align:right}
-
-/* External */
-.xenForoSkin .mceExternalToolbar {position:absolute; border:1px solid #CCC; border-bottom:0; display:none;}
-.xenForoSkin .mceExternalToolbar td.mceToolbar {padding-right:13px;}
-.xenForoSkin .mceExternalClose {position:absolute; top:3px; right:3px; width:7px; height:7px; background:url({xen:property imagePath}/xenforo/editor/icons.png) -820px 0}
-
-/* Layout */
-.xenForoSkin table.mceLayout {border:0; border-left:1px solid #CCC; border-right:1px solid #CCC}
-.xenForoSkin table.mceLayout tr.mceFirst td {border-top:1px solid #CCC}
-.xenForoSkin table.mceLayout tr.mceLast td {border-bottom:1px solid #CCC}
-.xenForoSkin table.mceToolbar, .xenForoSkin tr.mceFirst .mceToolbar tr td, .xenForoSkin tr.mceLast .mceToolbar tr td {border:0; margin:0; padding:0;}
-.xenForoSkin td.mceToolbar {padding-top:1px; vertical-align:top}
-.xenForoSkin .mceIframeContainer {border-top:1px solid #CCC; border-bottom:1px solid #CCC}
-.xenForoSkin .mceStatusbar {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; color:#000; display:block; height:20px}
-.xenForoSkin .mceStatusbar div {float:left; margin:2px}
-.xenForoSkin .mceStatusbar a.mceResize {display:block; float:right; background:url({xen:property imagePath}/xenforo/editor/icons.png) -800px 0; width:20px; height:20px; cursor:se-resize}
-.xenForoSkin .mceStatusbar a:hover {text-decoration:underline}
-.xenForoSkin table.mceToolbar {margin-left:3px}
-.xenForoSkin span.mceIcon, .xenForoSkin img.mceIcon {display:block; width:20px; height:20px}
-.xenForoSkin .mceIcon {background:url({xen:property imagePath}/xenforo/editor/icons.png) no-repeat 20px 20px}
-.xenForoSkin td.mceCenter {text-align:center;}
-.xenForoSkin td.mceCenter table {margin:0 auto; text-align:left;}
-.xenForoSkin td.mceRight table {margin:0 0 0 auto;}
-
-/* Button */
-.xenForoSkin .mceButton {display:block; border:1px solid #F0F0EE; width:20px; height:20px; margin-right:1px}
-.xenForoSkin a.mceButtonEnabled:hover {border:1px solid #0A246A; background-color:#B2BBD0}
-.xenForoSkin a.mceButtonActive, .xenForoSkin a.mceButtonSelected {border:1px solid #0A246A; background-color:#C2CBE0}
-.xenForoSkin .mceButtonDisabled .mceIcon {opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
-.xenForoSkin .mceButtonLabeled {width:auto}
-.xenForoSkin .mceButtonLabeled span.mceIcon {float:left}
-.xenForoSkin span.mceButtonLabel {display:block; font-size:10px; padding:4px 6px 0 22px; font-family:Tahoma,Verdana,Arial,Helvetica}
-.xenForoSkin .mceButtonDisabled .mceButtonLabel {color:#888}
-
-/* Separator */
-.xenForoSkin .mceSeparator {display:block; background:url({xen:property imagePath}/xenforo/editor/icons.png) -180px 0; width:2px; height:20px; margin:2px 2px 0 4px}
-
-/* ListBox */
-.xenForoSkin .mceListBox {direction:ltr}
-.xenForoSkin .mceListBox, .xenForoSkin .mceListBox a {display:block}
-.xenForoSkin .mceListBox .mceText {padding-left:4px; width:70px; text-align:left; border:1px solid #CCC; border-right:0; background:#FFF; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; height:20px; line-height:20px; overflow:hidden}
-.xenForoSkin .mceListBox .mceOpen {width:9px; height:20px; background:url({xen:property imagePath}/xenforo/editor/icons.png) -741px 0; margin-right:2px; border:1px solid #CCC;}
-.xenForoSkin table.mceListBoxEnabled:hover .mceText, .xenForoSkin .mceListBoxHover .mceText, .xenForoSkin .mceListBoxSelected .mceText {border:1px solid #A2ABC0; border-right:0; background:#FFF}
-.xenForoSkin table.mceListBoxEnabled:hover .mceOpen, .xenForoSkin .mceListBoxHover .mceOpen, .xenForoSkin .mceListBoxSelected .mceOpen {background-color:#FFF; border:1px solid #A2ABC0}
-.xenForoSkin .mceListBoxDisabled a.mceText {color:gray; background-color:transparent;}
-.xenForoSkin .mceListBoxMenu {overflow:auto; overflow-x:hidden}
-.xenForoSkin .mceOldBoxModel .mceListBox .mceText {height:22px}
-.xenForoSkin .mceOldBoxModel .mceListBox .mceOpen {width:11px; height:22px;}
-.xenForoSkin select.mceNativeListBox {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:7pt; background:#F0F0EE; border:1px solid gray; margin-right:2px;}
-
-/* SplitButton */
-.xenForoSkin .mceSplitButton {width:32px; height:20px; direction:ltr}
-.xenForoSkin .mceSplitButton a, .xenForoSkin .mceSplitButton span {height:20px; display:block}
-.xenForoSkin .mceSplitButton a.mceAction {width:20px; border:1px solid #F0F0EE; border-right:0;}
-.xenForoSkin .mceSplitButton span.mceAction {width:20px; background:url({xen:property imagePath}/xenforo/editor/icons.png) 20px 20px;}
-.xenForoSkin .mceSplitButton a.mceOpen {width:9px; background:url({xen:property imagePath}/xenforo/editor/icons.png) -741px 0; border:1px solid #F0F0EE;}
-.xenForoSkin .mceSplitButton span.mceOpen {display:none}
-.xenForoSkin table.mceSplitButtonEnabled:hover a.mceAction, .xenForoSkin .mceSplitButtonHover a.mceAction, .xenForoSkin .mceSplitButtonSelected a.mceAction {border:1px solid #0A246A; border-right:0; background-color:#B2BBD0}
-.xenForoSkin table.mceSplitButtonEnabled:hover a.mceOpen, .xenForoSkin .mceSplitButtonHover a.mceOpen, .xenForoSkin .mceSplitButtonSelected a.mceOpen {background-color:#B2BBD0; border:1px solid #0A246A;}
-.xenForoSkin .mceSplitButtonDisabled .mceAction, .xenForoSkin .mceSplitButtonDisabled a.mceOpen {opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
-.xenForoSkin .mceSplitButtonActive a.mceAction {border:1px solid #0A246A; background-color:#C2CBE0}
-.xenForoSkin .mceSplitButtonActive a.mceOpen {border-left:0;}
-
-/* ColorSplitButton */
-.xenForoSkin div.mceColorSplitMenu table {background:#FFF; border:1px solid gray}
-.xenForoSkin .mceColorSplitMenu td {padding:2px}
-.xenForoSkin .mceColorSplitMenu a {display:block; width:9px; height:9px; overflow:hidden; border:1px solid #808080}
-.xenForoSkin .mceColorSplitMenu td.mceMoreColors {padding:1px 3px 1px 1px}
-.xenForoSkin .mceColorSplitMenu a.mceMoreColors {width:100%; height:auto; text-align:center; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; line-height:20px; border:1px solid #FFF}
-.xenForoSkin .mceColorSplitMenu a.mceMoreColors:hover {border:1px solid #0A246A; background-color:#B6BDD2}
-.xenForoSkin a.mceMoreColors:hover {border:1px solid #0A246A}
-.xenForoSkin .mceColorPreview {margin-left:2px; width:16px; height:4px; overflow:hidden; background:#9a9b9a}
-.xenForoSkin .mce_forecolor span.mceAction, .xenForoSkin .mce_backcolor span.mceAction {overflow:hidden; height:16px}
-
-/* Menu */
-.xenForoSkin .mceMenu {position:absolute; left:0; top:0; z-index:1000; border:1px solid #D4D0C8}
-.xenForoSkin .mceNoIcons span.mceIcon {width:0;}
-.xenForoSkin .mceNoIcons a .mceText {padding-left:10px}
-.xenForoSkin .mceMenu table {background:#FFF}
-.xenForoSkin .mceMenu a, .xenForoSkin .mceMenu span, .xenForoSkin .mceMenu {display:block}
-.xenForoSkin .mceMenu td {height:20px}
-.xenForoSkin .mceMenu a {position:relative;padding:3px 0 4px 0}
-.xenForoSkin .mceMenu .mceText {position:relative; display:block; font-family:Tahoma,Verdana,Arial,Helvetica; color:#000; cursor:default; margin:0; padding:0 25px 0 25px; display:block}
-.xenForoSkin .mceMenu span.mceText, .xenForoSkin .mceMenu .mcePreview {font-size:11px}
-.xenForoSkin .mceMenu pre.mceText {font-family:Monospace}
-.xenForoSkin .mceMenu .mceIcon {position:absolute; top:0; left:0; width:22px;}
-.xenForoSkin .mceMenu .mceMenuItemEnabled a:hover, .xenForoSkin .mceMenu .mceMenuItemActive {background-color:#dbecf3}
-.xenForoSkin td.mceMenuItemSeparator {background:#DDD; height:1px}
-.xenForoSkin .mceMenuItemTitle a {border:0; background:#EEE; border-bottom:1px solid #DDD}
-.xenForoSkin .mceMenuItemTitle span.mceText {color:#000; font-weight:bold; padding-left:4px}
-.xenForoSkin .mceMenuItemDisabled .mceText {color:#888}
-.xenForoSkin .mceMenu span.mceMenuLine {display:none}
-
-/* Progress,Resize */
-.xenForoSkin .mceBlocker {position:absolute; left:0; top:0; z-index:1000; opacity:0.5; -ms-filter:'alpha(opacity=50)'; filter:alpha(opacity=50); background:#FFF}
-.xenForoSkin .mcePlaceHolder {border:1px dotted gray}
-
-/* Formats */
-.xenForoSkin .mce_formatPreview a {font-size:10px}
-.xenForoSkin .mce_p span.mceText {}
-.xenForoSkin .mce_address span.mceText {font-style:italic}
-.xenForoSkin .mce_pre span.mceText {font-family:monospace}
-.xenForoSkin .mce_h1 span.mceText {font-weight:bolder; font-size: 2em}
-.xenForoSkin .mce_h2 span.mceText {font-weight:bolder; font-size: 1.5em}
-.xenForoSkin .mce_h3 span.mceText {font-weight:bolder; font-size: 1.17em}
-.xenForoSkin .mce_h4 span.mceText {font-weight:bolder; font-size: 1em}
-.xenForoSkin .mce_h5 span.mceText {font-weight:bolder; font-size: .83em}
-.xenForoSkin .mce_h6 span.mceText {font-weight:bolder; font-size: .75em}
-
-/* Theme */
-.xenForoSkin span.mce_bold {background-position:0 0}
-.xenForoSkin span.mce_italic {background-position:-60px 0}
-.xenForoSkin span.mce_underline {background-position:-140px 0}
-.xenForoSkin span.mce_strikethrough {background-position:-120px 0}
-.xenForoSkin span.mce_undo {background-position:-160px 0}
-.xenForoSkin span.mce_redo {background-position:-100px 0}
-.xenForoSkin span.mce_cleanup {background-position:-40px 0}
-.xenForoSkin span.mce_bullist {background-position:-20px 0}
-.xenForoSkin span.mce_numlist {background-position:-80px 0}
-.xenForoSkin span.mce_justifyleft {background-position:-460px 0}
-.xenForoSkin span.mce_justifyright {background-position:-480px 0}
-.xenForoSkin span.mce_justifycenter {background-position:-420px 0}
-.xenForoSkin span.mce_justifyfull {background-position:-440px 0}
-.xenForoSkin span.mce_anchor {background-position:-200px 0}
-.xenForoSkin span.mce_indent {background-position:-400px 0}
-.xenForoSkin span.mce_outdent {background-position:-540px 0}
-.xenForoSkin span.mce_link {background-position:-500px 0}
-.xenForoSkin span.mce_unlink {background-position:-640px 0}
-.xenForoSkin span.mce_sub {background-position:-600px 0}
-.xenForoSkin span.mce_sup {background-position:-620px 0}
-.xenForoSkin span.mce_removeformat {background-position:-580px 0}
-.xenForoSkin span.mce_newdocument {background-position:-520px 0}
-.xenForoSkin span.mce_image {background-position:-380px 0}
-.xenForoSkin span.mce_help {background-position:-340px 0}
-.xenForoSkin span.mce_code {background-position:-260px 0}
-.xenForoSkin span.mce_hr {background-position:-360px 0}
-.xenForoSkin span.mce_visualaid {background-position:-660px 0}
-.xenForoSkin span.mce_charmap {background-position:-240px 0}
-.xenForoSkin span.mce_paste {background-position:-560px 0}
-.xenForoSkin span.mce_copy {background-position:-700px 0}
-.xenForoSkin span.mce_cut {background-position:-680px 0}
-.xenForoSkin span.mce_blockquote {background-position:-220px 0}
-.xenForoSkin .mce_forecolor span.mceAction {background-position:-720px 0}
-.xenForoSkin .mce_backcolor span.mceAction {background-position:-760px 0}
-.xenForoSkin span.mce_forecolorpicker {background-position:-720px 0}
-.xenForoSkin span.mce_backcolorpicker {background-position:-760px 0}
-
-/* Plugins */
-.xenForoSkin span.mce_advhr {background-position:-0px -20px}
-.xenForoSkin span.mce_ltr {background-position:-20px -20px}
-.xenForoSkin span.mce_rtl {background-position:-40px -20px}
-.xenForoSkin span.mce_emotions {background-position:-60px -20px}
-.xenForoSkin span.mce_fullpage {background-position:-80px -20px}
-.xenForoSkin span.mce_fullscreen {background-position:-100px -20px}
-.xenForoSkin span.mce_iespell {background-position:-120px -20px}
-.xenForoSkin span.mce_insertdate {background-position:-140px -20px}
-.xenForoSkin span.mce_inserttime {background-position:-160px -20px}
-.xenForoSkin span.mce_absolute {background-position:-180px -20px}
-.xenForoSkin span.mce_backward {background-position:-200px -20px}
-.xenForoSkin span.mce_forward {background-position:-220px -20px}
-.xenForoSkin span.mce_insert_layer {background-position:-240px -20px}
-.xenForoSkin span.mce_insertlayer {background-position:-260px -20px}
-.xenForoSkin span.mce_movebackward {background-position:-280px -20px}
-.xenForoSkin span.mce_moveforward {background-position:-300px -20px}
-.xenForoSkin span.mce_media {background-position:-320px -20px}
-.xenForoSkin span.mce_nonbreaking {background-position:-340px -20px}
-.xenForoSkin span.mce_pastetext {background-position:-360px -20px}
-.xenForoSkin span.mce_pasteword {background-position:-380px -20px}
-.xenForoSkin span.mce_selectall {background-position:-400px -20px}
-.xenForoSkin span.mce_preview {background-position:-420px -20px}
-.xenForoSkin span.mce_print {background-position:-440px -20px}
-.xenForoSkin span.mce_cancel {background-position:-460px -20px}
-.xenForoSkin span.mce_save {background-position:-480px -20px}
-.xenForoSkin span.mce_replace {background-position:-500px -20px}
-.xenForoSkin span.mce_search {background-position:-520px -20px}
-.xenForoSkin span.mce_styleprops {background-position:-560px -20px}
-.xenForoSkin span.mce_table {background-position:-580px -20px}
-.xenForoSkin span.mce_cell_props {background-position:-600px -20px}
-.xenForoSkin span.mce_delete_table {background-position:-620px -20px}
-.xenForoSkin span.mce_delete_col {background-position:-640px -20px}
-.xenForoSkin span.mce_delete_row {background-position:-660px -20px}
-.xenForoSkin span.mce_col_after {background-position:-680px -20px}
-.xenForoSkin span.mce_col_before {background-position:-700px -20px}
-.xenForoSkin span.mce_row_after {background-position:-720px -20px}
-.xenForoSkin span.mce_row_before {background-position:-740px -20px}
-.xenForoSkin span.mce_merge_cells {background-position:-760px -20px}
-.xenForoSkin span.mce_table_props {background-position:-980px -20px}
-.xenForoSkin span.mce_row_props {background-position:-780px -20px}
-.xenForoSkin span.mce_split_cells {background-position:-800px -20px}
-.xenForoSkin span.mce_template {background-position:-820px -20px}
-.xenForoSkin span.mce_visualchars {background-position:-840px -20px}
-.xenForoSkin span.mce_abbr {background-position:-860px -20px}
-.xenForoSkin span.mce_acronym {background-position:-880px -20px}
-.xenForoSkin span.mce_attribs {background-position:-900px -20px}
-.xenForoSkin span.mce_cite {background-position:-920px -20px}
-.xenForoSkin span.mce_del {background-position:-940px -20px}
-.xenForoSkin span.mce_ins {background-position:-960px -20px}
-.xenForoSkin span.mce_pagebreak {background-position:0 -40px}
-.xenForoSkin .mce_spellchecker span.mceAction {background-position:-540px -20px}
-
-.xenForoSkin a.bbCodeEditorButton
+.bbCodeBlock
 {
-	float: right;
-	margin: 3px 3px 0 0;
+	{xen:property bbCodeBlock}
 }
 
-.xenForoSkin a.bbCodeEditorButton span
-{
-	background: url({xen:property imagePath}/xenforo/editor/switchmode.png);
-}
-
-.editorInlinePopup
-{
-	position: absolute;
-}
-	.editorInlinePopup .popupContent
+	/* mini CSS reset */
+	.bbCodeBlock pre,
+	.bbCodeBlock blockquote
 	{
-		position: static;
-		border: 1px solid {xen:property primaryLightish};
-		{xen:property html.background}
+		margin: 0;
 	}
 	
-.editorInlinePopup_modalBlocker
+	.bbCodeBlock img
+	{
+		border: none;
+	}
+
+.bbCodeBlock .type
 {
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background: #FFF;
-	opacity: 0.6;
-	-ms-filter:'alpha(opacity=60)';
-	filter:alpha(opacity=60);
-	display: none;
+	{xen:property bbCodeBlockType}
 }
 
-.xenForoSkin span.mce_xenforo_media {background-position:-320px -20px}
-.xenForoSkin span.mce_xenforo_quote {background-position:-220px 0}
-.xenForoSkin span.mce_xenforo_code { background:url({xen:property imagePath}/xenforo/editor/code.png) no-repeat; }
+.bbCodeBlock pre,
+.bbCodeBlock .code
+{
+	{xen:property bbCodeCode}
+}
 
-<xen:include template="editor_smiliesDropdown.css" />]]></template>
-    <template title="EXTRA.css" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[/* login bar */
+.bbCodeBlock .code
+{
+	white-space: nowrap;
+}
+
+.bbCodeQuote
+{
+	{xen:property bbCodeQuote}
+}
+
+.bbCodeQuote .attribution
+{
+	{xen:property bbCodeQuoteAttribution}
+}
+
+.bbCodeQuote blockquote
+{
+	{xen:property bbCodeQuoteMessage}
+}
+
+]]></template>
+    <template title="editor_contents.css" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[body, td, pre
+{
+	{xen:property messageText}
+	
+	margin:8px;
+	word-wrap: break-word;
+}
+
+body,
+body.mceForceColors
+{
+        background-color: rgb(255, 255, 255);
+	
+	{xen:property primaryContent.font}
+}
+
+h1 { font-size: 2em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.17em; }
+h4 { font-size: 1em; }
+h5 { font-size: .83em; }
+h6 { font-size: .75em; }
+
+.mceItemTable,
+.mceItemTable td,
+.mceItemTable th,
+.mceItemTable caption,
+.mceItemVisualAid
+{
+	border: 1px dashed #BBB;
+}
+
+a.mceItemAnchor
+{
+	width:12px; line-height:6px; overflow:hidden; padding-left:12px;
+	background:url(img/items.gif) no-repeat bottom left;
+}
+
+img.mceItemAnchor
+{
+	width:12px; height:12px;
+	background:url(img/items.gif) no-repeat;
+}
+
+img { border: 0; }
+
+table { cursor: default; }
+table td, table th { cursor: text; }
+
+ins
+{
+	border-bottom: 1px solid green;
+	text-decoration: none;
+	color:green;
+}
+
+del { color:red; text-decoration:line-through; }
+
+cite { border-bottom:1px dashed blue; }
+
+acronym { border-bottom:1px dotted #CCC; cursor:help; }
+
+abbr, html\:abbr { border-bottom:1px dashed #CCC; cursor:help; }
+
+p { margin: 0; padding: 0; }
+
+/* IE */
+* html body
+{
+	scrollbar-3dlight-color:#F0F0EE;
+	scrollbar-arrow-color:#676662;
+	scrollbar-base-color:#F0F0EE;
+	scrollbar-darkshadow-color:#DDD;
+	scrollbar-face-color:#E0E0DD;
+	scrollbar-highlight-color:#F0F0EE;
+	scrollbar-shadow-color:#F0F0EE;
+	scrollbar-track-color:#F5F5F5;
+}
+
+<xen:include template="bb_code.css" />]]></template>
+    <template title="EXTRA.css" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[/* login bar */
 #loginBar
 {
 	color: rgb(252, 252, 255) !important; /* white text */
@@ -809,6 +558,11 @@ blockquote .bbCodeQuote aside .attribution a:hover
 .pollResult .bar
 {
         background-color: rgb(153, 0, 0) !important;
+}
+
+/* inline editing */
+#InlineModOverlay {
+        border-color: rgb(220, 53, 53) !important;
 }
 
 /* tinymce */
@@ -1640,8 +1394,8 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	
 	<li class="navTab PopupClosed"><a href="{xen:link logout, '', '_xfToken={$visitor.csrf_token_page}'}" class="LogOut navLink visitorTabItem">{xen:phrase log_out}</a></li>
 </ul>]]></template>
-    <template title="PAGE_CONTAINER" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<!DOCTYPE html>
-<html id="XenForo" class="Public {xen:if {$visitor.user_id}, 'LoggedIn', 'LoggedOut'}">
+    <template title="PAGE_CONTAINER" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<!DOCTYPE html>
+<html id="XenForo" lang="{$visitorLanguage.language_code}" class="Public {xen:if {$visitor.user_id}, 'LoggedIn', 'LoggedOut'}" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
 <xen:hook name="page_container_head">
 	<meta charset="utf-8" />
@@ -1658,7 +1412,6 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	
 	<xen:if is="{$pageDescription.content} AND !{$pageDescription.skipmeta} AND !{$head.description}"><meta name="description" content="{xen:string wordTrim, {xen:helper stripHtml, {xen:raw $pageDescription.content}}, 200}" /></xen:if>
 	<xen:if is="{$head}"><xen:foreach loop="$head" value="$headElement">{xen:raw $headElement}</xen:foreach></xen:if>
-        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
 </xen:hook>
 </head>
 <body>
@@ -1770,7 +1523,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
 </body>
 </html>]]></template>
-    <template title="thread_create" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xen:title>{xen:phrase create_thread}</xen:title>
+    <template title="thread_create" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{xen:phrase create_thread}</xen:title>
 
 <xen:navigation>
 	<xen:breadcrumb source="$nodeBreadCrumbs" />
@@ -1849,7 +1602,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 				<li><input type="text" name="poll[responses][]" class="textCtrl" placeholder="{xen:phrase poll_choice}..." maxlength="100" /></li>
 				<li class="PollAddResponseSource"><input type="text" name="poll[responses][]" class="textCtrl" placeholder="{xen:phrase poll_choice}..." maxlength="100" /></li>
 			</ul>
-			<input type="button" value="{xen:phrase add_additional_response}" class="PollAddResponseButton button" data-source="li.PollAddResponseSource" data-container=".PollResponseContainer" data-maximum="{$xenOptions.pollMaximumResponses}" />
+			<input type="button" value="{xen:phrase add_additional_response}" class="PollAddResponseButton button smallButton" data-source="li.PollAddResponseSource" data-container=".PollResponseContainer" data-maximum="{$xenOptions.pollMaximumResponses}" />
 		</dd>
 	</dl>	
 	<dl class="ctrlUnit">
@@ -1919,7 +1672,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="thread_view" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xen:title>{$thread.title}{xen:helper pagenumber, $page}</xen:title>
+    <template title="thread_view" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{$thread.title}{xen:helper pagenumber, $page}</xen:title>
 <xen:h1>{$thread.title}</xen:h1>
 
 <xen:description>
@@ -2009,6 +1762,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 							<xen:if is="{$deletedPosts}">
 								<li><a href="{xen:link threads/show-posts, $thread, 'page={$page}'}" class="MessageLoader" data-messageSelector="#messageList .message.deleted.placeholder">{xen:phrase show_deleted_posts}</a></li>
 							</xen:if>
+
                                                         <xen:include template="subscribeUsers_thread_tools_list_item" />
 						</xen:contentcheck>
 					</ul>
