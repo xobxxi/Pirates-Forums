@@ -677,7 +677,7 @@ ul.blockLinksList li form label:hover
 }
 
 /* christmas snow helper */
-#navigation .helper
+/*#navigation .helper
 {
 	/* IE8 */
 	background: url('{xen:property imagePath}/snow/left.png') top left no-repeat;
@@ -697,7 +697,7 @@ ul.blockLinksList li form label:hover
 	position: absolute;
 	top: -16px;
 	width: 100%;
-}
+}*/
 
 /* buttons */
 .button.primary
@@ -2009,6 +2009,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 							<xen:if is="{$deletedPosts}">
 								<li><a href="{xen:link threads/show-posts, $thread, 'page={$page}'}" class="MessageLoader" data-messageSelector="#messageList .message.deleted.placeholder">{xen:phrase show_deleted_posts}</a></li>
 							</xen:if>
+                                                        <xen:include template="subscribeUsers_thread_tools_list_item" />
 						</xen:contentcheck>
 					</ul>
 					<xen:if is="{$thread.canInlineMod}">
@@ -2115,8 +2116,6 @@ blockquote .bbCodeQuote aside .attribution a:hover
 </xen:if>
 
 {xen:raw $threadStatusHtml}
-
-<xen:include template="subscribeUsers_subscribed_users" />
 
 <xen:include template="share_page">
 	<xen:set var="$url">{xen:link 'canonical:threads', $thread}</xen:set>
