@@ -241,7 +241,9 @@
 						data-href="{xen:link conversations/edit-message-inline, $conversation, 'm={$message.message_id}'}"
 						data-messageSelector="#message-{$message.message_id}"><span></span>{xen:phrase edit}</a>
 				</xen:if>
-                                <a href="{xen:link 'conversations/report', $conversation, 'm={$message.message_id}'}" class="OverlayTrigger item control report" data-cacheOverlay="false"><span></span>{xen:phrase report}</a>
+                                <xen:if is="{$message.canReport}">
+                                        <a href="{xen:link 'conversations/report', $conversation, 'm={$message.message_id}'}" class="OverlayTrigger item control report" data-cacheOverlay="false"><span></span>{xen:phrase report}</a>
+                                </xen:if>
 			</div>
 			
 			<xen:if hascontent="true">
@@ -517,6 +519,14 @@ ul.autoCompleteList li:hover,
 ul.autoCompleteList li.selected
 {
 	color: rgb(252, 252, 255); /* whiteish text */
+}
+
+/* member card */
+.xenOverlay.memberCard .muted,
+.xenOverlay.memberCard .userInfo .userStats th,
+.xenOverlay.memberCard .lastActivity dt
+{
+        color: rgb(150, 150, 150) !important;
 }
 
 /* node list */
