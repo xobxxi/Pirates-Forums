@@ -121,8 +121,8 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			);	
 		}
 		
-		$user   = $this->getModelFromCache('XenForo_Model_User')
-		               ->getUserById($pirate['user_id']);
+		$user = $this->getModelFromCache('XenForo_Model_User')
+		             ->getUserById($pirate['user_id']);
 		
 		if (!$this->_getPirateModel()->canLikePirate($pirate, $user, $errorPhraseKey))
 		{
@@ -505,6 +505,10 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 							new XenForo_Phrase('pirateProfile_viewing_pirate'), $pirate['name'], $link, $link
 						)
 					);
+				case 'Like':
+					return new XenForo_Phrase('pirateProfile_liking_pirate');
+				case 'Likes':
+					return new XenForo_Phrase('pirateProfile_viewing_pirate_likes');
 				case 'Add':
 					return new XenForo_Phrase('pirateProfile_adding_pirate');
 				case 'Edit':

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.1.0 Beta 1.1" version_id="17" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.1.0" version_id="18" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -46,84 +46,86 @@
     </interface_groups>
   </permissions>
   <phrases>
-    <phrase title="option_group_pirateProfile" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Pirate Profiles]]></phrase>
-    <phrase title="option_group_pirateProfile_description" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Options for the Pirate Profiles]]></phrase>
-    <phrase title="option_pirateProfile_maxLevelNotoriety" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Max Notoriety Level]]></phrase>
-    <phrase title="option_pirateProfile_maxLevelNotoriety_explain" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The maximum notoriety level obtainable in-game.]]></phrase>
-    <phrase title="option_pirateProfile_maxLevelSkill" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Max Skill Level]]></phrase>
-    <phrase title="option_pirateProfile_maxLevelSkill_explain" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The maximum level obtainable for in-game skills.]]></phrase>
-    <phrase title="option_pirateProfile_maxLevelWeapon" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Max Weapon Level]]></phrase>
-    <phrase title="option_pirateProfile_maxLevelWeapon_explain" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The current maximum level obtainable for in-game weapons.]]></phrase>
-    <phrase title="permission_group_pirateProfile" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Pirate Profiles]]></phrase>
-    <phrase title="permission_interface_pirateProfile" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Pirate Profiles]]></phrase>
-    <phrase title="permission_pirateProfile_canAdd" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Add]]></phrase>
-    <phrase title="permission_pirateProfile_canAttach" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Attach]]></phrase>
-    <phrase title="permission_pirateProfile_canDelete" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Delete]]></phrase>
-    <phrase title="permission_pirateProfile_canEdit" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Edit]]></phrase>
-    <phrase title="permission_pirateProfile_canManage" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Manage]]></phrase>
-    <phrase title="permission_pirateProfile_canView" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can View]]></phrase>
-    <phrase title="pirateProfile_adding_pirate" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Adding pirate]]></phrase>
-    <phrase title="pirateProfile_add_pirate" global_cache="0" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Add Pirate]]></phrase>
-    <phrase title="pirateProfile_and" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[and]]></phrase>
-    <phrase title="pirateProfile_click_a_pirate_to_view_more_information" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Click a pirate to view info.]]></phrase>
-    <phrase title="pirateProfile_congrats" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Congratulations!]]></phrase>
-    <phrase title="pirateProfile_delete_pirate" global_cache="0" version_id="2" version_string="1.0.0 Alpha 3"><![CDATA[Delete Pirate]]></phrase>
-    <phrase title="pirateProfile_editing_pirate" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Editing pirate]]></phrase>
-    <phrase title="pirateProfile_edit_pirate" global_cache="0" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Edit Pirate]]></phrase>
-    <phrase title="pirateProfile_forces_all_image_content_into_card" global_cache="0" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Forces all image content into card.]]></phrase>
-    <phrase title="pirateProfile_formerly_x" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Formerly {old}]]></phrase>
-    <phrase title="pirateProfile_last_updated" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Last updated]]></phrase>
-    <phrase title="pirateProfile_leveled" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[leveled]]></phrase>
-    <phrase title="pirateProfile_like_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[Like Pirate]]></phrase>
-    <phrase title="pirateProfile_make_fit" global_cache="0" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Make fit]]></phrase>
-    <phrase title="pirateProfile_members_who_liked_this_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[Members Who Liked This Pirate]]></phrase>
-    <phrase title="pirateProfile_notoriety_level_too_low" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[The notoriety level is too low for some skill levels you've set.]]></phrase>
-    <phrase title="pirateProfile_no_one_has_liked_this_pirate_yet" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[No one has liked this pirate yet.]]></phrase>
-    <phrase title="pirateProfile_own_pirates" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[own pirates]]></phrase>
-    <phrase title="pirateProfile_pirates" global_cache="0" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Pirates]]></phrase>
-    <phrase title="pirateProfile_pirate_cannon" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Cannon]]></phrase>
-    <phrase title="pirateProfile_pirate_dagger" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Dagger]]></phrase>
-    <phrase title="pirateProfile_pirate_doll" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Doll]]></phrase>
-    <phrase title="pirateProfile_pirate_extra" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Extra]]></phrase>
-    <phrase title="pirateProfile_pirate_fishing" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Fishing]]></phrase>
-    <phrase title="pirateProfile_pirate_grenade" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Grenade]]></phrase>
-    <phrase title="pirateProfile_pirate_guild" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Guild]]></phrase>
-    <phrase title="pirateProfile_pirate_level" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Level]]></phrase>
-    <phrase title="pirateProfile_pirate_name" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Name]]></phrase>
-    <phrase title="pirateProfile_pirate_notoriety" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Notoriety]]></phrase>
-    <phrase title="pirateProfile_pirate_picture" global_cache="0" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Pirate Picture]]></phrase>
-    <phrase title="pirateProfile_pirate_potions" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Potions]]></phrase>
-    <phrase title="pirateProfile_pirate_sailing" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Sailing]]></phrase>
-    <phrase title="pirateProfile_pirate_shooting" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Shooting]]></phrase>
-    <phrase title="pirateProfile_pirate_staff" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Staff]]></phrase>
-    <phrase title="pirateProfile_pirate_sword" global_cache="0" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Sword]]></phrase>
-    <phrase title="pirateProfile_please_enter_pirate_name" global_cache="0" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Please enter the pirate's name.]]></phrase>
-    <phrase title="pirateProfile_reached" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[reached]]></phrase>
-    <phrase title="pirateProfile_remove_current_picture_before_uploading_new_one" global_cache="0" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Remove current picture before uploading a new one.]]></phrase>
-    <phrase title="pirateProfile_removing_pirate" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Removing pirate]]></phrase>
-    <phrase title="pirateProfile_requested_pirate_not_found" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The requested pirate could not be found.]]></phrase>
-    <phrase title="pirateProfile_required" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Required]]></phrase>
-    <phrase title="pirateProfile_save_pirate" global_cache="0" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Save Pirate]]></phrase>
-    <phrase title="pirateProfile_the_pirate_has_been_saved_successfully" global_cache="0" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[The pirate has been saved successfully.]]></phrase>
-    <phrase title="pirateProfile_this_user_has_not_entered_any_pirates" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[This user has not entered any pirates.]]></phrase>
-    <phrase title="pirateProfile_unlike_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[Unlike Pirate]]></phrase>
-    <phrase title="pirateProfile_up" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[up]]></phrase>
-    <phrase title="pirateProfile_viewing" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Viewing]]></phrase>
-    <phrase title="pirateProfile_viewing_pirate" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Viewing pirate:]]></phrase>
-    <phrase title="pirateProfile_xs_pirates" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[{username}'s Pirates]]></phrase>
-    <phrase title="pirateProfile_xs_pirate_y_has" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has]]></phrase>
-    <phrase title="pirateProfile_xs_pirate_y_has_been_updated" global_cache="0" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[{username}'s pirate: {pirate} has been updated.]]></phrase>
-    <phrase title="pirateProfile_xs_pirate_y_has_gotten_new_name" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has gotten a new name.]]></phrase>
-    <phrase title="pirateProfile_xs_pirate_y_has_joined_guild_z" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has joined the guild {guild}.]]></phrase>
-    <phrase title="pirateProfile_xs_pirate_y_has_new_card_picture" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has a new card picture.]]></phrase>
-    <phrase title="pirateProfile_x_has_added_a_new_pirate_y" global_cache="0" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username} has added a new pirate: {pirate}.]]></phrase>
-    <phrase title="pirateProfile_x_liked_your_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[{name} liked your pirate: <a {pirate_attributes}>{pirate}</a>]]></phrase>
-    <phrase title="pirateProfile_x_liked_ys_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[{name} liked {username}'s pirate: <a {pirate_attributes}>{pirate}</a>]]></phrase>
-    <phrase title="pirateProfile_your_pirates" global_cache="0" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Your Pirates]]></phrase>
-    <phrase title="pirateProfile_you_have_not_entered_any_pirates" global_cache="0" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[You have not entered any pirates]]></phrase>
-    <phrase title="pirateProfile_you_sure_you_want_to_like_this_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[Are you sure you want to like this pirate?]]></phrase>
-    <phrase title="pirateProfile_you_sure_you_want_to_unlike_this_pirate" global_cache="0" version_id="15" version_string="1.0.0"><![CDATA[Are you sure you want to unlike this pirate?]]></phrase>
-    <phrase title="pollsList_there_no_polls_to_display" global_cache="0" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[There are no polls to display.]]></phrase>
+    <phrase title="option_group_pirateProfile" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Pirate Profiles]]></phrase>
+    <phrase title="option_group_pirateProfile_description" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Options for the Pirate Profiles]]></phrase>
+    <phrase title="option_pirateProfile_maxLevelNotoriety" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Max Notoriety Level]]></phrase>
+    <phrase title="option_pirateProfile_maxLevelNotoriety_explain" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The maximum notoriety level obtainable in-game.]]></phrase>
+    <phrase title="option_pirateProfile_maxLevelSkill" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Max Skill Level]]></phrase>
+    <phrase title="option_pirateProfile_maxLevelSkill_explain" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The maximum level obtainable for in-game skills.]]></phrase>
+    <phrase title="option_pirateProfile_maxLevelWeapon" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Max Weapon Level]]></phrase>
+    <phrase title="option_pirateProfile_maxLevelWeapon_explain" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The current maximum level obtainable for in-game weapons.]]></phrase>
+    <phrase title="permission_group_pirateProfile" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Pirate Profiles]]></phrase>
+    <phrase title="permission_interface_pirateProfile" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Pirate Profiles]]></phrase>
+    <phrase title="permission_pirateProfile_canAdd" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Add]]></phrase>
+    <phrase title="permission_pirateProfile_canAttach" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Attach]]></phrase>
+    <phrase title="permission_pirateProfile_canDelete" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Delete]]></phrase>
+    <phrase title="permission_pirateProfile_canEdit" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Edit]]></phrase>
+    <phrase title="permission_pirateProfile_canManage" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can Manage]]></phrase>
+    <phrase title="permission_pirateProfile_canView" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[Can View]]></phrase>
+    <phrase title="pirateProfile_adding_pirate" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Adding pirate]]></phrase>
+    <phrase title="pirateProfile_add_pirate" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Add Pirate]]></phrase>
+    <phrase title="pirateProfile_and" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[and]]></phrase>
+    <phrase title="pirateProfile_click_a_pirate_to_view_more_information" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Click a pirate to view info.]]></phrase>
+    <phrase title="pirateProfile_congrats" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Congratulations!]]></phrase>
+    <phrase title="pirateProfile_delete_pirate" version_id="2" version_string="1.0.0 Alpha 3"><![CDATA[Delete Pirate]]></phrase>
+    <phrase title="pirateProfile_editing_pirate" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Editing pirate]]></phrase>
+    <phrase title="pirateProfile_edit_pirate" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Edit Pirate]]></phrase>
+    <phrase title="pirateProfile_forces_all_image_content_into_card" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Forces all image content into card.]]></phrase>
+    <phrase title="pirateProfile_formerly_x" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Formerly {old}]]></phrase>
+    <phrase title="pirateProfile_last_updated" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Last updated]]></phrase>
+    <phrase title="pirateProfile_leveled" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[leveled]]></phrase>
+    <phrase title="pirateProfile_like_pirate" version_id="15" version_string="1.0.0"><![CDATA[Like Pirate]]></phrase>
+    <phrase title="pirateProfile_liking_pirate" version_id="17" version_string="1.1.0 Beta 1.1"><![CDATA[Liking pirate]]></phrase>
+    <phrase title="pirateProfile_make_fit" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Make fit]]></phrase>
+    <phrase title="pirateProfile_members_who_liked_this_pirate" version_id="15" version_string="1.0.0"><![CDATA[Members Who Liked This Pirate]]></phrase>
+    <phrase title="pirateProfile_notoriety_level_too_low" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[The notoriety level is too low for some skill levels you've set.]]></phrase>
+    <phrase title="pirateProfile_no_one_has_liked_this_pirate_yet" version_id="15" version_string="1.0.0"><![CDATA[No one has liked this pirate yet.]]></phrase>
+    <phrase title="pirateProfile_own_pirates" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[own pirates]]></phrase>
+    <phrase title="pirateProfile_pirates" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Pirates]]></phrase>
+    <phrase title="pirateProfile_pirate_cannon" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Cannon]]></phrase>
+    <phrase title="pirateProfile_pirate_dagger" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Dagger]]></phrase>
+    <phrase title="pirateProfile_pirate_doll" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Doll]]></phrase>
+    <phrase title="pirateProfile_pirate_extra" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Extra]]></phrase>
+    <phrase title="pirateProfile_pirate_fishing" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Fishing]]></phrase>
+    <phrase title="pirateProfile_pirate_grenade" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Grenade]]></phrase>
+    <phrase title="pirateProfile_pirate_guild" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Guild]]></phrase>
+    <phrase title="pirateProfile_pirate_level" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Level]]></phrase>
+    <phrase title="pirateProfile_pirate_name" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Name]]></phrase>
+    <phrase title="pirateProfile_pirate_notoriety" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Notoriety]]></phrase>
+    <phrase title="pirateProfile_pirate_picture" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Pirate Picture]]></phrase>
+    <phrase title="pirateProfile_pirate_potions" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Potions]]></phrase>
+    <phrase title="pirateProfile_pirate_sailing" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Sailing]]></phrase>
+    <phrase title="pirateProfile_pirate_shooting" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Shooting]]></phrase>
+    <phrase title="pirateProfile_pirate_staff" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Staff]]></phrase>
+    <phrase title="pirateProfile_pirate_sword" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Sword]]></phrase>
+    <phrase title="pirateProfile_please_enter_pirate_name" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Please enter the pirate's name.]]></phrase>
+    <phrase title="pirateProfile_reached" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[reached]]></phrase>
+    <phrase title="pirateProfile_remove_current_picture_before_uploading_new_one" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Remove current picture before uploading a new one.]]></phrase>
+    <phrase title="pirateProfile_removing_pirate" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Removing pirate]]></phrase>
+    <phrase title="pirateProfile_requested_pirate_not_found" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The requested pirate could not be found.]]></phrase>
+    <phrase title="pirateProfile_required" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Required]]></phrase>
+    <phrase title="pirateProfile_save_pirate" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Save Pirate]]></phrase>
+    <phrase title="pirateProfile_the_pirate_has_been_saved_successfully" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[The pirate has been saved successfully.]]></phrase>
+    <phrase title="pirateProfile_this_user_has_not_entered_any_pirates" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[This user has not entered any pirates.]]></phrase>
+    <phrase title="pirateProfile_unlike_pirate" version_id="15" version_string="1.0.0"><![CDATA[Unlike Pirate]]></phrase>
+    <phrase title="pirateProfile_up" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[up]]></phrase>
+    <phrase title="pirateProfile_viewing" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Viewing]]></phrase>
+    <phrase title="pirateProfile_viewing_pirate" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Viewing pirate:]]></phrase>
+    <phrase title="pirateProfile_viewing_pirate_likes" version_id="17" version_string="1.1.0 Beta 1.1"><![CDATA[Viewing pirate likes]]></phrase>
+    <phrase title="pirateProfile_xs_pirates" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[{username}'s Pirates]]></phrase>
+    <phrase title="pirateProfile_xs_pirate_y_has" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has]]></phrase>
+    <phrase title="pirateProfile_xs_pirate_y_has_been_updated" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[{username}'s pirate: {pirate} has been updated.]]></phrase>
+    <phrase title="pirateProfile_xs_pirate_y_has_gotten_new_name" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has gotten a new name.]]></phrase>
+    <phrase title="pirateProfile_xs_pirate_y_has_joined_guild_z" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has joined the guild {guild}.]]></phrase>
+    <phrase title="pirateProfile_xs_pirate_y_has_new_card_picture" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has a new card picture.]]></phrase>
+    <phrase title="pirateProfile_x_has_added_a_new_pirate_y" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username} has added a new pirate: {pirate}.]]></phrase>
+    <phrase title="pirateProfile_x_liked_your_pirate" version_id="15" version_string="1.0.0"><![CDATA[{name} liked your pirate: <a {pirate_attributes}>{pirate}</a>]]></phrase>
+    <phrase title="pirateProfile_x_liked_ys_pirate" version_id="15" version_string="1.0.0"><![CDATA[{name} liked {username}'s pirate: <a {pirate_attributes}>{pirate}</a>]]></phrase>
+    <phrase title="pirateProfile_your_pirates" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Your Pirates]]></phrase>
+    <phrase title="pirateProfile_you_have_not_entered_any_pirates" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[You have not entered any pirates]]></phrase>
+    <phrase title="pirateProfile_you_sure_you_want_to_like_this_pirate" version_id="15" version_string="1.0.0"><![CDATA[Are you sure you want to like this pirate?]]></phrase>
+    <phrase title="pirateProfile_you_sure_you_want_to_unlike_this_pirate" version_id="15" version_string="1.0.0"><![CDATA[Are you sure you want to unlike this pirate?]]></phrase>
+    <phrase title="pollsList_there_no_polls_to_display" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[There are no polls to display.]]></phrase>
   </phrases>
   <route_prefixes>
     <route_type type="public">
