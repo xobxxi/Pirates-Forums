@@ -12,7 +12,6 @@ foreach ($static as $static)
 	if ($_SERVER['HTTP_HOST'] == $static) {
 	    header("HTTP/1.1 301 Moved Permanently");
 		header("Location: http://{$original}{$_SERVER['REQUEST_URI']}");
-		break;
 	}
 }
 
