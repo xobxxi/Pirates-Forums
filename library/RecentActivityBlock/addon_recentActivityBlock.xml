@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="recentActivityBlock" title="Recent Activity Block" version_string="1.0.6" version_id="5" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="recentActivityBlock" title="Recent Activity Block" version_string="1.0.7" version_id="6" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -25,12 +25,12 @@
     <interface_groups/>
   </permissions>
   <phrases>
-    <phrase title="option_group_recentActivity" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Recent Activity Block]]></phrase>
-    <phrase title="option_group_recentActivity_description" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Options for the recent activity block in the sidebar.]]></phrase>
-    <phrase title="option_recentActivity_max" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Maximum Items]]></phrase>
-    <phrase title="option_recentActivity_max_explain" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Maximum number of recent activity items to be displayed in the block.]]></phrase>
-    <phrase title="recentActivity_view_more_recent_activity" global_cache="0" version_id="1" version_string="1.0.1"><![CDATA[View more recent activity]]></phrase>
-    <phrase title="sidebar_recent_activity_profile_post_insert" global_cache="0" version_id="2" version_string="1.0.2"><![CDATA[{usernamePoster} left a message on <a href="{profileReceiver}">{usernameReceiver}'s profile</a>.]]></phrase>
+    <phrase title="option_group_recentActivity" version_id="0" version_string="1.0.0"><![CDATA[Recent Activity Block]]></phrase>
+    <phrase title="option_group_recentActivity_description" version_id="0" version_string="1.0.0"><![CDATA[Options for the recent activity block in the sidebar.]]></phrase>
+    <phrase title="option_recentActivity_max" version_id="0" version_string="1.0.0"><![CDATA[Maximum Items]]></phrase>
+    <phrase title="option_recentActivity_max_explain" version_id="0" version_string="1.0.0"><![CDATA[Maximum number of recent activity items to be displayed in the block.]]></phrase>
+    <phrase title="recentActivity_view_more_recent_activity" version_id="1" version_string="1.0.1"><![CDATA[View more recent activity]]></phrase>
+    <phrase title="sidebar_recent_activity_profile_post_insert" version_id="2" version_string="1.0.2"><![CDATA[{usernamePoster} left a message on <a href="{profileReceiver}">{usernameReceiver}'s profile</a>.]]></phrase>
   </phrases>
   <route_prefixes/>
   <style_properties/>
@@ -52,7 +52,7 @@
 <xen:else />
 	{xen:raw $noContentHtml}
 </xen:if>]]></template>
-    <template title="sidebar_recent_activity_feed_item" version_id="4" version_string="1.0.5"><![CDATA[<xen:require css="sidebar_recent_activity_feed_item.css" />
+    <template title="sidebar_recent_activity_feed_item" version_id="5" version_string="1.0.6"><![CDATA[<xen:require css="sidebar_recent_activity_feed_item.css" />
 
 <li data-author="{$item.username}">
 	<xen:avatar user="$item" size="s" img="true" />
@@ -91,6 +91,34 @@
         <xen:if is="{$item.action} == 'avatar_change'">
                 {xen:phrase news_feed_user_avatar_change,'username=<a href="{xen:link members, $item.user}" class="username primaryText">{$item.user.username}</a>'}
         </xen:if>
+
+		<xen:if is="{$item.action} == 'location'">
+			<xen:if is="{$item.location.old}">{xen:phrase news_feed_user_location_changed,
+				'username={xen:helper username, $item.user, 'primaryText'}',
+				'oldLocation=<em>{$item.location.old}</em>',
+				'newLocation=<em>{$item.location.new}</em>'
+			}<xen:else />{xen:phrase news_feed_user_location_set,
+				'username={xen:helper username, $item.user, 'primaryText'}',
+				'newLocation=<em>{$item.location.new}</em>'
+			}</xen:if>
+		</xen:if>
+
+		<xen:if is="{$item.action} == 'occupation'">
+			<xen:if is="{$item.occupation.old}">{xen:phrase news_feed_user_occupation_changed,
+				'username={xen:helper username, $item.user, 'primaryText'}',
+				'oldOccupation=<em>{$item.occupation.old}</em>',
+				'newOccupation=<em>{$item.occupation.new}</em>'
+			}<xen:else />{xen:phrase news_feed_user_occupation_set,
+				'username={xen:helper username, $item.user, 'primaryText'}',
+				'newOccupation=<em>{$item.occupation.new}</em>'
+			}</xen:if>
+		</xen:if>
+
+		<xen:if is="{$item.action} == 'homepage'">
+			{xen:phrase news_feed_user_homepage,
+				'username={xen:helper username, $item.user, 'primaryText'}'
+			}
+		</xen:if>
 
 		<xen:if is="{$item.action} == 'insert' AND {$item.content_type} == 'thread'">
             {xen:phrase news_feed_thread_insert, 'username=<a href="{xen:link members, $item.user}" class="username primaryText">{$item.user.username}</a>'}
