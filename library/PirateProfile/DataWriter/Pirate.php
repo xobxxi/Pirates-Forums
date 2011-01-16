@@ -98,6 +98,23 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 					'type'     => self::TYPE_UINT,
 					'required' => true,
 					'default'  => 0
+				),
+				'comment_count' => array(
+					'type'    => self::TYPE_UINT_FORCED,
+					'default' => 0
+				),
+				'first_comment_date' => array(
+					'type'    => self::TYPE_UINT,
+					'default' => 0
+				),
+				'last_comment_date' => array(
+				'type'    => self::TYPE_UINT,
+				'default' => 0
+				),
+				'latest_comment_ids' => array(
+					'type'      => self::TYPE_BINARY,
+					'default'   => '',
+					'maxLength' => 100
 				)
 			)
 		);
@@ -313,6 +330,95 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 		}
 		
 		return $username;
+	}
+	
+	public function rebuildProfilePostCommentCounters()
+	{
+		$db = $this->_db;
+		$pirateId = $this->get('pirate_id');
+
+		$counts = $db->fetchRow('
+			SELECT COUNT(*) AS comment_count,
+				MIN(comment_date) AS first_comment_date,
+				MAX(comment_date) AS last_comment_date
+			FROM pirate_comment
+			WHERE pirate_id = ?
+		', $pirateId);
+
+		if ($counts['comment_count'])
+		{
+			$ids = $db->fetchCol($db->limit(
+				'
+					SELECT pirate_comment_id
+					FROM pirate_comment
+					WHERE pirate_id = ?
+					ORDER BY comment_date DESC
+				', 3
+			), $pirateId);
+			$ids = array_reverse($ids); // need last 3, but in oldest first order
+		}
+		else
+		{
+			$ids = array();
+		}
+
+		$this->bulkSet($counts);
+		$this->set('latest_comment_ids', implode(',', $ids));
+	}
+
+	public function insertNewComment($commentId, $commentDate)
+	{
+		$this->set('comment_count', $this->get('comment_count') + 1);
+		if (!$this->get('first_comment_date') || $commentDate < $this->get('first_comment_date'))
+		{
+			$this->set('first_comment_date', $commentDate);
+		}
+		$this->set('last_comment_date', max($this->get('last_comment_date'), $commentDate));
+
+		$latest = $this->get('latest_comment_ids');
+		$ids = ($latest ? explode(',', $latest) : array());
+		$ids[] = $commentId;
+
+		if (count($ids) > 3)
+		{
+			$ids = array_slice($ids, -3);
+		}
+
+		$this->set('latest_comment_ids', implode(',', $ids));
+	}
+	
+	public function rebuildPirateCommentCounters()
+	{
+		$db = $this->_db;
+		$pirateId = $this->get('pirate_id');
+
+		$counts = $db->fetchRow('
+			SELECT COUNT(*) AS comment_count,
+				MIN(comment_date) AS first_comment_date,
+				MAX(comment_date) AS last_comment_date
+			FROM pirate_comment
+			WHERE pirate_id = ?
+		', $pirateId);
+
+		if ($counts['comment_count'])
+		{
+			$ids = $db->fetchCol($db->limit(
+				'
+					SELECT pirate_comment_id
+					FROM pirate_comment
+					WHERE pirate_id = ?
+					ORDER BY comment_date DESC
+				', 3
+			), $pirateId);
+			$ids = array_reverse($ids);
+		}
+		else
+		{
+			$ids = array();
+		}
+
+		$this->bulkSet($counts);
+		$this->set('latest_comment_ids', implode(',', $ids));
 	}
 	
 	protected function _getUserModel()

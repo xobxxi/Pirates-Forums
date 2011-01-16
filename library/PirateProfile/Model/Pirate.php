@@ -2,6 +2,8 @@
 
 class PirateProfile_Model_Pirate extends XenForo_Model
 {
+	const FETCH_COMMENT_USER = 0x01;
+	
 	public function getAllPirates($limit, $page)
 	{
 		$start = ($limit * ($page - 1));
@@ -92,6 +94,137 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	protected function _getAttachmentModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_Attachment');
+	}
+	
+	public function preparePirateCommentFetchOptions(array $fetchOptions)
+	{
+		$selectFields = '';
+		$joinTables = '';
+
+		if (!empty($fetchOptions['join']))
+		{
+			if ($fetchOptions['join'] & self::FETCH_COMMENT_USER)
+			{
+				$selectFields .= ',
+					user.*,
+					IF(user.username IS NULL, pirate_comment.username, user.username) AS username';
+				$joinTables .= '
+					LEFT JOIN xf_user AS user ON
+						(user.user_id = pirate_comment.user_id)';
+			}
+		}
+
+		return array(
+			'selectFields' => $selectFields,
+			'joinTables'   => $joinTables
+		);
+	}
+	
+	public function getPirateCommentById($pirateCommentId, $fetchOptions = array())
+	{
+		$sqlClauses = $this->preparePirateCommentFetchOptions($fetchOptions);
+		
+		return $this->_getDb()->fetchRow('
+			SELECT pirate_comment.*
+			' . $sqlClauses['selectFields'] . '
+			FROM pirate_comment AS pirate_comment
+			' . $sqlClauses['joinTables'] . '
+			WHERE pirate_comment.pirate_comment_id = ?
+		', $pirateCommentId);
+	}
+	
+	public function getPirateCommentsByIds(array $ids, $fetchOptions = array())
+	{
+		if (!$ids)
+		{
+			return array();
+		}
+
+		$sqlClauses = $this->preparePirateCommentFetchOptions($fetchOptions);
+
+		return $this->fetchAllKeyed('
+			SELECT pirate_comment.*
+			' . $sqlClauses['selectFields'] . '
+			FROM pirate_comment AS pirate_comment
+			' . $sqlClauses['joinTables'] . '
+			WHERE pirate_comment.pirate_comment_id IN (' . $this->_getDb()->quote($ids) . ')
+		', 'pirate_comment_id');
+	}
+	
+	public function getPirateCommentUserIds($pirateId)
+	{
+		return $this->_getDb()->fetchCol('
+			SELECT DISTINCT user_id
+			FROM pirate_comment
+			WHERE pirate_id = ?
+		', $pirateId);
+	}
+	
+	public function getPirateCommentsByPirate($pirateId, $beforeDate = 0, array $fetchOptions = array())
+	{
+		$sqlClauses = $this->preparePirateCommentFetchOptions($fetchOptions);
+		$limitOptions = $this->prepareLimitFetchOptions($fetchOptions);
+
+		if ($beforeDate)
+		{
+			$beforeCondition = 'AND pirate_comment.comment_date < ' . $this->_getDb()->quote($beforeDate);
+		}
+		else
+		{
+			$beforeCondition = '';
+		}
+
+		$results = $this->fetchAllKeyed($this->limitQueryResults(
+			'
+				SELECT pirate_comment.*
+				' . $sqlClauses['selectFields'] . '
+				FROM pirate_comment AS pirate_comment
+					' . $sqlClauses['joinTables'] . '
+				WHERE pirate_comment.pirate_id = ?
+					' . $beforeCondition . '
+				ORDER BY pirate_comment.comment_date DESC
+			', $limitOptions['limit'], $limitOptions['offset']
+		), 'pirate_comment_id', $pirateId);
+
+		return array_reverse($results, true);
+	}
+	
+	public function addPirateCommentsToPirate(array $pirate, array $fetchOptions = array())
+	{
+		if ($pirate['latest_comment_ids'])
+		{
+			foreach (explode(',', $pirate['latest_comment_ids']) AS $commentId)
+			{
+				$commentIdMap[intval($commentId)] = $pirate['pirate_id'];
+			}
+			
+			$pirate['comments'] = array();
+		}
+
+		if ($commentIdMap)
+		{
+			$comments = $this->getPirateCommentsByIds(array_keys($commentIdMap), $fetchOptions);
+			foreach ($commentIdMap AS $commentId => $profilePostId)
+			{
+				if (isset($comments[$commentId]))
+				{
+					if (!isset($pirate['first_shown_comment_date']))
+					{
+						$pirate['first_shown_comment_date'] = $comments[$commentId]['comment_date'];
+					}
+					$pirate['comments'][$commentId] = $comments[$commentId];
+				}
+			}
+		}
+
+		return $pirate;
+	}
+	
+	public function preparePirateComment(array $comment, array $profilePost, array $user, array $viewingUser = null)
+	{
+		//$comment['canDelete'] = $this->canDeleteProfilePostComment($comment, $profilePost, $user, $null, $viewingUser);
+		$comment['canDelete'] = true;
+		return $comment;
 	}
 	
 	public function getPermissions(array $viewingUser = null)
