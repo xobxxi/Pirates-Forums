@@ -275,7 +275,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		return $comment;
 	}
 	
-	public function canDeleteProfilePostComment(array $comment, array $pirate, array $user, &$errorPhraseKey = '', array $viewingUser = null)
+	public function canDeletePirateComment(array $comment, array $pirate, array $user, &$errorPhraseKey = '', array $viewingUser = null)
 	{
 		$this->standardizeViewingUserReference($viewingUser);
 
