@@ -355,7 +355,7 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 					ORDER BY comment_date DESC
 				', 3
 			), $pirateId);
-			$ids = array_reverse($ids); // need last 3, but in oldest first order
+			$ids = array_reverse($ids);
 		}
 		else
 		{
@@ -421,6 +421,11 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 		$this->set('latest_comment_ids', implode(',', $ids));
 	}
 	
+	protected function _getPirateModel()
+	{
+		return $this->getModelFromCache('PirateProfile_Model_Pirate');
+	}
+	
 	protected function _getUserModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_User');
@@ -429,10 +434,5 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 	protected function _getNewsFeedModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_NewsFeed');
-	}
-
-	protected function _getPirateModel()
-	{
-		return $this->getModelFromCache('PirateProfile_Model_Pirate');
 	}
 }

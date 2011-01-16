@@ -4,33 +4,58 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 {
 	const FETCH_COMMENT_USER = 0x01;
 	
+	public function preparePirateFetchOptions(array $fetchOptions)
+	{
+		$selectFields = '';
+		$joinTables = '';
+		
+		$db = $this->_getDb();
+		
+		if (isset($fetchOptions['likeUserId']))
+		{
+			if (empty($fetchOptions['likeUserId']))
+			{
+				$selectFields .= ',
+					0 AS like_date';
+			}
+			else
+			{
+				$selectFields .= ',
+					liked_content.like_date';
+				$joinTables .= '
+					LEFT JOIN xf_liked_content AS liked_content
+						ON (liked_content.content_type = \'pirate\'
+							AND liked_content.content_id = pirate.pirate_id
+							AND liked_content.like_user_id = ' .$db->quote($fetchOptions['likeUserId']) . ')';
+			}
+		}
+
+		return array(
+			'selectFields' => $selectFields,
+			'joinTables'   => $joinTables
+		);
+	}
+	
 	public function getAllPirates($limit, $page)
 	{
 		$start = ($limit * ($page - 1));
+		// TODO: use built in limit options
 		
-		$pirates = $this->_getDb()->fetchAll("
+		return $this->_getDb()->fetchAll("
 			SELECT pirate_id, user_id, name
 			FROM pirates
 			ORDER BY name ASC
 			LIMIT {$start}, {$limit}
 		");
-		
-		if (empty($pirates)) return false;
-		
-		return $pirates;
 	}
 	
 	public function getUserPirates($user_id)
 	{
-		$pirates = $this->_getDb()->fetchAll('
+		return $this->_getDb()->fetchAll('
 			SELECT pirate_id, user_id, name
 			FROM pirates
 			WHERE user_id = ?
 		', $user_id);
-
-		if (!isset($pirates)) return false;
-
-		return $pirates;
 	}
 
 	public function getPirateById($id, array $fetchOptions = array())
@@ -39,9 +64,9 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		
 		$pirate = $this->_getDb()->fetchRow('
 			SELECT *
-					' . $sqlClauses['selectFields'] . '
+			' . $sqlClauses['selectFields'] . '
 			FROM pirates AS pirate
-				' . $sqlClauses['joinTables'] . '
+			' . $sqlClauses['joinTables'] . '
 			WHERE pirate_id = ?
 		', $id);
 
@@ -50,6 +75,20 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		$pirate = preg_replace("/^0$/is", null, $pirate);
 
 		return $pirate;
+	}
+	
+	public function getPiratesByIds($ids, array $fetchOptions = array())
+	{
+		$sqlCaluses = $this->preparePirateFetchOptions($fetchOptions);
+		
+		return $this->fetchAllKeyed('
+			SELECT *
+			' . $sqlClauses['selectFields'] . '
+			FROM pirates
+			' . $sqlClauses['joinTables'] . '
+			WHERE pirates.pirate_id IN (' . $this->_getDb()->quote($ids) . ')
+		', 'pirate_id');
+		
 	}
 
 	public function getPicturesById($id)
@@ -89,11 +128,6 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		if (!$perms['attach']) return false;
 		
 		return true;
-	}
-
-	protected function _getAttachmentModel()
-	{
-		return $this->getModelFromCache('XenForo_Model_Attachment');
 	}
 	
 	public function preparePirateCommentFetchOptions(array $fetchOptions)
@@ -201,7 +235,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			$pirate['comments'] = array();
 		}
 
-		if ($commentIdMap)
+		if (isset($commentIdMap))
 		{
 			$comments = $this->getPirateCommentsByIds(array_keys($commentIdMap), $fetchOptions);
 			foreach ($commentIdMap AS $commentId => $profilePostId)
@@ -222,6 +256,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	
 	public function preparePirateComment(array $comment, array $profilePost, array $user, array $viewingUser = null)
 	{
+		//TODO: permissions
 		//$comment['canDelete'] = $this->canDeleteProfilePostComment($comment, $profilePost, $user, $null, $viewingUser);
 		$comment['canDelete'] = true;
 		return $comment;
@@ -266,40 +301,14 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		return true;
 	}
 	
-	public function preparePirateFetchOptions(array $fetchOptions)
-	{
-		$selectFields = '';
-		$joinTables = '';
-		
-		$db = $this->_getDb();
-		
-		if (isset($fetchOptions['likeUserId']))
-		{
-			if (empty($fetchOptions['likeUserId']))
-			{
-				$selectFields .= ',
-					0 AS like_date';
-			}
-			else
-			{
-				$selectFields .= ',
-					liked_content.like_date';
-				$joinTables .= '
-					LEFT JOIN xf_liked_content AS liked_content
-						ON (liked_content.content_type = \'pirate\'
-							AND liked_content.content_id = pirate.pirate_id
-							AND liked_content.like_user_id = ' .$db->quote($fetchOptions['likeUserId']) . ')';
-			}
-		}
-
-		return array(
-			'selectFields' => $selectFields,
-			'joinTables'   => $joinTables
-		);
-	}
 	
 	protected function _hasPermission($permissions, $group, $permission)
 	{
 		return XenForo_Permission::hasPermission($permissions, $group, $permission);
+	}
+	
+	protected function _getAttachmentModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_Attachment');
 	}
 }

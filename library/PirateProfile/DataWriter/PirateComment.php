@@ -3,7 +3,6 @@
 class PirateProfile_DataWriter_PirateComment extends XenForo_DataWriter
 {
 	const DATA_PIRATE_USER = 'pirateUser';
-
 	const DATA_PIRATE = 'pirate';
 
 	protected $_existingDataErrorPhrase = 'pirateProfile_requested_pirate_not_found';

@@ -96,9 +96,12 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			'join' => PirateProfile_Model_Pirate::FETCH_COMMENT_USER
 		));
 		
-		foreach ($pirate['comments'] as &$comment)
-		{	
-			$comment = $pirateModel->preparePirateComment($comment, $pirate, $user);
+		if (isset($pirate['comments']))
+		{
+			foreach ($pirate['comments'] as &$comment)
+			{	
+				$comment = $pirateModel->preparePirateComment($comment, $pirate, $user);
+			}
 		}
 		
 		$pirate['canComment'] = true;
@@ -169,7 +172,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 					'liked'  => $liked,
 				);
 
-				return $this->responseView('PirateProfile_ViewPublic_LikeConfirmed', '', $viewParams);
+				return $this->responseView('PirateProfile_ViewPublic_Pirate_LikeConfirmed', '', $viewParams);
 			}
 			else
 			{
@@ -278,7 +281,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 					'user' => $user
 				);
 
-				return $this->responseView('PirateProfile_ViewPublic_Comment', '', $viewParams);
+				return $this->responseView('PirateProfile_ViewPublic_Pirate_Comment', '', $viewParams);
 			}
 			else
 			{
@@ -406,7 +409,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			'user' => $user
 		);
 
-		return $this->responseView('PirateProfile_ViewPublic_Comments', 'pirateProfile_pirate_comments', $viewParams);
+		return $this->responseView('PirateProfile_ViewPublic_Pirate_Comments', 'pirateProfile_pirate_comments', $viewParams);
 	}
 
 	public function actionAdd()

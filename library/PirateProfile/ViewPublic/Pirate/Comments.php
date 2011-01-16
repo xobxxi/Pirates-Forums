@@ -1,6 +1,6 @@
 <?php
 
-class PirateProfile_ViewPublic_Comments extends XenForo_ViewPublic_Base
+class PirateProfile_ViewPublic_Pirate_Comments extends XenForo_ViewPublic_Base
 {
 	public function renderJson()
 	{
