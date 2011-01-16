@@ -10,7 +10,7 @@ class PirateProfile_NewsFeedHandler_Pirate extends XenForo_NewsFeedHandler_Abstr
 		
 		$permissions = $model->getModelFromCache('PirateProfile_Model_Pirate')
 		                     ->getPermissions($viewingUser);
-		if (!$permissions['view']) return $pirates;
+		if (!$permissions['canView']) return $pirates;
 		
 		return $model->getModelFromCache('PirateProfile_Model_Pirate')->getPiratesByIds($contentIds);
 	}

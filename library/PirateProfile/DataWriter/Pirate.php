@@ -13,7 +13,7 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 		$maxLevelSkill	   = $options->pirateProfile_maxLevelSkill;
 
 		return array(
-			'pirates' => array(
+			'pirate' => array(
 				'pirate_id' => array(
 					'type'			=> self::TYPE_UINT,
 					'autoIncrement' => true
@@ -188,6 +188,12 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 		$this->_publishToNewsFeed();
 		
 		return true;
+	}
+	
+	protected function _postDelete()
+	{
+		$this->getModelFromCache('XenForo_Model_Alert')->deleteAlerts('pirate', $this->get('pirate_id'));
+		$this->_db->delete('pirate_comment', 'pirate_id = ' . $this->_db->quote($this->get('pirate_id')));
 	}
 
 	protected function _associatePictures($attachmentHash)

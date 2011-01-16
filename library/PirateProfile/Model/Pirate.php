@@ -2,6 +2,7 @@
 
 class PirateProfile_Model_Pirate extends XenForo_Model
 {
+	const FETCH_PIRATE_USER  = 0x01;
 	const FETCH_COMMENT_USER = 0x01;
 	
 	public function preparePirateFetchOptions(array $fetchOptions)
@@ -29,6 +30,19 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 							AND liked_content.like_user_id = ' .$db->quote($fetchOptions['likeUserId']) . ')';
 			}
 		}
+		
+		if (!empty($fetchOptions['join']))
+		{
+			if ($fetchOptions['join'] & self::FETCH_PIRATE_USER)
+			{
+				$selectFields .= ',
+					user.*,
+					IF(user.username IS NULL, pirate.user_id, user.user_id) AS user_id';
+				$joinTables .= '
+					LEFT JOIN xf_user AS user ON
+						(user.user_id = pirate.user_id)';
+			}
+		}
 
 		return array(
 			'selectFields' => $selectFields,
@@ -43,7 +57,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		
 		return $this->_getDb()->fetchAll("
 			SELECT pirate_id, user_id, name
-			FROM pirates
+			FROM pirate
 			ORDER BY name ASC
 			LIMIT {$start}, {$limit}
 		");
@@ -53,7 +67,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	{
 		return $this->_getDb()->fetchAll('
 			SELECT pirate_id, user_id, name
-			FROM pirates
+			FROM pirate
 			WHERE user_id = ?
 		', $user_id);
 	}
@@ -65,7 +79,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		$pirate = $this->_getDb()->fetchRow('
 			SELECT *
 			' . $sqlClauses['selectFields'] . '
-			FROM pirates AS pirate
+			FROM pirate
 			' . $sqlClauses['joinTables'] . '
 			WHERE pirate_id = ?
 		', $id);
@@ -79,14 +93,14 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	
 	public function getPiratesByIds($ids, array $fetchOptions = array())
 	{
-		$sqlCaluses = $this->preparePirateFetchOptions($fetchOptions);
+		$sqlClauses = $this->preparePirateFetchOptions($fetchOptions);
 		
 		return $this->fetchAllKeyed('
 			SELECT *
 			' . $sqlClauses['selectFields'] . '
-			FROM pirates
+			FROM pirate
 			' . $sqlClauses['joinTables'] . '
-			WHERE pirates.pirate_id IN (' . $this->_getDb()->quote($ids) . ')
+			WHERE pirate.pirate_id IN (' . $this->_getDb()->quote($ids) . ')
 		', 'pirate_id');
 		
 	}
@@ -125,7 +139,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	public function canUploadAndManageAttachment()
 	{
 		$perms = $this->getPermissions();
-		if (!$perms['attach']) return false;
+		if (!$perms['canAttach']) return false;
 		
 		return true;
 	}
@@ -161,7 +175,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		return $this->_getDb()->fetchRow('
 			SELECT pirate_comment.*
 			' . $sqlClauses['selectFields'] . '
-			FROM pirate_comment AS pirate_comment
+			FROM pirate_comment
 			' . $sqlClauses['joinTables'] . '
 			WHERE pirate_comment.pirate_comment_id = ?
 		', $pirateCommentId);
@@ -179,7 +193,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		return $this->fetchAllKeyed('
 			SELECT pirate_comment.*
 			' . $sqlClauses['selectFields'] . '
-			FROM pirate_comment AS pirate_comment
+			FROM pirate_comment
 			' . $sqlClauses['joinTables'] . '
 			WHERE pirate_comment.pirate_comment_id IN (' . $this->_getDb()->quote($ids) . ')
 		', 'pirate_comment_id');
@@ -212,7 +226,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			'
 				SELECT pirate_comment.*
 				' . $sqlClauses['selectFields'] . '
-				FROM pirate_comment AS pirate_comment
+				FROM pirate_comment
 					' . $sqlClauses['joinTables'] . '
 				WHERE pirate_comment.pirate_id = ?
 					' . $beforeCondition . '
@@ -256,10 +270,38 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	
 	public function preparePirateComment(array $comment, array $profilePost, array $user, array $viewingUser = null)
 	{
-		//TODO: permissions
-		//$comment['canDelete'] = $this->canDeleteProfilePostComment($comment, $profilePost, $user, $null, $viewingUser);
-		$comment['canDelete'] = true;
+		$comment['canDelete'] = $this->canDeleteProfilePostComment($comment, $profilePost, $user, $null, $viewingUser);
+		
 		return $comment;
+	}
+	
+	public function canDeleteProfilePostComment(array $comment, array $pirate, array $user, &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+
+		if (!$viewingUser['user_id'])
+		{
+			return false;
+		}
+		
+		$perms = $this->getPermissions($viewingUser);
+		if ($perms['canManage'])
+		{
+			return true;
+		}
+
+		if ($viewingUser['user_id'] == $comment['user_id'])
+		{
+			return true;
+		}
+		else if ($viewingUser['user_id'] == $pirate['user_id'])
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	public function getPermissions(array $viewingUser = null)
@@ -269,12 +311,12 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			$permissions = $viewingUser['permissions'];
 			
 			$perms = array(
-				'view'   => $this->_hasPermission($permissions, 'pirateProfile', 'canView'),
-				'add'    => $this->_hasPermission($permissions, 'pirateProfile', 'canAdd'),
-				'attach' => $this->_hasPermission($permissions, 'pirateProfile', 'canAttach'),
-				'edit'   => $this->_hasPermission($permissions, 'pirateProfile', 'canEdit'),
-				'delete' => $this->_hasPermission($permissions, 'pirateProfile', 'canDelete'),
-				'manage' => $this->_hasPermission($permissions, 'pirateProfile', 'canManage')
+				'canView'   => $this->_hasPermission($permissions, 'pirateProfile', 'canView'),
+				'canAdd'    => $this->_hasPermission($permissions, 'pirateProfile', 'canAdd'),
+				'canAttach' => $this->_hasPermission($permissions, 'pirateProfile', 'canAttach'),
+				'canEdit'   => $this->_hasPermission($permissions, 'pirateProfile', 'canEdit'),
+				'canDelete' => $this->_hasPermission($permissions, 'pirateProfile', 'canDelete'),
+				'canManage' => $this->_hasPermission($permissions, 'pirateProfile', 'canManage')
 			);
 
 			return $perms;
@@ -296,7 +338,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		}
 		
 		$perms = $this->getPermissions($viewingUser);
-		if (!$perms['view']) return false;
+		if (!$perms['canView']) return false;
 
 		return true;
 	}

@@ -7,7 +7,7 @@ class PirateProfile_Install
 		$db = XenForo_Application::get('db');
 
 		$db->query("
-			CREATE TABLE IF NOT EXISTS pirates (
+			CREATE TABLE IF NOT EXISTS pirate (
 			  pirate_id int(11) NOT NULL AUTO_INCREMENT COMMENT 'Pirate id',
 			  user_id int(11) NOT NULL COMMENT 'User this pirate belongs to',
 			  modified_date int(11) NOT NULL COMMENT 'Modified date',
