@@ -53,8 +53,8 @@ class PirateProfile_Install
 				'table'      => 'xf_content_type_field',
 				'identifier' => "xf_content_type_field.content_type = 'pirate'
 					AND xf_content_type_field.field_name = '{$name}'",
-				'fields'     => 'content_type, field_name, field_value',
-				'values'     => "pirate, {$name}, {$value}"
+				'fields'     => '`content_type`, `field_name`, `field_value`',
+				'values'     => "'pirate', '{$name}', '{$value}'"
 			);
 			
 			self::insertRow($db, $row, true);
@@ -65,8 +65,8 @@ class PirateProfile_Install
 		$contentTypeRow = array(
 			'table'      => 'xf_content_type',
 			'identifier' => "xf_content_type.content_type = 'pirate'",
-			'fields'     => 'content_type, addon_id, fields'
-			'values'     => "pirate, pirateProfile, {$fields}"
+			'fields'     => '`content_type`, `addon_id`, `fields`',
+			'values'     => "'pirate', 'pirateProfile', '{$fields}'"
 		);
 		
 		self::insertRow($db, $contentTypeRow, true);
@@ -83,7 +83,7 @@ class PirateProfile_Install
 
 		$db->query("
 			DROP TABLE IF EXISTS
-				pirates;
+				pirate;
 		");
 		
 		$db->query("
@@ -94,25 +94,6 @@ class PirateProfile_Install
 		$db->query("
 			DELETE FROM xf_content_type_field
 			WHERE xf_content_type_field.content_type = 'pirate'
-			AND xf_content_type_field.field_name = 'attachment_handler_class'
-		");
-		
-		$db->query("
-			DELETE FROM xf_content_type_field
-			WHERE xf_content_type_field.content_type = 'pirate' 
-			AND xf_content_type_field.field_name = 'news_feed_handler_class'
-		");
-		
-		$db->query("
-			DELETE FROM xf_content_type_field
-			WHERE xf_content_type_field.content_type = 'pirate' 
-			AND xf_content_type_field.field_name = 'like_handler_class'
-		");
-		
-		$db->query("
-			DELETE FROM xf_content_type_field
-			WHERE xf_content_type_field.content_type = 'pirate' 
-			AND xf_content_type_field.field_name = 'alert_handler_class'
 		");
 		
 		$db->query("
@@ -155,7 +136,7 @@ class PirateProfile_Install
 		}
 		
 		$db->query("
-			INSERT INTO {$row['table']} ({$row['fields']}) VALUES
+			INSERT INTO `{$row['table']}` ({$row['fields']}) VALUES
 			({$row['values']})
 		");
 	}
