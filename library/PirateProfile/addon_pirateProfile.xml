@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.2.1" version_id="20" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.3.0 Beta 1" version_id="21" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -70,11 +70,11 @@
     <phrase title="pirateProfile_comments_on_pirate_x" version_id="18" version_string="1.1.0"><![CDATA[Comments on Pirate: {pirate}]]></phrase>
     <phrase title="pirateProfile_comment_on_pirate_x" version_id="18" version_string="1.1.0"><![CDATA[Comment on Pirate: {pirate}]]></phrase>
     <phrase title="pirateProfile_congrats" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Congratulations!]]></phrase>
-    <phrase title="pirateProfile_delete_pirate" version_id="2" version_string="1.0.0 Alpha 3"><![CDATA[Delete Pirate]]></phrase>
     <phrase title="pirateProfile_delete_pirate_comment_by_x" version_id="18" version_string="1.1.0"><![CDATA[Delete Pirate Comment by {name}]]></phrase>
+    <phrase title="pirateProfile_delete_pirate_x" version_id="20" version_string="1.2.1"><![CDATA[Delete Pirate: {pirate}]]></phrase>
     <phrase title="pirateProfile_deleting_pirate_comment" version_id="19" version_string="1.2.0"><![CDATA[Deleting pirate comment]]></phrase>
     <phrase title="pirateProfile_editing_pirate" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Editing pirate]]></phrase>
-    <phrase title="pirateProfile_edit_pirate" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Edit Pirate]]></phrase>
+    <phrase title="pirateProfile_edit_pirate_x" version_id="20" version_string="1.2.1"><![CDATA[Edit Pirate: {pirate}]]></phrase>
     <phrase title="pirateProfile_forces_all_image_content_into_card" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Forces all image content into card.]]></phrase>
     <phrase title="pirateProfile_formerly_x" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Formerly {old}]]></phrase>
     <phrase title="pirateProfile_last_updated" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Last updated]]></phrase>
@@ -103,13 +103,17 @@
     <phrase title="pirateProfile_pirate_shooting" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Shooting]]></phrase>
     <phrase title="pirateProfile_pirate_staff" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Staff]]></phrase>
     <phrase title="pirateProfile_pirate_sword" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Sword]]></phrase>
+    <phrase title="pirateProfile_pirate_x" version_id="20" version_string="1.2.1"><![CDATA[Pirate: {pirate}]]></phrase>
     <phrase title="pirateProfile_please_enter_pirate_name" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Please enter the pirate's name.]]></phrase>
+    <phrase title="pirateProfile_please_enter_reason_for_reporting_this_pirate" version_id="20" version_string="1.2.1"><![CDATA[Please enter a reason for reporting this pirate.]]></phrase>
     <phrase title="pirateProfile_reached" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[reached]]></phrase>
     <phrase title="pirateProfile_remove_current_picture_before_uploading_new_one" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Remove current picture before uploading a new one.]]></phrase>
     <phrase title="pirateProfile_removing_pirate" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Removing pirate]]></phrase>
+    <phrase title="pirateProfile_report_pirate" version_id="20" version_string="1.2.1"><![CDATA[Report Pirate]]></phrase>
     <phrase title="pirateProfile_requested_pirate_not_found" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The requested pirate could not be found.]]></phrase>
     <phrase title="pirateProfile_required" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Required]]></phrase>
     <phrase title="pirateProfile_save_pirate" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Save Pirate]]></phrase>
+    <phrase title="pirateProfile_thank_you_for_reporting_this_pirate" version_id="20" version_string="1.2.1"><![CDATA[Thank you for reporting this pirate.]]></phrase>
     <phrase title="pirateProfile_the_pirate_has_been_saved_successfully" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[The pirate has been saved successfully.]]></phrase>
     <phrase title="pirateProfile_this_user_has_not_entered_any_pirates" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[This user has not entered any pirates.]]></phrase>
     <phrase title="pirateProfile_unlike_pirate" version_id="15" version_string="1.0.0"><![CDATA[Unlike Pirate]]></phrase>
@@ -238,21 +242,21 @@
 </h3>
 ]]></template>
     <template title="pirateProfile_account_management_list_item" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[<li><a class="primaryContent" href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a></li>]]></template>
-    <template title="pirateProfile_add" version_id="12" version_string="1.0.0 RC 2"><![CDATA[<xen:title>{xen:phrase pirateProfile_add_pirate}</xen:title>
+    <template title="pirateProfile_add" version_id="20" version_string="1.2.1"><![CDATA[<xen:title>{xen:phrase pirateProfile_add_pirate}</xen:title>
 
 <xen:navigation>
         <xen:breadcrumb href="{xen:link full:members, $visitor}">{$visitor.username}</xen:breadcrumb>
-        <xen:breadcrumb href="{xen:link pirates}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:pirates, $visitor}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
 </xen:navigation>
 
 <form action="{xen:link 'pirates/new'}" method="post" class="xenForm formOverlay overlayScroll AutoValidator" id="pirateProfileAdd" data-redirect="on">
         <xen:include template="pirateProfile_form" />
 </form>]]></template>
-    <template title="pirateProfile_delete" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[<xen:title>{xen:phrase pirateProfile_delete_pirate}</xen:title>
+    <template title="pirateProfile_delete" version_id="20" version_string="1.2.1"><![CDATA[<xen:title>{xen:phrase pirateProfile_delete_pirate_x, 'pirate={$pirate.name}'}</xen:title>
 
 <xen:navigation>
         <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
-	<xen:breadcrumb href="{xen:link pirates}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
+	<xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
 </xen:navigation>
 
 <form action="{xen:link 'pirates/delete', $pirate}" method="post" class="xenForm formOverlay" id="pirateProfileDelete" data-redirect="on">
@@ -267,11 +271,11 @@
 	<input type="hidden" name="_xfConfirm" value="1" />
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="pirateProfile_edit" version_id="12" version_string="1.0.0 RC 2"><![CDATA[<xen:title>{xen:phrase pirateProfile_edit_pirate}</xen:title>
+    <template title="pirateProfile_edit" version_id="20" version_string="1.2.1"><![CDATA[<xen:title>{xen:phrase pirateProfile_edit_pirate_x, 'pirate={$pirate.name}'}</xen:title>
 
 <xen:navigation>
         <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
-        <xen:breadcrumb href="{xen:link pirates}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
 </xen:navigation>
 
 <form action="{xen:link 'pirates/save', $pirate}" method="post" class="xenForm formOverlay overlayScroll AutoValidator" id="pirateProfileEdit" data-redirect="on">
@@ -445,7 +449,7 @@ div.label,
 }]]></template>
     <template title="pirateProfile_member_card_link_item" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<a href="{xen:link pirates, $user}">{xen:phrase pirateProfile_pirates}</a>]]></template>
     <template title="pirateProfile_navigation_visitor_tab_item" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[<li><a href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a></li>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="18" version_string="1.1.0"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="20" version_string="1.2.1"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
 <xen:require js="js/card/skills.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
@@ -456,7 +460,7 @@ div.label,
 
 <xen:navigation>
         <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
-        <xen:breadcrumb href="{xen:link pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
 </xen:navigation>
 
 <div id="pirateContainer" class="primaryContent">
@@ -493,13 +497,25 @@ div.label,
                 </xen:if>
                 <div class="pirateMisc">
                         <p class="muted">{xen:phrase pirateProfile_last_updated}: {xen:datetime $pirate.modified_date}</p>
+
+                        <xen:if is="{$visitor.user_id} == {$user.user_id} || {$pirate.canManage}">
+                                <xen:if is="{$pirate.canEdit}">
+                                        <a href="{xen:link pirates/edit, $pirate}" class="OverlayTrigger">{xen:phrase edit}</a>
+                                </xen:if>
+                                <xen:if is="{$pirate.canDelete}">
+                                        <a href="{xen:link pirates/delete, $pirate}" class="OverlayTrigger">{xen:phrase delete}</a>
+                                </xen:if>
+                        </xen:if>
+
+                        <xen:if is="{$pirate.canReport}">
+                                <a href="{xen:link 'pirates/report', $pirate}" class="OverlayTrigger item control report" data-cacheOverlay="false">{xen:phrase report}</a>
+                        </xen:if>
                         <xen:if is="{$pirate.canLike}">
 				<a href="{xen:link 'pirates/like', $pirate}" class="LikeLink item control {xen:if $pirate.like_date, unlike, like}" data-container="#likes-wp-{$pirate.pirate_id}"><span></span><span class="LikeLabel">{xen:if $pirate.like_date, {xen:phrase unlike}, {xen:phrase like}}</span></a>
 			</xen:if>
                         <xen:if is="{$pirate.canComment}">
 				<a href="{xen:link 'pirates/comment', $pirate}" class="CommentPoster item control postComment" data-commentArea="#pirate-commentSubmit-{$pirate.pirate_id}"><span></span>{xen:phrase comment}</a>
 			</xen:if>
-                        <xen:if is="{$visitor.user_id} == {$user.user_id} || {$pirate.canManage}"><xen:if is="{$pirate.canEdit}"><a href="{xen:link pirates/edit, $pirate}" class="OverlayTrigger">{xen:phrase edit}</a></xen:if> <xen:if is="{$pirate.canDelete}"><a href="{xen:link pirates/delete, $pirate}" class="OverlayTrigger">{xen:phrase delete}</a></xen:if></xen:if>
 
                         <ol class="messageResponse messageSimple">
 
@@ -842,10 +858,11 @@ div.label,
 
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="pirateProfile_pirate_likes" version_id="15" version_string="1.0.0"><![CDATA[<xen:title>{$pirate.name} - {xen:phrase pirateProfile_members_who_liked_this_pirate}</xen:title>
+    <template title="pirateProfile_pirate_likes" version_id="20" version_string="1.2.1"><![CDATA[<xen:title>{$pirate.name} - {xen:phrase pirateProfile_members_who_liked_this_pirate}</xen:title>
 
 <xen:container var="$head.noindex">
-	<meta name="robots" content="noindex" /></xen:container>
+	<meta name="robots" content="noindex" />
+</xen:container>
 
 <xen:navigation>
 	<xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
@@ -863,6 +880,29 @@ div.label,
 	</ol>
 	<div class="sectionFooter overlayOnly"><a class="button primary OverlayCloser">{xen:phrase close}</a></div>
 </div>]]></template>
+    <template title="pirateProfile_pirate_report" version_id="20" version_string="1.2.1"><![CDATA[<xen:title>{$pirate.name} - {xen:phrase pirateProfile_report_pirate}</xen:title>
+<xen:h1>{xen:phrase report_conversation_message}</xen:h1>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:pirates, $pirate}">{$pirate.name}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link 'pirates/report', $pirate}" method="post" class="xenForm formOverlay AutoValidator">
+
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_message">{xen:phrase report_reason}:</label></dt>
+		<dd><textarea name="message" id="ctrl_message" rows="2" class="textCtrl Elastic"></textarea></dd>
+	</dl>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd><input type="submit" value="{xen:phrase pirateProfile_report_pirate}" accesskey="s" class="button primary" /></dd>
+	</dl>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
     <template title="pirateProfile_profile_tab" version_id="0" version_string="1.0.0 Alpha"><![CDATA[<li><a href="{$requestPaths.requestUri}#pirateProfile">Pirates</a></li>
 
 <xen:edithint template="pirateProfile_profile_tab_content" />
@@ -876,14 +916,14 @@ div.label,
 </li>
 
 <xen:edithint template="pirateProfile_view" />]]></template>
-    <template title="pirateProfile_view" version_id="18" version_string="1.1.0"><![CDATA[<xen:require js="js/card/loader.js" />
+    <template title="pirateProfile_view" version_id="20" version_string="1.2.1"><![CDATA[<xen:require js="js/card/loader.js" />
 <xen:require css="pirateProfile_view.css" />
 
 <xen:title>{xen:phrase pirateProfile_xs_pirates, 'username={$user.username}'}</xen:title>
 
 <xen:navigation>
         <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
-        <xen:breadcrumb href="{xen:link pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
 </xen:navigation>
 
 

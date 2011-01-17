@@ -78,7 +78,9 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			}
 		}
 		
-		$pirate['canComment'] = $this->_assertCanCommentOnPirate($pirate, XenForo_Visitor::getUserId());
+		$visitorId = XenForo_Visitor::getUserId();
+		$pirate['canReport']  = $this->_assertCanReportPirate($pirate, $visitorId);
+		$pirate['canComment'] = $this->_assertCanCommentOnPirate($pirate, $visitorId);
 
 		$viewParams = array(
 			'user'	   => $user,
@@ -90,6 +92,51 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			'pirateProfile_pirate_card',
 			$viewParams
 		);
+	}
+	
+	public function actionReport()
+	{
+		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);
+
+		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
+		$pirate = $this->_censorPirate($pirate);
+		
+		if (XenForo_Visitor::getUserId() == $pirate['user_id'])
+		{
+			throw $this->getNoPermissionResponseException();
+		}
+
+		if ($this->_request->isPost())
+		{
+			$reportMessage = $this->_input->filterSingle('message', XenForo_Input::STRING);
+			if (!$reportMessage)
+			{
+				return $this->responseError(new XenForo_Phrase('pirateProfile_please_enter_reason_for_reporting_this_pirate'));
+			}
+
+			$reportModel = $this->getModelFromCache('XenForo_Model_Report');
+			$reportModel->reportContent('pirate', $pirate, $reportMessage);
+
+			$controllerResponse = $this->responseRedirect(
+				XenForo_ControllerResponse_Redirect::SUCCESS,
+				XenForo_Link::buildPublicLink('pirates/card', $pirate)
+			);
+			$controllerResponse->redirectMessage = new XenForo_Phrase('pirateProfile_thank_you_for_reporting_this_pirate');
+			return $controllerResponse;
+		}
+		else
+		{
+			$viewParams = array(
+				'pirate' => $pirate,
+				'user'   => $user
+			);
+
+			return $this->responseView(
+				'PirateProfile_ViewPublic_Pirate_Report',
+				'pirateProfile_pirate_report',
+				$viewParams
+			);
+		}
 	}
 	
 	public function actionLike()
@@ -739,6 +786,19 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		return array($pirate, $user);
 	}
 	
+	protected function _assertCanReportPirate($pirate, $userId)
+	{
+		if ($pirate['canView'])
+		{
+			if (!empty($user_id))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	protected function _assertCanLikePirate($pirate, $user)
 	{
 		$pirate['canLike'] = $this->_getPirateModel()->canLikePirate($pirate, $user);
@@ -746,11 +806,11 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		return $pirate;
 	}
 	
-	protected function _assertCanCommentOnPirate($pirate, $user_id)
+	protected function _assertCanCommentOnPirate($pirate, $userId)
 	{
 		if ($pirate['canView'])
 		{
-			if (!empty($user_id))
+			if (!empty($userId))
 			{
 				return true;
 			}

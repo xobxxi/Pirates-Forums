@@ -116,6 +116,7 @@ class PirateProfile_Install
 		$fields['news_feed_handler_class']  = 'PirateProfile_NewsFeedHandler_Pirate';
 		$fields['like_handler_class']       = 'PirateProfile_LikeHandler_Pirate';
 		$fields['alert_handler_class']      = 'PirateProfile_AlertHandler_Pirate';
+		$fields['report_handler_class']     = 'PirateProfile_ReportHandler_Pirate';
 		
 		return $fields;
 	}

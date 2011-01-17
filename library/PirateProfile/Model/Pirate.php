@@ -343,7 +343,6 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		return true;
 	}
 	
-	
 	protected function _hasPermission($permissions, $group, $permission)
 	{
 		return XenForo_Permission::hasPermission($permissions, $group, $permission);
