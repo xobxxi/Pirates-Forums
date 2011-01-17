@@ -634,6 +634,12 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 					return new XenForo_Phrase('pirateProfile_liking_pirate');
 				case 'Likes':
 					return new XenForo_Phrase('pirateProfile_viewing_pirate_likes');
+				case 'Comment':
+					return new XenForo_Phrase('pirateProfile_commenting_on_a_pirate');
+				case 'Comments':
+					return new XenForo_Phrase('pirateProfile_viewing_pirate_comments');
+				case 'CommentDelete':
+					return new XenForo_Phrase('pirateProfile_deleting_pirate_comment');
 				case 'Add':
 					return new XenForo_Phrase('pirateProfile_adding_pirate');
 				case 'Edit':

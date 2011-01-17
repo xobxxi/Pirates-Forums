@@ -7,28 +7,32 @@ class PirateProfile_Install
 		$db = XenForo_Application::get('db');
 
 		$db->query("
-			CREATE TABLE IF NOT EXISTS pirate (
-			  pirate_id int(11) NOT NULL AUTO_INCREMENT COMMENT 'Pirate id',
-			  user_id int(11) NOT NULL COMMENT 'User this pirate belongs to',
-			  modified_date int(11) NOT NULL COMMENT 'Modified date',
-			  name text NOT NULL COMMENT 'Pirate name',
-			  level int(11) NOT NULL DEFAULT '1' COMMENT 'Pirate level',
-			  guild text NOT NULL COMMENT 'Pirate guild',
-			  likes int(10) NOT NULL DEFAULT '0',
-			  like_users blob NOT NULL,
-			  extra text NOT NULL COMMENT 'Extra text',
-			  cannon int(11) NOT NULL COMMENT 'Cannon level',
-			  sailing int(11) NOT NULL COMMENT 'Sailing level',
-			  sword int(11) NOT NULL COMMENT 'Sword level',
-			  shooting int(11) NOT NULL COMMENT 'Shooting level',
-			  doll int(11) NOT NULL COMMENT 'Doll level',
-			  dagger int(11) NOT NULL COMMENT 'Dagger level',
-			  grenade int(11) NOT NULL COMMENT 'Grenades level',
-			  staff int(11) NOT NULL COMMENT 'Staff level',
-			  potions int(11) NOT NULL COMMENT 'Potions level',
-			  fishing int(11) NOT NULL COMMENT 'Fishing level',
-			  make_fit int(11) NOT NULL DEFAULT '0' COMMENT 'Make picture fit',
-			  PRIMARY KEY (pirate_id)
+			CREATE TABLE IF NOT EXISTS `pirate` (
+			  `pirate_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Pirate id',
+			  `user_id` int(11) NOT NULL COMMENT 'User this pirate belongs to',
+			  `modified_date` int(11) NOT NULL COMMENT 'Modified date',
+			  `name` text NOT NULL COMMENT 'Pirate name',
+			  `level` int(11) NOT NULL DEFAULT '1' COMMENT 'Pirate level',
+			  `guild` text NOT NULL COMMENT 'Pirate guild',
+			  `likes` int(10) NOT NULL DEFAULT '0',
+			  `like_users` blob NOT NULL,
+			  `extra` text NOT NULL COMMENT 'Extra text',
+			  `cannon` int(11) NOT NULL COMMENT 'Cannon level',
+			  `sailing` int(11) NOT NULL COMMENT 'Sailing level',
+			  `sword` int(11) NOT NULL COMMENT 'Sword level',
+			  `shooting` int(11) NOT NULL COMMENT 'Shooting level',
+			  `doll` int(11) NOT NULL COMMENT 'Doll level',
+			  `dagger` int(11) NOT NULL COMMENT 'Dagger level',
+			  `grenade` int(11) NOT NULL COMMENT 'Grenades level',
+			  `staff` int(11) NOT NULL COMMENT 'Staff level',
+			  `potions` int(11) NOT NULL COMMENT 'Potions level',
+			  `fishing` int(11) NOT NULL COMMENT 'Fishing level',
+			  `make_fit` int(11) NOT NULL DEFAULT '0' COMMENT 'Make picture fit',
+			  `comment_count` int(10) NOT NULL DEFAULT '0',
+			  `first_comment_date` int(10) NOT NULL DEFAULT '0',
+			  `last_comment_date` int(10) NOT NULL DEFAULT '0',
+			  `latest_comment_ids` varbinary(100) NOT NULL,
+			  PRIMARY KEY (`pirate_id`)
 			) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 		");
 		
