@@ -7,9 +7,7 @@ class PirateProfile_ReportHandler_Pirate extends XenForo_ReportHandler_Abstract
 	{
 		$pirateModel = XenForo_Model::create('PirateProfile_Model_Pirate');
 
-		$pirate = $pirateModel->getPirateById($content['pirate_id'], array(
-			'join' => XenForo_Model_ProfilePost::FETCH_USER_RECEIVER // checka this out
-		));
+		$pirate = $pirateModel->getPirateById($content['pirate_id']);
 		if (!$pirate)
 		{
 			return array(false, false, false);

@@ -792,7 +792,10 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		{
 			if (!empty($userId))
 			{
-				return true;
+				if ($pirate['user_id'] != $userId)
+				{
+					return true;
+				}
 			}
 		}
 		
