@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.4.0 RC 3" version_id="25" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.4.0" version_id="26" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -217,20 +217,20 @@
 </xen:if>
 </h3>
 <p class="snippet">{xen:phrase pirateProfile_congrats}</p>]]></template>
-    <template title="news_feed_item_pirate_like" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_pirate_like" version_id="25" version_string="1.4.0 RC 3"><![CDATA[<h3 class="description">
 <xen:if is="{$content.user_id} != {$visitor.user_id}">
 {xen:phrase pirateProfile_x_liked_ys_pirate,
 	'name={xen:helper username, $user, 'primaryText'}',
         'username={xen:helper username, $owner}',
 	'pirate_attributes=href="{xen:link pirates/card, $content}"',
         'pirate={$content.name}'
-}.
+}
 <xen:else />
 {xen:phrase pirateProfile_x_liked_your_pirate,
 	'name={xen:helper username, $user, 'primaryText'}',
 	'pirate_attributes=href="{xen:link pirates/card, $content}"',
         'pirate={$content.name}'
-}.
+}
 </xen:if>
 </h3>]]></template>
     <template title="news_feed_item_pirate_name" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[<h3 class="description">
