@@ -790,7 +790,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	{
 		if ($pirate['canView'])
 		{
-			if (!empty($user_id))
+			if (!empty($userId))
 			{
 				return true;
 			}

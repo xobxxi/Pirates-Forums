@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.3.0 Beta 1" version_id="21" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.3.0 Beta 2" version_id="22" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -880,13 +880,13 @@ div.label,
 	</ol>
 	<div class="sectionFooter overlayOnly"><a class="button primary OverlayCloser">{xen:phrase close}</a></div>
 </div>]]></template>
-    <template title="pirateProfile_pirate_report" version_id="20" version_string="1.2.1"><![CDATA[<xen:title>{$pirate.name} - {xen:phrase pirateProfile_report_pirate}</xen:title>
-<xen:h1>{xen:phrase report_conversation_message}</xen:h1>
+    <template title="pirateProfile_pirate_report" version_id="21" version_string="1.3.0 Beta 1"><![CDATA[<xen:title>{$pirate.name} - {xen:phrase pirateProfile_report_pirate}</xen:title>
+<xen:h1>{xen:phrase pirateProfile_report_pirate}</xen:h1>
 
 <xen:navigation>
 	<xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
         <xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
-        <xen:breadcrumb href="{xen:link full:pirates, $pirate}">{$pirate.name}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:pirates/card, $pirate}">{$pirate.name}</xen:breadcrumb>
 </xen:navigation>
 
 <form action="{xen:link 'pirates/report', $pirate}" method="post" class="xenForm formOverlay AutoValidator">
