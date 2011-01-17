@@ -104,6 +104,71 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		', 'pirate_id');
 		
 	}
+	
+	public function preparePirate($pirate)
+	{
+		$options = XenForo_Application::get('options');
+		
+		$pirate += array(
+			'likeUsers'  => unserialize($pirate['like_users']),
+			'skills_set' => true,
+			'max'	     => array(
+				'weapon' => $options->pirateProfile_maxLevelWeapon,
+				'skill'	 => $options->pirateProfile_maxLevelSkill
+			),
+			'weapons'    => array(),
+			'skills'     => array()
+		);
+
+		foreach ($pirate as $name => $level)
+		{
+			switch ($name)
+			{
+				case 'cannon':
+				case 'sailing':
+				case 'sword':
+				case 'shooting':
+				case 'doll':
+				case 'dagger':
+				case 'grenade':
+				case 'staff':
+					$pirate['weapons'][$name] = array(
+						'name'	=> new XenForo_Phrase('pirateProfile_pirate_' . $name),
+						'level' => $level
+					);
+					unset($pirate[$name]);
+				break;
+				case 'potions':
+				case 'fishing':
+					$pirate['skills'][$name] = array(
+						'name'	=> new XenForo_Phrase('pirateProfile_pirate_' . $name),
+						'level' => $level
+					);
+					unset($pirate[$name]);
+				break;
+			}
+		}
+
+		$skillsSet = false;
+		foreach ($pirate['weapons'] as $weapon)
+		{
+			if (!empty($weapon['level'])) $skillsSet = true;
+		}
+		foreach ($pirate['skills'] as $skill)
+		{
+			if (!empty($skill['level'])) $skillsSet = true;
+		}
+
+		if (!$skillsSet)
+		{
+			$pirate['skills_set'] = false;
+		}
+		
+		$pictures          = $this->getPicturesById($pirate['pirate_id']);
+		$pirate['picture'] = $this->_preparePicture($pictures[0], $pirate['make_fit']);
+
+		return $pirate;
+	}
 
 	public function getPicturesById($id)
 	{
@@ -118,6 +183,40 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		}
 
 		return $return;
+	}
+	
+	protected function _preparePicture($picture, $fit = false)
+	{
+		if (empty($picture)) return false;
+
+		$width  = 250;
+		$height = 280;
+		
+		if ($fit)
+		{
+			$picture['width']  = $width;
+			$picture['height'] = $height;
+			
+			return $picture;
+		}
+
+		switch ($picture['width'] >= $picture['height'])
+		{
+			default:
+			case true:
+				$ratio = ($picture['height'] / $height);
+				$picture['width']  = intval(round($picture['width'] / $ratio));
+				$picture['height'] = $height;
+				$picture['margin'] = intval(round(-(($picture['width'] - $width) / 2)));
+			break;
+			case false:
+				$ratio = ($picture['width'] /  $width);
+				$picture['width']  = $width;
+				$picture['height'] = intval(round($picture['height'] / $ratio));
+			break;
+		}
+
+		return $picture;
 	}
 
 	public function getAttachmentParams(array $contentData)

@@ -27,6 +27,8 @@ class PirateProfile_ReportHandler_Pirate extends XenForo_ReportHandler_Abstract
 		{
 			$pirate['extra'] = XenForo_Helper_String::censorString($pirate['extra']);
 		}
+		
+		$pirate = $pirateModel->preparePirate($pirate);
 
 		return array(
 			$content['pirate_id'],

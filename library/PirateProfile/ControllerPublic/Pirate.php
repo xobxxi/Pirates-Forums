@@ -61,11 +61,12 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		$this->_canonicalize($pirate, 'card');
 
-		$pirate = $this->_preparePirate($this->_censorPirate($pirate));
+		$pirateModel = $this->_getPirateModel();
+		
+		$pirate = $pirateModel->preparePirate($this->_censorPirate($pirate));
 		
 		$pirate = $this->_assertCanLikePirate($pirate, $user);
 		
-		$pirateModel = $this->_getPirateModel();
 		$pirate = $pirateModel->addPirateCommentsToPirate($pirate, array(
 			'join' => PirateProfile_Model_Pirate::FETCH_COMMENT_USER
 		));
@@ -785,6 +786,39 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		return array($pirate, $user);
 	}
+
+	protected function _censorPirate($pirate)
+	{
+		if (!empty($pirate['name']))
+		{
+			$pirate['name']	 = XenForo_Helper_String::censorString($pirate['name']);
+		}
+
+		if (!empty($pirate['guild']))
+		{
+			$pirate['guild'] = XenForo_Helper_String::censorString($pirate['guild']);
+		}
+
+		if (!empty($pirate['extra']))
+		{
+			$pirate['extra'] = XenForo_Helper_String::censorString($pirate['extra']);
+		}
+
+		return $pirate;
+	}
+
+	protected function _censorPirates(array $pirates)
+	{
+		$return = array();
+		foreach ($pirates as $pirate)
+		{
+			$return[] = $this->_censorPirate($pirate);
+		}
+
+		if (empty($return)) return false;
+
+		return $return;
+	}
 	
 	protected function _assertCanReportPirate($pirate, $userId)
 	{
@@ -820,139 +854,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		}
 		
 		return false;
-	}
-
-	protected function _censorPirate($pirate)
-	{
-		if (!empty($pirate['name']))
-		{
-			$pirate['name']	 = XenForo_Helper_String::censorString($pirate['name']);
-		}
-
-		if (!empty($pirate['guild']))
-		{
-			$pirate['guild'] = XenForo_Helper_String::censorString($pirate['guild']);
-		}
-
-		if (!empty($pirate['extra']))
-		{
-			$pirate['extra'] = XenForo_Helper_String::censorString($pirate['extra']);
-		}
-
-		return $pirate;
-	}
-
-	protected function _censorPirates(array $pirates)
-	{
-		$return = array();
-		foreach ($pirates as $pirate)
-		{
-			$return[] = $this->_censorPirate($pirate);
-		}
-
-		if (empty($return)) return false;
-
-		return $return;
-	}
-	
-	protected function _preparePirate($pirate)
-	{
-		$options = XenForo_Application::get('options');
-		
-		$pirate += array(
-			'likeUsers'  => unserialize($pirate['like_users']),
-			'skills_set' => true,
-			'max'	     => array(
-				'weapon' => $options->pirateProfile_maxLevelWeapon,
-				'skill'	 => $options->pirateProfile_maxLevelSkill
-			),
-			'weapons'    => array(),
-			'skills'     => array()
-		);
-
-		foreach ($pirate as $name => $level)
-		{
-			switch ($name)
-			{
-				case 'cannon':
-				case 'sailing':
-				case 'sword':
-				case 'shooting':
-				case 'doll':
-				case 'dagger':
-				case 'grenade':
-				case 'staff':
-					$pirate['weapons'][$name] = array(
-						'name'	=> new XenForo_Phrase('pirateProfile_pirate_' . $name),
-						'level' => $level
-					);
-					unset($pirate[$name]);
-				break;
-				case 'potions':
-				case 'fishing':
-					$pirate['skills'][$name] = array(
-						'name'	=> new XenForo_Phrase('pirateProfile_pirate_' . $name),
-						'level' => $level
-					);
-					unset($pirate[$name]);
-				break;
-			}
-		}
-
-		$skillsSet = false;
-		foreach ($pirate['weapons'] as $weapon)
-		{
-			if (!empty($weapon['level'])) $skillsSet = true;
-		}
-		foreach ($pirate['skills'] as $skill)
-		{
-			if (!empty($skill['level'])) $skillsSet = true;
-		}
-
-		if (!$skillsSet)
-		{
-			$pirate['skills_set'] = false;
-		}
-		
-		$pictures          = $this->_getPirateModel()
-		                          ->getPicturesById($pirate['pirate_id']);
-		$pirate['picture'] = $this->_preparePicture($pictures[0], $pirate['make_fit']);
-
-		return $pirate;
-	}
-	
-	protected function _preparePicture($picture, $fit = false)
-	{
-		if (empty($picture)) return false;
-
-		$width  = 250;
-		$height = 280;
-		
-		if ($fit)
-		{
-			$picture['width']  = $width;
-			$picture['height'] = $height;
-			
-			return $picture;
-		}
-
-		switch ($picture['width'] >= $picture['height'])
-		{
-			default:
-			case true:
-				$ratio = ($picture['height'] / $height);
-				$picture['width']  = intval(round($picture['width'] / $ratio));
-				$picture['height'] = $height;
-				$picture['margin'] = intval(round(-(($picture['width'] - $width) / 2)));
-			break;
-			case false:
-				$ratio = ($picture['width'] /  $width);
-				$picture['width']  = $width;
-				$picture['height'] = intval(round($picture['height'] / $ratio));
-			break;
-		}
-
-		return $picture;
 	}
 
 	protected function _assertCanManagePirate($pirate, $visitor)
