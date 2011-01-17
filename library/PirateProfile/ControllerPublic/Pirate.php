@@ -78,7 +78,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			}
 		}
 		
-		$pirate['canComment'] = $this->_assertCanCommentOnPirate($pirate, $user);
+		$pirate['canComment'] = $this->_assertCanCommentOnPirate($pirate, XenForo_Visitor::getUserId());
 
 		$viewParams = array(
 			'user'	   => $user,
@@ -197,6 +197,8 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	public function actionComment()
 	{
 		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);
+		
+		$this->_assertLoggedIn();
 		
 		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
 
@@ -744,11 +746,11 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		return $pirate;
 	}
 	
-	protected function _assertCanCommentOnPirate($pirate, $user)
+	protected function _assertCanCommentOnPirate($pirate, $user_id)
 	{
 		if ($pirate['canView'])
 		{
-			if (!empty($user['user_id']))
+			if (!empty($user_id))
 			{
 				return true;
 			}
