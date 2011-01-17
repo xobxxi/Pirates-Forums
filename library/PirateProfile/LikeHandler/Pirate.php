@@ -13,7 +13,7 @@ class PirateProfile_LikeHandler_Pirate extends XenForo_LikeHandler_Abstract
 
 	public function getContentData(array $contentIds, array $viewingUser)
 	{
-		$pirateModel = XenForo_Model::create('XenForo_Model_Pirate');
+		$pirateModel = XenForo_Model::create('PirateProfile_Model_Pirate');
 		
 		$permissions = $pirateModel->getPermissions($viewingUser);
 		if (!$permissions['canView']) return $pirates;
