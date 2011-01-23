@@ -89,6 +89,11 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		foreach ($pirates as &$pirate)
 		{
 			$pirate['user'] = $users[$pirate['user_id']];
+			
+			if (strlen($pirate['guild']) > 11)
+			{
+				$pirate['guild'] = substr($pirate['guild'], 1, 11) . '...';
+			}
 		}
 		
 		foreach ($recentlyUpdated as &$pirate)
