@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.5.0 Beta 1.1" version_id="28" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.5.0 Beta 2" version_id="29" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -491,7 +491,7 @@ div.label,
 {
         color: rgb(84, 29, 29) !important;
 }]]></template>
-    <template title="pirateProfile_list" version_id="26" version_string="1.4.0"><![CDATA[<xen:require css="discussion_list.css" />
+    <template title="pirateProfile_list" version_id="28" version_string="1.5.0 Beta 1.1"><![CDATA[<xen:require css="discussion_list.css" />
 <xen:require css="member_list.css" />
 <xen:require css="pirateProfile_list.css" />
 
@@ -516,14 +516,14 @@ div.label,
 	<dl class="sectionHeaders">
 		<dt class="posterAvatar"></dt>
 		<dd class="main">
-			<a class="title"><span>{xen:phrase pirateProfile_pirate_name}</span></a>
-			<a class="postDate"><span>{xen:phrase pirateProfile_last_updated}</span></a>
+			<a href="{xen:link pirates, false, '_params={$orderParams.name}'}" class="title"><span>{xen:phrase pirateProfile_pirate_name}{xen:helper sortArrow, $order, $orderDirection, name}</span></a>
+			<a href="{xen:link pirates, false, '_params={$orderParams.modified_date}'}" class="postDate"><span>{xen:phrase pirateProfile_last_updated}{xen:helper sortArrow, $order, $orderDirection, modified_date}</span></a>
 		</dd>
 		<dd class="stats">
-			<a class="major"><span>{xen:phrase pirateProfile_pirate_level}</span></a>
-			<a class="minor"><span>{xen:phrase pirateProfile_pirate_guild}</span></a>
+			<a href="{xen:link pirates, false, '_params={$orderParams.level}'}" class="major"><span>{xen:phrase pirateProfile_pirate_level}{xen:helper sortArrow, $order, $orderDirection, level}</span></a>
+			<a href="{xen:link pirates, false, '_params={$orderParams.guild}'}" class="minor"><span>{xen:phrase pirateProfile_pirate_guild}{xen:helper sortArrow, $order, $orderDirection, guild}</span></a>
 		</dd>
-		<dd class="lastPost"><a><span>{xen:phrase pirateProfile_last_comment}</span></a></dd>
+		<dd class="lastPost"><a href="{xen:link pirates, false, '_params={$orderParams.last_comment_date}'}"><span>{xen:phrase pirateProfile_last_comment}{xen:helper sortArrow, $order, $orderDirection, last_comment_date}</span></a></dd>
 	</dl>
 
 	<ol class="discussionListItems">

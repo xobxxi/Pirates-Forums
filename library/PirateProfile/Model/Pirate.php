@@ -28,14 +28,19 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	public function preparePirateOrderOptions(array &$fetchOptions, $defaultOrderSql = '')
 	{
 		$choices = array(
-			'modified_date' => 'pirate.modified_date',
-			'id'            => 'pirate.pirate_id'
+			'id'                => 'pirate.pirate_id',
+			'name'              => 'pirate.name',
+			'modified_date'     => 'pirate.modified_date',
+			'level'             => 'pirate.level',
+			'guild'             => 'pirate.guild',
+			'last_comment_date' => 'pirate.last_comment_date'
 		);
+		
 		return $this->getOrderByClause($choices, $fetchOptions, $defaultOrderSql);
 	}
 	
 	public function preparePirateFetchOptions(array $fetchOptions)
-	{
+	{		
 		$selectFields = '';
 		$joinTables = '';
 		
@@ -75,7 +80,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 
 		return array(
 			'selectFields' => $selectFields,
-			'joinTables'   => $joinTables
+			'joinTables'   => $joinTables,
 		);
 	}
 	
@@ -96,9 +101,9 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	
 	public function getPirates(array $conditions, array $fetchOptions = array())
 	{
-		$whereClause = $this->preparePirateConditions($conditions, $fetchOptions);
+		$whereClause  = $this->preparePirateConditions($conditions, $fetchOptions);
 		$limitOptions = $this->prepareLimitFetchOptions($fetchOptions);
-		$orderClause = $this->preparePirateOrderOptions($fetchOptions, 'pirate.name');
+		$orderClause  = $this->preparePirateOrderOptions($fetchOptions, 'pirate.name');
 		
 		return $this->fetchAllKeyed($this->limitQueryResults('
 			SELECT pirate_id, user_id, name, modified_date, likes, level, guild, last_comment_date, latest_comment_ids

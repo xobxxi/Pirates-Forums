@@ -43,9 +43,18 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$page = max(1, $this->_input->filterSingle('page', XenForo_Input::UINT));
 		$piratesPerPage = XenForo_Application::get('options')->membersPerPage;
 		
+		$defaultOrder     = 'name';
+		$defaultDirection = 'asc';
+
+		$order     = $this->_input->filterSingle('order', XenForo_Input::STRING, array('default' => $defaultOrder));
+		$direction = $this->_input->filterSingle('direction', XenForo_Input::STRING, array('default' => $defaultDirection));
+		
 		$pirates = $pirateModel->getPirates(array(), array(
 			'perPage' => $piratesPerPage,
-			'page'    => $page
+			'page'    => $page,
+			
+			'order'     => $order,
+			'direction' => $direction
 		));
 		
 		foreach ($pirates as $key => &$pirate)
@@ -111,10 +120,21 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		switch ($format)
 		{
 			case 'compare':
-				$template = 'pirateProfile_compare';				
+				$template = 'pirateProfile_compare';
+				/*break;*/
 			case 'list':
 			default:
 				$template = 'pirateProfile_list';
+		}
+		
+		$orderParams = array();
+		foreach (array('name', 'modified_date', 'level', 'guild', 'last_comment_date') AS $field)
+		{
+			$orderParams[$field]['order'] = ($field != $defaultOrder ? $field : false);
+			if ($order == $field)
+			{
+				$orderParams[$field]['direction'] = ($direction == 'desc' ? 'asc' : 'desc');
+			}
 		}
 		
 		$viewParams = array(
@@ -127,7 +147,11 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			'pirateNotFound'     => $pirateNotFound,
 			
 			'recentlyUpdated' => $recentlyUpdated,
-			'recentlyAdded'   => $recentlyAdded
+			'recentlyAdded'   => $recentlyAdded,
+			
+			'order'          => $order,
+			'orderDirection' => $direction,
+			'orderParams'    => $orderParams,
 		);
 		
 		return $this->responseView(
