@@ -46,17 +46,15 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			{
 				$orderSql .= (strtolower($fetchOptions['direction']) == 'desc' ? ' DESC' : ' ASC');
 			}
+			
+			$orderSql .= ',' . $choices['name'] . ' ASC';
 		}
-		
-		$orderSql .= ',' . $choices['name'] . ' ASC';
 
 		if (!$orderSql)
 		{
 			$orderSql = $defaultOrderSql;
 		}
 		return ($orderSql ? 'ORDER BY ' . $orderSql : '');
-		
-		return $this->getOrderByClause($choices, $fetchOptions, $defaultOrderSql);
 	}
 	
 	public function preparePirateFetchOptions(array $fetchOptions)
