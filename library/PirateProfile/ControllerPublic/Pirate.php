@@ -90,9 +90,9 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		{
 			$pirate['user'] = $users[$pirate['user_id']];
 			
-			if (strlen($pirate['guild']) > 11)
+			if (strlen($pirate['guild']) > 12)
 			{
-				$pirate['guild'] = substr($pirate['guild'], 0, 8) . '...';
+				$pirate['guild'] = substr($pirate['guild'], 0, 9) . '...';
 			}
 		}
 		
