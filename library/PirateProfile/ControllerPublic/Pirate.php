@@ -95,8 +95,15 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		$users = $this->_getUserModel()->getUsersByIds($ids);
 		
+		//die(var_dump($pirates));
+		
 		foreach ($pirates as &$pirate)
 		{
+			if (!isset($users[$pirate['user_id']]))
+			{
+				unset($pirate);
+				continue;
+			}
 			$pirate['user'] = $users[$pirate['user_id']];
 			
 			if (strlen($pirate['guild']) > 12)
