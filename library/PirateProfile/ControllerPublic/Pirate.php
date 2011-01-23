@@ -143,7 +143,10 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		if (!$userId)
 		{
-			return $this->responseReroute(__CLASS__, 'list');
+			return $this->responseRedirect(
+				XenForo_ControllerResponse_Redirect::SUCCESS,
+				XenForo_Link::buildPublicLink('pirates')
+			);
 		}
 
 		$user = $this->_getMemberOrError($userId);
