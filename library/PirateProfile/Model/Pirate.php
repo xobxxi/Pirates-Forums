@@ -101,7 +101,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		$orderClause = $this->preparePirateOrderOptions($fetchOptions, 'pirate.name');
 		
 		return $this->fetchAllKeyed($this->limitQueryResults('
-			SELECT pirate_id, user_id, name, modified_date, level, guild, last_comment_date, latest_comment_ids
+			SELECT pirate_id, user_id, name, modified_date, likes, level, guild, last_comment_date, latest_comment_ids
 			FROM pirate
 			WHERE ' . $whereClause . '
 			' . $orderClause . '
