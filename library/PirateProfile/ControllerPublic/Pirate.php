@@ -797,6 +797,8 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			switch ($action)
 			{
 				case 'Index':
+					return new XenForo_Phrase('pirateProfile_viewing_pirates');
+				case 'Member':
 					$userModel	= new XenForo_Model_User;
 					$pirateUser = $userModel->getUserById($activity['params']['id']);
 					$link		= XenForo_Link::buildPublicLink('pirates', $pirateUser);
