@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<style title="Pirates">
+<style title="Pirates" description="">
   <properties>
     <property property_name="header" property_type="css"><![CDATA[[]]]></property>
     <property property_name="imagePath" property_type="scalar"><![CDATA[http://piratesforumscdn.appspot.com/media/pirates]]></property>
@@ -265,58 +265,7 @@
 	
 	<div class="accountContent section sectionMain">{xen:raw $_subView}</div>
 </div>]]></template>
-    <template title="bb_code.css" addon_id="" version_id="0" version_string=""><![CDATA[/* .bbCodeX classes are designed to exist inside .baseHtml. ie: they have no CSS reset applied */
-
-.bbCodeBlock
-{
-	{xen:property bbCodeBlock}
-}
-
-	/* mini CSS reset */
-	.bbCodeBlock pre,
-	.bbCodeBlock blockquote
-	{
-		margin: 0;
-	}
-	
-	.bbCodeBlock img
-	{
-		border: none;
-	}
-
-.bbCodeBlock .type
-{
-	{xen:property bbCodeBlockType}
-}
-
-.bbCodeBlock pre,
-.bbCodeBlock .code
-{
-	{xen:property bbCodeCode}
-}
-
-.bbCodeBlock .code
-{
-	white-space: nowrap;
-}
-
-.bbCodeQuote
-{
-	{xen:property bbCodeQuote}
-}
-
-.bbCodeQuote .attribution
-{
-	{xen:property bbCodeQuoteAttribution}
-}
-
-.bbCodeQuote blockquote
-{
-	{xen:property bbCodeQuoteMessage}
-}
-
-]]></template>
-    <template title="conversation_message" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:include template="message">
+    <template title="conversation_message" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<xen:include template="message">
 	
 	<xen:set var="$messageId">message-{$message.message_id}</xen:set>
 	
@@ -329,9 +278,10 @@
 				<xen:if is="{$message.canEdit}">
 					<a href="{xen:link 'conversations/edit-message', $conversation, 'm={$message.message_id}'}"
 						class="item control edit OverlayTrigger"
-						data-overlayOptions="{&quot;fixed&quot;:false}"
+						data-overlayOptions="{&quot;fixed&quot;:false}" 
 						data-href="{xen:link conversations/edit-message-inline, $conversation, 'm={$message.message_id}'}"
 						data-messageSelector="#message-{$message.message_id}"><span></span>{xen:phrase edit}</a>
+					<xen:require js="js/xenforo/discussion.js" />
 				</xen:if>
                                 <xen:if is="{$message.canReport}">
                                         <a href="{xen:link 'conversations/report', $conversation, 'm={$message.message_id}'}" class="OverlayTrigger item control report" data-cacheOverlay="false"><span></span>{xen:phrase report}</a>
@@ -352,7 +302,29 @@
 	</xen:set>
 	
 </xen:include>]]></template>
-    <template title="editor_contents.css" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[body, td, pre
+    <template title="editor_contents.css" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[body,
+body.mceForceColors
+{
+	{xen:property html.background}
+	{xen:property html.font}
+	
+	{xen:property body.background}
+	{xen:property body.font}
+	
+	{xen:property content.background}
+	{xen:property content.font}
+	
+	{xen:property primaryContent.background}
+	{xen:property primaryContent.font}
+	
+	{xen:property messageInfo.background}
+	{xen:property messageInfo.font}
+
+        background-color: rgb(255, 255, 255);
+        background-image: none;
+}
+
+body, td, pre
 {
 	{xen:property messageText}
 	
@@ -360,12 +332,11 @@
 	word-wrap: break-word;
 }
 
-body,
-body.mceForceColors
+a:link,
+a:visited
 {
-        background-color: rgb(255, 255, 255);
-	
-	{xen:property primaryContent.font}
+	{xen:helper cssImportant, {xen:property link}}
+	{xen:helper cssImportant, {xen:property ugcLink}}
 }
 
 h1 { font-size: 2em; }
@@ -431,6 +402,7 @@ p { margin: 0; padding: 0; }
 	scrollbar-track-color:#F5F5F5;
 }
 
+<xen:include template="bb_code_base.css" />
 <xen:include template="bb_code.css" />]]></template>
     <template title="EXTRA.css" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[/* login bar */
 #loginBar
@@ -904,7 +876,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
         <xen:include template="googleAdsense_rightbar" />
 </xen:sidebar>]]></template>
-    <template title="member_view" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xen:title>{$user.username}</xen:title>
+    <template title="member_view" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<xen:title>{$user.username}</xen:title>
 <xen:h1></xen:h1> <xen:comment>H1 empty, do not render.</xen:comment>
 
 <xen:container var="$head.canonical">
@@ -1041,10 +1013,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 		</div>
 		</xen:if>
 		
-		<xen:if is="{$xenOptions.facebookLike} AND {$user.allow_view_profile} == 'everyone'">
-			<xen:container var="$facebookSdk">1</xen:container>
-			<fb:like href="{$url}" layout="button_count" action="recommend" font="trebuchet ms"></fb:like>
-		</xen:if>
+		<xen:if is="{$user.allow_view_profile} == 'everyone'"><xen:include template="sidebar_share_page" /></xen:if>
 
 	</div>
 
@@ -1266,7 +1235,6 @@ blockquote .bbCodeQuote aside .attribution a:hover
 					</div>
 				</div>
 			</li>
-
                         <xen:include template="pirateProfile_profile_tab_content" />
 
 		</ul>
@@ -1787,11 +1755,14 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	</div>
 	<div class="sectionFooter overlayOnly"><a class="button primary OverlayCloser">{xen:phrase cancel}</a></div>
 </div>]]></template>
-    <template title="thread_create" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{xen:phrase create_thread}</xen:title>
+    <template title="thread_create" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<xen:title>{xen:phrase create_thread}</xen:title>
 
 <xen:navigation>
 	<xen:breadcrumb source="$nodeBreadCrumbs" />
 </xen:navigation>
+
+<xen:container var="$head.robots">
+	<meta name="robots" content="noindex" /></xen:container>
 
 <form action="{xen:link 'forums/add-thread', $forum}" method="post"
 	class="xenForm Preview AutoValidator"
