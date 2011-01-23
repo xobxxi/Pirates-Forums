@@ -36,6 +36,26 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			'last_comment_date' => 'pirate.last_comment_date'
 		);
 		
+		$orderSql = null;
+
+		if (!empty($fetchOptions['order']) && isset($choices[$fetchOptions['order']]))
+		{
+			$orderSql = $choices[$fetchOptions['order']];
+
+			if (!empty($fetchOptions['direction']))
+			{
+				$orderSql .= (strtolower($fetchOptions['direction']) == 'desc' ? ' DESC' : ' ASC');
+			}
+		}
+		
+		$orderSql .= ',' . $choices['name'] . ' ASC';
+
+		if (!$orderSql)
+		{
+			$orderSql = $defaultOrderSql;
+		}
+		return ($orderSql ? 'ORDER BY ' . $orderSql : '');
+		
 		return $this->getOrderByClause($choices, $fetchOptions, $defaultOrderSql);
 	}
 	

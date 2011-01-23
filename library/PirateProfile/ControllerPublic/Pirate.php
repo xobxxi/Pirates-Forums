@@ -57,13 +57,26 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			'direction' => $direction
 		));
 		
-		foreach ($pirates as $key => &$pirate)
+		$commentIds = array();
+		foreach ($pirates as &$pirate)
 		{
-			$commentIds = explode(',', $pirate['latest_comment_ids']);
-			$last = end($commentIds);
+			$lastCommentIds = explode(',', $pirate['latest_comment_ids']);
+			if (!empty($lastCommentIds))
+			{
+				$pirate['last_comment_id'] = end($lastCommentIds);
 			
-			$comment = $pirateModel->getPirateCommentById($last);
-			$pirate['last_comment'] = $comment;
+				$commentIds[$pirate['last_comment_id']] = $pirate['last_comment_id'];
+			}
+		}
+		
+		$comments = $pirateModel->getPirateCommentsByIds($commentIds);
+		
+		foreach ($pirates as &$pirate)
+		{
+			if (!empty($pirate['last_comment_id']))
+			{
+				$pirate['last_comment'] = $comments[$pirate['last_comment_id']];
+			}
 		}
 		
 		$pirateCount = $pirateModel->countPirates(array());
@@ -104,7 +117,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			}
 			$pirate['user'] = $users[$pirate['user_id']];
 			
-			if (strlen($pirate['guild']) > 12)
+			if (!empty($pirate['guild']) && strlen($pirate['guild']) > 12)
 			{
 				$pirate['guild'] = trim(substr($pirate['guild'], 0, 9)) . '...';
 			}
