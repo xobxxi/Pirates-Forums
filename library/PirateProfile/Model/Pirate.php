@@ -29,6 +29,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	{
 		$choices = array(
 			'id'                => 'pirate.pirate_id',
+			'user_id'           => 'pirate.user_id',
 			'name'              => 'pirate.name',
 			'modified_date'     => 'pirate.modified_date',
 			'level'             => 'pirate.level',
