@@ -607,6 +607,10 @@ a.button,
 }
 
 /* autocomplete */
+ul.autoCompleteList
+{
+        border-color: rgb(220, 53, 53) !important;
+}
 ul.autoCompleteList li:hover,
 ul.autoCompleteList li.selected
 {
@@ -828,6 +832,78 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	
 	<a class="close OverlayCloser"></a>
 </div>]]></template>
+    <template title="member_list" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{xen:phrase registered_members}{xen:helper pagenumber, $page}</xen:title>
+<xen:h1>{xen:phrase registered_members}</xen:h1>
+
+<xen:description>{xen:phrase this_is_list_of_all_members_registered_at_x, 'board_title={$xenOptions.boardTitle}'}</xen:description>
+
+<xen:container var="$head.canonical">
+	<link rel="canonical" href="{xen:link 'canonical:members', '', 'page={$page}'}" /></xen:container>
+
+<xen:require css="member_list.css" />
+<xen:require css="xenforo_member_list_item.css" />
+	
+<xen:if is="{$userNotFound}">
+	<div class="importantMessage">{xen:phrase specified_member_cannot_be_found_enter_entire_name}</div>
+</xen:if>
+	
+<div class="pageNavLinkGroup">
+	<xen:pagenav link="members" page="{$page}" perpage="{$usersPerPage}" total="{$totalUsers}" />
+</div>	
+
+<ol class="section memberList">
+	<xen:foreach loop="$users" value="$user">
+		<xen:include template="member_list_item">
+			<xen:set var="$noOverlay">1</xen:set>
+		</xen:include>
+	</xen:foreach>
+</ol>
+
+<div class="pageNavLinkGroup">
+	<xen:pagenav link="members" page="{$page}" perpage="{$usersPerPage}" total="{$totalUsers}" />
+</div>
+
+<xen:sidebar>
+	<div class="section">
+		<form action="{xen:link members}" method="post" class="secondaryContent findMember">
+			<h3><a href="{xen:link online}" title="{xen:phrase see_all_online_users}">{xen:phrase find_member}</a></h3>
+				
+			<input type="search" name="username" placeholder="{xen:phrase name}..." results="0" class="textCtrl AutoComplete" data-autoSubmit="true" />
+			<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+		</form>
+	</div>
+	
+	<div class="section activeMembers">
+		<div class="secondaryContent avatarHeap">
+			<h3>{xen:phrase highest_posting_members}</h3>
+			
+			<ol>
+				<xen:foreach loop="$activeUsers" value="$user">
+					<li><xen:avatar user="$user" size="s" text="{$user.username} ({xen:number $user.message_count})" class="Tooltip" title="{$user.username}, {xen:phrase messages}: {xen:number $user.message_count}" /></li>
+				</xen:foreach>
+			</ol>
+		</div>
+	</div>
+	
+	<div class="section newestMembers">
+		<div class="secondaryContent avatarHeap">
+			<h3>{xen:phrase newest_members}</h3>
+			
+			<ol>
+				<xen:foreach loop="$latestUsers" value="$user">
+					<li><xen:avatar user="$user" size="s" text="{$user.username} ({xen:datetime $user.register_date})" class="Tooltip" title="{$user.username}, {xen:phrase joined}: {xen:datetime $user.register_date}" /></li>
+				</xen:foreach>
+			</ol>
+		</div>
+	</div>
+	
+	<xen:if is="{$xenOptions.facebookAppId} AND {$xenOptions.facebookFacepile}">
+		<xen:container var="$facebookSdk">1</xen:container>
+		<fb:facepile width="{xen:property sidebar.width}"></fb:facepile>
+	</xen:if>
+
+        <xen:include template="googleAdsense_rightbar" />
+</xen:sidebar>]]></template>
     <template title="member_view" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xen:title>{$user.username}</xen:title>
 <xen:h1></xen:h1> <xen:comment>H1 empty, do not render.</xen:comment>
 
