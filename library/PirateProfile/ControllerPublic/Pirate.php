@@ -92,7 +92,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			
 			if (strlen($pirate['guild']) > 11)
 			{
-				$pirate['guild'] = substr($pirate['guild'], 0, 11) . '...';
+				$pirate['guild'] = substr($pirate['guild'], 0, 8) . '...';
 			}
 		}
 		
