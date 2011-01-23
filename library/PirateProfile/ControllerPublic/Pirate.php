@@ -5,6 +5,141 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	public function actionIndex()
 	{
 		$userId = $this->_input->filterSingle('id', XenForo_Input::UINT);
+		
+		if ($userId)
+		{
+			return $this->responseReroute(__CLASS__, 'member');
+		}
+
+		$pirateModel = $this->_getPirateModel();
+		
+		$perms = $pirateModel->getPermissions();
+		if (!$perms['canView'])
+		{
+			throw $this->getNoPermissionResponseException();
+		}
+		
+		$pirateName = $this->_input->filterSingle('pirateName', XenForo_Input::STRING);
+		if ($pirateName !== '')
+		{
+			$pirate = $pirateModel->getPirateByName($pirateName);
+			if ($pirate)
+			{
+				return $this->responseRedirect(
+					XenForo_ControllerResponse_Redirect::SUCCESS,
+					XenForo_Link::buildPublicLink('pirates/card', $pirate)
+				);
+			}
+			else
+			{
+				$pirateNotFound = true;
+			}
+		}
+		else
+		{
+			$pirateNotFound = false;
+		}
+		
+		$page = max(1, $this->_input->filterSingle('page', XenForo_Input::UINT));
+		$piratesPerPage = XenForo_Application::get('options')->membersPerPage;
+		
+		$pirates = $pirateModel->getPirates(array(), array(
+			'perPage' => $piratesPerPage,
+			'page'    => $page
+		));
+		
+		foreach ($pirates as $key => &$pirate)
+		{
+			$commentIds = explode(',', $pirate['latest_comment_ids']);
+			$last = end($commentIds);
+			
+			$comment = $pirateModel->getPirateCommentById($last);
+			$pirate['last_comment'] = $comment;
+		}
+		
+		$pirateCount = $pirateModel->countPirates(array());
+		$this->canonicalizePageNumber($page, $piratesPerPage, $pirateCount, 'pirates', $pirates);
+		
+		$pirates = $this->_censorPirates($pirates);
+		
+		$recentlyUpdated = $pirateModel->getLatestPirates(array(), array('limit' => 4));
+		$recentlyUpdated = $this->_censorPirates($recentlyUpdated);
+
+		$recentlyAdded = $pirateModel->getNewestPirates(array(), array('limit' => 4));
+		$recentlyAdded = $this->_censorPirates($recentlyAdded);
+		
+		$ids = array();
+		foreach ($pirates as $pirate)
+		{
+			$ids[$pirate['user_id']] = $pirate['user_id'];
+		}
+		
+		foreach ($recentlyUpdated as $pirate)
+		{
+			$ids[$pirate['user_id']] = $pirate['user_id'];
+		}
+		
+		foreach ($recentlyAdded as $pirate)
+		{
+			$ids[$pirate['user_id']] = $pirate['user_id'];
+		}
+		
+		$users = $this->_getUserModel()->getUsersByIds($ids);
+		
+		foreach ($pirates as &$pirate)
+		{
+			$pirate['user'] = $users[$pirate['user_id']];
+		}
+		
+		foreach ($recentlyUpdated as &$pirate)
+		{
+			$pirate['user'] = $users[$pirate['user_id']];
+		}
+		
+		foreach ($recentlyAdded as &$pirate)
+		{
+			$pirate['user'] = $users[$pirate['user_id']];
+		}
+		
+		$format = $this->_input->filterSingle('f', XenForo_Input::STRING);
+		
+		switch ($format)
+		{
+			case 'compare':
+				$template = 'pirateProfile_compare';				
+			case 'list':
+			default:
+				$template = 'pirateProfile_list';
+		}
+		
+		$viewParams = array(
+			'pirates'            => $pirates,
+			'page'               => $page,
+			'piratesStartOffset' => ($page - 1) * $piratesPerPage + 1,
+			'piratesEndOffset'   => ($page - 1) * $piratesPerPage + count($pirates),
+			'piratesPerPage'     => $piratesPerPage,
+			'totalPirates'       => $pirateCount,
+			'pirateNotFound'     => $pirateNotFound,
+			
+			'recentlyUpdated' => $recentlyUpdated,
+			'recentlyAdded'   => $recentlyAdded
+		);
+		
+		return $this->responseView(
+			'PirateProfile_ViewPublic_Pirate_List',
+			$template,
+			$viewParams
+		);
+	}
+	
+	public function actionMember()
+	{
+		$userId = $this->_input->filterSingle('id', XenForo_Input::UINT);
+		
+		if (!$userId)
+		{
+			return $this->responseReroute(__CLASS__, 'list');
+		}
 
 		$user = $this->_getMemberOrError($userId);
 
@@ -34,21 +169,41 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		);
 	}
 	
-	public function actionList()
+	public function actionFind()
 	{
-		throw $this->responseException($this->responseError(
-			new XenForo_Phrase('pirateProfile_requested_pirate_not_found'), 404)
+		$q = $this->_input->filterSingle('q', XenForo_Input::STRING);
+
+		if ($q !== '')
+		{
+			$pirates = $this->_getPirateModel()->getPirates(
+				array('name' => array($q , 'r')),
+				array('limit' => 10)
+			);
+			
+			foreach ($pirates as $key => $pirate)
+			{
+				$censored = $this->_censorPirate($pirate);
+				
+				if ($pirate['name'] != $censored['name'])
+				{
+					unset($pirates[$key]);
+				}
+			}
+			
+			$pirates = $this->_censorPirates($pirates);
+		}
+		else
+		{
+			$pirates = array();
+		}
+
+		$viewParams = array(
+			'pirates' => $pirates
 		);
-		
-		$limit = 10;
-		$page = 1;
-		
-		$pirates = $this->_getPirateModel()->getAllPirates($limit, $page);
-		
-		$viewParams = array('pirates' => $pirates);
+
 		return $this->responseView(
-			'PirateProfile_ViewPublic_Pirate_List',
-			'pirateProfile_list',
+			'PirateProfile_ViewPublic_Pirate_Find',
+			'pirateProfile_pirate_autocomplete',
 			$viewParams
 		);
 	}
@@ -58,12 +213,13 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		
 		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
+		$pirate = $this->_censorPirate($pirate);
 		
 		$this->_canonicalize($pirate, 'card');
 
 		$pirateModel = $this->_getPirateModel();
 		
-		$pirate = $pirateModel->preparePirate($this->_censorPirate($pirate));
+		$pirate = $pirateModel->preparePirate($pirate);
 		
 		$pirate = $this->_assertCanLikePirate($pirate, $user);
 		
@@ -438,7 +594,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
 		
-		$this->_canonicalize($pirate, 'edit');
+		$this->_canonicalize($this->_censorPirate($pirate), 'edit');
 
 		$pirateModel = $this->_getPirateModel();
 		

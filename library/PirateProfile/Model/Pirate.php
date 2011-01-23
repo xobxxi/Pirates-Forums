@@ -5,6 +5,35 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	const FETCH_PIRATE_USER  = 0x01;
 	const FETCH_COMMENT_USER = 0x01;
 	
+	public function preparePirateConditions(array $conditions, array &$fetchOptions)
+	{
+		$db = $this->_getDb();
+		$sqlConditions = array();
+
+		if (!empty($conditions['name']))
+		{
+			if (is_array($conditions['name']))
+			{
+				$sqlConditions[] = 'pirate.name LIKE ' . XenForo_Db::quoteLike($conditions['name'][0], $conditions['name'][1], $db);
+			}
+			else
+			{
+				$sqlConditions[] = 'user.username LIKE ' . XenForo_Db::quoteLike($conditions['name'], 'lr', $db);
+			}
+		}
+		
+		return $this->getConditionsForClause($sqlConditions);
+	}
+	
+	public function preparePirateOrderOptions(array &$fetchOptions, $defaultOrderSql = '')
+	{
+		$choices = array(
+			'modified_date' => 'pirate.modified_date',
+			'id'            => 'pirate.pirate_id'
+		);
+		return $this->getOrderByClause($choices, $fetchOptions, $defaultOrderSql);
+	}
+	
 	public function preparePirateFetchOptions(array $fetchOptions)
 	{
 		$selectFields = '';
@@ -50,24 +79,61 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		);
 	}
 	
-	public function getAllPirates($limit, $page)
+	public function countPirates(array $conditions)
 	{
-		$start = ($limit * ($page - 1));
-		// TODO: use built in limit options
-		
-		return $this->_getDb()->fetchAll("
-			SELECT pirate_id, user_id, name
+		$fetchOptions = array();
+		$whereClause = $this->preparePirateConditions($conditions, $fetchOptions);
+
+		$joinOptions = $this->preparePirateFetchOptions($fetchOptions);
+
+		return $this->_getDb()->fetchOne('
+			SELECT COUNT(*)
 			FROM pirate
-			ORDER BY name ASC
-			LIMIT {$start}, {$limit}
-		");
+			' . $joinOptions['joinTables'] . '
+			WHERE ' . $whereClause
+		);
 	}
 	
-	public function getUserPirates($user_id)
+	public function getPirates(array $conditions, array $fetchOptions = array())
 	{
+		$whereClause = $this->preparePirateConditions($conditions, $fetchOptions);
+		$limitOptions = $this->prepareLimitFetchOptions($fetchOptions);
+		$orderClause = $this->preparePirateOrderOptions($fetchOptions, 'pirate.name');
+		
+		return $this->fetchAllKeyed($this->limitQueryResults('
+			SELECT pirate_id, user_id, name, modified_date, level, guild, last_comment_date, latest_comment_ids
+			FROM pirate
+			WHERE ' . $whereClause . '
+			' . $orderClause . '
+			', $limitOptions['limit'], $limitOptions['offset']
+		), 'pirate_id');
+	}
+	
+	public function getLatestPirates(array $criteria, array $fetchOptions = array())
+	{
+		$fetchOptions['order'] = 'modified_date';
+		$fetchOptions['direction'] = 'desc';
+
+		return $this->getPirates($criteria, $fetchOptions);
+	}
+	
+	public function getNewestPirates(array $criteria, array $fetchOptions = array())
+	{
+		$fetchOptions['order'] = 'id';
+		$fetchOptions['direction'] = 'desc';
+		
+		return $this->getPirates($criteria, $fetchOptions);
+	}
+	
+	public function getUserPirates($user_id, $fetchOptions = array())
+	{
+		$sqlClauses = $this->preparePirateFetchOptions($fetchOptions);
+		
 		return $this->_getDb()->fetchAll('
 			SELECT pirate_id, user_id, name
+			' . $sqlClauses['selectFields'] . '
 			FROM pirate
+			' . $sqlClauses['joinTables'] . '
 			WHERE user_id = ?
 		', $user_id);
 	}
@@ -105,6 +171,33 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		
 	}
 	
+	public function getPirateByName($name, array $fetchOptions = array())
+	{
+		$sqlClauses = $this->preparePirateFetchOptions($fetchOptions);
+		
+		return $this->_getDb()->fetchRow('
+			SELECT *
+			' . $sqlClauses['selectFields'] . '
+			FROM pirate
+			' . $sqlClauses['joinTables'] . '
+			WHERE pirate.name LIKE ?
+			ORDER BY pirate.name ASC
+		', $name);
+	}
+	
+	public function getPiratesByName($name, array $fetchOptions = array())
+	{
+		$sqlClauses = $this->preparePirateFetchOptions($fetchOptions);
+		
+		return $this->fetchAllKeyed('
+			SELECT *
+			' . $sqlClauses['selectFields'] . '
+			FROM pirate
+			' . $sqlClauses['joinTables'] . '
+			WHERE pirate.name LIKE ?
+		', 'pirate_id', $name);
+	}
+	
 	public function preparePirate($pirate)
 	{
 		$options = XenForo_Application::get('options');
@@ -132,16 +225,20 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 				case 'dagger':
 				case 'grenade':
 				case 'staff':
+					$phrase = new XenForo_Phrase('pirateProfile_pirate_' . $name);
+					$phrase = $phrase->__toString();
 					$pirate['weapons'][$name] = array(
-						'name'	=> new XenForo_Phrase('pirateProfile_pirate_' . $name),
+						'name'	=> $phrase,
 						'level' => $level
 					);
 					unset($pirate[$name]);
 				break;
 				case 'potions':
 				case 'fishing':
+					$phrase = new XenForo_Phrase('pirateProfile_pirate_' . $name);
+					$phrase = $phrase->__toString();
 					$pirate['skills'][$name] = array(
-						'name'	=> new XenForo_Phrase('pirateProfile_pirate_' . $name),
+						'name'	=> $phrase,
 						'level' => $level
 					);
 					unset($pirate[$name]);
