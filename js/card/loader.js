@@ -34,7 +34,6 @@
 	
 	// *********************************************************************
 
-	XenForo.register('a.PirateFormTrigger', 'XenForo.PirateFormOverlay');
 	XenForo.register('a.CardLoader', 'XenForo.CardLoader');
 
 }

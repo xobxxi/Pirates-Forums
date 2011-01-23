@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.5.0 RC 1" version_id="31" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.5.0 RC 2" version_id="32" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -91,10 +91,12 @@
     <phrase title="pirateProfile_like_pirate" version_id="15" version_string="1.0.0"><![CDATA[Like Pirate]]></phrase>
     <phrase title="pirateProfile_liking_pirate" version_id="17" version_string="1.1.0 Beta 1.1"><![CDATA[Liking pirate]]></phrase>
     <phrase title="pirateProfile_make_fit" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Make fit]]></phrase>
+    <phrase title="pirateProfile_member" version_id="31" version_string="1.5.0 RC 1"><![CDATA[Member]]></phrase>
     <phrase title="pirateProfile_members_who_liked_this_pirate" version_id="15" version_string="1.0.0"><![CDATA[Members Who Liked This Pirate]]></phrase>
     <phrase title="pirateProfile_none" version_id="26" version_string="1.4.0"><![CDATA[None]]></phrase>
     <phrase title="pirateProfile_notoriety_level_too_low" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[The notoriety level is too low for some skill levels you've set.]]></phrase>
     <phrase title="pirateProfile_no_one_has_liked_this_pirate_yet" version_id="15" version_string="1.0.0"><![CDATA[No one has liked this pirate yet.]]></phrase>
+    <phrase title="pirateProfile_owner" version_id="31" version_string="1.5.0 RC 1"><![CDATA[Owner]]></phrase>
     <phrase title="pirateProfile_own_pirates" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[own pirates]]></phrase>
     <phrase title="pirateProfile_pirates" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Pirates]]></phrase>
     <phrase title="pirateProfile_pirate_cannon" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Cannon]]></phrase>
@@ -134,7 +136,7 @@
     <phrase title="pirateProfile_thank_you_for_reporting_this_pirate" version_id="20" version_string="1.2.1"><![CDATA[Thank you for reporting this pirate.]]></phrase>
     <phrase title="pirateProfile_there_are_no_pirates_to_display" version_id="26" version_string="1.4.0"><![CDATA[There are no pirates to display.]]></phrase>
     <phrase title="pirateProfile_the_pirate_has_been_saved_successfully" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[The pirate has been saved successfully.]]></phrase>
-    <phrase title="pirateProfile_this_is_directory_of_all_user_pirates" version_id="26" version_string="1.4.0"><![CDATA[This is a directory of all user pirates.]]></phrase>
+    <phrase title="pirateProfile_this_is_directory_of_all_member_pirates" version_id="31" version_string="1.5.0 RC 1"><![CDATA[This is a directory of all member pirates.]]></phrase>
     <phrase title="pirateProfile_this_user_has_not_entered_any_pirates" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[This user has not entered any pirates.]]></phrase>
     <phrase title="pirateProfile_unlike_pirate" version_id="15" version_string="1.0.0"><![CDATA[Unlike Pirate]]></phrase>
     <phrase title="pirateProfile_up" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[up]]></phrase>
@@ -144,6 +146,7 @@
     <phrase title="pirateProfile_viewing_pirates" version_id="27" version_string="1.5.0 Beta 1"><![CDATA[Viewing pirates]]></phrase>
     <phrase title="pirateProfile_viewing_pirate_comments" version_id="19" version_string="1.2.0"><![CDATA[Viewing pirate comments]]></phrase>
     <phrase title="pirateProfile_viewing_pirate_likes" version_id="17" version_string="1.1.0 Beta 1.1"><![CDATA[Viewing pirate likes]]></phrase>
+    <phrase title="pirateProfile_view_more_details" version_id="31" version_string="1.5.0 RC 1"><![CDATA[View more details]]></phrase>
     <phrase title="pirateProfile_xs_pirates" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[{username}'s Pirates]]></phrase>
     <phrase title="pirateProfile_xs_pirate_y_has" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has]]></phrase>
     <phrase title="pirateProfile_xs_pirate_y_has_been_updated" version_id="9" version_string="1.0.0 Alpha 10"><![CDATA[{username}'s pirate: {pirate} has been updated.]]></phrase>
@@ -493,12 +496,13 @@ div.label,
 {
         color: rgb(84, 29, 29) !important;
 }]]></template>
-    <template title="pirateProfile_list" version_id="30" version_string="1.5.0 Beta 2"><![CDATA[<xen:require css="discussion_list.css" />
+    <template title="pirateProfile_list" version_id="31" version_string="1.5.0 RC 1"><![CDATA[<xen:require css="discussion_list.css" />
 <xen:require css="member_list.css" />
 <xen:require css="pirateProfile_list.css" />
+<xen:require js="js/card/loader.js" />
 
 <xen:title>{xen:phrase pirateProfile_pirate_directory}</xen:title>
-<xen:description>{xen:phrase pirateProfile_this_is_directory_of_all_user_pirates}</xen:description>
+<xen:description>{xen:phrase pirateProfile_this_is_directory_of_all_member_pirates}</xen:description>
 
 <xen:if is="{$visitor.user_id}">
 <xen:topctrl>
@@ -516,7 +520,9 @@ div.label,
 
 <div class="discussionList sectionMain"> 
 	<dl class="sectionHeaders">
-		<dt class="posterAvatar"></dt>
+		<dt class="posterAvatar">
+                        <a><span></span></a>
+                </dt>
 		<dd class="main">
 			<a href="{xen:link pirates, false, '_params={$orderParams.name}'}" class="title"><span>{xen:phrase pirateProfile_pirate_name}{xen:helper sortArrow, $order, $orderDirection, name}</span></a>
 			<a href="{xen:link pirates, false, '_params={$orderParams.modified_date}'}" class="postDate"><span>{xen:phrase pirateProfile_last_updated}{xen:helper sortArrow, $order, $orderDirection, modified_date}</span></a>
@@ -554,6 +560,10 @@ div.label,
 </div>	
 
 <xen:sidebar>
+<div id="cardLoader">
+       <div id="pirateContainer"></div>
+</div>
+
 <div class="section">
 	<form action="{xen:link pirates}" method="post" class="secondaryContent findMember">
 		<h3>Find Pirate</h3>
@@ -605,12 +615,46 @@ div.label,
 
 <xen:include template="googleAdsense_rightbar" />
 </xen:sidebar>]]></template>
-    <template title="pirateProfile_list.css" version_id="26" version_string="1.4.0"><![CDATA[.sidebar .avatarList .pirateName {
+    <template title="pirateProfile_list.css" version_id="31" version_string="1.5.0 RC 1"><![CDATA[.sidebar .avatarList .pirateName
+{
         display: block;
         font-size: 11pt;
         margin-top: 2px;
+}
+
+#cardLoader
+{
+        margin-left: -4px;
+}
+
+#cardLoader .primaryContent
+{
+        background-color: transparent;
+        width: 269px;
+        border-bottom: none;
+        padding: 0;
+}
+
+#cardLoader .pirateCard
+{
+        width: 268px;
+        min-height: 450px;
+        max-height: 450px;
+}
+
+#cardLoader .pirateSkills,
+#cardLoader .pirateHandle,
+#cardLoader .pirateMisc
+{
+        display: none;
+}
+
+#cardLoader .pirateCard .viewMore
+{
+        margin-left: 4px;
+        display: inline;
 }]]></template>
-    <template title="pirateProfile_list_item" version_id="26" version_string="1.4.0"><![CDATA[<xen:require css="discussion_list.css" />
+    <template title="pirateProfile_list_item" version_id="31" version_string="1.5.0 RC 1"><![CDATA[<xen:require css="discussion_list.css" />
 
 <li id="pirate-{$pirate.pirate_id}" class="discussionListItem" data-author="{$pirate.user.username}">
 
@@ -624,12 +668,12 @@ div.label,
 
 		<div class="titleText">
 			<h3 class="title">
-				<a href="{xen:link pirates/card, $pirate}">{xen:helper wrap, $pirate.name, 50}</a>
+				<a href="{xen:link pirates/card, $pirate}" class="CardLoader">{xen:helper wrap, $pirate.name, 50}</a>
 			</h3>
 
 			<div class="secondRow">
 				<div class="posterDate muted">
-					<a href="{xen:link members, $pirate.user}" class="username" title="{xen:phrase thread_starter}">{$pirate.user.username}</a>,
+					<a href="{xen:link pirates, $pirate.user}" title="{xen:phrase pirateProfile_owner}">{$pirate.user.username}</a>,
 					<a{xen:if {$visitor.user_id}, ' href="{xen:link pirates/card, $pirate}"'} class="faint"><xen:datetime time="$pirate.modified_date" /></a>
 				</div>
 			</div>
@@ -656,14 +700,14 @@ div.label,
     <template title="pirateProfile_member_card_link_item" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<a href="{xen:link pirates, $user}">{xen:phrase pirateProfile_pirates}</a>]]></template>
     <template title="pirateProfile_navigation_list_item" version_id="26" version_string="1.4.0"><![CDATA[<li><a href="{xen:link pirates}">{xen:phrase pirateProfile_pirate_directory}</a></li>]]></template>
     <template title="pirateProfile_navigation_list_item_member" version_id="26" version_string="1.4.0"><![CDATA[<li><a href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a></li>]]></template>
-    <template title="pirateProfile_navigation_tab_links" version_id="26" version_string="1.4.0"><![CDATA[<ul class="secondaryContent blockLinksList">
+    <template title="pirateProfile_navigation_tab_links" version_id="31" version_string="1.5.0 RC 1"><![CDATA[<ul class="secondaryContent blockLinksList">
         <li><a href="{xen:link pirates}">{xen:phrase pirateProfile_pirate_directory}</a></li>
         <xen:if is="{$visitor.user_id}">
-        <li><a href="{xen:link pirates/add}">{xen:phrase pirateProfile_add_pirate}</a></li>
         <li><a href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a></li>
+        <li><a href="{xen:link pirates/add}">{xen:phrase pirateProfile_add_pirate}</a></li>
         </xen:if>
 </ul>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="20" version_string="1.2.1"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="31" version_string="1.5.0 RC 1"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
 <xen:require js="js/card/skills.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
@@ -709,6 +753,7 @@ div.label,
 		</div>
 		<div class="pirateHandle"></div>
                 </xen:if>
+                <div class="viewMore sectionFooter"><a href="{xen:link pirates/card, $pirate}">{xen:phrase pirateProfile_view_more_details}</a></div>
                 <div class="pirateMisc">
                         <p class="muted">{xen:phrase pirateProfile_last_updated}: {xen:datetime $pirate.modified_date}</p>
 
@@ -772,7 +817,7 @@ div.label,
                 </div>
 	</div>
 </div>]]></template>
-    <template title="pirateProfile_pirate_card.css" version_id="18" version_string="1.1.0"><![CDATA[#pirateProfile #cardLoader
+    <template title="pirateProfile_pirate_card.css" version_id="31" version_string="1.5.0 RC 1"><![CDATA[#pirateProfile #cardLoader
 {
 	min-height: 500px;
 }
@@ -924,6 +969,16 @@ div.label,
 	margin-top: 82px;
         margin-left: -6px;
 	float: left;
+}
+
+.pirateCard .viewMore
+{
+        max-height: 20px;
+        width: 230px;
+        clear: both;
+        display: block;
+        float: left;
+        display: none;
 }
 
 .pirateCard .pirateMisc
