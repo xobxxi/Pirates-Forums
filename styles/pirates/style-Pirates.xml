@@ -101,6 +101,98 @@
     <property property_name="primaryLighterStill" property_type="scalar"><![CDATA[rgb(153, 0, 0)]]></property>
   </properties>
   <templates>
+    <template title="account_alert_preferences" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{xen:phrase alert_preferences}</xen:title>
+
+<xen:require css="account.css" />
+<xen:require js="js/xenforo/personal_details_editor.js" />
+
+<xen:edithint template="account_avatar_overlay.css" />
+<xen:edithint template="account_avatar_overlay" />
+
+<form method="post" class="xenForm AutoValidator"
+	action="{xen:link 'account/alert-preferences-save'}"
+	data-fieldValidatorUrl="{xen:link 'account/validate-field.json'}">
+	
+	<h3 class="textHeading">{xen:phrase messages_in_threads}</h3>
+	<dl class="ctrlUnit">
+		<dt>{xen:phrase receive_alert_when_someone}...</dt>
+		<dd>
+			<ul>
+				<li><input type="hidden" name="alertSet[post_insert]" value="1" />
+					<label><input type="checkbox" value="1" name="alert[post_insert]" {xen:checked "!{$alertOptOuts.post_insert}"} /> {xen:phrase replies_to_watched_thread}</label>
+					<p class="hint">{xen:phrase someone_replies_to_thread_you_are_watching}</p>
+				</li>
+				<li><input type="hidden" name="alertSet[post_insert_attachment]" value="1" />
+					<label><input type="checkbox" value="1" name="alert[post_insert_attachment]" {xen:checked "!{$alertOptOuts.post_insert_attachment}"} /> {xen:phrase attaches_file_to_watched_thread}</label>
+					<p class="hint">{xen:phrase someone_replies_and_attaches_a_file_to_a_thread_you_are_watching}</p>
+				</li>
+				<li><input type="hidden" name="alertSet[post_quote]" value="1" />
+					<label><input type="checkbox" value="1" name="alert[post_quote]" {xen:checked "!{$alertOptOuts.post_quote}"} /> {xen:phrase quotes_your_message}</label>
+					<p class="hint">{xen:phrase someone_directly_quotes_one_of_your_messages_in_thread}</p>
+				</li>
+				<li><input type="hidden" name="alertSet[post_like]" value="1" />
+					<label><input type="checkbox" value="1" name="alert[post_like]" {xen:checked "!{$alertOptOuts.post_like}"} /> {xen:phrase likes_your_message}</label>
+					<p class="hint">{xen:phrase someone_likes_one_of_your_messages_in_thread}</p>
+				</li>
+			</ul> 
+		</dd>
+	</dl>
+	
+	<h3 class="textHeading">{xen:phrase messages_on_profile_pages}</h3>
+	<dl class="ctrlUnit">
+		<dt>{xen:phrase receive_alert_when_someone}...</dt>
+		<dd>
+			<ul>                                            
+				<li><input type="hidden" name="alertSet[profile_post_insert]" value="1" />
+					<label><input type="checkbox" value="1" name="alert[profile_post_insert]" {xen:checked "!{$alertOptOuts.profile_post_insert}"} /> {xen:phrase posts_on_your_profile}</label>
+					<p class="hint">{xen:phrase someone_posts_message_on_your_profile_page}</p>
+				</li>
+				<li><input type="hidden" name="alertSet[profile_post_comment_your_profile]" value="1" />
+					<label><input type="checkbox" value="1" name="alert[profile_post_comment_your_profile]" {xen:checked "!{$alertOptOuts.profile_post_comment_your_profile}"} /> {xen:phrase comments_on_your_profile_or_status}</label>
+					<p class="hint">{xen:phrase someone_comments_on_message_on_your_profile_page_or_your_status}</p>
+				</li>
+				<li><input type="hidden" name="alertSet[profile_post_comment_your_post]" value="1" />
+					<label><input type="checkbox" value="1" name="alert[profile_post_comment_your_post]" {xen:checked "!{$alertOptOuts.profile_post_comment_your_post}"} /> {xen:phrase comments_on_your_profile_posts_for_other_members}</label>
+					<p class="hint">{xen:phrase someone_comments_on_message_you_left_on_someone_elses_profile}</p>
+				</li>
+				<li><input type="hidden" name="alertSet[profile_post_comment_other_commenter]" value="1" />
+					<label><input type="checkbox" value="1" name="alert[profile_post_comment_other_commenter]" {xen:checked "!{$alertOptOuts.profile_post_comment_other_commenter}"} /> {xen:phrase also_comments_on_profile_post}</label>
+					<p class="hint">{xen:phrase someone_comments_on_profile_post_that_you_have_commented_on}</p>
+				</li>
+				<li><input type="hidden" name="alertSet[profile_post_like]" value="1" />
+					<label><input type="checkbox" value="1" name="alert[profile_post_like]" {xen:checked "!{$alertOptOuts.profile_post_like}"} /> {xen:phrase likes_your_profile_post}</label>
+					<p class="hint">{xen:phrase someone_likes_message_you_left_on_member_profile_page}</p>
+				</li>
+			</ul>
+		</dd>
+	</dl>
+
+        <xen:include template="pirateProfile_alert_preferences" />
+		
+	<h3 class="textHeading">{xen:phrase achievements}</h3>
+	<dl class="ctrlUnit">
+		<dt>{xen:phrase receive_alert_when_you_receive}...</dt>
+		<dd>
+			<ul>
+				<li><input type="hidden" name="alertSet[user_following]" value="1" />
+					<label><input type="checkbox" value="1" name="alert[user_following]" {xen:checked "!{$alertOptOuts.user_following}"} /> {xen:phrase new_follower}</label
+					 ><p class="hint">{xen:phrase someone_starts_following_you}</p>
+				</li>
+				<li><input type="hidden" name="alertSet[user_trophy]" value="1" />
+					<label><input type="checkbox" value="1" name="alert[user_trophy]" {xen:checked "!{$alertOptOuts.user_trophy}"} /> {xen:phrase new_trophy}</label>
+					<p class="hint">{xen:phrase you_awarded_new_trophy_for_passing_milestone}</p>
+				</li>
+			</ul>
+		</dd>
+	</dl>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd><input type="submit" name="save" value="{xen:phrase save}" accesskey="s" class="button primary" /></dd>
+	</dl>
+	
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
     <template title="account_wrapper" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:require css="account.css" />
 
 <div class="container">
@@ -1283,7 +1375,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 		</nav>	
 	</div>
 </div>]]></template>
-    <template title="navigation_visitor_tab" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xen:edithint template="navigation.css" />
+    <template title="navigation_visitor_tab" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:edithint template="navigation.css" />
 
 <ul class="visitorTabs">
 
@@ -1316,7 +1408,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 					<xen:if is="{$canUploadAvatar}"><li><a href="{xen:link account/avatar}" class="OverlayTrigger" data-cacheOverlay="true">{xen:phrase avatar}</a></li></xen:if>
 				</ul>
 				<ul class="col2 blockLinksList">
-                                        <xen:include template="pirateProfile_navigation_visitor_tab_item" />
+                                        <xen:include template="pirateProfile_navigation_list_item_member" />
 					<li><a href="{xen:link account/news-feed}">{xen:phrase your_news_feed}</a></li>
 					<li><a href="{xen:link account/alerts}">{xen:phrase your_alerts}</a></li>
 					<li><a href="{xen:link watched/threads}">{xen:phrase watched_threads}</a></li>
@@ -1567,6 +1659,58 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
 </body>
 </html>]]></template>
+    <template title="quick_navigation_menu" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{xen:phrase quick_navigation_menu}</xen:title>
+
+<xen:require css="quick_navigation_menu.css" />
+
+<div class="section">
+	<div id="jumpMenu">
+		<div class="jumpMenuColumn">
+			<h3 class="primaryContent">{xen:phrase general_links}</h3>
+			<div class="secondaryContent">
+				<div class="blockLinksList">
+					<ul>
+						<li><a href="{$homeLink}">{xen:phrase home}</a></li>
+						<li><a href="{xen:link index}">{xen:phrase forums}</a></li>
+                                                <xen:include template="pirateProfile_navigation_list_item" />
+						<li><a href="{xen:link members}">{xen:phrase registered_members}</a></li>
+						<li><a href="{xen:link recent-activity}">{xen:phrase recent_activity}</a></li>
+					</ul>
+					<ul>
+					<xen:if is="{$visitor.user_id}">
+						<li><a href="{xen:link members, $visitor}">{xen:phrase your_profile}</a></li>
+						<li><a href="{xen:link account}">{xen:phrase your_account}</a></li>
+                                                <xen:include template="pirateProfile_navigation_list_item_member" />
+						<li><a href="{xen:link conversations}">{xen:phrase conversations}</a></li>
+						<li><a href="{xen:link account/news-feed}">{xen:phrase your_news_feed}</a></li>
+					<xen:else />
+						<li><a href="{xen:link login}">{xen:phrase log_in_or_sign_up}</a></li>
+					</xen:if>
+					</ul>
+					<ul>
+						<li><a href="{xen:link help}">{xen:phrase help}</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="jumpMenuColumn">
+			<h3 class="primaryContent">{xen:phrase forum_list}</h3>
+			<div class="secondaryContent nodeList">
+				<ol class="blockLinksList">
+					<xen:foreach loop="$nodes" value="$node">
+						<li class="d{$node.depth} {xen:if "{$selected} == 'node-{$node.node_id}'", 'OverlayScroller'}">
+							<a href="{xen:link {$nodeTypes.{$node.node_type_id}.public_route_prefix}, $node}"
+								class="{xen:if '{$node.node_type_id} == "Category"', 'OverlayCloser'} {xen:if "{$selected} == 'node-{$node.node_id}'", 'selected'}">
+								<span class="_depth{$node.depth} depthPad">{$node.title}</span>
+							</a>
+						</li>
+					</xen:foreach>
+				</ol>
+			</div>
+		</div>
+	</div>
+	<div class="sectionFooter overlayOnly"><a class="button primary OverlayCloser">{xen:phrase cancel}</a></div>
+</div>]]></template>
     <template title="thread_create" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{xen:phrase create_thread}</xen:title>
 
 <xen:navigation>
