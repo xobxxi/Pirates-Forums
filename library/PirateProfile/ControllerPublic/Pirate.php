@@ -174,7 +174,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			'pageNavParams' => array(
 				'order' => ($order != $defaultOrder ? $order : false),
 				'direction' => ($direction != $defaultDirection ? $direction : false)
-			),
+			)
 		);
 		
 		return $this->responseView(
