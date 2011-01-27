@@ -108,11 +108,11 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		$users = $this->_getUserModel()->getUsersByIds($ids);
 		
-		foreach ($pirates as &$pirate)
+		foreach ($pirates as $key => &$pirate)
 		{
 			if (!isset($users[$pirate['user_id']]))
 			{
-				unset($pirate);
+				unset($pirates[$key]);
 				continue;
 			}
 			$pirate['user'] = $users[$pirate['user_id']];
