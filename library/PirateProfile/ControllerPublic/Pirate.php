@@ -997,6 +997,13 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		$user = $this->_getUserModel()->getUserById($pirate['user_id']);
 		
+		if (empty($user))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('requested_member_not_found'), 404)
+			);
+		}
+		
 		return array($pirate, $user);
 	}
 
