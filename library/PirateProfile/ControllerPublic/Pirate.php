@@ -236,13 +236,13 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			);
 			
 			$ids = array();
-			foreach ($pirates as &$pirate)
+			foreach ($pirates as $key => $pirate)
 			{
 				$censored = $this->_censorPirate($pirate);
 				
 				if ($pirate['name'] != $censored['name'])
 				{
-					unset($pirate);
+					unset($pirate[$key]);
 					continue;
 				}
 				
@@ -251,11 +251,11 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			
 			$users = $this->_getUserModel()->getUsersByIds($ids);
 			
-			foreach ($pirates as &$pirate)
+			foreach ($pirates as $key => $pirate)
 			{
 				if (empty($users[$pirate['user_id']]))
 				{
-					unset($pirate);
+					unset($pirates[$key]);
 				}
 			}
 			
