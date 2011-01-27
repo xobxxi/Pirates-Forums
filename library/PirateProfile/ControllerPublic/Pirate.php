@@ -243,6 +243,13 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 				{
 					unset($pirates[$key]);
 				}
+				
+				$user = $this->_getUserModel()->getUserById($pirate['user_id']);
+				
+				if (empty($user))
+				{
+					unset($pirates[$key]);
+				}
 			}
 			
 			$pirates = $this->_censorPirates($pirates);
