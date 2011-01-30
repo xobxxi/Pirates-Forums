@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<style title="Pirates" description="">
+<style title="Pirates" description="Avast! This style is themed with elements from Disney's Pirates of the Caribbbean Online!">
   <properties>
     <property property_name="header" property_type="css"><![CDATA[[]]]></property>
     <property property_name="imagePath" property_type="scalar"><![CDATA[http://piratesforumscdn.appspot.com/media/pirates]]></property>
@@ -1755,6 +1755,10 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	</div>
 	<div class="sectionFooter overlayOnly"><a class="button primary OverlayCloser">{xen:phrase cancel}</a></div>
 </div>]]></template>
+    <template title="style_chooser.css" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[.styleChooser .icon.style7
+{
+	background: transparent url('{xen:property imagePath}/images/pirates.png') no-repeat;
+}]]></template>
     <template title="thread_create" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<xen:title>{xen:phrase create_thread}</xen:title>
 
 <xen:navigation>
