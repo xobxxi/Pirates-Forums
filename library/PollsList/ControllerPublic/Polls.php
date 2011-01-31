@@ -40,7 +40,7 @@ class PollsList_ControllerPublic_Polls extends XenForo_ControllerPublic_Abstract
 	public function actionCleanAzu()
 	{
 	
-		if ($this->getModelFromCache('Dark_AzuCloud_Model_Nakano')->cleanUpTermsPages())
+		if ($this->_getPollsModel()->cleanUpTermsPages())
 		{
 			die('done!');
 		}
