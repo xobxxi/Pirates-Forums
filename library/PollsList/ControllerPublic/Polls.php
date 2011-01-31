@@ -36,6 +36,18 @@ class PollsList_ControllerPublic_Polls extends XenForo_ControllerPublic_Abstract
 		return $this->responseView('PollsList_ViewPublic_Polls', 'pollsList_list', $viewParams);
 	}
 	
+	/* sloppy code */
+	public function actionCleanAzu()
+	{
+	
+		if ($this->getModelFromCache('Dark_AzuCloud_Model_Nakano')->cleanUpTermsPages())
+		{
+			die('done!');
+		}
+		
+		die('something went wrong!');
+	}
+	
 	public static function getSessionActivityDetailsForList(array $activities)
 	{
 		return new XenForo_Phrase('pollsList_viewing_recent_polls');
