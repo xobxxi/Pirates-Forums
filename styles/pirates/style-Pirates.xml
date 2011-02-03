@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<style title="Pirates" description="" user_selectable="1">
+<style title="Pirates" description="Avast! This style is themed with elements from Disney's Pirates of the Caribbbean Online!" user_selectable="1">
   <properties>
     <property property_name="header" property_type="css"><![CDATA[[]]]></property>
     <property property_name="imagePath" property_type="scalar"><![CDATA[http://piratesforumscdn.appspot.com/media/pirates]]></property>
@@ -69,7 +69,7 @@
     <property property_name="tab" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-color":"rgb(220, 53, 53)","border-style":"solid","border-top-left-radius":"5px","border-top-right-radius":"5px","border-width":"1px","color":"rgb(255, 255, 255)","extra":"display: inline-block;\nline-height: 18px;\ncursor: pointer;\noutline: 0 none;","height":"18px","margin-bottom":"-1px","margin-right":"-1px","padding-bottom":"0","padding-left":"5px","padding-right":"5px","padding-top":"0","text-decoration":{"none":"none"}}]]></property>
     <property property_name="discussionListItemPageNavLinkHover" property_type="css"><![CDATA[{"background-color":"rgb(198, 191, 160)","border-color":"rgb(220, 53, 53)","text-decoration":{"none":"none"}}]]></property>
     <property property_name="profilePageTabSelected" property_type="css"><![CDATA[{"background-image":"@imagePath\/images\/parchment.jpg","color":"rgb(55, 0, 0)"}]]></property>
-    <property property_name="sidebarUserListUsernameFollowed" property_type="css"><![CDATA[{"font-weight":"bold"}]]></property>
+    <property property_name="sidebarUserListUsernameFollowed" property_type="css"><![CDATA[{"color":"rgb(20, 60, 135)","font-weight":"bold"}]]></property>
     <property property_name="tabHover" property_type="css"><![CDATA[{"background-color":"rgb(220, 53, 53)","text-decoration":{"none":"none"}}]]></property>
     <property property_name="tabActive" property_type="css"><![CDATA[{"background-color":"transparent","background-image":"@imagePath\/images\/parchment.jpg","border-bottom-color":"black","border-bottom-style":"none","border-bottom-width":"1px","color":"rgb(55, 0, 0)","padding-bottom":"1px"}]]></property>
     <property property_name="avatar" property_type="css"><![CDATA[{"background-color":"@contentBackground","border-color":"rgb(220, 53, 53)","border-radius":"4px","border-style":"solid","border-width":"1px","padding-all":"2px"}]]></property>
