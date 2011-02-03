@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<style title="Pirates" description="Avast! This style is themed with elements from Disney's Pirates of the Caribbbean Online!">
+<style title="Pirates" description="" user_selectable="1">
   <properties>
     <property property_name="header" property_type="css"><![CDATA[[]]]></property>
     <property property_name="imagePath" property_type="scalar"><![CDATA[http://piratesforumscdn.appspot.com/media/pirates]]></property>
@@ -69,7 +69,7 @@
     <property property_name="tab" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-color":"rgb(220, 53, 53)","border-style":"solid","border-top-left-radius":"5px","border-top-right-radius":"5px","border-width":"1px","color":"rgb(255, 255, 255)","extra":"display: inline-block;\nline-height: 18px;\ncursor: pointer;\noutline: 0 none;","height":"18px","margin-bottom":"-1px","margin-right":"-1px","padding-bottom":"0","padding-left":"5px","padding-right":"5px","padding-top":"0","text-decoration":{"none":"none"}}]]></property>
     <property property_name="discussionListItemPageNavLinkHover" property_type="css"><![CDATA[{"background-color":"rgb(198, 191, 160)","border-color":"rgb(220, 53, 53)","text-decoration":{"none":"none"}}]]></property>
     <property property_name="profilePageTabSelected" property_type="css"><![CDATA[{"background-image":"@imagePath\/images\/parchment.jpg","color":"rgb(55, 0, 0)"}]]></property>
-    <property property_name="sidebarUserListUsernameFollowed" property_type="css"><![CDATA[{"color":"rgb(20, 60, 135)","font-weight":"bold"}]]></property>
+    <property property_name="sidebarUserListUsernameFollowed" property_type="css"><![CDATA[{"font-weight":"bold"}]]></property>
     <property property_name="tabHover" property_type="css"><![CDATA[{"background-color":"rgb(220, 53, 53)","text-decoration":{"none":"none"}}]]></property>
     <property property_name="tabActive" property_type="css"><![CDATA[{"background-color":"transparent","background-image":"@imagePath\/images\/parchment.jpg","border-bottom-color":"black","border-bottom-style":"none","border-bottom-width":"1px","color":"rgb(55, 0, 0)","padding-bottom":"1px"}]]></property>
     <property property_name="avatar" property_type="css"><![CDATA[{"background-color":"@contentBackground","border-color":"rgb(220, 53, 53)","border-radius":"4px","border-style":"solid","border-width":"1px","padding-all":"2px"}]]></property>
@@ -99,6 +99,7 @@
     <property property_name="messageNewIndicatorInner" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-top-right-radius":"3px","extra":"position: absolute;\ntop: -4px;\nright: -1px;","height":"4px","width":"5px"}]]></property>
     <property property_name="primaryMedium" property_type="scalar"><![CDATA[rgb(84, 29, 29)]]></property>
     <property property_name="primaryLighterStill" property_type="scalar"><![CDATA[rgb(153, 0, 0)]]></property>
+    <property property_name="editorContent" property_type="css"><![CDATA[{"background-color":"rgb(255, 255, 255)"}]]></property>
   </properties>
   <templates>
     <template title="account_alert_preferences" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{xen:phrase alert_preferences}</xen:title>
@@ -193,78 +194,6 @@
 	
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="account_wrapper" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:require css="account.css" />
-
-<div class="container">
-	<div class="accountSideBar">
-		<ul>
-			<li class="section"><h4 class="heading">{xen:phrase your_account}</h4>
-				<!--<h4 class="subHeading">{xen:phrase alerts}</h4>-->
-				<ul>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'alerts/latest'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/alerts}">{xen:phrase your_alerts}</a></li>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'alerts/newsFeed'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/news-feed}">{xen:phrase your_news_feed}</a></li>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'alerts/likes'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/likes}">{xen:phrase likes_received}</a></li>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'alerts/watchThreads'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link watched/threads}">{xen:phrase watched_threads}</a></li>
-				</ul>
-			</li>
-			<li class="section"><h4 class="subHeading">{xen:phrase conversations}</h4>
-				<ul>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'conversations/view'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link conversations}">{xen:phrase view_conversations}</a></li>
-					<xen:if is="{$canStartConversation}"><li><a
-						class="{xen:if "{$selectedKey} == 'conversations/add'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link conversations/add}">{xen:phrase start_new_conversation}</a></li></xen:if>
-				</ul>
-			</li>
-			<li class="section"><h4 class="subHeading">{xen:phrase settings}</h4>
-				<ul>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'account/personalDetails'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/personal-details}">{xen:phrase personal_details}</a></li>
-                                        <xen:include template="pirateProfile_account_management_list_item" />
-					<xen:if is="{$canEditSignature}"><li><a
-						class="{xen:if "{$selectedKey} == 'account/signature'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/signature}">{xen:phrase signature}</a></li></xen:if>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'account/contactDetails'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/contact-details}">{xen:phrase contact_details}</a></li>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'account/privacy'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/privacy}">{xen:phrase privacy}</a></li>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'account/preferences'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/preferences}">{xen:phrase preferences}</a></li>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'account/alertPreferences'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/alert-preferences}">{xen:phrase alert_preferences}</a></li>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'account/following'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/following}">{xen:phrase people_you_follow}</a></li>
-					<xen:if is="{$xenCache.userUpgradeCount}"><li><a
-						class="{xen:if "{$selectedKey} == 'account/upgrades'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/upgrades}">{xen:phrase account_upgrades}</a></li></xen:if>
-					<xen:if is="{$xenOptions.facebookAppId}"><li><a
-						class="{xen:if "{$selectedKey} == 'account/facebook'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/facebook}">{xen:phrase facebook_integration}</a></li></xen:if>
-					<li><a
-						class="{xen:if "{$selectedKey} == 'account/security'", 'secondaryContent', 'primaryContent'}"
-						href="{xen:link account/security}">{xen:phrase password}</a></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-	
-	<div class="accountContent section sectionMain">{xen:raw $_subView}</div>
-</div>]]></template>
     <template title="conversation_message" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<xen:include template="message">
 	
 	<xen:set var="$messageId">message-{$message.message_id}</xen:set>
@@ -302,109 +231,7 @@
 	</xen:set>
 	
 </xen:include>]]></template>
-    <template title="editor_contents.css" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[body,
-body.mceForceColors
-{
-	{xen:property html.background}
-	{xen:property html.font}
-	
-	{xen:property body.background}
-	{xen:property body.font}
-	
-	{xen:property content.background}
-	{xen:property content.font}
-	
-	{xen:property primaryContent.background}
-	{xen:property primaryContent.font}
-	
-	{xen:property messageInfo.background}
-	{xen:property messageInfo.font}
-
-        background-color: rgb(255, 255, 255);
-        background-image: none;
-}
-
-body, td, pre
-{
-	{xen:property messageText}
-	
-	margin:8px;
-	word-wrap: break-word;
-}
-
-a:link,
-a:visited
-{
-	{xen:helper cssImportant, {xen:property link}}
-	{xen:helper cssImportant, {xen:property ugcLink}}
-}
-
-h1 { font-size: 2em; }
-h2 { font-size: 1.5em; }
-h3 { font-size: 1.17em; }
-h4 { font-size: 1em; }
-h5 { font-size: .83em; }
-h6 { font-size: .75em; }
-
-.mceItemTable,
-.mceItemTable td,
-.mceItemTable th,
-.mceItemTable caption,
-.mceItemVisualAid
-{
-	border: 1px dashed #BBB;
-}
-
-a.mceItemAnchor
-{
-	width:12px; line-height:6px; overflow:hidden; padding-left:12px;
-	background:url(img/items.gif) no-repeat bottom left;
-}
-
-img.mceItemAnchor
-{
-	width:12px; height:12px;
-	background:url(img/items.gif) no-repeat;
-}
-
-img { border: 0; }
-
-table { cursor: default; }
-table td, table th { cursor: text; }
-
-ins
-{
-	border-bottom: 1px solid green;
-	text-decoration: none;
-	color:green;
-}
-
-del { color:red; text-decoration:line-through; }
-
-cite { border-bottom:1px dashed blue; }
-
-acronym { border-bottom:1px dotted #CCC; cursor:help; }
-
-abbr, html\:abbr { border-bottom:1px dashed #CCC; cursor:help; }
-
-p { margin: 0; padding: 0; }
-
-/* IE */
-* html body
-{
-	scrollbar-3dlight-color:#F0F0EE;
-	scrollbar-arrow-color:#676662;
-	scrollbar-base-color:#F0F0EE;
-	scrollbar-darkshadow-color:#DDD;
-	scrollbar-face-color:#E0E0DD;
-	scrollbar-highlight-color:#F0F0EE;
-	scrollbar-shadow-color:#F0F0EE;
-	scrollbar-track-color:#F5F5F5;
-}
-
-<xen:include template="bb_code_base.css" />
-<xen:include template="bb_code.css" />]]></template>
-    <template title="EXTRA.css" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[/* login bar */
+    <template title="EXTRA.css" addon_id="XenForo" version_id="1000052" version_string="1.0.0 Release Candidate 2"><![CDATA[/* login bar */
 #loginBar
 {
 	color: rgb(252, 252, 255) !important; /* white text */
@@ -433,8 +260,8 @@ p { margin: 0; padding: 0; }
 /* mod bar */
 #moderatorBar
 {
-	background-color: rgb(54, 34, 69); /* purple background */
-	border-bottom-color:  rgb(153, 0, 0); /* red bottom border */
+	background-color: rgb(54, 34, 69) !important; /* purple background */
+	border-bottom-color:  rgb(153, 0, 0) !important; /* red bottom border */
 }
 #moderatorBar a
 {
@@ -442,12 +269,12 @@ p { margin: 0; padding: 0; }
 }
 #moderatorBar a:hover
 {
-	background-color: rgb(153, 0, 0); /* red background */
+	background-color: rgb(153, 0, 0) !important; /* red background */
 }
 #moderatorBar .itemCount
 {
-	background-color: rgb(252, 252, 255); /* white background */
-	color: rgb(55, 0, 0); /* brown text */
+	background-color: rgb(252, 252, 255) !important; /* white background */
+	color: rgb(55, 0, 0) !important; /* brown text */
 }
 
 /* logo */
@@ -876,371 +703,6 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
         <xen:include template="googleAdsense_rightbar" />
 </xen:sidebar>]]></template>
-    <template title="member_view" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<xen:title>{$user.username}</xen:title>
-<xen:h1></xen:h1> <xen:comment>H1 empty, do not render.</xen:comment>
-
-<xen:container var="$head.canonical">
-	<link rel="canonical" href="{xen:link 'canonical:members', $user, 'page={$page}'}" /></xen:container>
-
-<xen:container var="$head.description">
-	<meta name="description" content="{$user.username} is a {xen:helper stripHtml, {xen:helper usertitle, $user}} at {$xenOptions.boardTitle}" /></xen:container>
-	
-<xen:container var="$head.openGraph"><xen:include template="open_graph_meta">
-	<xen:set var="$url">{xen:link 'canonical:members', $user}</xen:set>
-	<xen:set var="$title">{$user.username}</xen:set>
-	<xen:set var="$image">{xen:helper avatar, $user, 'm', '', 'true'}</xen:set>
-</xen:include></xen:container>
-
-<xen:navigation>
-	<xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
-</xen:navigation>
-
-<xen:require css="member_view.css" />
-<xen:require js="js/xenforo/quick_reply_profile.js" />
-
-<div class="profilePage" itemscope="itemscope" itemtype="http://data-vocabulary.org/Person">
-
-	<div class="mast">
-		<div class="avatarScaler">
-			<xen:if is="{$visitor.user_id} == {$user.user_id}">
-				<a class="Av{$user.user_id}l OverlayTrigger" href="{xen:link account/avatar}">
-					<img src="{xen:helper avatar, $user, l}" alt="{$user.username}" style="{xen:helper avatarCropCss, $user}" itemprop="photo" />
-				</a>
-			<xen:else />
-				<span class="Av{$user.user_id}l">
-					<img src="{xen:helper avatar, $user, l}" alt="{$user.username}" style="{xen:helper avatarCropCss, $user}" itemprop="photo" />
-				</span>
-			</xen:if>
-		</div>
-
-		<div class="section infoBlock">
-			<dl class="secondaryContent pairs">
-
-				<xen:if is="{$canViewOnlineStatus}">
-					<dt>{xen:phrase last_activity}:</dt>
-						<dd><xen:datetime time="$user.effective_last_activity" /></dd>
-				</xen:if>
-
-				<dt>{xen:phrase joined}:</dt>
-					<dd>{xen:date $user.register_date}</dd>
-
-				<dt>{xen:phrase messages}:</dt>
-					<dd>{xen:number $user.message_count}</dd>
-
-				<dt>{xen:phrase likes_received}:</dt>
-					<dd>{xen:number $user.like_count}</dd>
-
-				<dt>{xen:phrase trophy_points}:</dt>
-					<dd><a href="{xen:link 'members/trophies', $user}" class="OverlayTrigger">{xen:number $user.trophy_points}</a></dd>
-
-			</dl>
-		</div>
-
-		<div class="followBlocks">
-			<xen:if is="{$following}">
-				<div class="section">
-					<h3 class="subHeading textWithCount" title="{xen:phrase x_is_following_y_members, 'name={$user.username}', 'count={xen:number $followingCount}'}">
-						<span class="text">{xen:phrase following}</span>
-						<a href="{xen:link 'members/following', $user}" class="count OverlayTrigger">{xen:number $followingCount}</a>
-					</h3>
-					<div class="primaryContent avatarHeap">
-						<ol>
-						<xen:foreach loop="$following" key="$followUserId" value="$followUser">
-							<li>
-								<xen:avatar user="$followUser" size="s" text="{$followUser.username}" class="Tooltip" title="{$followUser.username}" itemprop="contact" />
-							</li>
-						</xen:foreach>
-						</ol>
-					</div>
-					<xen:if is="{$followingCount} > {xen:count $following, false}">
-						<div class="sectionFooter"><a href="{xen:link 'members/following', $user}" class="OverlayTrigger">{xen:phrase show_all}</a></div>
-					</xen:if>
-				</div>
-			</xen:if>
-
-			<xen:if is="{$followers}">
-				<div class="section">
-					<h3 class="subHeading textWithCount" title="{xen:phrase x_is_being_followed_by_y_members, 'name={$user.username}', 'count={xen:number $followersCount}'}">
-						<span class="text">{xen:phrase followers}</span>
-						<a href="{xen:link 'members/followers', $user}" class="count OverlayTrigger">{xen:number $followersCount}</a>
-					</h3>
-					<div class="primaryContent avatarHeap">
-						<ol>
-						<xen:foreach loop="$followers" key="$followUserId" value="$followUser">
-							<li>
-								<xen:avatar user="$followUser" size="s" text="{$followUser.username}" class="Tooltip" title="{$followUser.username}" itemprop="contact" />
-							</li>
-						</xen:foreach>
-						</ol>
-					</div>
-					<xen:if is="{$followersCount} > {xen:count $followers, false}">
-						<div class="sectionFooter"><a href="{xen:link 'members/followers', $user}" class="OverlayTrigger">{xen:phrase show_all}</a></div>
-					</xen:if>
-				</div>
-			</xen:if>
-		</div>
-
-		<xen:if hascontent="true">
-		<div class="section infoBlock">
-			<dl class="secondaryContent pairs">
-			<xen:contentcheck>
-				<xen:if is="{$user.gender}">
-					<dt>{xen:phrase gender}:</dt>
-						<dd itemprop="gender"><xen:if is="{$user.gender} == 'male'">{xen:phrase male}<xen:else />{xen:phrase female}</xen:if></dd>
-				</xen:if>
-
-				<xen:if is="{$birthday}">
-					<dt>{xen:phrase birthday}:</dt>
-						<dd><span itemprop="dob">{xen:date $birthday.timeStamp, $birthday.format}</span> <xen:if is="{$birthday.age}">({xen:phrase age}: {xen:number $birthday.age})</xen:if></dd>
-				</xen:if>
-
-				<xen:if is="{$user.homepage}">
-					<dt>{xen:phrase home_page}:</dt>
-					<dd><a href="{xen:string censor, $user.homepage}" rel="nofollow" target="_blank" itemprop="url">{xen:string censor, $user.homepage}</a></dd>
-				</xen:if>
-
-				<xen:if is="{$user.location}">
-					<dt>{xen:phrase location}:</dt>
-					<dd itemprop="address">{xen:string censor, $user.location}</dd>
-				</xen:if>
-
-				<xen:if is="{$user.occupation}">
-					<dt>{xen:phrase occupation}:</dt>
-					<dd itemprop="role">{xen:string censor, $user.occupation}</dd>
-				</xen:if>
-			</xen:contentcheck>
-			</dl>
-		</div>
-		</xen:if>
-		
-		<xen:if is="{$user.allow_view_profile} == 'everyone'"><xen:include template="sidebar_share_page" /></xen:if>
-
-	</div>
-
-	<div class="main">
-
-		<div class="section primaryUserBlock">
-			<div class="mainText secondaryContent">
-				<div class="followBlock">
-					<xen:follow user="$user" title="" />
-					<xen:if is="{$visitor.user_id} AND {$user.user_id} != {$visitor.user_id}">
-						<div class="muted">
-							<xen:if is="{$user.isFollowingVisitor}">
-								{xen:phrase user_is_following_you, 'user={$user.username}'}
-							<xen:else />
-								{xen:phrase user_is_not_following_you, 'user={$user.username}'}
-							</xen:if>
-						</div>
-					</xen:if>
-				</div>
-
-				<h1 itemprop="name">{xen:helper richUserName, $user}</h1>
-
-				<p class="userBlurb">
-					{xen:helper userBlurb, $user}
-					<xen:if is="{$canCleanSpam}"><a href="{xen:link spam-cleaner, $user}" class="deleteSpam OverlayTrigger">{xen:phrase spam_cleaner}</a></xen:if>
-				</p>
-
-				<xen:if is="{$user.status}"><p class="userStatus" id="UserStatus">{xen:helper bodyText, $user.status} <xen:datetime time="$user.status_date" /></p></xen:if>
-
-				<xen:if is="{$canViewOnlineStatus}">
-					<dl class="pairsInline lastActivity">
-						<dt>{xen:phrase x_was_last_seen, 'username={$user.username}'}:</dt>
-						<dd>
-							<xen:if is="{$user.activity}">
-								<xen:if is="{$user.activity.description}">
-									{$user.activity.description}<xen:if is="{$user.activity.itemTitle}"> <em><a href="{$user.activity.itemUrl}">{$user.activity.itemTitle}</a></em></xen:if>,
-								<xen:else />
-									{xen:phrase viewing_unknown_page},
-								</xen:if>
-								<xen:datetime time="{$user.effective_last_activity}" class="muted" />
-							<xen:else />
-								<xen:datetime time="{$user.effective_last_activity}" />
-							</xen:if>
-						</dd>
-					</dl>
-				</xen:if>
-			</div>
-			
-			<ul class="tabs mainTabs Tabs" data-panes="#ProfilePanes > li" data-history="on">
-				<li><a href="{$requestPaths.requestUri}#profilePosts">{xen:phrase profile_posts}</a></li>
-				<xen:if is="{$showRecentActivity}"><li><a href="{$requestPaths.requestUri}#recentActivity">{xen:phrase recent_activity}</a></li></xen:if>
-				<li><a href="{$requestPaths.requestUri}#postings">{xen:phrase postings}</a></li>
-				<li><a href="{$requestPaths.requestUri}#info">{xen:phrase information}</a></li>
-                                <xen:include template="pirateProfile_profile_tab" />
-			</ul>
-		</div>
-
-		<ul id="ProfilePanes">
-			<li id="profilePosts" class="profileContent">
-
-			<xen:if is="{$canViewProfilePosts}">
-				<xen:require css="message_simple.css" />
-
-				<xen:if is="{$canPostOnProfile}">
-					<form action="{xen:link members/post, $user}" method="post"
-						class="messageSimple profilePoster AutoValidator primaryContent" id="ProfilePoster"
-						data-optInOut="optIn">
-						<xen:avatar user="$visitor" size="s" />
-						<div class="messageInfo">
-							<xen:if is="{$visitor.user_id} == {$user.user_id}">
-								<textarea name="message" class="textCtrl StatusEditor Elastic" placeholder="{xen:phrase update_your_status}..." rows="3" cols="50" data-statusEditorCounter="#statusEditorCounter"></textarea>
-							<xen:else />
-								<textarea name="message" class="textCtrl Elastic" placeholder="{xen:phrase write_something}..." rows="3" cols="50"></textarea>
-							</xen:if>
-							<div class="submitUnit">
-								<span id="statusEditorCounter" title="{xen:phrase characters_remaining}"></span>
-								<input type="submit" class="button primary" value="{xen:phrase post}" accesskey="s" />
-								<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
-							</div>
-						</div>
-					</form>
-				</xen:if>
-
-				<form action="{xen:link 'inline-mod/profile-post/switch'}" method="post"
-					class="InlineModForm section"
-					data-cookieName="profilePosts"
-					data-controls="#InlineModControls"
-					data-imodOptions="#ModerationSelect option">
-
-					<ol class="messageSimpleList" id="ProfilePostList">
-						<xen:if is="{$profilePosts}">
-							<xen:foreach loop="$profilePosts" value="$profilePost">
-								<xen:if is="{$profilePost.isDeleted}">
-									<xen:include template="profile_post_deleted" />
-								<xen:else />
-									<xen:include template="profile_post" />
-								</xen:if>
-							</xen:foreach>
-						<xen:else />
-							<li id="NoProfilePosts">{xen:phrase there_no_messages_on_xs_profile_yet, 'name={$user.username}'}</li>
-						</xen:if>
-					</ol>
-
-					<xen:if is="{$inlineModOptions}">
-						<div class="sectionFooter InlineMod Hide">
-							<label for="ModerationSelect">{xen:phrase perform_action_with_selected_posts}...</label>
-
-							<xen:include template="inline_mod_controls">
-								<xen:set var="$text">{xen:phrase post_moderation}</xen:set>
-								<xen:set var="$options">
-									<xen:if is="{$inlineModOptions.delete}"><option value="delete">{xen:phrase delete_posts}</option></xen:if>
-									<xen:if is="{$inlineModOptions.undelete}"><option value="undelete">{xen:phrase undelete_posts}</option></xen:if>
-									<xen:if is="{$inlineModOptions.approve}"><option value="approve">{xen:phrase approve_posts}</option></xen:if>
-									<xen:if is="{$inlineModOptions.unapprove}"><option value="unapprove">{xen:phrase unapprove_posts}</option></xen:if>
-									<option value="deselect">{xen:phrase deselect_posts}</option>
-								</xen:set>
-								<xen:set var="$checkboxTitle">{xen:phrase select_deselect_all_posts_on_this_page}</xen:set>
-								<xen:set var="$selectedItemsPhrase">{xen:phrase selected_posts}</xen:set>
-							</xen:include>
-						</div>
-					</xen:if>
-
-					<div class="pageNavLinkGroup">
-						<div class="linkGroup SelectionCountContainer"></div>
-						<xen:pagenav link="members" linkdata="{$user}" page="{$page}" perpage="{$profilePostsPerPage}" total="{$totalProfilePosts}" />
-					</div>
-
-					<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
-				</form>
-
-			<xen:else />
-				<div id="NoProfilePosts">{xen:phrase there_no_messages_on_xs_profile_yet, 'name={$user.username}'}</div>
-			</xen:if>
-
-			</li>
-
-			<xen:if is="{$showRecentActivity}">
-			<li id="recentActivity" class="profileContent" data-loadUrl="{xen:link members/recent-activity, $user}">
-				{xen:phrase loading}...
-				<noscript><a href="{xen:link members/recent-activity, $user}">{xen:phrase view}</a></noscript>
-			</li>
-			</xen:if>
-
-			<li id="postings" class="profileContent" data-loadUrl="{xen:link members/recent-content, $user}">
-				{xen:phrase loading}...
-				<noscript><a href="{xen:link members/recent-content, $user}">{xen:phrase view}</a></noscript>
-			</li>
-
-			<li id="info" class="profileContent">
-
-				<xen:if is="{$user.signature}">
-					<div class="section">
-						<h3 class="textHeading">{xen:phrase signature}</h3>
-						<div class="primaryContent">
-							<div class="baseHtml signature ugc">{xen:raw $user.signatureHtml}</div>
-						</div>
-					</div>
-				</xen:if>
-
-				<xen:if hascontent="true">
-					<div class="section">
-						<h3 class="textHeading">{xen:phrase about}</h3>
-
-						<div class="secondaryContent">
-							<xen:contentcheck>
-								<xen:if hascontent="true">
-									<div class="pairsColumns aboutPairs">
-									<xen:contentcheck>
-										<xen:if is="{$user.gender}">
-											<dl><dt>{xen:phrase gender}:</dt> <dd><xen:if is="{$user.gender} == 'male'">{xen:phrase male}<xen:else />{xen:phrase female}</xen:if></dd></dl>
-										</xen:if>
-
-										<xen:if is="{$birthday}">
-											<dl><dt>{xen:phrase birthday}:</dt> <dd>{xen:date $birthday.timeStamp, $birthday.format} <xen:if is="{$birthday.age}">({xen:phrase age}: {xen:number $birthday.age})</xen:if></dd></dl>
-										</xen:if>
-
-										<xen:if is="{$user.homepage}">
-											<dl><dt>{xen:phrase home_page}:</dt> <dd><a href="{xen:string censor, $user.homepage}" rel="nofollow" target="_blank">{xen:string censor, $user.homepage}</a></dd></dl>
-										</xen:if>
-
-										<xen:if is="{$user.location}">
-											<dl><dt>{xen:phrase location}:</dt> <dd>{xen:string censor, $user.location}</dd></dl>
-										</xen:if>
-
-										<xen:if is="{$user.occupation}">
-											<dl><dt>{xen:phrase occupation}:</dt> <dd>{xen:string censor, $user.occupation}</dd></dl>
-										</xen:if>
-									</xen:contentcheck>
-									</div>
-								</xen:if>
-
-								<xen:if is="{$user.about}"><div class="baseHtml ugc">{xen:raw $user.aboutHtml}</div></xen:if>
-							</xen:contentcheck>
-						</div>
-					</div>
-				</xen:if>
-
-				<div class="section">
-					<h3 class="textHeading">{xen:phrase interact}</h3>
-
-					<div class="primaryContent">
-						<div class="pairsColumns contactInfo">
-							<dl>
-								<dt>{xen:phrase content}:</dt>
-								<dd><ul>
-									<li><a href="{xen:link search/member, '', 'user_id={$user.user_id}'}">{xen:phrase find_all_content_by_x, 'name={$user.username}'}</a></li>
-									<li><a href="{xen:link search/member, '', 'user_id={$user.user_id}', 'content=thread'}">{xen:phrase find_all_threads_by_x, 'name={$user.username}'}</a></li>
-								</ul></dd>
-							</dl>
-							<xen:if is="{$canStartConversation}">
-								<dl><dt>{xen:phrase conversation}:</dt> <dd><a href="{xen:link 'conversations/add', '', 'to={$user.username}'}">{xen:phrase start_conversation}</a></dd></dl>
-							</xen:if>
-							<xen:if is="{$identities}">
-								<xen:foreach loop="$identities" value="$identity">
-									<dl><dt>{$identity.title}:</dt> <dd>{xen:string censor, $identity.value}</dd></dl>
-								</xen:foreach>
-							</xen:if>
-						</div>
-					</div>
-				</div>
-			</li>
-                        <xen:include template="pirateProfile_profile_tab_content" />
-
-		</ul>
-	</div>
-
-</div>]]></template>
     <template title="navigation" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:edithint template="navigation.css" />
 
 <div id="navigation" class="pageWidth">
@@ -1755,130 +1217,6 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	</div>
 	<div class="sectionFooter overlayOnly"><a class="button primary OverlayCloser">{xen:phrase cancel}</a></div>
 </div>]]></template>
-    <template title="style_chooser.css" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[.styleChooser .icon.style7
-{
-	background: transparent url('{xen:property imagePath}/images/pirates.png') no-repeat;
-}]]></template>
-    <template title="thread_create" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<xen:title>{xen:phrase create_thread}</xen:title>
-
-<xen:navigation>
-	<xen:breadcrumb source="$nodeBreadCrumbs" />
-</xen:navigation>
-
-<xen:container var="$head.robots">
-	<meta name="robots" content="noindex" /></xen:container>
-
-<form action="{xen:link 'forums/add-thread', $forum}" method="post"
-	class="xenForm Preview AutoValidator"
-	data-previewUrl="{xen:link 'forums/create-thread/preview', $forum}"
-	data-redirect="on"
->
-
-	<xen:if is="{$visitor.user_id} == 0">
-		<dl class="ctrlUnit">
-			<dt><label for="ctrl_guestUsername">{xen:phrase name}:</label></dt>
-			<dd><input type="text" name="_guestUsername" value="{$visitor.username}" class="textCtrl" /></dd>
-		</dl>
-	</xen:if>
-
-	<xen:include template="helper_captcha_unit" />
-
-	<fieldset>
-		<dl class="ctrlUnit">
-			<dt><label for="ctrl_title">{xen:phrase title}:</label></dt>
-			<dd><input type="text" name="title" class="textCtrl" data-liveTitleTemplate="{xen:phrase create_thread}: <em>%s</em>" id="ctrl_title" maxlength="100" autofocus="true" /></dd>
-		</dl>
-
-		<dl class="ctrlUnit fullWidth">
-			<dt></dt>
-			<dd>{xen:raw $editorTemplate}</dd>
-		</dl>
-
-                <xen:include template="subscribeUsers_input">
-                        <xen:set var="$subscribeUsers">{$subscribeUsers}</xen:set>
-                </xen:include>
-	</fieldset>
-
-	<dl class="ctrlUnit submitUnit">
-		<dt></dt>
-		<dd>
-			<input type="submit" value="{xen:phrase create_thread}" accesskey="s" class="button primary" />
-			<xen:include template="attachment_upload_button" />
-			<input type="button" value="{xen:phrase preview}..." class="button PreviewButton JsOnly" />
-		</dd>
-	</dl>
-
-	<xen:if is="{$attachmentParams}">
-		<dl class="ctrlUnit AttachedFilesUnit">
-			<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
-			<dd><xen:include template="attachment_editor" /></dd>
-		</dl>
-	</xen:if>
-	
-	<xen:if is="{$visitor.user_id}">
-		<fieldset>
-			<dl class="ctrlUnit">
-				<dt>{xen:phrase options}:</dt>
-				<dd><ul>
-					<li><xen:include template="helper_thread_watch_input" /></li>
-				</ul></dd>
-			</dl>
-	
-			<xen:include template="thread_fields_status" />
-		</fieldset>
-	</xen:if>
-	
-	<xen:require js="js/xenforo/poll.js" />
-	<h3 class="textHeading">{xen:phrase post_poll}</h3>	
-	<dl class="ctrlUnit">
-		<dt><label for="ctrl_poll_question">{xen:phrase question}:</label></dt>
-		<dd><input type="text" name="poll[question]" class="textCtrl" id="ctrl_poll_question" maxlength="100" /></dd>
-	</dl>	
-	<dl class="ctrlUnit">
-		<dt>{xen:phrase possible_responses}:</dt>
-		<dd>
-			<ul class="PollResponseContainer">
-				<li><input type="text" name="poll[responses][]" class="textCtrl" placeholder="{xen:phrase poll_choice}..." maxlength="100" /></li>
-				<li class="PollAddResponseSource"><input type="text" name="poll[responses][]" class="textCtrl" placeholder="{xen:phrase poll_choice}..." maxlength="100" /></li>
-			</ul>
-			<input type="button" value="{xen:phrase add_additional_response}" class="PollAddResponseButton button smallButton" data-source="li.PollAddResponseSource" data-container=".PollResponseContainer" data-maximum="{$xenOptions.pollMaximumResponses}" />
-		</dd>
-	</dl>	
-	<dl class="ctrlUnit">
-		<dt></dt>
-		<dd>
-			<ul>
-				<li><label for="ctrl_poll_multiple"><input type="checkbox" name="poll[multiple]" value="1" id="ctrl_poll_multiple" /> {xen:phrase allow_selection_of_multiple_responses}</label></li>
-				<li><label for="ctrl_poll_public_votes"><input type="checkbox" name="poll[public_votes]" value="1" id="ctrl_poll_public_votes" /> {xen:phrase display_votes_publicly}</label></li>
-				<li><label for="ctrl_poll_close"><input type="checkbox" name="poll[close]" value="1" class="Disabler" id="ctrl_poll_close" /> {xen:phrase close_this_poll_after}:</label>
-					<ul id="ctrl_poll_close_Disabler">
-						<li>
-							<input type="text" size="5" name="poll[close_length]" value="7" class="textCtrl autoSize" />
-							<select name="poll[close_units]" class="textCtrl autoSize">
-								<option value="hours">{xen:phrase hours}</option>
-								<option value="days" selected="selected">{xen:phrase days}</option>
-								<option value="weeks">{xen:phrase weeks}</option>
-								<option value="months">{xen:phrase months}</option>
-							</select>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</dd>
-	</dl>
-
-	<dl class="ctrlUnit submitUnit">
-		<dt></dt>
-		<dd>
-			<input type="submit" value="{xen:phrase create_thread}" accesskey="s" class="button primary" />
-			<input type="button" value="{xen:phrase preview}..." class="button PreviewButton JsOnly" />
-		</dd>
-	</dl>
-
-	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
-</form>
-
-<xen:comment><xen:include template="editor" /></xen:comment>]]></template>
     <template title="thread_edit" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:title>{xen:phrase edit_thread}: {$thread.title}</xen:title>
 
 <xen:navigation>
@@ -1911,7 +1249,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="thread_view" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{$thread.title}{xen:helper pagenumber, $page}</xen:title>
+    <template title="thread_view" addon_id="XenForo" version_id="1000052" version_string="1.0.0 Release Candidate 2"><![CDATA[<xen:title>{$thread.title}{xen:helper pagenumber, $page}</xen:title>
 <xen:h1>{$thread.title}</xen:h1>
 
 <xen:description>
@@ -1980,6 +1318,8 @@ blockquote .bbCodeQuote aside .attribution a:hover
 </xen:set>
 {xen:raw $threadStatusHtml}
 
+<xen:hook name="thread_view_pagenav_before" params="{xen:array 'thread={$thread}'}" />
+
 <div class="pageNavLinkGroup">
 	<div class="linkGroup SelectionCountContainer">
 		<xen:if hascontent="true">
@@ -2001,7 +1341,6 @@ blockquote .bbCodeQuote aside .attribution a:hover
 							<xen:if is="{$deletedPosts}">
 								<li><a href="{xen:link threads/show-posts, $thread, 'page={$page}'}" class="MessageLoader" data-messageSelector="#messageList .message.deleted.placeholder">{xen:phrase show_deleted_posts}</a></li>
 							</xen:if>
-
                                                         <xen:include template="subscribeUsers_thread_tools_list_item" />
 						</xen:contentcheck>
 					</ul>
@@ -2024,6 +1363,8 @@ blockquote .bbCodeQuote aside .attribution a:hover
 		page="{$page}" perpage="{$postsPerPage}" total="{$totalPosts}"
 		unreadlink="{$unreadLink}" />
 </div>
+
+<xen:hook name="thread_view_form_before" params="{xen:array 'thread={$thread}'}" />
 
 <form action="{xen:link 'inline-mod/post/switch'}" method="post"
 	class="InlineModForm section"
@@ -2099,6 +1440,8 @@ blockquote .bbCodeQuote aside .attribution a:hover
 		</xen:contentcheck>
 	</div>
 </xen:if>
+
+<xen:hook name="thread_view_qr_before" params="{xen:array 'thread={$thread}'}" />
 
 <xen:if is="{$canQuickReply}">
 	<xen:include template="quick_reply">
