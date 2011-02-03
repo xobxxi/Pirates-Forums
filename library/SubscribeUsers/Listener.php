@@ -15,4 +15,16 @@ class SubscribeUsers_Listener
 			break;
 		}
     }
+
+	public static function template_hook($name, &$contents, array $params, XenForo_Template_Abstract $template)
+	{
+		switch ($name)
+		{
+			case 'thread_create_fields_main':
+				$subscribeModel = XenForo_Model::create('SubscribeUsers_Model_Subscribe');
+				$params        += $subscribeModel->checkCanSubscribe();
+				$contents      .= $template->create('subscribeUsers_input', $params)->render();
+				return $contents;
+		}
+	}
 }

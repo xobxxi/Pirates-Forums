@@ -43,7 +43,7 @@ class SubscribeUsers_Model_Subscribe extends XenForo_Model
 		return;
 	}
 	
-	public function checkCanSubscribe($response)
+	public function checkCanSubscribe($response = false)
 	{
 		switch (XenForo_Visitor::getInstance()->hasPermission('forum', 'subscribeUsers')) {
 			case false:
@@ -53,6 +53,12 @@ class SubscribeUsers_Model_Subscribe extends XenForo_Model
 			case true:
 				$subscribeUsers = true;
 			break;
+		}
+		
+		if (!$response)
+		{
+			$params = array('subscribeUsers' => $subscribeUsers);
+			return $params;
 		}
 			
 		$response->params += array('subscribeUsers' => $subscribeUsers);

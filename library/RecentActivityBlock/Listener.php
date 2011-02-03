@@ -9,7 +9,7 @@ class RecentActivityBlock_Listener
 		{
 			case 'forum_list_sidebar':
 				// Get recent activity
-				$recentActivity = new RecentActivityBlock_Model_RecentActivity;
+				$recentActivity = XenForo_Model::create('RecentActivityBlock_Model_RecentActivity');
 				$params         = $recentActivity->getRecentActivity();
 				if (empty($params)) return $contents;
 				$search         = '<!-- block: forum_stats -->';
