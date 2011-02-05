@@ -15,12 +15,12 @@
   <permissions>
     <permission_groups/>
     <permissions>
-      <permission permission_group_id="forum" permission_id="updates4news" permission_type="flag" default_value="unset" interface_group_id="forumModeratorPermissions" display_order="1"/>
+      <permission permission_group_id="forum" permission_id="check4Updates" permission_type="flag" default_value="unset" interface_group_id="forumModeratorPermissions" display_order="1"/>
     </permissions>
     <interface_groups/>
   </permissions>
   <phrases>
-    <phrase title="permission_forum_updates4news" version_id="1" version_string="1.0"><![CDATA[updates4news]]></phrase>
+    <phrase title="permission_forum_check4Updates" version_id="1" version_string="1.0"><![CDATA[check4Updates]]></phrase>
   </phrases>
   <route_prefixes/>
   <style_properties/>
