@@ -20,7 +20,6 @@
 							{
 								$(ajaxData.templateHtml).xfInsert('replaceAll', '#pirateContainer', 'xfHide', 0, function()
 								{
-									new XenForo.setupSkills();
 									$('#pirateContainer').xfSlideDown(500);
 								});
 							})
@@ -34,7 +33,7 @@
 	
 	// *********************************************************************
 
-	XenForo.register('a.CardLoader', 'XenForo.CardLoader');
+	XenForo.register('a.CardLoader',  'XenForo.CardLoader');
 
 }
 (jQuery, this, document);

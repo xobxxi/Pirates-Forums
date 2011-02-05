@@ -12,8 +12,6 @@ class PollsList_Model_Poll extends XenForo_Model
 			LIMIT {$max}
 		");
 		
-		if (empty($polls)) return false;
-		
 		return $polls;
 	}
 }

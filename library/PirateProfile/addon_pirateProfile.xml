@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.5.1" version_id="34" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.6.0" version_id="35" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -269,14 +269,14 @@
 </h3>
 ]]></template>
     <template title="pirateProfile_account_management_list_item" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[<li><a class="primaryContent" href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a></li>]]></template>
-    <template title="pirateProfile_add" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[<xen:title>{xen:phrase pirateProfile_action_pirate, 'action={xen:phrase pirateProfile_add}'}</xen:title>
+    <template title="pirateProfile_add" version_id="34" version_string="1.5.1"><![CDATA[<xen:title>{xen:phrase pirateProfile_action_pirate, 'action={xen:phrase pirateProfile_add}'}</xen:title>
 
 <xen:navigation>
         <xen:breadcrumb href="{xen:link full:members, $visitor}">{$visitor.username}</xen:breadcrumb>
         <xen:breadcrumb href="{xen:link full:pirates, $visitor}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
 </xen:navigation>
 
-<form action="{xen:link 'pirates/new'}" method="post" class="xenForm formOverlay overlayScroll AutoValidator" id="pirateProfileAdd" data-redirect="on">
+<form action="{xen:link 'pirates/new'}" method="post" class="xenForm formOverlay AutoValidator" id="pirateProfileAdd" data-redirect="on">
         <xen:include template="pirateProfile_form">
                 <xen:set var="$action">{xen:phrase pirateProfile_add}</xen:set>
         </xen:include>
@@ -320,14 +320,14 @@
 	<input type="hidden" name="_xfConfirm" value="1" />
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="pirateProfile_edit" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[<xen:title>{xen:phrase pirateProfile_action_pirate, 'action={xen:phrase edit}'}</xen:title>
+    <template title="pirateProfile_edit" version_id="34" version_string="1.5.1"><![CDATA[<xen:title>{xen:phrase pirateProfile_action_pirate, 'action={xen:phrase edit}'}</xen:title>
 
 <xen:navigation>
         <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
         <xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
 </xen:navigation>
 
-<form action="{xen:link 'pirates/save', $pirate}" method="post" class="xenForm formOverlay overlayScroll AutoValidator" id="pirateProfileEdit" data-redirect="on">
+<form action="{xen:link 'pirates/save', $pirate}" method="post" class="xenForm formOverlay AutoValidator" id="pirateProfileEdit" data-redirect="on">
         <xen:include template="pirateProfile_form">
                 <xen:set var="$action">{xen:phrase edit}</xen:set>
         </xen:include>
@@ -498,7 +498,7 @@ div.label,
 {
         color: rgb(84, 29, 29) !important;
 }]]></template>
-    <template title="pirateProfile_list" version_id="31" version_string="1.5.0 RC 1"><![CDATA[<xen:require css="discussion_list.css" />
+    <template title="pirateProfile_list" version_id="34" version_string="1.5.1"><![CDATA[<xen:require css="discussion_list.css" />
 <xen:require css="member_list.css" />
 <xen:require css="pirateProfile_list.css" />
 <xen:require js="js/card/loader.js" />
@@ -508,7 +508,7 @@ div.label,
 
 <xen:if is="{$visitor.user_id}">
 <xen:topctrl>
-	<a href="{xen:link pirates/add}" class="callToAction"><span>{xen:phrase pirateProfile_add_pirate}</span></a>
+	<a href="{xen:link pirates/add}" class="callToAction OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}"><span>{xen:phrase pirateProfile_add_pirate}</span></a>
 </xen:topctrl>
 </xen:if>
 
@@ -555,17 +555,13 @@ div.label,
 <div class="pageNavLinkGroup">
         <xen:if is="{$visitor.user_id}">
         <div class="linkGroup">
-                <a href="{xen:link 'pirates/add'}" class="callToAction"><span>{xen:phrase pirateProfile_add_pirate}</span></a>
+                <a href="{xen:link 'pirates/add'}" class="callToAction OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}"><span>{xen:phrase pirateProfile_add_pirate}</span></a>
         </div>
         </xen:if>
 	<xen:pagenav link="pirates" linkparams="{$pageNavParams}" page="{$page}" perpage="{$piratesPerPage}" total="{$totalPirates}" />
 </div>	
 
 <xen:sidebar>
-<div id="cardLoader">
-       <div id="pirateContainer"></div>
-</div>
-
 <div class="section">
 	<form action="{xen:link pirates}" method="post" class="secondaryContent findMember">
 		<h3>Find Pirate</h3>
@@ -656,7 +652,7 @@ div.label,
         margin-left: 4px;
         display: inline;
 }]]></template>
-    <template title="pirateProfile_list_item" version_id="31" version_string="1.5.0 RC 1"><![CDATA[<xen:require css="discussion_list.css" />
+    <template title="pirateProfile_list_item" version_id="34" version_string="1.5.1"><![CDATA[<xen:require css="discussion_list.css" />
 
 <li id="pirate-{$pirate.pirate_id}" class="discussionListItem" data-author="{$pirate.user.username}">
 
@@ -670,7 +666,7 @@ div.label,
 
 		<div class="titleText">
 			<h3 class="title">
-				<a href="{xen:link pirates/card, $pirate}" class="CardLoader">{xen:helper wrap, $pirate.name, 50}</a>
+				<a href="{xen:link pirates/card, $pirate}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:helper wrap, $pirate.name, 50}</a>
 			</h3>
 
 			<div class="secondRow">
@@ -702,14 +698,14 @@ div.label,
     <template title="pirateProfile_member_card_link_item" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[<a href="{xen:link pirates, $user}">{xen:phrase pirateProfile_pirates}</a>]]></template>
     <template title="pirateProfile_navigation_list_item" version_id="26" version_string="1.4.0"><![CDATA[<li><a href="{xen:link pirates}">{xen:phrase pirateProfile_pirate_directory}</a></li>]]></template>
     <template title="pirateProfile_navigation_list_item_member" version_id="26" version_string="1.4.0"><![CDATA[<li><a href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a></li>]]></template>
-    <template title="pirateProfile_navigation_tab_links" version_id="31" version_string="1.5.0 RC 1"><![CDATA[<ul class="secondaryContent blockLinksList">
+    <template title="pirateProfile_navigation_tab_links" version_id="34" version_string="1.5.1"><![CDATA[<ul class="secondaryContent blockLinksList">
         <li><a href="{xen:link pirates}">{xen:phrase pirateProfile_pirate_directory}</a></li>
         <xen:if is="{$visitor.user_id}">
         <li><a href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a></li>
-        <li><a href="{xen:link pirates/add}">{xen:phrase pirateProfile_add_pirate}</a></li>
+        <li><a href="{xen:link pirates/add}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:phrase pirateProfile_add_pirate}</a></li>
         </xen:if>
 </ul>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="31" version_string="1.5.0 RC 1"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="34" version_string="1.5.1"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
 <xen:require js="js/card/skills.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
@@ -723,7 +719,8 @@ div.label,
         <xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
 </xen:navigation>
 
-<div id="pirateContainer" class="primaryContent">
+<div id="pirateContainer" class="sectionMain">
+        <div class="primaryContent">
 	<div class="pirateCard">
 		<div class="pirateProfile">
 			<div class="pirateTitle">
@@ -761,7 +758,7 @@ div.label,
 
                         <xen:if is="{$visitor.user_id} == {$user.user_id} || {$pirate.canManage}">
                                 <xen:if is="{$pirate.canEdit}">
-                                        <a href="{xen:link pirates/edit, $pirate}" class="OverlayTrigger">{xen:phrase edit}</a>
+                                        <a href="{xen:link pirates/edit, $pirate}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:phrase edit}</a>
                                 </xen:if>
                                 <xen:if is="{$pirate.canDelete}">
                                         <a href="{xen:link pirates/delete, $pirate}" class="OverlayTrigger">{xen:phrase delete}</a>
@@ -818,8 +815,14 @@ div.label,
 
                 </div>
 	</div>
+        </div>
+        <script type="text/javascript">
+        $(document).ready(function() {
+        	new XenForo.setupSkills();
+        });
+        </script>
 </div>]]></template>
-    <template title="pirateProfile_pirate_card.css" version_id="31" version_string="1.5.0 RC 1"><![CDATA[#pirateProfile #cardLoader
+    <template title="pirateProfile_pirate_card.css" version_id="34" version_string="1.5.1"><![CDATA[#pirateProfile #cardLoader
 {
 	min-height: 500px;
 }
@@ -1187,7 +1190,7 @@ div.label,
 </li>
 
 <xen:edithint template="pirateProfile_view" />]]></template>
-    <template title="pirateProfile_view" version_id="20" version_string="1.2.1"><![CDATA[<xen:require js="js/card/loader.js" />
+    <template title="pirateProfile_view" version_id="34" version_string="1.5.1"><![CDATA[<xen:require js="js/card/loader.js" />
 <xen:require css="pirateProfile_view.css" />
 
 <xen:title>{xen:phrase pirateProfile_xs_pirates, 'username={$user.username}'}</xen:title>
@@ -1221,7 +1224,7 @@ div.label,
         <xen:if is="{$perms.canAdd}">
         <div class="sectionFooter"> 
                 <xen:if is="{$visitor.user_id} == {$user.user_id}">
-	        <a href="{xen:link pirates/add}" class="OverlayTrigger">{xen:phrase pirateProfile_add_pirate}</a>
+	        <a href="{xen:link pirates/add}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:phrase pirateProfile_add_pirate}</a>
                 <xen:else />
                 <a href="{xen:link pirates, $visitor}">{xen:phrase pirateProfile_your_pirates}</a>
                 </xen:if>
@@ -1230,7 +1233,7 @@ div.label,
 </div>
 
 <xen:edithint template="pirateProfile_pirate_card" />]]></template>
-    <template title="pirateProfile_view.css" version_id="14" version_string="1.0.0 RC 4"><![CDATA[#pirateList, #cardLoader
+    <template title="pirateProfile_view.css" version_id="34" version_string="1.5.1"><![CDATA[#pirateList, #cardLoader
 {
         display: inline-block;
         vertical-align: top;
@@ -1241,11 +1244,13 @@ div.label,
         margin-left: 20px;
         list-style-type: disc;
 }
-#pirateContainer
+#pirateContainer,
+#pirateContainer .sectionMain
 {
         background-color: transparent;
+        margin: 0;
         padding: 0;
-        border-bottom: none;
+        border: none;
         float: right;
 }
 
