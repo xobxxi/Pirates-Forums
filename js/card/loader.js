@@ -33,7 +33,7 @@
 	
 	// *********************************************************************
 
-	XenForo.register('a.CardLoader',  'XenForo.CardLoader');
+	XenForo.register('a.CardLoader', 'XenForo.CardLoader');
 
 }
 (jQuery, this, document);
