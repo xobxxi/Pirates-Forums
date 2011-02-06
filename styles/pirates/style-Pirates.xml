@@ -337,6 +337,12 @@ ul.blockLinksList li form label:hover
 	color: rgb(252, 252, 255); /* whiteish color */
 }
 
+/* forms */
+.button.primary
+{
+	background-color: rgb(55, 0, 0) !important; /* brown background */
+}
+
 /* footer */
 .footer .pageContent
 {
@@ -445,6 +451,13 @@ ul.autoCompleteList li.selected
         color: rgb(252, 252, 255) !important; /* white text */
 }
 .thread_view .threadAlerts dt
+{
+	color: rgb(153, 0, 0) !important; /* red text */
+}
+
+/* heading */
+.larger.textHeading,
+.xenForm .sectionHeader
 {
 	color: rgb(153, 0, 0) !important; /* red text */
 }
