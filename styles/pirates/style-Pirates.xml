@@ -276,6 +276,10 @@
 	background-color: rgb(252, 252, 255) !important; /* white background */
 	color: rgb(55, 0, 0) !important; /* brown text */
 }
+#moderatorBar .itemCount.alert {
+        background-color: rgb(224, 48, 48) !important;
+        color: rgb(255, 255, 255) !important;
+}
 
 /* logo */
 #logo
