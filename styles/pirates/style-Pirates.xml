@@ -1217,6 +1217,10 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	</div>
 	<div class="sectionFooter overlayOnly"><a class="button primary OverlayCloser">{xen:phrase cancel}</a></div>
 </div>]]></template>
+    <template title="style_chooser.css" addon_id="XenForo" version_id="1000052" version_string="1.0.0 Release Candidate 2"><![CDATA[.styleChooser .icon.style7
+{
+        background: transparent url('{xen:property imagePath}/images/pirates.png') no-repeat;
+}]]></template>
     <template title="thread_edit" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:title>{xen:phrase edit_thread}: {$thread.title}</xen:title>
 
 <xen:navigation>
