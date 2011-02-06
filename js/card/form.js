@@ -9,6 +9,11 @@
 		}
 	}
 	
+	XenForo.AddPictureButton = function()
+	{
+		$('span#AttachmentUploader').children().filter(':button').val('Add Picture');
+	}
+	
 	XenForo.ExtraCounter = function($input) { this.__construct($input); };
 	XenForo.ExtraCounter.prototype =
 	{
