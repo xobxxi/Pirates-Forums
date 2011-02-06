@@ -36,9 +36,6 @@
 			setTimeout(showHandle, 500);
 		});
 	}
-	
-	$(document).ready(function() {
-		new XenForo.setupSkills();
-	});
+
 }
 (jQuery, this, document);

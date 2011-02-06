@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.6.1" version_id="36" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.6.2" version_id="38" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -69,7 +69,6 @@
     <phrase title="pirateProfile_add" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[Add]]></phrase>
     <phrase title="pirateProfile_added" version_id="30" version_string="1.5.0 Beta 2"><![CDATA[Added]]></phrase>
     <phrase title="pirateProfile_adding_pirate" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Adding pirate]]></phrase>
-    <phrase title="pirateProfile_add_picture" version_id="35" version_string="1.6.0"><![CDATA[Add Picture]]></phrase>
     <phrase title="pirateProfile_add_pirate" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Add Pirate]]></phrase>
     <phrase title="pirateProfile_also_comments_on_a_pirate" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[Also comments on a pirate]]></phrase>
     <phrase title="pirateProfile_and" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[and]]></phrase>
@@ -333,7 +332,7 @@
                 <xen:set var="$action">{xen:phrase edit}</xen:set>
         </xen:include>
 </form>]]></template>
-    <template title="pirateProfile_form" version_id="35" version_string="1.6.0"><![CDATA[<xen:require js="js/card/form.js" />
+    <template title="pirateProfile_form" version_id="36" version_string="1.6.1"><![CDATA[<xen:require js="js/card/form.js" />
 <xen:require css="pirateProfile_form.css" />
 
 <xen:if is="{$errors}">
@@ -439,7 +438,7 @@
 	<dt></dt>
 	<dd>
 		<input type="submit" class="button primary" value="{xen:phrase pirateProfile_save_pirate}" />
-                <xen:include template="pirateProfile_upload_button" />
+                <xen:include template="attachment_upload_button" />
                 <input type="reset" class="button OverlayCloser ResetButton" value="{xen:phrase cancel}" />
 	</dd>
 </dl>
@@ -459,8 +458,14 @@
 	</dl>
 </xen:if>
 
-<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />]]></template>
-    <template title="pirateProfile_form.css" version_id="13" version_string="1.0.0 RC 3"><![CDATA[dfn.required
+<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		new XenForo.AddPictureButton();
+	});
+</script>]]></template>
+    <template title="pirateProfile_form.css" version_id="36" version_string="1.6.1"><![CDATA[dfn.required
 {
         color: rgb(204, 0, 0) !important;
 }
@@ -476,6 +481,11 @@
 .xenOverlay .extraCounter
 {
         right: -5px;
+}
+
+div.AttachmentInsertAll
+{
+        display: none !important;
 }
 
 div.AttachmentEditor
@@ -1191,45 +1201,6 @@ div.label,
 </li>
 
 <xen:edithint template="pirateProfile_view" />]]></template>
-    <template title="pirateProfile_upload_button" version_id="35" version_string="1.6.0"><![CDATA[<xen:if is="{$attachmentParams}">
-
-	<xen:require js="js/xenforo/attachment_editor.js" />
-	<xen:if is="{$xenOptions.swfUpload}">
-		<xen:require js="js/swfupload/swfupload.min.js" />
-	</xen:if>	
-	<xen:require css="attachment_editor.css" />
-
-	<span id="AttachmentUploader" class="buttonProxy AttachmentUploader"
-		style="display: none"
-		data-placeholder="#SWFUploadPlaceHolder"
-		data-trigger="#ctrl_uploader"
-		data-postname="upload"
-		data-maxfilesize="{$attachmentConstraints.size}"
-		data-maxuploads="{$attachmentConstraints.count}"
-		data-extensions="{xen:helper implode, $attachmentConstraints.extensions, ','}"
-		data-action="{xen:link 'full:attachments/do-upload.json', '',
-			'hash={$attachmentParams.hash}',
-			'content_type={$attachmentParams.content_type}'}"
-		data-err-110="{xen:phrase uploaded_file_is_too_large}"
-		data-err-120="{xen:phrase uploaded_file_is_empty}"
-		data-err-130="{xen:phrase uploaded_file_does_not_have_an_allowed_extension}">
-		
-		<span id="SWFUploadPlaceHolder"></span>		
-			
-		<input type="button" value="{xen:phrase pirateProfile_add_picture}" id="ctrl_uploader"
-			class="button OverlayTrigger DisableOnSubmit"
-			data-href="{xen:link full:attachments/upload, '', '_params={$attachmentParams}'}"
-			data-hider="#AttachmentUploader" />
-		<span class="HiddenInput" data-name="_xfSessionId" data-value="{$sessionId}"></span>
-		<xen:foreach loop="$attachmentParams.content_data" key="$dataKey" value="$dataValue"><span class="HiddenInput" data-name="content_data[{$dataKey}]" data-value="{$dataValue}"></span>
-		</xen:foreach>
-	</span>
-
-	<noscript>
-		<a href="{xen:link 'attachments/upload', '', '_params={$attachmentParams}'}" class="button" target="_blank">{xen:phrase upload_file}</a>
-	</noscript>
-
-</xen:if>]]></template>
     <template title="pirateProfile_view" version_id="34" version_string="1.5.1"><![CDATA[<xen:require js="js/card/loader.js" />
 <xen:require css="pirateProfile_view.css" />
 
