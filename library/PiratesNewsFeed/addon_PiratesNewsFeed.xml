@@ -29,18 +29,16 @@
 
         <dl class="ctrlUnit">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                 <dt><label for="ctrl_subscribe_users">{xen:phrase check5updates_now}:</label></dt>
-                <dd><input type="text" name="subscribe_users" class="textCtrl AutoComplete" id="ctrl_subscribe_users" maxlength="100" />
-                <p class="explain">{xen:phrase click_here_to_check4updates}</p></dd>
+                <dd><p class="explain">{xen:phrase click_here_to_check4updates}</p></dd>
         </dl>
 <![CDATA[<xen:if is="{$check4updatesNow}">
 </xen:if>]]]]><![CDATA[></template>]]></template>
     <template title="check4updates_link" version_id="1" version_string="1.0"><![CDATA[<xen:if is="{$check4updates}">
         <dl class="ctrlUnit">
-                <dt><label for="ctrl_subscribe_users">{xen:phrase subscribeUsers_subscribe_users}:</label></dt>
-                <dd>
-{xen:phrase yo_ho_ho}
-                <p class="explain">{xen:phrase separate_names_with_comma}</p>
-</dd>
+			<dt><label for="ctrl_chk4Updates">{xen:phrase check_for_updates}:</label></dt>
+              <dd>
+				{xen:phrase yo_ho_ho}
+			</dd>
         </dl>
 
 </xen:if>]]></template>
