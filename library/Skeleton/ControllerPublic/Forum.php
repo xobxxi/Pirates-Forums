@@ -8,7 +8,7 @@ class Skeleton_ControllerPublic_Forum extends XFCP_Skeleton_ControllerPublic_For
 	
 	public function actionYo()
 	{
-		// A link to this action could be represented by XenForo_Link::buildPublicLink('forum/yo');
+		// A link to this action could be represented by XenForo_Link::buildPublicLink('forums/yo');
 		
 		$viewParams = array(); // This is an array of variables you want to be available *IN* the template defined below
 		
