@@ -8,7 +8,7 @@ class Skeleton_Listener
 	
 	
 	// An addon's id should always be camel back (camelBack) (For example: pirateNewsFeed)
-	// Any options/permissions/phrases related to the addon should be prefixed with it's id
+	// Any options/permissions/phrases related to the addon should be prefixed with its id
 	
 	public static function loadClassController($class, array &$extend)
     {
