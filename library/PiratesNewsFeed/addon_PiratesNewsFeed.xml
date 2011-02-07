@@ -24,5 +24,26 @@
   </phrases>
   <route_prefixes/>
   <style_properties/>
-  <templates/>
+  <templates>
+    <template title="check4updates" version_id="1" version_string="1.0"><![CDATA[ <template title="subscribeUsers_input" version_id="2" version_string="1.0.2">
+
+        <dl class="ctrlUnit">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                <dt><label for="ctrl_subscribe_users">{xen:phrase check5updates_now}:</label></dt>
+                <dd><input type="text" name="subscribe_users" class="textCtrl AutoComplete" id="ctrl_subscribe_users" maxlength="100" />
+                <p class="explain">{xen:phrase click_here_to_check4updates}</p></dd>
+        </dl>
+<![CDATA[<xen:if is="{$check4updatesNow}">
+</xen:if>]]]]><![CDATA[></template>]]></template>
+    <template title="check4updates_link" version_id="1" version_string="1.0"><![CDATA[<xen:if is="{$check4updates}">
+        <dl class="ctrlUnit">
+                <dt><label for="ctrl_subscribe_users">{xen:phrase subscribeUsers_subscribe_users}:</label></dt>
+                <dd>
+{xen:phrase yo_ho_ho}
+                <p class="explain">{xen:phrase separate_names_with_comma}</p>
+</dd>
+        </dl>
+
+</xen:if>]]></template>
+    <template title="PiratesNewsFeed_news_template" version_id="1" version_string="1.0"><![CDATA[Yo-ho-ho a Pirate Life for me]]></template>
+  </templates>
 </addon>
