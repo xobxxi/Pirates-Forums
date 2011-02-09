@@ -94,6 +94,11 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		return $user;
 	}
 
+	/**
+	 *
+	 * Run Cron jobs.. still need more work probably for 1.2.
+	 *
+	 */
 	function runCron()
 	{
 		$options = XenForo_Application::get('options');
@@ -158,7 +163,11 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		return $writer->getMergedData();
 	}
 
-
+	/**
+	 *
+	 * Mark article as posted.
+	 * @param $new_id
+	 */
 	function markPosted($new_id)
 	{
 		$record = XenForo_Model::create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedRecord');
@@ -182,6 +191,11 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		$this->registry($registry);
 	}
 
+	/**
+	 *
+	 * Mark article as not posted.
+	 * @param $new_id
+	 */
 	function markNotPosted($new_id)
 	{
 		$record = XenForo_Model::create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedRecord');
@@ -201,6 +215,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		$this->registry($registry);
 	}
 
+
 	function getPosted()
 	{
 		return XenForo_Model::create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedRecord');
@@ -219,6 +234,12 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		$this->_getDataRegistryModel()->delete('PiratesNewsFeedCache');
 	}
 
+	/**
+	 * Gets remove articles from piratesonline.com and saves them in cache.
+	 *
+	 * @param $forum_id
+	 * @param $itemsCount
+	 */
 	function feed($forum_id, $itemsCount)
 	{
 		if(self::$blogs) {
