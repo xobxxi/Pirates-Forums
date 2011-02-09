@@ -134,6 +134,8 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		if(!$PiratesNewsFeedCache) {
 			$feed['last_stamp'] = $latest['stamp'];
 			$model->registry($feed);
+		} else {
+			$model->deleteRegistry('PiratesNewsFeedCache');
 		}
 	}
 
