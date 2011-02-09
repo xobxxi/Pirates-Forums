@@ -10,8 +10,9 @@
     <listener event_id="template_hook" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="checkNews" active="1" description="Button to check news on pirates site"/>
   </code_event_listeners>
   <cron>
-    <entry entry_id="PiratesNewsFeed1" cron_class="PiratesNewsFeed_Model_PiratesNewsFeed" cron_method="runCron" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["10"],"minutes":["0"]}]]></entry>
-    <entry entry_id="PiratesNewsFeed2" cron_class="PiratesNewsFeed_Model_PiratesNewsFeed" cron_method="runCron" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["15"],"minutes":["0"]}]]></entry>
+    <entry entry_id="PiratesNewsFeed_AfterNoon" cron_class="PiratesNewsFeed_Model_PiratesNewsFeed" cron_method="runCron" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["16"],"minutes":["0"]}]]></entry>
+    <entry entry_id="PiratesNewsFeed_Morning" cron_class="PiratesNewsFeed_Model_PiratesNewsFeed" cron_method="runCron" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["10"],"minutes":["0"]}]]></entry>
+    <entry entry_id="PiratesNewsFeed_Noon" cron_class="PiratesNewsFeed_Model_PiratesNewsFeed" cron_method="runCron" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["12"],"minutes":["0"]}]]></entry>
   </cron>
   <email_templates/>
   <optiongroups>
@@ -93,8 +94,9 @@
   </permissions>
   <phrases>
     <phrase title="are_you_sure_about_posting_these_news" version_id="1" version_string="1.0"><![CDATA[Are you sure about posting these news - ]]></phrase>
-    <phrase title="cron_entry_PiratesNewsFeed1" version_id="1" version_string="1.0"><![CDATA[PiratesNewsFeed First Task]]></phrase>
-    <phrase title="cron_entry_PiratesNewsFeed2" version_id="1" version_string="1.0"><![CDATA[PiratesNewsFeed Second Task]]></phrase>
+    <phrase title="cron_entry_PiratesNewsFeed_AfterNoon" version_id="1" version_string="1.0"><![CDATA[PiratesNewsFeed After Noon Check]]></phrase>
+    <phrase title="cron_entry_PiratesNewsFeed_Morning" version_id="1" version_string="1.0"><![CDATA[PiratesNewsFeed Morning Check]]></phrase>
+    <phrase title="cron_entry_PiratesNewsFeed_Noon" version_id="1" version_string="1.0"><![CDATA[PiratesNewsFeed Noon Check]]></phrase>
     <phrase title="latest_news_from_pirates_online" version_id="1" version_string="1.0"><![CDATA[Latest News From Pirates Online]]></phrase>
     <phrase title="mark_as_not_posted" version_id="1" version_string="1.0"><![CDATA[Mark as not Posted]]></phrase>
     <phrase title="mark_as_posted" version_id="1" version_string="1.0"><![CDATA[Mark as Posted]]></phrase>
