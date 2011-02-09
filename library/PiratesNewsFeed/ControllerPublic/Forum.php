@@ -2,17 +2,6 @@
 
 class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_ControllerPublic_Forum
 {
-
-	public function ActionTestCron()
-	{
-		$model  = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
-		$blogs = $model->runCron();
-
-		die("response..".print_r($blogs,1));
-
-	}
-
-
 	function ActionMarknotposted()
 	{
 		$news_id = $this->_input->filterSingle('news_id', XenForo_Input::INT);
@@ -21,7 +10,7 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 
 		if(!$news_id) {
 			//ungraceful quit for now..
-			die("invalid id");
+			return $this->__genericError();
 		}
 		$model = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
 		$model->markNotPosted($news_id);
@@ -35,7 +24,7 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 
 		if(!$news_id) {
 			//ungraceful quit for now..
-			die("invalid id");
+			return $this->__genericError();
 		}
 		$model = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
 		$model->markPosted($news_id);
@@ -53,6 +42,17 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 			$viewParams
 		);
 	}
+
+	function _genericError()
+	{
+		$viewParams = array();
+		return $this->responseView(
+			'PiratesNewsFeed_ViewPublic_Forum_Yo', // This is a fictional class, don't worry about why I guess lol
+			'PiratesNewsFeed_generic_error',
+			$viewParams
+		);
+	}
+
 
 	public function actionDisplayNews()
 	{
@@ -92,10 +92,8 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 
 		$this->actionDisplayNews();
 
-		$CJAX = CJAX::getInstance();
-		$CJAX->location();
-
-		//return $this->_genericView();
+		$viewParams = array();
+		return $this->_genericView();
 	}
 
 
@@ -143,6 +141,20 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 			'PiratesNewsFeed_news_posted',
 			$viewParams
 		);
+
+	}
+
+
+
+	/**
+	 * this function is not used. Was added just for testing..
+	 */
+	public function ActionTestCron()
+	{
+		$model  = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
+		$blogs = $model->runCron();
+
+		die("response..".print_r($blogs,1));
 
 	}
 
