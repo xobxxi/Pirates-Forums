@@ -110,7 +110,8 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 
 		$news = $blogs[$news_id];
 
-		$message = self::_fetch($news['url'], array());
+
+		$message = $model->fetch($news['url']);
 		//pirates provides service notications in a slightly different format, so if check for news fails then will check with a second regular expression
 		if(!preg_match("/\<div class\=\"news_body\"\>(.+)\t+\s+\<br\>\<br\>/sm",$message,$out)) {
 			preg_match("/\<div class\=\"news_body\"\>(.+)\n\s+\<div class\=\"next\-previous\"\>/sm",$message,$out);
@@ -134,6 +135,8 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 
 		$model->markPosted($news['stamp']);
 
+		$model->injectCache($news_id,'message',$new_message);
+
 		return $this->responseView(
 			'PiratesNewsFeed_ViewPublic_Forum_Yo', // This is a fictional class, don't worry about why I guess lol
 			'PiratesNewsFeed_news_posted',
@@ -154,33 +157,6 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 
 		die("response..".print_r($blogs,1));
 
-	}
-
-	/**
-	* get a News Page
-	*
-	* @param array $request
-	* @param boolean $debug
-	* @param boolean $clean_response
-	* @return string
-	*/
-	private static function _fetch($url)
-	{
-		$link = curl_init();
-		curl_setopt($link, CURLOPT_URL, $url);
-		//curl_setopt($link, CURLOPT_POSTFIELDS, http_build_query($data));
-		curl_setopt($link, CURLOPT_VERBOSE, 0);
-		curl_setopt($link, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($link, CURLOPT_SSL_VERIFYHOST, 0);
-		curl_setopt($link, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($link, CURLOPT_MAXREDIRS, 6);
-		curl_setopt($link, CURLOPT_CONNECTTIMEOUT, 30);
-		curl_setopt($link, CURLOPT_TIMEOUT, 15); // 60
-		$results=curl_exec($link);
-
-		curl_close($link);
-
-		return $results;
 	}
 
 

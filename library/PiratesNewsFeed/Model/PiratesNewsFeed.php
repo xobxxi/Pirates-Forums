@@ -12,16 +12,147 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	const POSTER_CURRENT_POSTER = 4;
 	const POSTER_DEFAULT =  4;
 
+
 	/**
+	 *
+	 * Run cron jobs
+	 *
+	 */
+	function runCron()
+	{
+		$xoptions = XenForo_Application::get('options');
+		//things are off..
+		if(!$xoptions->news_notification_forum && !$xoptions->news_auto_news) {
+			return;
+		}
+		$itemsCount = $xoptions->news_count;
+		$forum_id = $xoptions->news_forum_id;
+		$user_ids = explode(",",$xoptions->news_users);
+		//force to refresh the data.
+		$model = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed'); //new PiratesNewsFeed_Model_PiratesNewsFeed;
+
+		$PiratesNewsFeedCache = $model->create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedCache');
+
+		$feed = $this->feed($forum_id,$itemsCount);
+		if(!$feed) {
+			return;
+		}
+
+		$latest = $feed[key($feed)];
+		$user_model = $this->getModelFromCache('Xenforo_Model_User');
+
+		$msg_options = array('stripLinkPathTraversal' => XenForo_Visitor::isBrowsingWith('firefox'));
+
+		$record = $record = XenForo_Model::create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedRecord');
+		$reportNews = array();
+		foreach($feed as $k => $v) {
+			if($record && isset($record[$v['stamp']])) {
+				continue;
+			}
+
+			$reportNews[$k] = $v['title'];
+			if(!$xoptions->news_auto_news) {
+				continue;
+			}
+
+			$user = $model->getNewsPoster();
+
+			$message = self::fetch($v['url']);
+
+			if(!preg_match("/\<div class\=\"news_body\"\>(.+)\t+\s+\<br\>\<br\>/sm",$message,$out)) {
+				preg_match("/\<div class\=\"news_body\"\>(.+)\n\s+\<div class\=\"next\-previous\"\>/sm",$message,$out);
+			}
+
+			if(!$out) {
+				continue;
+			}
+
+			$prepare_message = str_replace(
+				array(
+					"\<br\>",
+					"<br />",
+					"<br/>"),
+				array(
+					"\n\n",
+					"\n\n",
+					"\n\n"
+				),$out[1]
+			);
+
+			$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml($prepare_message, $msg_options));
+
+			self::mkThread($forum_id, $user,str_replace("\\'","'",$v['title']).' '.$v['date'],$new_message);
+
+			$model->markPosted($v['stamp']);
+		}
+
+		if($xoptions->news_notification_forum && $reportNews) {
+			$news_count = count($reportNews);
+			if($news_count > 1) {
+				$is = "are";
+			} else {
+				$is = "is";
+			}
+
+			$new_message = "
+				There $is $news_count news that have not been posted on the site. Will you post 'em?.<br />
+				If so be sure to claim this thread by posting/responding. Thank You.<br />
+				<br /><br />
+				<b>News</b>:\n<br />
+			".implode("<br /><br />",$reportNews);
+
+			$user = $model->getNewsPoster();
+			$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml($new_message, $msg_options));
+
+			$thread = self::mkThread($xoptions->news_notification_forum, $user,"News Waiting to be posted",str_replace("\\'","'",$new_message));
+
+			if($xoptions->news_subscribe_posters) {
+				$permission = $this->getModelFromCache('Xenforo_Model_UserGroup');
+				$user_ids = $permission->getUserIdsInUserGroup($xoptions->news_group_id);
+
+				$watch = $this->getModelFromCache('XenForo_Model_ThreadWatch');
+				$notify_method = ($xoptions->news_notify_posters_email? 'watch_email':'watch_no_email');
+
+				$dw = XenForo_DataWriter::create('XenForo_DataWriter_Alert');
+
+				foreach ($user_ids as $k => $v) {
+					$watch->setThreadWatchState($k, $thread['thread_id'], $notify_method);
+
+					if($xoptions->news_alert) {
+						$pv_user = $user_model->getUserById($k);
+						XenForo_Model_Alert::alert(
+							$k,
+							$user['user_id'],
+							$pv_user['username'],
+							'post',
+							$thread['thread_id'],
+							'insert',
+							array()
+						);
+					}
+
+				}
+			}
+		}
+
+		if(!$PiratesNewsFeedCache) {
+			$feed['last_stamp'] = $latest['stamp'];
+			$model->registry($feed);
+		}
+
+		$model->deleteRegistry('PiratesNewsFeedCache');
+	}
+
+		/**
 	 *
 	 * Determine what user will post the news article.
 	 */
 	function getNewsPoster()
 	{
-		$options = XenForo_Application::get('options');
-		$user_ids = explode(",",$options->news_users);
-		$poster = $options->news_poster_options;
-		$news_group_id = $options->news_group_id;
+		$xoptions = XenForo_Application::get('options');
+		$user_ids = explode(",",$xoptions->news_users);
+		$poster = $xoptions->news_poster_options;
+		$news_group_id = $xoptions->news_group_id;
 
 		switch($poster) {
 			default:
@@ -51,7 +182,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 
 				if(!$news_group_id) {
 					return $this->responseView(
-						'PiratesNewsFeed_ViewPublic_Forum_Yo', // This is a fictional class, don't worry about why I guess lol
+						'PiratesNewsFeed_ViewPublic_Forum_Yo',
 						'PiratesNewsFeed_news_error',
 						$viewParams
 					);
@@ -95,48 +226,37 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	}
 
 	/**
-	 *
-	 * Run Cron jobs.. still need more work probably for 1.2.
-	 *
-	 */
-	function runCron()
+	* get a News Page
+	*
+	* @param array $request
+	* @param boolean $debug
+	* @param boolean $clean_response
+	* @return string
+	*/
+	public function fetch($url)
 	{
-		$options = XenForo_Application::get('options');
-		$itemsCount = $options->news_count;
-		$forum_id = $options->news_forum_id;
-		$user_ids = explode(",",$options->news_users);
-		//force to refresh the data.
-		$model = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed'); //new PiratesNewsFeed_Model_PiratesNewsFeed;
+		$link = curl_init();
+		curl_setopt($link, CURLOPT_URL, $url);
+		//curl_setopt($link, CURLOPT_POSTFIELDS, http_build_query($data));
+		curl_setopt($link, CURLOPT_VERBOSE, 0);
+		curl_setopt($link, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($link, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($link, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($link, CURLOPT_MAXREDIRS, 6);
+		curl_setopt($link, CURLOPT_CONNECTTIMEOUT, 30);
+		curl_setopt($link, CURLOPT_TIMEOUT, 15); // 60
+		$results=curl_exec($link);
 
-		$PiratesNewsFeedCache = $model->create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedCache');
+		curl_close($link);
 
-		$feed = $this->feed($forum_id,$itemsCount);
-		if(!$feed) {
-			return;
-		}
+		return $results;
+	}
 
-		$latest = $feed[1];
-
-		if($PiratesNewsFeedCache['last_stamp'] && $latest && $latest['stamp'] > $PiratesNewsFeedCache['last_stamp']) {
-
-			$options = array('stripLinkPathTraversal' => XenForo_Visitor::isBrowsingWith('firefox'));
-
-			$user_model = $this->getModelFromCache('Xenforo_Model_User');
-			foreach($feed as $k => $v) {
-
-				if($PiratesNewsFeedCache['last_stamp'] > $v['stamp']) {
-					 break;
-				}
-				$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml(str_replace("\<br\>","\n\n",$v['message']), $options));
-
-				$user = $model->getNewsPoster();
-
-				self::mkThread($forum_id, $user,$v['title'].' '.$v['date'],$new_message);
-
-			}
-		}
-
-		$model->deleteRegistry('PiratesNewsFeedCache');
+	function injectCache($id, $setting,$data)
+	{
+		$registry = $this->registry();
+		$registry[$id][$setting] = $data;
+		$this->registry($registry);
 	}
 
 	/**

@@ -16,6 +16,13 @@
   <email_templates/>
   <optiongroups>
     <group group_id="PiratesNewFeed" display_order="1" debug_only="0"/>
+    <option option_id="news_auto_news" edit_format="onoff" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params>0=No
+1=Yes</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="PiratesNewFeed" display_order="50"/>
+    </option>
     <option option_id="news_count" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>6</default_value>
       <edit_format_params></edit_format_params>
@@ -26,13 +33,33 @@
       <default_value>2</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="PiratesNewFeed" display_order="1"/>
+      <relation group_id="PiratesNewFeed" display_order="60"/>
     </option>
     <option option_id="news_group_id" edit_format="textbox" data_type="string" can_backup="1">
       <default_value></default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="PiratesNewFeed" display_order="1"/>
+      <relation group_id="PiratesNewFeed" display_order="0"/>
+    </option>
+    <option option_id="news_notification_forum" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="PiratesNewFeed" display_order="10"/>
+    </option>
+    <option option_id="news_notify_alert" edit_format="onoff" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params>0=No
+1=Yes</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="PiratesNewFeed" display_order="30"/>
+    </option>
+    <option option_id="news_notify_posters_email" edit_format="onoff" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params>0=No
+1=Yes</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="PiratesNewFeed" display_order="40"/>
     </option>
     <option option_id="news_poster_options" edit_format="select" data_type="string" can_backup="1">
       <default_value>1</default_value>
@@ -42,6 +69,13 @@
 4=Current Poster (check4news permission)</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="PiratesNewFeed" display_order="1"/>
+    </option>
+    <option option_id="news_subscribe_posters" edit_format="onoff" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params>0=No
+1=Yes</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="PiratesNewFeed" display_order="20"/>
     </option>
     <option option_id="news_users" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>2</default_value>
@@ -67,14 +101,24 @@
     <phrase title="news_have_been_posted" version_id="1" version_string="1.0"><![CDATA[News Have been Posted. Make sure you refresh the page to reflect changes.]]></phrase>
     <phrase title="option_group_PiratesNewFeed" version_id="1" version_string="1.0"><![CDATA[Pirates New Feed]]></phrase>
     <phrase title="option_group_PiratesNewFeed_description" version_id="1" version_string="1.0"><![CDATA[Fetch news feeds from piratesonline.com]]></phrase>
+    <phrase title="option_news_auto_news" version_id="1" version_string="1.0"><![CDATA[Post news Automatically]]></phrase>
+    <phrase title="option_news_auto_news_explain" version_id="1" version_string="1.0"><![CDATA[Use Cron to detect and create newly released content/news.]]></phrase>
     <phrase title="option_news_count" version_id="1" version_string="1.0"><![CDATA[News Count]]></phrase>
     <phrase title="option_news_count_explain" version_id="1" version_string="1.0"><![CDATA[How many news are appropriate to be considered latest news?]]></phrase>
     <phrase title="option_news_forum_id" version_id="1" version_string="1.0"><![CDATA[News Forum ID]]></phrase>
-    <phrase title="option_news_forum_id_explain" version_id="1" version_string="1.0"><![CDATA[Enter the id of the news forum where news will be posted.]]></phrase>
+    <phrase title="option_news_forum_id_explain" version_id="1" version_string="1.0"><![CDATA[Enter the id of the news forum where news will be posted. Used only if "Post news Automatically" functionality is enabled.]]></phrase>
     <phrase title="option_news_group_id" version_id="1" version_string="1.0"><![CDATA[Group ID]]></phrase>
-    <phrase title="option_news_group_id_explain" version_id="1" version_string="1.0"><![CDATA[News Reporter/Poster ID]]></phrase>
+    <phrase title="option_news_group_id_explain" version_id="1" version_string="1.0"><![CDATA[Group ID defined as "News Reporter"]]></phrase>
+    <phrase title="option_news_notification_forum" version_id="1" version_string="1.0"><![CDATA[Notification Forum ID]]></phrase>
+    <phrase title="option_news_notification_forum_explain" version_id="1" version_string="1.0"><![CDATA[Create notification thread in specific forum.  Leave empty or 0, if you do not want a new thread on detection of newly detected news.]]></phrase>
+    <phrase title="option_news_notify_alert" version_id="1" version_string="1.0"><![CDATA[Notify Alert]]></phrase>
+    <phrase title="option_news_notify_alert_explain" version_id="1" version_string="1.0"><![CDATA[Display Notification Alert]]></phrase>
+    <phrase title="option_news_notify_posters_email" version_id="1" version_string="1.0"><![CDATA[Notify Email]]></phrase>
+    <phrase title="option_news_notify_posters_email_explain" version_id="1" version_string="1.0"><![CDATA[(if "Subscribe Posters" is enabled only) Notify Posters With Email]]></phrase>
     <phrase title="option_news_poster_options" version_id="1" version_string="1.0"><![CDATA[Poster ID Option]]></phrase>
-    <phrase title="option_news_poster_options_explain" version_id="1" version_string="1.0"><![CDATA[Define "who"  news will be posted as.]]></phrase>
+    <phrase title="option_news_poster_options_explain" version_id="1" version_string="1.0"><![CDATA[Define "who" will post the news.]]></phrase>
+    <phrase title="option_news_subscribe_posters" version_id="1" version_string="1.0"><![CDATA[Subscribe Posters]]></phrase>
+    <phrase title="option_news_subscribe_posters_explain" version_id="1" version_string="1.0"><![CDATA[(Only if Notification Forum ID is specified) Notify/Subscribe Posters to news notification thread. (Not to the actual news thread, just to the thread telling them to post the news)]]></phrase>
     <phrase title="option_news_users" version_id="1" version_string="1.0"><![CDATA[Poster ID]]></phrase>
     <phrase title="option_news_users_explain" version_id="1" version_string="1.0"><![CDATA[News poster user ID. You may enter more than one by separating by comma  (a random id would be picked).]]></phrase>
     <phrase title="permission_forum_check4Updates" version_id="1" version_string="1.0"><![CDATA[check4Updates]]></phrase>
