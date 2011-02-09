@@ -4,7 +4,7 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 {
 	/**
 	 *
-	 * Pask an specific news article as "not posted"
+	 * Mark an specific news article as "not posted"
 	 */
 	function ActionMarkNotposted()
 	{
