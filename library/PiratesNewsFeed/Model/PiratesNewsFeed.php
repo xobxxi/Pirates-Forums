@@ -113,8 +113,6 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 				$watch = $this->getModelFromCache('XenForo_Model_ThreadWatch');
 				$notify_method = ($xoptions->news_notify_posters_email? 'watch_email':'watch_no_email');
 
-				$dw = XenForo_DataWriter::create('XenForo_DataWriter_Alert');
-
 				foreach ($user_ids as $k => $v) {
 					$watch->setThreadWatchState($k, $thread['thread_id'], $notify_method);
 
@@ -138,9 +136,9 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		if(!$PiratesNewsFeedCache) {
 			$feed['last_stamp'] = $latest['stamp'];
 			$model->registry($feed);
+		} else {
+			$model->deleteRegistry('PiratesNewsFeedCache');
 		}
-
-		$model->deleteRegistry('PiratesNewsFeedCache');
 	}
 
 		/**
