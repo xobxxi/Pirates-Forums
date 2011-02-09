@@ -2,7 +2,11 @@
 
 class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_ControllerPublic_Forum
 {
-	function ActionMarknotposted()
+	/**
+	 *
+	 * Pask an specific news article as "not posted"
+	 */
+	function ActionMarkNotposted()
 	{
 		$news_id = $this->_input->filterSingle('news_id', XenForo_Input::INT);
 
@@ -17,6 +21,10 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		return $this->_genericView();
 	}
 
+	/**
+	 *
+	 * Marks an specific news article as "posted"
+	 */
 	function ActionMarkPosted()
 	{
 		$news_id = $this->_input->filterSingle('news_id', XenForo_Input::INT);
@@ -30,6 +38,10 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		return $this->_genericView();
 	}
 
+	/**
+	 *
+	 * Generic message showing an action was done to avoid too much redundancy.
+	 */
 	function _genericView()
 	{
 
@@ -41,6 +53,10 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		);
 	}
 
+	/**
+	 *
+	 * Generic Error
+	 */
 	function _genericError()
 	{
 		$viewParams = array();
@@ -51,7 +67,10 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		);
 	}
 
-
+	/**
+	 *
+	 * Display news list
+	 */
 	public function actionDisplayNews()
 	{
 		$visitor = XenForo_Visitor::getInstance();
@@ -83,6 +102,10 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		);
 	}
 
+	/**
+	 *
+	 * Removes news feed from cache so it can be fetched/refreshed again
+	 */
 	function ActionRefreshnews()
 	{
 		$model  = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
@@ -94,7 +117,10 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		return $this->_genericView();
 	}
 
-
+	/**
+	 *
+	 * Post a news article to the news forum
+	 */
 	public function ActionPostNews()
 	{
 		$options = XenForo_Application::get('options');

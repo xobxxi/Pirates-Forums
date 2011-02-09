@@ -139,7 +139,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		}
 	}
 
-		/**
+	/**
 	 *
 	 * Determine what user will post the news article.
 	 */
@@ -248,6 +248,13 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		return $results;
 	}
 
+	/**
+	 *
+	 * Not really used but this is where it was heading.
+	 * @param $id
+	 * @param $setting
+	 * @param $data
+	 */
 	function injectCache($id, $setting,$data)
 	{
 		$registry = $this->registry();
@@ -332,11 +339,20 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	}
 
 
+	/**
+	 *
+	 * Get news list blueprint of these already posted to see what has been posted and what hasn't
+	 */
 	function getPosted()
 	{
 		return XenForo_Model::create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedRecord');
 	}
 
+	/**
+	 *
+	 * Gets the PiratesNewsFeed Cached data
+	 * @param unknown_type $cache
+	 */
 	public function registry($cache = array())
 	{
 		if($cache===array()) {
@@ -345,13 +361,17 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		$this->_getDataRegistryModel()->set('PiratesNewsFeedCache', $cache);
 	}
 
+	/**
+	 *
+	 * Delete cache
+	 */
 	function  deleteRegistry()
 	{
 		$this->_getDataRegistryModel()->delete('PiratesNewsFeedCache');
 	}
 
 	/**
-	 * Gets remove articles from piratesonline.com and saves them in cache.
+	 * Gets news articles from piratesonline.com and saves them in cache.
 	 *
 	 * @param $forum_id
 	 * @param $itemsCount
