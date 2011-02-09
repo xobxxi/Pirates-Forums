@@ -9,8 +9,7 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		$model = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
 
 		if(!$news_id) {
-			//ungraceful quit for now..
-			return $this->__genericError();
+			return $this->_genericError();
 		}
 		$model = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
 		$model->markNotPosted($news_id);
@@ -23,8 +22,7 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		$news_id = $this->_input->filterSingle('news_id', XenForo_Input::INT);
 
 		if(!$news_id) {
-			//ungraceful quit for now..
-			return $this->__genericError();
+			return $this->_genericError();
 		}
 		$model = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
 		$model->markPosted($news_id);
