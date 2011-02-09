@@ -118,7 +118,7 @@
     <phrase title="option_news_poster_options" version_id="1" version_string="1.0"><![CDATA[Poster ID Option]]></phrase>
     <phrase title="option_news_poster_options_explain" version_id="1" version_string="1.0"><![CDATA[Define "who" will post the news.]]></phrase>
     <phrase title="option_news_subscribe_posters" version_id="1" version_string="1.0"><![CDATA[Subscribe Posters]]></phrase>
-    <phrase title="option_news_subscribe_posters_explain" version_id="1" version_string="1.0"><![CDATA[(Only if Notification Forum ID is specified) Notify/Subscribe Posters to news notification thread. (Not to the actual news thread, just to the thread telling them to post the news)]]></phrase>
+    <phrase title="option_news_subscribe_posters_explain" version_id="1" version_string="1.0"><![CDATA[(Only if Notification Forum ID is specified) add Watch thread/Subscribe Posters to news notification thread. (Not to the actual news thread, just to the thread telling them to post the news)]]></phrase>
     <phrase title="option_news_users" version_id="1" version_string="1.0"><![CDATA[Poster ID]]></phrase>
     <phrase title="option_news_users_explain" version_id="1" version_string="1.0"><![CDATA[News poster user ID. You may enter more than one by separating by comma  (a random id would be picked).]]></phrase>
     <phrase title="permission_forum_check4Updates" version_id="1" version_string="1.0"><![CDATA[check4Updates]]></phrase>
