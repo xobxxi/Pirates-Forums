@@ -3,15 +3,12 @@
 class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 
 	private static $blogs;
-	public $form_id;
-	public $itemsCount;
 
 	const POSTER_RAMDOM = 1;
 	const POSTER_POSTER_ID = 2;
 	const POSTER_RAMDOM_AND_POSTER_ID = 3;
 	const POSTER_CURRENT_POSTER = 4;
 	const POSTER_DEFAULT =  4;
-
 
 	/**
 	 *
