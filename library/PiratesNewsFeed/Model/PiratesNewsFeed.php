@@ -152,10 +152,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 
 		switch($poster) {
 			default:
-
-				$user  = XenForo_Visitor::getInstance();
-
-			break;
+			case self::POSTER_DEFAULT:
 			case self::POSTER_CURRENT_POSTER:
 
 				$user  = XenForo_Visitor::getInstance();
