@@ -177,8 +177,7 @@ Please try again..
 			<div class="commentContent">
 			<article>
 			<blockquote>
-				{xen:helper bodytext, $news.message}
-				&nbsp;<a href="{$news.url}" target="_blank">View</a> /
+				&nbsp;&nbsp;<a href="{$news.url}" target="_blank">View</a> /
 			<xen:if is="{$news.posted}">
 			<b>Already Posted <xen:if is="{$news.posted}">({$news.posted})</xen:if></b>
 
