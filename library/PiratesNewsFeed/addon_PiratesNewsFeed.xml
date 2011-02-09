@@ -101,7 +101,7 @@
     <phrase title="mark_as_not_posted" version_id="1" version_string="1.0"><![CDATA[Mark as not Posted]]></phrase>
     <phrase title="mark_as_posted" version_id="1" version_string="1.0"><![CDATA[Mark as Posted]]></phrase>
     <phrase title="news_have_been_posted" version_id="1" version_string="1.0"><![CDATA[News Have been Posted. Make sure you refresh the page to reflect changes.]]></phrase>
-    <phrase title="option_group_PiratesNewFeed" version_id="1" version_string="1.0"><![CDATA[Pirates New Feed]]></phrase>
+    <phrase title="option_group_PiratesNewFeed" version_id="1" version_string="1.0"><![CDATA[Pirates News Feed]]></phrase>
     <phrase title="option_group_PiratesNewFeed_description" version_id="1" version_string="1.0"><![CDATA[Fetch news feeds from piratesonline.com]]></phrase>
     <phrase title="option_news_auto_news" version_id="1" version_string="1.0"><![CDATA[Post news Automatically]]></phrase>
     <phrase title="option_news_auto_news_explain" version_id="1" version_string="1.0"><![CDATA[Use Cron to detect and create newly released content/news.]]></phrase>
