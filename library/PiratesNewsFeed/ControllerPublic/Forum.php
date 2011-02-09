@@ -128,11 +128,11 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 			);
 		}
 		$options = array('stripLinkPathTraversal' => XenForo_Visitor::isBrowsingWith('firefox'));
-		$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml(str_replace("\<br\>","\n",$out[1]), $options));
+		$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml(str_replace(array("\<br\>","<br />"),array("\n\n","\n\n"),$out[1]), $options));
 
 		$user = $model->getNewsPoster();
 
-		$model->mkThread($forum_id, $user,$news['title'].' '.$news['date'],$new_message);
+		$model->mkThread($forum_id, $user,str_replace("\\'","'",$news['title']).' '.$news['date'],$new_message);
 
 		$model->markPosted($news['stamp']);
 
