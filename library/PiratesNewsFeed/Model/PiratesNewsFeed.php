@@ -63,18 +63,14 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			if(!$out) {
 				continue;
 			}
+			/*
+			//no used for now..
+			//find brakes
+			$search['<br>'] = "<br /><br />";
+			$search['<br />'] = "<br /><br />";
+			$prepare_message = str_replace(array_keys($search),$search,$out[1]);*/
 
-			$prepare_message = str_replace(
-				array(
-					"\<br\>",
-					"<br />",
-					"<br/>"),
-				array(
-					"\n\n",
-					"\n\n",
-					"\n\n"
-				),$out[1]
-			);
+			$prepare_message = $out[1] ;
 
 			$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml($prepare_message, $msg_options));
 
