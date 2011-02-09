@@ -54,7 +54,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 
 			$user = $model->getNewsPoster();
 
-			$message = self::fetch($v['url']);
+			$message = self::fetch($v['url'],false);
 
 			if(!preg_match("/\<div class\=\"news_body\"\>(.+)\t+\s+\<br\>\<br\>/sm",$message,$out)) {
 				preg_match("/\<div class\=\"news_body\"\>(.+)\n\s+\<div class\=\"next\-previous\"\>/sm",$message,$out);
@@ -81,6 +81,10 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			self::mkThread($forum_id, $user,str_replace("\\'","'",$v['title']).' '.$v['date'],$new_message);
 
 			$model->markPosted($v['stamp']);
+		}
+
+		if(self::$fetch_link) {
+			curl_close(self::$fetch_link);
 		}
 
 		if($xoptions->news_notification_forum && $reportNews) {
@@ -218,6 +222,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		return $user;
 	}
 
+	private static $fetch_link;
 	/**
 	* get a News Page
 	*
@@ -226,22 +231,23 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	* @param boolean $clean_response
 	* @return string
 	*/
-	public function fetch($url)
+	public function fetch($url,$close_link = true)
 	{
-		$link = curl_init();
-		curl_setopt($link, CURLOPT_URL, $url);
+		self::$fetch_link = curl_init();
+		curl_setopt(self::$fetch_link, CURLOPT_URL, $url);
 		//curl_setopt($link, CURLOPT_POSTFIELDS, http_build_query($data));
-		curl_setopt($link, CURLOPT_VERBOSE, 0);
-		curl_setopt($link, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($link, CURLOPT_SSL_VERIFYHOST, 0);
-		curl_setopt($link, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($link, CURLOPT_MAXREDIRS, 6);
-		curl_setopt($link, CURLOPT_CONNECTTIMEOUT, 30);
-		curl_setopt($link, CURLOPT_TIMEOUT, 15); // 60
-		$results=curl_exec($link);
+		curl_setopt(self::$fetch_link, CURLOPT_VERBOSE, 0);
+		curl_setopt(self::$fetch_link, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt(self::$fetch_link, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt(self::$fetch_link, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt(self::$fetch_link, CURLOPT_MAXREDIRS, 6);
+		curl_setopt(self::$fetch_link, CURLOPT_CONNECTTIMEOUT, 30);
+		curl_setopt(self::$fetch_link, CURLOPT_TIMEOUT, 15); // 60
+		$results=curl_exec(self::$fetch_link);
 
-		curl_close($link);
-
+		if($close_link) {
+			curl_close(self::$fetch_link);
+		}
 		return $results;
 	}
 
