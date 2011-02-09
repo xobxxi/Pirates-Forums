@@ -219,11 +219,6 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		$this->_getDataRegistryModel()->delete('PiratesNewsFeedCache');
 	}
 
-	public static function cjax()
-	{
-		require_once 'PiratesNewsFeed/ajax.php';
-	}
-
 	function feed($forum_id, $itemsCount)
 	{
 		if(self::$blogs) {

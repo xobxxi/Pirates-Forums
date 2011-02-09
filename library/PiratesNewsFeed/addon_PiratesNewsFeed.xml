@@ -80,10 +80,21 @@
     <phrase title="permission_forum_check4Updates" version_id="1" version_string="1.0"><![CDATA[check4Updates]]></phrase>
     <phrase title="post_these_news" version_id="1" version_string="1.0"><![CDATA[Post These News!]]></phrase>
     <phrase title="success_generic" version_id="1" version_string="1.0"><![CDATA[The Action Was Performed Successfully.]]></phrase>
+    <phrase title="there_was_an_error_action_could_not_be_completed" version_id="1" version_string="1.0"><![CDATA[There was an error, requested action was not completed.]]></phrase>
   </phrases>
   <route_prefixes/>
   <style_properties/>
   <templates>
+    <template title="PiratesNewsFeed_generic_error" version_id="1" version_string="1.0"><![CDATA[<div id="a1" class="sectionMain">
+<xen:title>{xen:phrase latest_news_from_pirates_online} </xen:title> 
+<div style='padding: 15px'>
+{xen:phrase there_was_an_error_action_could_not_be_completed}
+</div>
+</div>
+
+
+
+]]></template>
     <template title="PiratesNewsFeed_news_error" version_id="1" version_string="1.0"><![CDATA[<div id="a1" class="sectionMain">
 News were not posted. 
 
@@ -98,14 +109,14 @@ Please try again..
 {xen:phrase news_have_been_posted}
 </div>
 
-</div>
-]]></template>
+</div>]]></template>
     <template title="PiratesNewsFeed_news_success_generic" version_id="1" version_string="1.0"><![CDATA[<div id="a1" class="sectionMain">
 <xen:title>{xen:phrase latest_news_from_pirates_online} </xen:title> 
 <div style='padding: 15px'>
 {xen:phrase success_generic}
 </div>
-</div>]]></template>
+</div>
+]]></template>
     <template title="PiratesNewsFeed_news_template" version_id="1" version_string="1.0"><![CDATA[<div id="a1" class="sectionMain">
 <xen:title>{xen:phrase latest_news_from_pirates_online} &nbsp;&nbsp; <a class="OverlayTrigger" href="{$refreshLink}" target="_blank"><img src='http://piratesforums.com/data/refresh.png' title='Refresh' border='0'/></a></xen:title> 
 	
