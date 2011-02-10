@@ -2,7 +2,7 @@
 
 class SubscribeUsers_Listener
 {
-	
+
 	public static function loadClassController($class, array &$extend)
     {
 		switch ($class)
