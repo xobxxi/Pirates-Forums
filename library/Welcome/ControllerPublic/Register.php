@@ -14,11 +14,6 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 		return $response;
 	}
 
-	function actionTest8()
-	{
-		$this->_fireConversation('test4');
-	}
-
 	protected function _fireConversation($recipient)
 	{
 		$options    = XenForo_Application::get('options');
