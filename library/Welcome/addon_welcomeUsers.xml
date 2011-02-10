@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="welcomeUsers" title="Welcome Users" version_string="1.0.2" version_id="2" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="welcomeUsers" title="Welcome Users" version_string="1.1" version_id="3" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -16,19 +16,25 @@
       <default_value>/* This setting is hard coded for our site for greater customization */</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="welcomeUsers" display_order="10"/>
+      <relation group_id="welcomeUsers" display_order="30"/>
     </option>
     <option option_id="welcomeUsers_senders" edit_format="textbox" data_type="string" can_backup="1">
-      <default_value>Davy Darkrage,Treasurer</default_value>
+      <default_value>Treasurer</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="welcomeUsers" display_order="0"/>
+      <relation group_id="welcomeUsers" display_order="10"/>
     </option>
     <option option_id="welcomeUsers_title" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>Welcome to Pirates Forums!</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="welcomeUsers" display_order="5"/>
+      <relation group_id="welcomeUsers" display_order="20"/>
+    </option>
+    <option option_id="welcome_convo_starter" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>Davy Darkrage</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="welcomeUsers" display_order="1"/>
     </option>
   </optiongroups>
   <permissions>
@@ -37,14 +43,16 @@
     <interface_groups/>
   </permissions>
   <phrases>
-    <phrase title="option_group_welcomeUsers" global_cache="0" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[Welcome Users]]></phrase>
-    <phrase title="option_group_welcomeUsers_description" global_cache="0" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[Options for the Welcome Users PC.]]></phrase>
-    <phrase title="option_welcomeUsers_messages" global_cache="0" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[Messages]]></phrase>
-    <phrase title="option_welcomeUsers_messages_explain" global_cache="0" version_id="1" version_string="1.0.1"><![CDATA[Comma separated messages to send to the user. Users will be mapped to them in corresponding order. (If you need something more complex, open up Welcome_ControllerPublic_Register and uncomment the $message array on line 120 and edit to your liking.)]]></phrase>
-    <phrase title="option_welcomeUsers_senders" global_cache="0" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[Senders]]></phrase>
-    <phrase title="option_welcomeUsers_senders_explain" global_cache="0" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[The usernames of the people you want the messages to come from, comma separated. You can have as many senders as there are messages. Users are mapped to messages in order. You cannot list a sender more than once. Any excess messages will come from the last sender.]]></phrase>
-    <phrase title="option_welcomeUsers_title" global_cache="0" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[Title]]></phrase>
-    <phrase title="option_welcomeUsers_title_explain" global_cache="0" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[The title of the PC]]></phrase>
+    <phrase title="option_group_welcomeUsers" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[Welcome Users]]></phrase>
+    <phrase title="option_group_welcomeUsers_description" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[Options for the Welcome Users PC.]]></phrase>
+    <phrase title="option_welcomeUsers_messages" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[Messages]]></phrase>
+    <phrase title="option_welcomeUsers_messages_explain" version_id="1" version_string="1.0.1"><![CDATA[Comma separated messages to send to the user. Users will be mapped to them in corresponding order. (If you need something more complex, open up Welcome_ControllerPublic_Register and uncomment the $message array on line 120 and edit to your liking.)]]></phrase>
+    <phrase title="option_welcomeUsers_senders" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[Senders]]></phrase>
+    <phrase title="option_welcomeUsers_senders_explain" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[The usernames of the people you want the messages to come from, comma separated. You can have as many senders as there are messages. Users are mapped to messages in order. You cannot list a sender more than once. Any excess messages will come from the last sender.]]></phrase>
+    <phrase title="option_welcomeUsers_title" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[Title]]></phrase>
+    <phrase title="option_welcomeUsers_title_explain" version_id="0" version_string="1.0.0 Pre-alpha"><![CDATA[The title of the PC]]></phrase>
+    <phrase title="option_welcome_convo_starter" version_id="2" version_string="1.0.2"><![CDATA[Conversation Starter]]></phrase>
+    <phrase title="option_welcome_convo_starter_explain" version_id="2" version_string="1.0.2"><![CDATA[Username of the person starting the conversation.]]></phrase>
   </phrases>
   <route_prefixes/>
   <style_properties/>
