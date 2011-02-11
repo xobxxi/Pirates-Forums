@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.6.2" version_id="38" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.6.3" version_id="38" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -509,7 +509,7 @@ div.label,
 {
         color: rgb(84, 29, 29) !important;
 }]]></template>
-    <template title="pirateProfile_list" version_id="34" version_string="1.5.1"><![CDATA[<xen:require css="discussion_list.css" />
+    <template title="pirateProfile_list" version_id="38" version_string="1.6.2"><![CDATA[<xen:require css="discussion_list.css" />
 <xen:require css="member_list.css" />
 <xen:require css="pirateProfile_list.css" />
 <xen:require js="js/card/loader.js" />
@@ -592,7 +592,7 @@ div.label,
 			<xen:foreach loop="$recentlyUpdated" value="$pirate">
 			<li>
                                 <xen:avatar user="$pirate.user" size="s" img="true" text="{$pirate.user.username}" class="Tooltip" title="{$pirate.user.username}" />
-				<a href="{xen:link pirates/card, $pirate}" class="pirateName">{$pirate.name}</a>
+				<a href="{xen:link pirates/card, $pirate}" class="pirateName OverlayTrigger">{$pirate.name}</a>
                                 <p class="muted"><em>{xen:phrase pirateProfile_updated}: <xen:datetime time="$pirate.modified_date" /></em></p>
                         </li>
 			</xen:foreach>
@@ -612,7 +612,7 @@ div.label,
 			<xen:foreach loop="$recentlyAdded" value="$pirate">
 			<li>
                                 <xen:avatar user="$pirate.user" size="s" img="true" text="{$pirate.user.username}" class="Tooltip" title="{$pirate.user.username}" />
-				<a href="{xen:link pirates/card, $pirate}" class="pirateName">{$pirate.name}</a>
+				<a href="{xen:link pirates/card, $pirate}" class="pirateName OverlayTrigger">{$pirate.name}</a>
                                 <p class="muted"><em>{xen:phrase pirateProfile_added}: <xen:datetime time="$pirate.modified_date" /></em></p>
                         </li>
 			</xen:foreach>
