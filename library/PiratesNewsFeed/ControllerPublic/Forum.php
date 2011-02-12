@@ -87,7 +87,7 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		}
 
 		$model = XenForo_Model::create('XenForo_Model_Forum');
-		$forum = $forum = $model->getForumById($forum_id);
+		$forum = $model->getForumById($forum_id);
 
 		$viewParams = array(
 			'blog' => $blogs,
@@ -135,7 +135,6 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		$news_id = $this->_input->filterSingle('news_id', XenForo_Input::INT);
 
 		$news = $blogs[$news_id];
-
 
 		$message = $model->fetch($news['url']);
 		//pirates provides service notications in a slightly different format, so if check for news fails then will check with a second regular expression
