@@ -92,26 +92,35 @@ CONVERSATION_MASTER;
 		$user_model = $this->getModelFromCache('Xenforo_Model_User');
 
 		$master_user = $user_model->getUserByName($options->welcome_convo_starter);
-
 		$add_ids_to_convo[] = $master_user['user_id'];
-		$i=0;
+
+		$convo = new convo($starter,$start_message,$participants,$options);
+		$convo->reply($participan,$message);
+
 		foreach ($new_message as $sender_name => $message) {
-				$i++;
 				$sender = $user_model->getUserByName($sender_name);
 
-				$convo['username'] = $sender_name;
-				$convo['user_id']   = $sender['user_id'];
-				$convo['message_date'] = $conversationData['last_message_date']+$i;
-				$convo['message']      = $message;
+				$this->reply($convo['conversation_id'],$sender['user_id'],$message);
 
 				$add_ids_to_convo[] = $sender['user_id'];
-				$this->_replyConversation($convo);
 		}
 		$this->_hideConversationFromUsers($convo['conversation_id'], $add_ids_to_convo);
 
 		return true;
 	}
 
+	function reply($convo_id,$sender_id,$message)
+	{
+		$reply = XenForo_DataWriter::create('XenForo_DataWriter_ConversationMessage');
+		$sender = $user_model->getUserById($sender_id);
+
+		$reply->set('conversation_id',$convo_id);
+		$reply->set('user_id' , $sender_id);
+		$reply->set('username',$sender['username']);
+		$reply->set('message_date' ,  $conversationData['last_message_date'] = $conversationData['last_message_date']+1);
+		$reply->set('message'  , XenForo_Helper_String::autoLinkBbCode($message));
+		$reply->save();
+	}
 
 	protected function _startConversation($conversation, $inviteUser)
 	{
@@ -134,19 +143,17 @@ CONVERSATION_MASTER;
 		return $conversationData;
 	}
 
-	protected function _replyConversation($conversation)
+	private static $_convoClass;
+	/**
+	 *
+	 * @return Welcome_DataWriter_Post
+	 */
+	function _convoClass()
 	{
-		$conversation['message'] = XenForo_Helper_String::autoLinkBbCode($conversation['message']);
-
-		$messageDw = XenForo_DataWriter::create('XenForo_DataWriter_ConversationMessage');
-		$messageDw->set('conversation_id', $conversation['conversation_id']);
-		$messageDw->set('user_id', $conversation['user_id']);
-		$messageDw->set('username', $conversation['username']);
-		$messageDw->set('message_date', $conversation['message_date']);
-		$messageDw->set('message', $conversation['message']);
-		$messageDw->save();
-
-		return true;
+		if(self::$_convoClass) {
+			return self::$_convoClass;
+		}
+		return self::$_convoClass = $this->getModelFromCache('Welcome_DataWriter_Post');
 	}
 
 	protected function _getUserByName($name, $returnId = false)
