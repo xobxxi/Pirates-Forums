@@ -2,6 +2,8 @@
 
 class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_ControllerPublic_Forum
 {
+	Const POSTER_RAMDOM = 1;
+
 	/**
 	 *
 	 * Mark an specific news article as "not posted"
@@ -155,6 +157,23 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml(str_replace(array("\<br\>","<br />"),array("\n\n","\n\n"),$out[1]), $options));
 
 		$user = $model->getNewsPoster();
+		if(!$user) {
+
+			if($poster == self::POSTER_RAMDOM && !$news_group_id) {
+				return $this->responseView(
+					'PiratesNewsFeed_ViewPublic_Forum', // This is a fictional class, don't worry about why I guess lol
+					'PiratesNewsFeed_news_no_postergroup',
+					$viewParams
+				);
+			} else {
+				return $this->responseView(
+					'PiratesNewsFeed_ViewPublic_Forum', // This is a fictional class, don't worry about why I guess lol
+					'PiratesNewsFeed_news_error',
+					$viewParams
+				);
+			}
+
+		}
 
 		$model->mkThread($forum_id, $user,str_replace("\\'","'",$news['title']).' '.$news['date'],$new_message);
 
@@ -163,7 +182,7 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		$model->injectCache($news_id,'message',$new_message);
 
 		return $this->responseView(
-			'PiratesNewsFeed_ViewPublic_Forum_Yo', // This is a fictional class, don't worry about why I guess lol
+			'PiratesNewsFeed_ViewPublic_Forum_Yo',
 			'PiratesNewsFeed_news_posted',
 			$viewParams
 		);

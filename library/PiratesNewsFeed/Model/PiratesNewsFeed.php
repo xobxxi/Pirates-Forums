@@ -174,11 +174,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			case self::POSTER_RAMDOM:
 
 				if(!$news_group_id) {
-					return $this->responseView(
-						'PiratesNewsFeed_ViewPublic_Forum_Yo',
-						'PiratesNewsFeed_news_error',
-						$viewParams
-					);
+					return false;
 				}
 				$permission = $this->getModelFromCache('Xenforo_Model_UserGroup');
 				$user_ids = $permission->getUserIdsInUserGroup($news_group_id);
@@ -401,8 +397,6 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			$blog['date'] = date("M/d/Y", strtotime((string) $v->published));
 			$blog['markPosted'] = XenForo_Link::buildPublicLink("forums/markPosted&news_id={$blog['stamp']}",$forum);
 			$blog['markNotPosted'] = XenForo_Link::buildPublicLink("forums/markNotPosted&news_id={$blog['stamp']}",$forum);
-
-//			$blog['postLink'] = XenForo_Link::buildPublicLink("forums/PostNews?url=".urlencode($blog['url'])."&title={$blog['title']}",$forum);
 
 			$blog['postLink'] = XenForo_Link::buildPublicLink("forums/PostNews/&news_id={$blog['stamp']}",$forum);
 			if(isset($posted[$blog['stamp']])) {
