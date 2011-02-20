@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.6.3" version_id="38" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.7.0" version_id="39" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -72,7 +72,7 @@
     <phrase title="pirateProfile_add_pirate" version_id="0" version_string="1.0.0 Alpha"><![CDATA[Add Pirate]]></phrase>
     <phrase title="pirateProfile_also_comments_on_a_pirate" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[Also comments on a pirate]]></phrase>
     <phrase title="pirateProfile_and" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[and]]></phrase>
-    <phrase title="pirateProfile_click_a_pirate_to_view_more_information" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Click a pirate to view info.]]></phrase>
+    <phrase title="pirateProfile_click_a_pirate_to_view_more_information" version_id="38" version_string="1.6.3"><![CDATA[Click on a pirate name to view details:]]></phrase>
     <phrase title="pirateProfile_commenting_on_a_pirate" version_id="19" version_string="1.2.0"><![CDATA[Commenting on a pirate]]></phrase>
     <phrase title="pirateProfile_comments_on_pirate_x" version_id="18" version_string="1.1.0"><![CDATA[Comments on Pirate: {pirate}]]></phrase>
     <phrase title="pirateProfile_comments_on_your_pirate" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[Comments on your pirate]]></phrase>
@@ -173,40 +173,40 @@
   </route_prefixes>
   <style_properties/>
   <templates>
-    <template title="alert_pirate_comment_other_commenter" version_id="18" version_string="1.1.0"><![CDATA[{xen:phrase pirateProfile_x_also_commented_on_ys_pirate,
+    <template title="alert_pirate_comment_other_commenter" version_id="38" version_string="1.6.3"><![CDATA[{xen:phrase pirateProfile_x_also_commented_on_ys_pirate,
 	'name={xen:helper username, $user, 'subject'}',
         'owner={$content.username}',
-	'pirate_attributes=href="{xen:link pirates/card, $content}" class="PopupItemLink"',
+	'pirate_attributes=href="{xen:link pirates/card, $content}" class="PopupItemLink OverlayTrigger"',
 	'pirate={$content.name}'}]]></template>
-    <template title="alert_pirate_comment_your_pirate" version_id="18" version_string="1.1.0"><![CDATA[{xen:phrase pirateProfile_x_commented_on_your_pirate,
+    <template title="alert_pirate_comment_your_pirate" version_id="38" version_string="1.6.3"><![CDATA[{xen:phrase pirateProfile_x_commented_on_your_pirate,
 	'name={xen:helper username, $user, 'subject'}',
-	'pirate_attributes=href="{xen:link pirates/card, $content}" class="PopupItemLink"',
+	'pirate_attributes=href="{xen:link pirates/card, $content}" class="PopupItemLink OverlayTrigger"',
         'pirate={$content.name}'}]]></template>
-    <template title="alert_pirate_like" version_id="18" version_string="1.1.0"><![CDATA[{xen:phrase pirateProfile_x_liked_your_pirate,
+    <template title="alert_pirate_like" version_id="38" version_string="1.6.3"><![CDATA[{xen:phrase pirateProfile_x_liked_your_pirate,
 	'name={xen:helper username, $user, 'subject'}',
-	'pirate_attributes=href="{xen:link pirates/card, $content}" class="PopupItemLink"',
+	'pirate_attributes=href="{xen:link pirates/card, $content}" class="PopupItemLink OverlayTrigger"',
         'pirate={$content.name}'
 }]]></template>
-    <template title="news_feed_item_pirate_add" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_pirate_add" version_id="38" version_string="1.6.3"><![CDATA[<h3 class="description">
 {xen:phrase pirateProfile_x_has_added_a_new_pirate_y,
        'username={xen:helper username, $user, 'primaryText'}',
-       'pirate=<a href="{xen:link pirates/card, $content}">{$content.name}</a>'
+       'pirate=<a href="{xen:link pirates/card, $content}" class="OverlayTrigger">{$content.name}</a>'
 }
 </h3>
 <p class="snippet">{xen:phrase pirateProfile_pirate_notoriety} {xen:phrase pirateProfile_pirate_level}: {$content.level}</p>
 ]]></template>
-    <template title="news_feed_item_pirate_extra" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_pirate_extra" version_id="38" version_string="1.6.3"><![CDATA[<h3 class="description">
 {xen:phrase pirateProfile_xs_pirate_y_has_been_updated,
        'username={xen:helper username, $user, 'primaryText'}',
-       'pirate=<a href="{xen:link pirates/card, $content}">{$content.name}</a>'
+       'pirate=<a href="{xen:link pirates/card, $content}" class="OverlayTrigger">{$content.name}</a>'
 }
 </h3>
 <p class="snippet">{$extra}</p>
 ]]></template>
-    <template title="news_feed_item_pirate_guild" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_pirate_guild" version_id="38" version_string="1.6.3"><![CDATA[<h3 class="description">
 {xen:phrase pirateProfile_xs_pirate_y_has_joined_guild_z,
        'username={xen:helper username, $user, 'primaryText'}',
-       'pirate=<a href="{xen:link pirates/card, $content}">{$content.name}</a>',
+       'pirate=<a href="{xen:link pirates/card, $content}" class="OverlayTrigger">{$content.name}</a>',
        'guild=<em>{$guild.new}</em>'
 }
 </h3>
@@ -214,10 +214,10 @@
         <p class="snippet">{xen:phrase pirateProfile_formerly_x, 'old=in "<em>{$guild.old}</em>"'}</p>
 </xen:if>
 ]]></template>
-    <template title="news_feed_item_pirate_level" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_pirate_level" version_id="38" version_string="1.6.3"><![CDATA[<h3 class="description">
 {xen:phrase pirateProfile_xs_pirate_y_has,
        'username={xen:helper username, $user, 'primaryText'}',
-       'pirate=<a href="{xen:link pirates/card, $content}">{$content.name}</a>'
+       'pirate=<a href="{xen:link pirates/card, $content}" class="OverlayTrigger">{$content.name}</a>'
 }
 <xen:if is="{$none}">
         <xen:foreach loop="$skills" key="$skill" value="$level">
@@ -237,34 +237,34 @@
 </xen:if>
 </h3>
 <p class="snippet">{xen:phrase pirateProfile_congrats}</p>]]></template>
-    <template title="news_feed_item_pirate_like" version_id="25" version_string="1.4.0 RC 3"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_pirate_like" version_id="38" version_string="1.6.3"><![CDATA[<h3 class="description">
 <xen:if is="{$content.user_id} != {$visitor.user_id}">
 {xen:phrase pirateProfile_x_liked_ys_pirate,
 	'name={xen:helper username, $user, 'primaryText'}',
         'username={xen:helper username, $owner}',
-	'pirate_attributes=href="{xen:link pirates/card, $content}"',
+	'pirate_attributes=href="{xen:link pirates/card, $content}" class="OverlayTrigger"',
         'pirate={$content.name}'
 }
 <xen:else />
 {xen:phrase pirateProfile_x_liked_your_pirate,
 	'name={xen:helper username, $user, 'primaryText'}',
-	'pirate_attributes=href="{xen:link pirates/card, $content}"',
+	'pirate_attributes=href="{xen:link pirates/card, $content}" class="OverlayTrigger"',
         'pirate={$content.name}'
 }
 </xen:if>
 </h3>]]></template>
-    <template title="news_feed_item_pirate_name" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_pirate_name" version_id="38" version_string="1.6.3"><![CDATA[<h3 class="description">
 {xen:phrase pirateProfile_xs_pirate_y_has_gotten_new_name,
        'username={xen:helper username, $user, 'primaryText'}',
-       'pirate=<a href="{xen:link pirates/card, $content}">{$content.name}</a>'
+       'pirate=<a href="{xen:link pirates/card, $content}" class="OverlayTrigger">{$content.name}</a>'
 }
 </h3>
 <p class="snippet">{xen:phrase pirateProfile_formerly_x, 'old=<em>{$name.old}</em>'}</p>
 ]]></template>
-    <template title="news_feed_item_pirate_picture" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_pirate_picture" version_id="38" version_string="1.6.3"><![CDATA[<h3 class="description">
 {xen:phrase pirateProfile_xs_pirate_y_has_new_card_picture,
        'username={xen:helper username, $user, 'primaryText'}',
-       'pirate=<a href="{xen:link pirates/card, $content}">{$content.name}</a>'
+       'pirate=<a href="{xen:link pirates/card, $content}" class="OverlayTrigger">{$content.name}</a>'
 }
 </h3>
 ]]></template>
@@ -716,14 +716,14 @@ div.label,
         <li><a href="{xen:link pirates/add}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:phrase pirateProfile_add_pirate}</a></li>
         </xen:if>
 </ul>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="34" version_string="1.5.1"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="38" version_string="1.6.3"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
 <xen:require js="js/card/skills.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
 <xen:require css="message.css" />
 <xen:require css="message_simple.css" />
 
-<xen:title>{$pirate.name}</xen:title>
+<xen:title>{xen:phrase pirateProfile_pirate_x, 'pirate={$pirate.name}'}</xen:title>
 
 <xen:navigation>
         <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
@@ -1201,8 +1201,75 @@ div.label,
 </li>
 
 <xen:edithint template="pirateProfile_view" />]]></template>
-    <template title="pirateProfile_view" version_id="34" version_string="1.5.1"><![CDATA[<xen:require js="js/card/loader.js" />
-<xen:require css="pirateProfile_view.css" />
+    <template title="pirateProfile_recent_activity_block_items" version_id="38" version_string="1.6.3"><![CDATA[<xen:foreach loop="$newsFeed" value="$item">
+	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'add'">
+		{xen:phrase pirateProfile_x_has_added_a_new_pirate_y,
+		       'username={xen:helper username, $item.user, 'primaryText'}',
+		       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
+		}
+	</xen:if>
+
+	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'guild'">
+		{xen:phrase pirateProfile_xs_pirate_y_has_joined_guild_z,
+		       'username={xen:helper username, $item.user, 'primaryText'}',
+		       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>',
+		       'guild=<em>{$item.guild.new}</em>'
+		}
+	</xen:if>
+
+	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'level'">
+		{xen:phrase pirateProfile_xs_pirate_y_has,
+		       'username={xen:helper username, $item.user, 'primaryText'}',
+		       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
+		}
+		<xen:if is="{$item.none}">
+		       <xen:foreach loop="$item.skills" key="$skill" value="$level">
+	                                     {xen:phrase pirateProfile_reached} <em>{$skill} {xen:phrase pirateProfile_pirate_level} {$level}!</em>
+	                             </xen:foreach>
+		<xen:else />
+			{xen:phrase pirateProfile_leveled} {xen:phrase pirateProfile_up}!
+		</xen:if>
+	</xen:if>
+
+	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'name'">
+		{xen:phrase pirateProfile_xs_pirate_y_has_gotten_new_name,
+		       'username={xen:helper username, $item.user, 'primaryText'}',
+		       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
+		}
+	</xen:if>
+
+	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'picture'">
+		{xen:phrase pirateProfile_xs_pirate_y_has_new_card_picture,
+		       'username={xen:helper username, $item.user, 'primaryText'}',
+		       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
+		}
+	</xen:if>
+
+	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'extra'">                       
+		{xen:phrase pirateProfile_xs_pirate_y_has_been_updated,
+			'username={xen:helper username, $item.user, 'primaryText'}',
+				'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
+		}
+	</xen:if>
+              
+	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'like'">
+		<xen:if is="{$item.owner.user_id} != {$visitor.user_id}">
+			{xen:phrase pirateProfile_x_liked_ys_pirate,
+			 	'name={xen:helper username, $item.user, 'subject primaryText'}',
+				'username={xen:helper username, $item.owner}',
+				'pirate_attributes=href="{xen:link pirates/card, $item.content}" class="PopupItemLink OverlayTrigger"',
+				'pirate={$item.content.name}'
+			}.
+		<xen:else />
+			{xen:phrase pirateProfile_x_liked_your_pirate,
+			 	'name={xen:helper username, $item.user, 'subject primaryText'}',
+			 	'pirate_attributes=href="{xen:link pirates/card, $item.content}" class="PopupItemLink OverlayTrigger"',
+			    'pirate={$item.content.name}'
+			}.
+		</xen:if>
+	</xen:if>
+</xen:foreach>]]></template>
+    <template title="pirateProfile_view" version_id="38" version_string="1.6.3"><![CDATA[<xen:require css="pirateProfile_view.css" />
 
 <xen:title>{xen:phrase pirateProfile_xs_pirates, 'username={$user.username}'}</xen:title>
 
@@ -1218,12 +1285,9 @@ div.label,
                 <p>{xen:phrase pirateProfile_click_a_pirate_to_view_more_information}</p>
                  <ol>
                  <xen:foreach loop="$pirates" value="$pirate">
-                         <li><a href="{xen:link pirates/card, $pirate}" class="CardLoader">{$pirate.name}</a></li>
+                         <li><a href="{xen:link pirates/card, $pirate}" class="OverlayTrigger">{$pirate.name}</a></li>
 		</xen:foreach>
                </ol>
-        </div>
-        <div id="cardLoader">
-                <div id="pirateContainer"></div>
         </div>
         <xen:else />
         <xen:if is="{$visitor.user_id} != {$user.user_id}">
@@ -1244,7 +1308,7 @@ div.label,
 </div>
 
 <xen:edithint template="pirateProfile_pirate_card" />]]></template>
-    <template title="pirateProfile_view.css" version_id="35" version_string="1.6.0"><![CDATA[#pirateList, #cardLoader
+    <template title="pirateProfile_view.css" version_id="38" version_string="1.6.3"><![CDATA[#pirateList, #cardLoader
 {
         display: inline-block;
         vertical-align: top;
@@ -1255,24 +1319,6 @@ div.label,
         margin-left: 20px;
         list-style-type: disc;
 }
-#pirateContainer,
-#pirateContainer .sectionMain
-{
-        background-color: transparent;
-        margin: 0;
-        padding: 0;
-        border: none;
-        float: right;
-}
-
-#pirateContainer .primaryContent
-{
-        border-bottom: none;
-}
-
-#pirateProfile .sectionFooter
-{
-        margin-top: 5px;
-}]]></template>
+]]></template>
   </templates>
 </addon>
