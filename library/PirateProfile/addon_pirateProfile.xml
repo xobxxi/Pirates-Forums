@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.7.0" version_id="39" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.7.1" version_id="40" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1201,74 +1201,72 @@ div.label,
 </li>
 
 <xen:edithint template="pirateProfile_view" />]]></template>
-    <template title="pirateProfile_recent_activity_block_items" version_id="38" version_string="1.6.3"><![CDATA[<xen:foreach loop="$newsFeed" value="$item">
-	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'add'">
-		{xen:phrase pirateProfile_x_has_added_a_new_pirate_y,
-		       'username={xen:helper username, $item.user, 'primaryText'}',
-		       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
-		}
-	</xen:if>
+    <template title="pirateProfile_recent_activity_block_items" version_id="39" version_string="1.7.0"><![CDATA[<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'add'">
+	{xen:phrase pirateProfile_x_has_added_a_new_pirate_y,
+	       'username={xen:helper username, $item.user, 'primaryText'}',
+	       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
+	}
+</xen:if>
 
-	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'guild'">
-		{xen:phrase pirateProfile_xs_pirate_y_has_joined_guild_z,
-		       'username={xen:helper username, $item.user, 'primaryText'}',
-		       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>',
-		       'guild=<em>{$item.guild.new}</em>'
-		}
-	</xen:if>
+<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'guild'">
+	{xen:phrase pirateProfile_xs_pirate_y_has_joined_guild_z,
+	       'username={xen:helper username, $item.user, 'primaryText'}',
+	       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>',
+	       'guild=<em>{$item.guild.new}</em>'
+	}
+</xen:if>
 
-	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'level'">
-		{xen:phrase pirateProfile_xs_pirate_y_has,
-		       'username={xen:helper username, $item.user, 'primaryText'}',
-		       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
-		}
-		<xen:if is="{$item.none}">
-		       <xen:foreach loop="$item.skills" key="$skill" value="$level">
-	                                     {xen:phrase pirateProfile_reached} <em>{$skill} {xen:phrase pirateProfile_pirate_level} {$level}!</em>
-	                             </xen:foreach>
-		<xen:else />
-			{xen:phrase pirateProfile_leveled} {xen:phrase pirateProfile_up}!
-		</xen:if>
+<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'level'">
+	{xen:phrase pirateProfile_xs_pirate_y_has,
+	       'username={xen:helper username, $item.user, 'primaryText'}',
+	       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
+	}
+	<xen:if is="{$item.none}">
+	       <xen:foreach loop="$item.skills" key="$skill" value="$level">
+                                     {xen:phrase pirateProfile_reached} <em>{$skill} {xen:phrase pirateProfile_pirate_level} {$level}!</em>
+                             </xen:foreach>
+	<xen:else />
+		{xen:phrase pirateProfile_leveled} {xen:phrase pirateProfile_up}!
 	</xen:if>
+</xen:if>
 
-	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'name'">
-		{xen:phrase pirateProfile_xs_pirate_y_has_gotten_new_name,
-		       'username={xen:helper username, $item.user, 'primaryText'}',
-		       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
-		}
-	</xen:if>
+<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'name'">
+	{xen:phrase pirateProfile_xs_pirate_y_has_gotten_new_name,
+	       'username={xen:helper username, $item.user, 'primaryText'}',
+	       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
+	}
+</xen:if>
 
-	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'picture'">
-		{xen:phrase pirateProfile_xs_pirate_y_has_new_card_picture,
-		       'username={xen:helper username, $item.user, 'primaryText'}',
-		       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
-		}
-	</xen:if>
+<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'picture'">
+	{xen:phrase pirateProfile_xs_pirate_y_has_new_card_picture,
+	       'username={xen:helper username, $item.user, 'primaryText'}',
+	       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
+	}
+</xen:if>
 
-	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'extra'">                       
-		{xen:phrase pirateProfile_xs_pirate_y_has_been_updated,
-			'username={xen:helper username, $item.user, 'primaryText'}',
-				'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
-		}
+<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'extra'">                       
+	{xen:phrase pirateProfile_xs_pirate_y_has_been_updated,
+		'username={xen:helper username, $item.user, 'primaryText'}',
+			'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger">{$item.content.name}</a>'
+	}
+</xen:if>
+          
+<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'like'">
+	<xen:if is="{$item.owner.user_id} != {$visitor.user_id}">
+		{xen:phrase pirateProfile_x_liked_ys_pirate,
+		 	'name={xen:helper username, $item.user, 'subject primaryText'}',
+			'username={xen:helper username, $item.owner}',
+			'pirate_attributes=href="{xen:link pirates/card, $item.content}" class="PopupItemLink OverlayTrigger"',
+			'pirate={$item.content.name}'
+		}.
+	<xen:else />
+		{xen:phrase pirateProfile_x_liked_your_pirate,
+		 	'name={xen:helper username, $item.user, 'subject primaryText'}',
+		 	'pirate_attributes=href="{xen:link pirates/card, $item.content}" class="PopupItemLink OverlayTrigger"',
+		    'pirate={$item.content.name}'
+		}.
 	</xen:if>
-              
-	<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'like'">
-		<xen:if is="{$item.owner.user_id} != {$visitor.user_id}">
-			{xen:phrase pirateProfile_x_liked_ys_pirate,
-			 	'name={xen:helper username, $item.user, 'subject primaryText'}',
-				'username={xen:helper username, $item.owner}',
-				'pirate_attributes=href="{xen:link pirates/card, $item.content}" class="PopupItemLink OverlayTrigger"',
-				'pirate={$item.content.name}'
-			}.
-		<xen:else />
-			{xen:phrase pirateProfile_x_liked_your_pirate,
-			 	'name={xen:helper username, $item.user, 'subject primaryText'}',
-			 	'pirate_attributes=href="{xen:link pirates/card, $item.content}" class="PopupItemLink OverlayTrigger"',
-			    'pirate={$item.content.name}'
-			}.
-		</xen:if>
-	</xen:if>
-</xen:foreach>]]></template>
+</xen:if>]]></template>
     <template title="pirateProfile_view" version_id="38" version_string="1.6.3"><![CDATA[<xen:require css="pirateProfile_view.css" />
 
 <xen:title>{xen:phrase pirateProfile_xs_pirates, 'username={$user.username}'}</xen:title>
