@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="AutoUpdater" title="AutoUpdater 1.0" version_string="1.01" version_id="2" url="http://phpmember.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="AutoUpdater_Listener" callback_method="loadClassController" active="1" description=""/>
+    <listener event_id="template_hook" execute_order="10" callback_class="AutoUpdater_Listener" callback_method="load_cjax" active="1" description=""/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <optiongroups>
+    <group group_id="AutoUpdaterGroup" display_order="0" debug_only="0"/>
+    <option option_id="AutoUpdaterIndex" edit_format="onoff" data_type="string" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params>1=Yes
+0=No</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="AutoUpdaterGroup" display_order="1"/>
+    </option>
+    <option option_id="AutoUpdaterInterval" edit_format="spinbox" data_type="string" can_backup="1">
+      <default_value>30</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="AutoUpdaterGroup" display_order="50"/>
+    </option>
+    <option option_id="AutoUpdaterOnOff" edit_format="radio" data_type="string" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>1=On
+0=Off</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="AutoUpdaterGroup" display_order="0"/>
+    </option>
+    <option option_id="AutoUpdaterSound" edit_format="onoff" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params>0=No
+1=Yes</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="AutoUpdaterGroup" display_order="10"/>
+    </option>
+    <option option_id="AutoUpdaterThreads" edit_format="onoff" data_type="string" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params>1=Yes
+0=No</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="AutoUpdaterGroup" display_order="1"/>
+    </option>
+    <option option_id="AutoUpdaterTimeEngine" edit_format="radio" data_type="string" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params>0=PHP
+1=JavaScript</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="AutoUpdaterGroup" display_order="60"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions>
+      <permission permission_group_id="general" permission_id="AutoUpdater" permission_type="flag" default_value="unset" interface_group_id="generalPermissions" display_order="1"/>
+    </permissions>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="option_AutoUpdaterIndex" version_id="1" version_string="1.0"><![CDATA[Use AutoUpdater on forums home page.]]></phrase>
+    <phrase title="option_AutoUpdaterIndex_explain" version_id="1" version_string="1.0"><![CDATA[Will check for new items (unread messages, and new alerts) while on main forums.]]></phrase>
+    <phrase title="option_AutoUpdaterInterval" version_id="1" version_string="1.0"><![CDATA[Interval In Seconds]]></phrase>
+    <phrase title="option_AutoUpdaterInterval_explain" version_id="1" version_string="1.0"><![CDATA[Type in seconds, how often should AutoUpdater check for new items.]]></phrase>
+    <phrase title="option_AutoUpdaterOnOff" version_id="1" version_string="1.0"><![CDATA[On/Off]]></phrase>
+    <phrase title="option_AutoUpdaterOnOff_explain" version_id="1" version_string="1.0"><![CDATA[Turn AutoUpdater On/Off]]></phrase>
+    <phrase title="option_AutoUpdaterSound" version_id="1" version_string="1.0"><![CDATA[Play Sound]]></phrase>
+    <phrase title="option_AutoUpdaterSound_explain" version_id="1" version_string="1.0"><![CDATA[Play sound when there are new messages or alerts.]]></phrase>
+    <phrase title="option_AutoUpdaterThreads" version_id="1" version_string="1.0"><![CDATA[Use AutoUpdater while browsing threads.]]></phrase>
+    <phrase title="option_AutoUpdaterThreads_explain" version_id="1" version_string="1.0"><![CDATA[Enables AutoUpdater while browsing thread listings.]]></phrase>
+    <phrase title="option_AutoUpdaterTimeEngine" version_id="1" version_string="1.0"><![CDATA[Timer Engine]]></phrase>
+    <phrase title="option_AutoUpdaterTimeEngine_explain" version_id="1" version_string="1.0"><![CDATA[Timer engine keep track of time. JavaScript sets a waiting timer for future events. While PHP puts the script to sleep. Use what works best for you.]]></phrase>
+    <phrase title="option_group_AutoUpdaterGroup" version_id="1" version_string="1.0"><![CDATA[AutoUpdater 1.0]]></phrase>
+    <phrase title="option_group_AutoUpdaterGroup_description" version_id="1" version_string="1.0"><![CDATA[AutoUpdater by Ajaxboy - updates items of the page without refreshing it.]]></phrase>
+    <phrase title="permission_general_AutoUpdater" version_id="1" version_string="1.0"><![CDATA[AutoUpdater]]></phrase>
+    <phrase title="pirates_news_feed_no_group_error" version_id="1" version_string="1.0"><![CDATA[No news reporter/poster group was defined. Please defined a news group or try a different option, then try again.]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates/>
+</addon>

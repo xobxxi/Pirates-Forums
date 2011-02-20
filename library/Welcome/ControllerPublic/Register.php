@@ -94,9 +94,11 @@ CONVERSATION_MASTER;
 		$master_user = $user_model->getUserByName($options->welcome_convo_starter);
 		$add_ids_to_convo[] = $master_user['user_id'];
 
-		$convo = new convo($starter,$start_message,$participants,$options);
-		$convo->reply($participan,$message);
+		//$convo = self::_convoClass($starter,$start_message,$participants,$options);
+		$convo = XenForo_DataWriter::create('XenForo_DataWriter_ConversationMessage');
 
+		//$convo->reply($participan,$message);
+//$reply = self::_convoClass();
 		foreach ($new_message as $sender_name => $message) {
 				$sender = $user_model->getUserByName($sender_name);
 

@@ -1,0 +1,12 @@
+#Some systems might restrict access to remote unrecognized paths. This ensures the files are here are readable.
+Order deny,allow
+deny from all
+#give only explicit access to our ajax processor
+<Files "ajax.php">
+     Order Deny,Allow
+     Allow from All
+</Files>
+<Files "sound.swf">
+     Order Deny,Allow
+     Allow from All
+</Files>
