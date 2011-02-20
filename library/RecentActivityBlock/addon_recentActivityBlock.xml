@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="recentActivityBlock" title="Recent Activity Block" version_string="1.2.0" version_id="9" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="recentActivityBlock" title="Recent Activity Block" version_string="1.2.1" version_id="10" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -43,7 +43,7 @@
 	        </xen:include>
         </div>
 </div>]]></template>
-    <template title="sidebar_recent_activity_feed" version_id="0" version_string="1.0.0"><![CDATA[<xen:if is="{$newsFeed}">
+    <template title="sidebar_recent_activity_feed" version_id="9" version_string="1.2.0"><![CDATA[<xen:if is="{$newsFeed}">
 	<ol>
 		<xen:foreach loop="$newsFeed" value="$item">		
 			<xen:include template="sidebar_recent_activity_feed_item" />
@@ -52,7 +52,7 @@
 <xen:else />
 	{xen:raw $noContentHtml}
 </xen:if>]]></template>
-    <template title="sidebar_recent_activity_feed_item" version_id="8" version_string="1.1.2"><![CDATA[<xen:require css="sidebar_recent_activity_feed_item.css" />
+    <template title="sidebar_recent_activity_feed_item" version_id="9" version_string="1.2.0"><![CDATA[<xen:require css="sidebar_recent_activity_feed_item.css" />
 
 <li data-author="{$item.username}">
 	<xen:avatar user="$item" size="s" img="true" />
@@ -149,8 +149,8 @@
 
 				</xen:if>
 		</xen:if>
-		
-		<xen:hook name="recentActivityBlock_items" />
+
+                <xen:hook name="recentActivityBlock_items" params="{xen:array 'item={$item}'}" />
 
 		<br />
      	<span class="muted"><xen:datetime time="$item.event_date" /></span>
