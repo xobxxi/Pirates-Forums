@@ -28,6 +28,13 @@ class PirateProfile_Listener
 			case 'member_view_tabs_content':
 				$contents .= $template->create('pirateProfile_profile_tab_content', $params)->render();
 				return $contents;
+			case 'recentActivityBlock_items':
+				$recentActivity = XenForo_Model::create('RecentActivityBlock_Model_RecentActivity');
+				$activity       = $recentActivity->getRecentActivity();
+				if (empty($activity)) return $contents;
+				$params        += $activity;
+				$contents .= $template->create('pirateProfile_recent_activity_block_items', $params)->render();
+				return $contents;
 		}
 	}
 }
