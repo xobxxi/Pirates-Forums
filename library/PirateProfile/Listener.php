@@ -17,16 +17,29 @@ class PirateProfile_Listener
 		switch ($name)
 		{
 			case 'account_wrapper_sidebar':
-				$params  .= array('visitor' => XenForo_Visitor::getInstance());
+				$params  += array('visitor' => XenForo_Visitor::getInstance());
 				$search   = 'Personal Details</a></li>';
 				$replace  = $template->create('pirateProfile_account_management_list_item', $params)->render();
 				$contents = str_replace($search, $search . "\n" . $replace, $contents);
+				return $contents;
+			case 'account_alerts_extra':
+				$contents .= $template->create('pirateProfile_alert_preferences', $params)->render();
 				return $contents;
 			case 'member_view_tabs_heading':
 				$contents .= $template->create('pirateProfile_profile_tab', $params)->render();
 				return $contents;
 			case 'member_view_tabs_content':
 				$contents .= $template->create('pirateProfile_profile_tab_content', $params)->render();
+				return $contents;
+			case 'member_card_links':
+				$search   = 'Profile Page</a>';
+				$replace  = $template->create('pirateProfile_member_card_link_item', $params)->render();
+				$contents = str_replace($search, $search . "\n" . $replace, $contents);
+				return $contents;
+			case 'navigation_visitor_tab_links2':
+				$search   = '<ul class="col2 blockLinksList">';
+				$replace  = $template->create('pirateProfile_navigation_list_item_member', $params)->render();
+				$contents = str_replace($search, $search . "\n" . $replace, $contents);
 				return $contents;
 			case 'recentActivityBlock_items':
 				$contents .= $template->create('pirateProfile_recent_activity_block_items', $params)->render();

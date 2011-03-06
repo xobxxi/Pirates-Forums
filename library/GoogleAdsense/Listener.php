@@ -8,10 +8,13 @@ class GoogleAdsense_Listener
 		switch ($name)
 		{
 			case 'forum_list_sidebar':
-				$rightBar  = $template->create('googleAdsense_rightbar')->render();
-				if (empty($rightBar)) return $contents;
-				$contents .= $rightBar;
-			return $contents;
+				$template  = $template->create('googleAdsense_rightbar', $params)->render();
+				$contents .= $template;
+				return $contents;
+			case 'page_container_breadcrumb_bottom':
+				$template = $template->create('googleAdsense_footer', $params)->render();
+				$contents = $template . $contents;
+				return $contents;
 		}
 	}
 }

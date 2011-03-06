@@ -102,98 +102,6 @@
     <property property_name="editorContent" property_type="css"><![CDATA[{"background-color":"rgb(255, 255, 255)"}]]></property>
   </properties>
   <templates>
-    <template title="account_alert_preferences" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{xen:phrase alert_preferences}</xen:title>
-
-<xen:require css="account.css" />
-<xen:require js="js/xenforo/personal_details_editor.js" />
-
-<xen:edithint template="account_avatar_overlay.css" />
-<xen:edithint template="account_avatar_overlay" />
-
-<form method="post" class="xenForm AutoValidator"
-	action="{xen:link 'account/alert-preferences-save'}"
-	data-fieldValidatorUrl="{xen:link 'account/validate-field.json'}">
-	
-	<h3 class="textHeading">{xen:phrase messages_in_threads}</h3>
-	<dl class="ctrlUnit">
-		<dt>{xen:phrase receive_alert_when_someone}...</dt>
-		<dd>
-			<ul>
-				<li><input type="hidden" name="alertSet[post_insert]" value="1" />
-					<label><input type="checkbox" value="1" name="alert[post_insert]" {xen:checked "!{$alertOptOuts.post_insert}"} /> {xen:phrase replies_to_watched_thread}</label>
-					<p class="hint">{xen:phrase someone_replies_to_thread_you_are_watching}</p>
-				</li>
-				<li><input type="hidden" name="alertSet[post_insert_attachment]" value="1" />
-					<label><input type="checkbox" value="1" name="alert[post_insert_attachment]" {xen:checked "!{$alertOptOuts.post_insert_attachment}"} /> {xen:phrase attaches_file_to_watched_thread}</label>
-					<p class="hint">{xen:phrase someone_replies_and_attaches_a_file_to_a_thread_you_are_watching}</p>
-				</li>
-				<li><input type="hidden" name="alertSet[post_quote]" value="1" />
-					<label><input type="checkbox" value="1" name="alert[post_quote]" {xen:checked "!{$alertOptOuts.post_quote}"} /> {xen:phrase quotes_your_message}</label>
-					<p class="hint">{xen:phrase someone_directly_quotes_one_of_your_messages_in_thread}</p>
-				</li>
-				<li><input type="hidden" name="alertSet[post_like]" value="1" />
-					<label><input type="checkbox" value="1" name="alert[post_like]" {xen:checked "!{$alertOptOuts.post_like}"} /> {xen:phrase likes_your_message}</label>
-					<p class="hint">{xen:phrase someone_likes_one_of_your_messages_in_thread}</p>
-				</li>
-			</ul> 
-		</dd>
-	</dl>
-	
-	<h3 class="textHeading">{xen:phrase messages_on_profile_pages}</h3>
-	<dl class="ctrlUnit">
-		<dt>{xen:phrase receive_alert_when_someone}...</dt>
-		<dd>
-			<ul>                                            
-				<li><input type="hidden" name="alertSet[profile_post_insert]" value="1" />
-					<label><input type="checkbox" value="1" name="alert[profile_post_insert]" {xen:checked "!{$alertOptOuts.profile_post_insert}"} /> {xen:phrase posts_on_your_profile}</label>
-					<p class="hint">{xen:phrase someone_posts_message_on_your_profile_page}</p>
-				</li>
-				<li><input type="hidden" name="alertSet[profile_post_comment_your_profile]" value="1" />
-					<label><input type="checkbox" value="1" name="alert[profile_post_comment_your_profile]" {xen:checked "!{$alertOptOuts.profile_post_comment_your_profile}"} /> {xen:phrase comments_on_your_profile_or_status}</label>
-					<p class="hint">{xen:phrase someone_comments_on_message_on_your_profile_page_or_your_status}</p>
-				</li>
-				<li><input type="hidden" name="alertSet[profile_post_comment_your_post]" value="1" />
-					<label><input type="checkbox" value="1" name="alert[profile_post_comment_your_post]" {xen:checked "!{$alertOptOuts.profile_post_comment_your_post}"} /> {xen:phrase comments_on_your_profile_posts_for_other_members}</label>
-					<p class="hint">{xen:phrase someone_comments_on_message_you_left_on_someone_elses_profile}</p>
-				</li>
-				<li><input type="hidden" name="alertSet[profile_post_comment_other_commenter]" value="1" />
-					<label><input type="checkbox" value="1" name="alert[profile_post_comment_other_commenter]" {xen:checked "!{$alertOptOuts.profile_post_comment_other_commenter}"} /> {xen:phrase also_comments_on_profile_post}</label>
-					<p class="hint">{xen:phrase someone_comments_on_profile_post_that_you_have_commented_on}</p>
-				</li>
-				<li><input type="hidden" name="alertSet[profile_post_like]" value="1" />
-					<label><input type="checkbox" value="1" name="alert[profile_post_like]" {xen:checked "!{$alertOptOuts.profile_post_like}"} /> {xen:phrase likes_your_profile_post}</label>
-					<p class="hint">{xen:phrase someone_likes_message_you_left_on_member_profile_page}</p>
-				</li>
-			</ul>
-		</dd>
-	</dl>
-
-        <xen:include template="pirateProfile_alert_preferences" />
-		
-	<h3 class="textHeading">{xen:phrase achievements}</h3>
-	<dl class="ctrlUnit">
-		<dt>{xen:phrase receive_alert_when_you_receive}...</dt>
-		<dd>
-			<ul>
-				<li><input type="hidden" name="alertSet[user_following]" value="1" />
-					<label><input type="checkbox" value="1" name="alert[user_following]" {xen:checked "!{$alertOptOuts.user_following}"} /> {xen:phrase new_follower}</label
-					 ><p class="hint">{xen:phrase someone_starts_following_you}</p>
-				</li>
-				<li><input type="hidden" name="alertSet[user_trophy]" value="1" />
-					<label><input type="checkbox" value="1" name="alert[user_trophy]" {xen:checked "!{$alertOptOuts.user_trophy}"} /> {xen:phrase new_trophy}</label>
-					<p class="hint">{xen:phrase you_awarded_new_trophy_for_passing_milestone}</p>
-				</li>
-			</ul>
-		</dd>
-	</dl>
-
-	<dl class="ctrlUnit submitUnit">
-		<dt></dt>
-		<dd><input type="submit" name="save" value="{xen:phrase save}" accesskey="s" class="button primary" /></dd>
-	</dl>
-	
-	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
-</form>]]></template>
     <template title="conversation_message" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<xen:include template="message">
 	
 	<xen:set var="$messageId">message-{$message.message_id}</xen:set>
@@ -575,80 +483,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	text-align: center;
 	padding: 7px;
 }]]></template>
-    <template title="logo_block" addon_id="XenForo" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<div id="logoBlock">
-	<div class="pageWidth">
-		<div class="pageContent">
-			<div id="logo"><a href="{$logoLink}">
-				<span><xen:comment>This span fixes IE vertical positioning</xen:comment></span>
-				<img src="{xen:property headerLogoPath}" alt="{$xenOptions.boardTitle}" width="962" height="96" />
-			</a></div>
-			<span class="helper"></span>
-		</div>
-	</div>
-</div>]]></template>
-    <template title="member_card" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:edithint template="xenforo_overlay.css" />
-<xen:require css="member_card.css" />
-
-<div id="memberCard{$user.user_id}" data-overlayClass="memberCard">
-	<div class="avatarCropper">
-		<a class="avatar NoOverlay Av{$user.user_id}l" href="{xen:link members, $user}">
-			<img src="{xen:helper avatar, {$user}, l}" alt="" style="{xen:helper avatarCropCss, $user}" />
-		</a>
-	</div>
-	
-	<div class="userInfo">
-		<h3 class="username"><xen:username user="$user" class="NoOverlay" /></h3>
-		
-		<div class="userTitleBlurb">
-			<h4 class="userTitle">{xen:helper userTitle, $user}</h4>
-			<div class="userBlurb">{xen:helper userBlurb, $user, 0}</div>
-		</div>
-		
-		<blockquote class="status">{xen:helper bodytext, $user.status}</blockquote>
-
-		<div class="userLinks">
-			<a href="{xen:link members, $user}">{xen:phrase profile_page}</a>
-                        <xen:include template="pirateProfile_member_card_link_item" />
-			<xen:if is="{$user.user_id} != {$visitor.user_id}">
-				<xen:if is="{$canStartConversation}"><a href="{xen:link conversations/add, '', 'to={$user.username}'}">{xen:phrase start_conversation}</a></xen:if>
-				<xen:follow user="$user" class="Tooltip" />
-				<xen:if is="{$canCleanSpam}"><a href="{xen:link spam-cleaner, $user}" class="deleteSpam OverlayTrigger">{xen:phrase spam}</a></xen:if>
-			</xen:if>
-		</div>
-		
-		<table class="userStats">
-		<tr>
-			<th>{xen:phrase member_since}:</th> <td>{xen:date $user.register_date}</td>
-			<th>{xen:phrase message_count}:</th> <td><a href="{xen:link search/member, '', 'user_id={$user.user_id}'}" class="concealed">{xen:number $user.message_count}</a></td>	
-		</tr>
-		<tr>
-			<th>{xen:phrase trophy_points}:</th> <td><a href="{xen:link members/trophies, $user}" class="concealed OverlayTrigger">{xen:number $user.trophy_points}</a></td>
-			<th>{xen:phrase likes_received}:</th> <td>{xen:number $user.like_count}</td>
-		</tr>
-		</table>
-	
-		<xen:if is="{$canViewOnlineStatus}">
-			<dl class="pairsInline lastActivity">
-				<dt>{xen:phrase x_was_last_seen, 'username={$user.username}'}:</dt>
-				<dd>
-					<xen:if is="{$user.activity}">
-						<xen:if is="{$user.activity.description}">
-							{$user.activity.description}<xen:if is="{$user.activity.itemTitle}"> <em><a href="{$user.activity.itemUrl}" class="concealed">{$user.activity.itemTitle}</a></em></xen:if>,
-						<xen:else />
-							{xen:phrase viewing_unknown_page},
-						</xen:if>
-						<xen:datetime time="{$user.effective_last_activity}" class="muted" />
-					<xen:else />
-						<xen:datetime time="{$user.effective_last_activity}" />
-					</xen:if>
-				</dd>
-			</dl>
-		</xen:if>
-	</div>
-	
-	<a class="close OverlayCloser"></a>
-</div>]]></template>
-    <template title="member_list" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{xen:phrase registered_members}{xen:helper pagenumber, $page}</xen:title>
+    <template title="member_list" addon_id="XenForo" version_id="1000053" version_string="1.0.0 Release Candidate 3"><![CDATA[<xen:title>{xen:phrase registered_members}{xen:helper pagenumber, $page}</xen:title>
 <xen:h1>{xen:phrase registered_members}</xen:h1>
 
 <xen:description>{xen:phrase this_is_list_of_all_members_registered_at_x, 'board_title={$xenOptions.boardTitle}'}</xen:description>
@@ -715,345 +550,11 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	
 	<xen:if is="{$xenOptions.facebookAppId} AND {$xenOptions.facebookFacepile}">
 		<xen:container var="$facebookSdk">1</xen:container>
-		<fb:facepile width="{xen:property sidebar.width}"></fb:facepile>
+		<fb:facepile width="{xen:property sidebar.width}" colorscheme="{xen:property fbColorScheme}"></fb:facepile>
 	</xen:if>
-
         <xen:include template="googleAdsense_rightbar" />
 </xen:sidebar>]]></template>
-    <template title="navigation" addon_id="XenForo" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[<xen:edithint template="navigation.css" />
-
-<div id="navigation" class="pageWidth">
-	<div class="pageContent">
-		<nav>
-
-<div class="navTabs">
-	<ul class="publicTabs">
-	
-		<!-- home -->
-		<xen:if is="{$showHomeLink}">
-			<li class="navTab home PopupClosed"><a href="{$homeLink}" class="navLink">{xen:phrase home}</a></li>
-		</xen:if>
-		
-		
-		<!-- extra tabs: home -->
-		<xen:if is="{$extraTabs.home}">
-		<xen:foreach loop="$extraTabs.home" key="$extraTabId" value="$extraTab">
-			<xen:if is="{$extraTab.linksTemplate}">
-				<li class="navTab {$extraTabId} {xen:if $extraTab.selected, 'selected', 'Popup PopupControl PopupClosed'}">
-			
-				<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
-				<a href="{$extraTab.href}" class="SplitCtrl" rel="Menu"></a>
-				
-				<div class="{xen:if {$extraTab.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
-					<div class="primaryContent menuHeader">
-						<h3>{$extraTab.title}</h3>
-						<div class="muted">{xen:phrase quick_links}</div>
-					</div>
-					{xen:raw $extraTab.linksTemplate}
-				</div>
-			</li>
-			<xen:else />
-				<li class="navTab {xen:if $extraTab.selected, 'selected', 'PopupClosed'}">
-					<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
-					<xen:if is="{$extraTab.selected}"><div class="tabLinks"></div></xen:if>
-				</li>
-			</xen:if>
-		</xen:foreach>
-		</xen:if>
-		
-		
-		<!-- forums -->
-		<xen:if is="{$tabs.forums}">
-			<li class="navTab forums {xen:if $tabs.forums.selected, 'selected', 'Popup PopupControl PopupClosed'}">
-			
-				<a href="{$tabs.forums.href}" class="navLink">{$tabs.forums.title}</a>
-				<a href="{$tabs.forums.href}" class="SplitCtrl" rel="Menu"></a>
-				
-				<div class="{xen:if {$tabs.forums.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
-					<div class="primaryContent menuHeader">
-						<h3>{$tabs.forums.title}</h3>
-						<div class="muted">{xen:phrase quick_links}</div>
-					</div>
-					<ul class="secondaryContent blockLinksList">
-                                                <xen:include template="pollsList_navigation_list_item" />
-						<xen:if is="{$visitor.user_id}"><li><a href="{xen:link 'forums/-/mark-read', '', 'date={$serverTime}'}" class="OverlayTrigger">{xen:phrase mark_all_forums_read}</a></li></xen:if>
-						<xen:if is="{$canSearch}"><li><a href="{xen:link search, '', 'type=post'}">{xen:phrase search_forums}</a></li></xen:if>
-						<xen:if is="{$visitor.user_id}"><li><a href="{xen:link 'watched/threads'}">{xen:phrase watched_threads}</a></li></xen:if>
-						<li><a href="{xen:link 'find-new/threads'}">{xen:phrase whats_new}</a></li>
-					</ul>
-				</div>
-			</li>
-		</xen:if>
-		
-		
-		<!-- extra tabs: middle -->
-		<xen:if is="{$extraTabs.middle}">
-		<xen:foreach loop="$extraTabs.middle" key="$extraTabId" value="$extraTab">
-			<xen:if is="{$extraTab.linksTemplate}">
-				<li class="navTab {$extraTabId} {xen:if $extraTab.selected, 'selected', 'Popup PopupControl PopupClosed'}">
-			
-				<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
-				<a href="{$extraTab.href}" class="SplitCtrl" rel="Menu"></a>
-				
-				<div class="{xen:if {$extraTab.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
-					<div class="primaryContent menuHeader">
-						<h3>{$extraTab.title}</h3>
-						<div class="muted">{xen:phrase quick_links}</div>
-					</div>
-					{xen:raw $extraTab.linksTemplate}
-				</div>
-			</li>
-			<xen:else />
-				<li class="navTab {xen:if $extraTab.selected, 'selected', 'PopupClosed'}">
-					<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
-					<xen:if is="{$extraTab.selected}"><div class="tabLinks"></div></xen:if>
-				</li>
-			</xen:if>
-		</xen:foreach>
-		</xen:if>
-		
-		
-		<!-- members -->
-		<xen:if is="{$tabs.members}">
-			<li class="navTab members {xen:if $tabs.members.selected, 'selected', 'Popup PopupControl PopupClosed'}">
-			
-				<a href="{$tabs.members.href}" class="navLink">{$tabs.members.title}</a>
-				<a href="{$tabs.members.href}" class="SplitCtrl" rel="Menu"></a>
-				
-				<div class="{xen:if {$tabs.members.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
-					<div class="primaryContent menuHeader">
-						<h3>{$tabs.members.title}</h3>
-						<div class="muted">{xen:phrase quick_links}</div>
-					</div>
-					<ul class="secondaryContent blockLinksList">
-						<li><a href="{xen:link members}">{xen:phrase registered_members}</a></li>
-						<li><a href="{xen:link online}">{xen:phrase current_visitors}</a></li>
-						<li><a href="{xen:link recent-activity}">{xen:phrase recent_activity}</a></li>
-					</ul>
-				</div>
-			</li>
-		</xen:if>		
-		
-		<!-- help -->
-		<xen:if is="{$tabs.help}">
-			<li class="navTab help {xen:if $tabs.help.selected, 'selected', 'Popup PopupControl PopupClosed'}">
-			
-				<a href="{$tabs.help.href}" class="navLink" rel="help">{$tabs.help.title}</a>
-				<a href="{$tabs.help.href}" class="SplitCtrl" rel="Menu"></a>
-				
-				<div class="{xen:if {$tabs.help.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
-					<div class="primaryContent menuHeader">
-						<h3>{$tabs.help.title}</h3>
-						<div class="muted">{xen:phrase quick_links}</div>
-					</div>
-					<ul class="secondaryContent blockLinksList">
-						<li><a href="{xen:link help/smilies}">{xen:phrase smilies}</a></li>
-						<li><a href="{xen:link help/bb-codes}">{xen:phrase bb_codes}</a></li>
-						<li><a href="{xen:link help/trophies}">{xen:phrase trophies}</a></li>
-					</ul>
-				</div>
-			</li>
-		</xen:if>
-		
-		
-		<!-- extra tabs: end -->
-		<xen:if is="{$extraTabs.end}">
-		<xen:foreach loop="$extraTabs.end" key="$extraTabId" value="$extraTab">
-			<xen:if is="{$extraTab.linksTemplate}">
-				<li class="navTab {$extraTabId} {xen:if $extraTab.selected, 'selected', 'Popup PopupControl PopupClosed'}">
-			
-				<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
-				<a href="{$extraTab.href}" class="SplitCtrl" rel="Menu"></a>
-				
-				<div class="{xen:if {$extraTab.selected}, 'tabLinks', 'Menu JsOnly tabMenu'}">
-					<div class="primaryContent menuHeader">
-						<h3>{$extraTab.title}</h3>
-						<div class="muted">{xen:phrase quick_links}</div>
-					</div>
-					{xen:raw $extraTab.linksTemplate}
-				</div>
-			</li>
-			<xen:else />
-				<li class="navTab {xen:if $extraTab.selected, 'selected', 'PopupClosed'}">
-					<a href="{$extraTab.href}" class="navLink">{$extraTab.title}</a>
-					<xen:if is="{$extraTab.selected}"><div class="tabLinks"></div></xen:if>
-				</li>
-			</xen:if>
-		</xen:foreach>
-		</xen:if>
-		
-		
-		<!-- no selection -->
-		<xen:if is="!{$selectedTab}">
-			<li class="navTab selected"><div class="tabLinks"></div></li>
-		</xen:if>
-		
-	</ul>
-	
-	<xen:if is="{$visitor.user_id}"><xen:include template="navigation_visitor_tab" /></xen:if>
-</div>
-
-<span class="helper"></span>
-			
-		</nav>	
-	</div>
-</div>]]></template>
-    <template title="navigation_visitor_tab" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:edithint template="navigation.css" />
-
-<ul class="visitorTabs">
-
-	<!-- account -->
-	<li class="navTab account Popup PopupControl PopupClosed {xen:if $tabs.account.selected, 'selected'}">
-	
-		<a href="{xen:link account}" class="navLink accountPopup" rel="Menu"><strong>{$visitor.username}</strong></a>
-		
-		<div class="Menu JsOnly" id="AccountMenu">
-			<div class="primaryContent menuHeader">
-				<xen:avatar user="$visitor" size="m" class="NoOverlay plainImage" title="{xen:phrase view_your_profile}" />
-				
-				<h3><a href="{xen:link members, $visitor}" class="concealed" title="{xen:phrase view_your_profile}">{$visitor.username}</a></h3>
-				
-				<xen:if hascontent="true"><div class="muted"><xen:contentcheck>{xen:helper usertitle, $visitor}</xen:contentcheck></div></xen:if>
-				
-				<ul class="links">
-					<li class="fl"><a href="{xen:link members, $visitor}">{xen:phrase your_profile_page}</a></li>
-					<!--<li class="fr"><a href="{xen:link logout, '', '_xfToken={$visitor.csrf_token_page}'}" class="LogOut">{xen:phrase log_out}</a></li>-->
-				</ul>
-			</div>
-			<div class="menuColumns secondaryContent">
-				<ul class="col1 blockLinksList">
-					<li><a href="{xen:link account/personal-details}">{xen:phrase personal_details}</a></li>
-					<li><a href="{xen:link account/contact-details}">{xen:phrase contact_details}</a></li>
-					<li><a href="{xen:link account/preferences}">{xen:phrase preferences}</a></li>
-					<li><a href="{xen:link account/alert-preferences}">{xen:phrase alert_preferences}</a></li>
-					<li><a href="{xen:link account/privacy}">{xen:phrase privacy}</a></li>
-					<xen:if is="{$canEditSignature}"><li><a href="{xen:link account/signature}">{xen:phrase signature}</a></li></xen:if>
-					<xen:if is="{$canUploadAvatar}"><li><a href="{xen:link account/avatar}" class="OverlayTrigger" data-cacheOverlay="true">{xen:phrase avatar}</a></li></xen:if>
-				</ul>
-				<ul class="col2 blockLinksList">
-                                        <xen:include template="pirateProfile_navigation_list_item_member" />
-					<li><a href="{xen:link account/news-feed}">{xen:phrase your_news_feed}</a></li>
-					<li><a href="{xen:link account/alerts}">{xen:phrase your_alerts}</a></li>
-					<li><a href="{xen:link watched/threads}">{xen:phrase watched_threads}</a></li>
-					<li><a href="{xen:link account/likes}">{xen:phrase likes_received}</a></li>
-					<li><a href="{xen:link search/member, '', 'user_id={$visitor.user_id}'}">{xen:phrase your_content}</a></li>
-					<li><a href="{xen:link account/following}">{xen:phrase people_you_follow}</a></li>
-					<xen:if is="{$xenCache.userUpgradeCount}"><li><a href="{xen:link account/upgrades}">{xen:phrase account_upgrades}</a></li></xen:if>
-					<xen:if is="{$xenOptions.facebookAppId}"><li><a href="{xen:link account/facebook}">{xen:phrase facebook_integration}</a></li></xen:if>
-				</ul>
-			</div>
-			<div class="menuColumns secondaryContent">
-				<ul class="col1 blockLinksList">
-					<li>				
-						<form action="{xen:link account/toggle-visibility}" method="post" class="AutoValidator visibilityForm">
-							<label><input type="checkbox" name="visible" value="1" class="SubmitOnChange" {xen:checked $visitor.visible} />
-								{xen:phrase show_online_status}</label>
-							<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
-						</form>
-					</li>
-				</ul>
-				<ul class="col2 blockLinksList">
-					<li><a href="{xen:link logout, '', '_xfToken={$visitor.csrf_token_page}'}" class="LogOut">{xen:phrase log_out}</a></li>
-				</ul>
-			</div>
-			<xen:if is="{$canUpdateStatus}">
-				<form action="{xen:link members/post, $visitor}" method="post" class="sectionFooter statusPoster AutoValidator" data-optInOut="OptIn">
-					<textarea name="message" class="textCtrl StatusEditor Elastic" placeholder="{xen:phrase update_your_status}..." rows="1" cols="40" style="height:14px" data-statusEditorCounter="#visMenuSEdCount"></textarea>
-					<div class="submitUnit">
-						<span id="visMenuSEdCount" title="{xen:phrase characters_remaining}"></span>
-						<input type="submit" class="button primary MenuCloser" value="{xen:phrase post}" accesskey="s" />
-						<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
-						<input type="hidden" name="return" value="1" /> 
-					</div>
-				</form>
-			</xen:if>
-		</div>		
-	</li>
-		
-	<xen:if is="{$tabs.account.selected}">
-	<li class="navTab selected PopupClosed">
-		<div class="tabLinks">
-			<div class="primaryContent menuHeader">
-				<h3>{$tabs.account.title}</h3>
-				<div class="muted">{xen:phrase quick_links}</div>
-			</div>
-			<ul class="secondaryContent blockLinksList">
-				<li><a href="{xen:link account/personal-details}">{xen:phrase personal_details}</a></li>
-				<li><a href="{xen:link conversations}">{xen:phrase conversations}</a></li>
-				<li><a href="{xen:link account/news-feed}">{xen:phrase your_news_feed}</a></li>
-				<li><a href="{xen:link account/likes}">{xen:phrase likes_received}</a></li>
-				<!--<li><a href="{xen:link 'watched/threads'}">{xen:phrase watched_threads}</a></li>-->
-			</ul>
-		</div>
-	</li>
-	</xen:if>
-	
-	<!-- conversations popup -->
-	<li class="navTab inbox Popup PopupControl PopupClosed">
-					
-		<a href="{xen:link conversations}" rel="Menu" class="navLink NoPopupGadget">{xen:phrase inbox}
-			<xen:if is="{$visitor.conversations_unread}">
-				<strong class="itemCount" id="ConversationsMenu_Counter">{xen:number $visitor.conversations_unread}
-					<span class="arrow"></span>
-				</strong>
-			</xen:if>
-		</a>
-		
-		<div class="Menu JsOnly navPopup" id="ConversationsMenu"
-			data-contentSrc="{xen:link 'conversations/popup'}"
-			data-contentDest="#ConversationsMenu .listPlaceholder">
-			
-			<div class="menuHeader primaryContent">
-				<h3>
-					<span class="Progress InProgress"></span>
-					<a href="{xen:link conversations}" class="concealed">{xen:phrase conversations}</a>
-				</h3>						
-			</div>
-			
-			<div class="listPlaceholder"></div>
-			
-			<div class="sectionFooter">
-				<a href="{xen:link conversations/add}" class="floatLink">{xen:phrase start_new_conversation}</a>
-				<a href="{xen:link conversations}">{xen:phrase show_all}...</a>
-			</div>
-		</div>
-	</li>
-	
-	<!-- alerts popup -->
-	<li class="navTab alerts Popup PopupControl PopupClosed">	
-					
-		<a href="{xen:link account/alerts}" rel="Menu" class="navLink NoPopupGadget">{xen:phrase alerts}						
-			<xen:if is="{$visitor.alerts_unread}">
-				<strong class="itemCount" id="AlertsMenu_Counter">{xen:number $visitor.alerts_unread}
-					<span class="arrow"></span>
-				</strong>
-			</xen:if>
-		</a>
-		
-		<div class="Menu JsOnly navPopup" id="AlertsMenu"
-			data-contentSrc="{xen:link 'account/alerts-popup'}"
-			data-contentDest="#AlertsMenu .listPlaceholder"
-			data-removeCounter="#AlertsMenu_Counter">
-			
-			<div class="menuHeader primaryContent">
-				<h3>
-					<span class="Progress InProgress"></span>
-					<a href="{xen:link account/alerts}" class="concealed">{xen:phrase alerts}</a>
-				</h3>
-			</div>
-			
-			<div class="listPlaceholder"></div>
-			
-			<div class="sectionFooter">
-				<a href="{xen:link account/alert-preferences}" class="floatLink">{xen:phrase alert_preferences}</a>
-				<a href="{xen:link account/alerts}">{xen:phrase show_all}...</a>
-			</div>
-		</div>
-	</li>
-	
-	<li class="navTab PopupClosed"><a href="{xen:link logout, '', '_xfToken={$visitor.csrf_token_page}'}" class="LogOut navLink visitorTabItem">{xen:phrase log_out}</a></li>
-</ul>]]></template>
-    <template title="PAGE_CONTAINER" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<!DOCTYPE html>
+    <template title="PAGE_CONTAINER" addon_id="XenForo" version_id="1000053" version_string="1.0.0 Release Candidate 3"><![CDATA[<!DOCTYPE html>
 <html id="XenForo" lang="{$visitorLanguage.language_code}" class="Public {xen:if {$visitor.user_id}, 'LoggedIn', 'LoggedOut'}" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
 <xen:hook name="page_container_head">
@@ -1087,12 +588,15 @@ blockquote .bbCodeQuote aside .attribution a:hover
 <div id="content" class="{$contentTemplate}">
 	<div class="pageWidth">
 		<div class="pageContent">
-			
 			<!-- main content area -->
+			
+			<xen:hook name="page_container_content_top" />
+			
 			<xen:if is="{$sidebar}">
 				<div class="mainContainer">
 					<div class="mainContent"></xen:if>
 					
+						<xen:hook name="page_container_notices">
 						<xen:if is="{$showUpgradePendingNotice}">
 							<p class="importantMessage">
 								{xen:phrase upgrade_is_pending_forum_only_accessible_in_debug} <br />
@@ -1113,13 +617,16 @@ blockquote .bbCodeQuote aside .attribution a:hover
 								<a href="{xen:link account-confirmation/resend}" class="OverlayTrigger">{xen:phrase resend_confirmation_email}</a>
 							</p>
 						</xen:if>
+						</xen:hook>
 						
-						<!-- top breadcrumb, top ctrl -->
+						<xen:hook name="page_container_breadcrumb_top">
 						<div class="breadBoxTop">
 							<xen:if is="{$topctrl}"><div class="topCtrl">{xen:raw $topctrl}</div></xen:if>
 							<xen:include template="breadcrumb"><xen:set var="$microdata">1</xen:set></xen:include>
 						</div>
+						</xen:hook>
 						
+						<xen:hook name="page_container_content_title_bar">
 						<xen:if is="!{$noH1}">						
 							<!-- h1 title, description -->
 							<div class="titleBar">
@@ -1131,14 +638,13 @@ blockquote .bbCodeQuote aside .attribution a:hover
 								<xen:if is="{$pageDescription.content}"><p id="pageDescription" class="muted {$pageDescription.class}">{xen:raw $pageDescription.content}</p></xen:if>
 							</div>
 						</xen:if>
+						</xen:hook>
 						
-                                                <xen:include template="_siteStatusMessage" />
-
 						<!-- main template -->
 						{xen:raw $contents}
 
-                                                <xen:include template="dark_azucloud" />
-						
+						<xen:include template="dark_azucloud" />
+
 						<xen:if is="!{$visitor.user_id} && !{$hideLoginBar}">
 							<!-- login form, to be moved to the upper drop-down -->
 							<xen:include template="login_bar_form" />
@@ -1150,15 +656,17 @@ blockquote .bbCodeQuote aside .attribution a:hover
 				<!-- sidebar -->
 				<aside>
 					<div class="sidebar">
+						<xen:hook name="page_container_sidebar">
 						<xen:if is="!{$noVisitorPanel}"><xen:include template="sidebar_visitor_panel" /></xen:if>
 						{xen:raw $sidebar}
+						</xen:hook>
 					</div>
 				</aside>
 			</xen:if>
 			
-                        <xen:include template="googleAdsense_footer" />
-
+			<xen:hook name="page_container_breadcrumb_bottom">			
 			<div class="breadBoxBottom"><xen:include template="breadcrumb" /></div>
+			</xen:hook>
 						
 		</div>
 	</div>
@@ -1182,7 +690,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
 </body>
 </html>]]></template>
-    <template title="quick_navigation_menu" addon_id="XenForo" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xen:title>{xen:phrase quick_navigation_menu}</xen:title>
+    <template title="quick_navigation_menu" addon_id="XenForo" version_id="1000053" version_string="1.0.0 Release Candidate 3"><![CDATA[<xen:title>{xen:phrase quick_navigation_menu}</xen:title>
 
 <xen:require css="quick_navigation_menu.css" />
 
@@ -1193,7 +701,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 			<div class="secondaryContent">
 				<div class="blockLinksList">
 					<ul>
-						<li><a href="{$homeLink}">{xen:phrase home}</a></li>
+						<xen:if is="{$homeLink}"><li><a href="{$homeLink}">{xen:phrase home}</a></li></xen:if>
 						<li><a href="{xen:link index}">{xen:phrase forums}</a></li>
                                                 <xen:include template="pirateProfile_navigation_list_item" />
 						<li><a href="{xen:link members}">{xen:phrase registered_members}</a></li>
@@ -1270,7 +778,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="thread_view" addon_id="XenForo" version_id="1000052" version_string="1.0.0 Release Candidate 2"><![CDATA[<xen:title>{$thread.title}{xen:helper pagenumber, $page}</xen:title>
+    <template title="thread_view" addon_id="XenForo" version_id="1000053" version_string="1.0.0 Release Candidate 3"><![CDATA[<xen:title>{$thread.title}{xen:helper pagenumber, $page}</xen:title>
 <xen:h1>{$thread.title}</xen:h1>
 
 <xen:description>
@@ -1291,6 +799,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 <xen:container var="$head.openGraph"><xen:include template="open_graph_meta">
 		<xen:set var="$url">{xen:link 'canonical:threads', $thread}</xen:set>
 		<xen:set var="$title">{$thread.title}</xen:set>
+		<xen:comment><xen:set var="$avatar">{xen:helper avatar, $thread, m, 0, 1}</xen:set></xen:comment>
 	</xen:include></xen:container>
 
 <xen:if is="{$canReply}">
@@ -1477,8 +986,5 @@ blockquote .bbCodeQuote aside .attribution a:hover
 <xen:include template="share_page">
 	<xen:set var="$url">{xen:link 'canonical:threads', $thread}</xen:set>
 </xen:include>]]></template>
-    <template title="_siteStatusMessage" addon_id="" version_id="0" version_string=""><![CDATA[<!--<div style="background-color:#880303;color:#fff;margin:4px;padding:4px;">
-<p><strong></strong></p>
-</div>-->]]></template>
   </templates>
 </style>
