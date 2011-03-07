@@ -100,6 +100,9 @@
     <property property_name="primaryMedium" property_type="scalar"><![CDATA[rgb(84, 29, 29)]]></property>
     <property property_name="primaryLighterStill" property_type="scalar"><![CDATA[rgb(153, 0, 0)]]></property>
     <property property_name="editorContent" property_type="css"><![CDATA[{"background-color":"rgb(255, 255, 255)"}]]></property>
+    <property property_name="fbColorScheme" property_type="scalar"><![CDATA[0]]></property>
+    <property property_name="body" property_type="css"><![CDATA[{"color":"@contentText","extra":"word-wrap: break-word;\nline-height: 1.27;","font-family":"\\'Trebuchet MS\\', Helvetica, Arial, sans-serif"}]]></property>
+    <property property_name="animationSpeedMultiplier" property_type="scalar"><![CDATA[0]]></property>
   </properties>
   <templates>
     <template title="conversation_message" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<xen:include template="message">

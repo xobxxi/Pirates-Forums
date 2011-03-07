@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pollsList" title="Polls List" version_string="1.0.3" version_id="3" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="pollsList" title="Polls List" version_string="1.1.0" version_id="4" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates/>
   <code_events/>
-  <code_event_listeners/>
+  <code_event_listeners>
+    <listener event_id="template_hook" execute_order="10" callback_class="PollsList_Listener" callback_method="template_hook" active="1" description="Template hooks for Polls List"/>
+  </code_event_listeners>
   <cron/>
   <email_templates/>
   <optiongroups>
@@ -23,14 +25,14 @@
     <interface_groups/>
   </permissions>
   <phrases>
-    <phrase title="option_group_pollsList" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Polls List]]></phrase>
-    <phrase title="option_group_pollsList_description" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Options for the list of recent polls]]></phrase>
-    <phrase title="option_pollsList_max" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Max Polls]]></phrase>
-    <phrase title="option_pollsList_max_explain" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[The maximum number of polls to display]]></phrase>
-    <phrase title="pollsList_recent_polls" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Recent Polls]]></phrase>
-    <phrase title="pollsList_showing_total_recent_polls" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Showing {total} recent polls]]></phrase>
-    <phrase title="pollsList_viewing_recent_polls" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Viewing recent polls]]></phrase>
-    <phrase title="pollsList_votes" global_cache="0" version_id="0" version_string="1.0.0"><![CDATA[Votes]]></phrase>
+    <phrase title="option_group_pollsList" version_id="0" version_string="1.0.0"><![CDATA[Polls List]]></phrase>
+    <phrase title="option_group_pollsList_description" version_id="0" version_string="1.0.0"><![CDATA[Options for the list of recent polls]]></phrase>
+    <phrase title="option_pollsList_max" version_id="0" version_string="1.0.0"><![CDATA[Max Polls]]></phrase>
+    <phrase title="option_pollsList_max_explain" version_id="0" version_string="1.0.0"><![CDATA[The maximum number of polls to display]]></phrase>
+    <phrase title="pollsList_recent_polls" version_id="0" version_string="1.0.0"><![CDATA[Recent Polls]]></phrase>
+    <phrase title="pollsList_showing_total_recent_polls" version_id="0" version_string="1.0.0"><![CDATA[Showing {total} recent polls]]></phrase>
+    <phrase title="pollsList_viewing_recent_polls" version_id="0" version_string="1.0.0"><![CDATA[Viewing recent polls]]></phrase>
+    <phrase title="pollsList_votes" version_id="0" version_string="1.0.0"><![CDATA[Votes]]></phrase>
   </phrases>
   <route_prefixes>
     <route_type type="public">
