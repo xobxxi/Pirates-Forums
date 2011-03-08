@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="piratesForums" title="Pirates Forums" version_string="1.0.0" version_id="0" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="piratesForums" title="Pirates Forums" version_string="1.0.1" version_id="1" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -16,7 +16,11 @@
     <permissions/>
     <interface_groups/>
   </permissions>
-  <phrases/>
+  <phrases>
+    <phrase title="piratesForums_welcome_message" version_id="0" version_string="1.0.0"><![CDATA[<p class="importantMessage">Ahoy there Pirate, and welcome to our forums!<br />
+        To gain full access you must <a href="{xen:link register}">register.</a> Registration is free and only takes a few moments to complete.<br />
+        Already a member? <a href="{xen:link login}">Login here</a> then!</p>]]></phrase>
+  </phrases>
   <route_prefixes/>
   <style_properties/>
   <templates>
@@ -24,5 +28,8 @@
     <template title="piratesForums_siteStatusMessage" version_id="0" version_string="1.0.0"><![CDATA[<!--<div style="background-color:#880303;color:#fff;margin:4px;padding:4px;">
 <p><strong></strong></p>
 </div>-->]]></template>
+    <template title="piratesForums_welcome" version_id="0" version_string="1.0.0"><![CDATA[<xen:if is="!{$visitor.user_id}">
+	{xen:phrase piratesForums_welcome_message}
+</xen:if>]]></template>
   </templates>
 </addon>
