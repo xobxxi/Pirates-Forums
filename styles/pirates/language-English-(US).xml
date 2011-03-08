@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <language title="English (US)" date_format="M j, Y" time_format="g:i A" decimal_point="." thousands_separator="," language_code="en-US">
-  <phrase title="terms_rules_text" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<p class="subHeading">Last modified: February 1st, 2011</p>
+  <phrase title="terms_rules_text" addon_id="XenForo" version_id="1000053" version_string="1.0.0 Release Candidate 3"><![CDATA[<p class="subHeading">Last modified: March 9th, 2011</p>
 <h3>Rules</h3>
 <ul>
 <li>No Flaming</li>
@@ -21,6 +21,10 @@ in removal of site privileges and/or a temporary or permanent ban. This includes
 <p>We do not allow drama here. Please conduct yourself respectfully and don't cause trouble between any group or individual.</p>
 <p>We define drama as: controversial topics or behavior, or discussion, that could be based on inflammatory or untrue information, or that are drastically emotional or highly emotional driven, seeking reaction from the rest.</p>
 <p>Persons responsible for drama could face a temporary or permanent ban.</p>
+<li>Language</li>
+<p>We do not allow obscene, bigoted, or sexually explicit language. Additionally, you may not post harassing messages. Persons found posting such content could face a temporary or permanent ban.</p>
+<li>Discussion Topics</li>
+<p>You may not suggest, encourage, boast about, or discuss your participation in, any illegal activity. Persons found dicussing such content could face a temporary or permanent ban.</p>
 </ul>
 
 <h3>Terms</h3>
@@ -32,5 +36,20 @@ in removal of site privileges and/or a temporary or permanent ban. This includes
 
 <p>You retain copyright and any other rights you already hold in Content which you submit, post or display on or through this site. By submitting, posting or displaying the Content on or through this site, you grant "Pirates Forums" a perpetual, irrevocable, worldwide, royalty-free, and non-exclusive license to reproduce, adapt, modify, translate, publish, publicly perform, publicly display and distribute any Content which you submit, post or display on or through this site.</p>
 
-<p>You understand and agree that if you use this site after the date on which the Terms and Rules have changed, we will treat your use as acceptance of the updated Terms and Rules.</p>]]></phrase>
+<p>You understand and agree that if you use this site after the date on which the Terms and Rules have changed, we will treat your use as acceptance of the updated Terms and Rules.</p>
+
+<h3>Privacy Policy</h3>
+<p>We recognize that privacy is an important concern of our members. This privacy policy applies to all personal information submitted by you to this site.</p>
+
+<p>When signing up on our site, we require you submit a name, birthdate, and email address. No extremely personal information is stored by us.</p>
+
+<p>We will not sell, transmit, or distribute, any data held without your prior permission or consent, unless required to do so under relevant United States legislation.</p>
+
+<p>All other information provided by you may appear on your profile, and is entirely optional, and all of that information is held there at your own risk. This information is editable in the settings for your account. If you have any issues, please contact us for help.</p>
+
+<p>We will make all reasonable effort to ensure that all personal information about you is submitted and maintained securely on our servers. However, we make no guarantee of this.</p>
+
+<p>This site is intended for individuals over the age of 13. Any information collected is intended to be of individuals over the age of 13.</p>
+
+<p>You as a user, are given the ability to opt-out of any email messages sent from us. If you are receiving unwanted email messages that appear to be coming from us, please forward the message or send a complaint to abuse[at]piratesforums[dot]com.</p>]]></phrase>
 </language>

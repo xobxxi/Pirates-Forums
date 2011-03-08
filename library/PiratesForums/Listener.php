@@ -15,6 +15,9 @@ class PiratesForums_Listener
 			case 'page_container_content_title_bar':
 				$contents .= $template->create('piratesForums_siteStatusMessage', $params)->render();
 				return $contents;
+			case 'page_container_notices':
+				$contents .= $template->create('piratesForums_welcome', $params)->render();
+				return $contents;
 		}
 	}
 }
