@@ -15,8 +15,18 @@ class SubscribeUsers_Listener
 			break;
 		}
     }
-
-	public static function template_hook($name, &$contents, array $params, XenForo_Template_Abstract $template)
+	
+	public static function templateCreate(&$name, array &$params, XenForo_Template_Abstract $template)
+	{
+		switch ($name)
+		{
+			case 'thread_create':
+				$template->preloadTemplate('subscribeUsers_input');
+				break;
+		}
+	}
+	
+	public static function templateHook($name, &$contents, array $params, XenForo_Template_Abstract $template)
 	{
 		switch ($name)
 		{

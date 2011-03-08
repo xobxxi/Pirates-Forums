@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="googleAdsense" title="Google Adsense" version_string="1.1.0" version_id="1" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="googleAdsense" title="Google Adsense" version_string="1.1.1" version_id="2" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates/>
   <code_events/>
   <code_event_listeners>
-    <listener event_id="template_hook" execute_order="10" callback_class="GoogleAdsense_Listener" callback_method="template_hook" active="1" description="Uses template hook to spit into sidebar"/>
+    <listener event_id="template_create" execute_order="10" callback_class="GoogleAdsense_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
+    <listener event_id="template_hook" execute_order="10" callback_class="GoogleAdsense_Listener" callback_method="templateHook" active="1" description="Uses template hook to spit into sidebar"/>
   </code_event_listeners>
   <cron/>
   <email_templates/>
