@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.8.2" version_id="43" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.8.3" version_id="44" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -510,7 +510,7 @@ div.label,
 {
         color: rgb(84, 29, 29) !important;
 }]]></template>
-    <template title="pirateProfile_list" version_id="40" version_string="1.7.1"><![CDATA[<xen:require css="discussion_list.css" />
+    <template title="pirateProfile_list" version_id="43" version_string="1.8.2"><![CDATA[<xen:require css="discussion_list.css" />
 <xen:require css="member_list.css" />
 <xen:require css="pirateProfile_list.css" />
 <xen:require js="js/card/loader.js" />
@@ -622,8 +622,6 @@ div.label,
 	</div>
 </div>
 </xen:if>
-
-<xen:include template="googleAdsense_rightbar" />
 </xen:sidebar>]]></template>
     <template title="pirateProfile_list.css" version_id="31" version_string="1.5.0 RC 1"><![CDATA[.sidebar .avatarList .pirateName
 {
