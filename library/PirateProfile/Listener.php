@@ -32,11 +32,14 @@ class PirateProfile_Listener
 				$contents .= $template->create('pirateProfile_profile_tab_content', $params)->render();
 				return $contents;
 			case 'member_card_links':
+				return $contents; // no $user param specified, so this won't work yet.. sigh
 				$search   = 'Profile Page</a>';
+				die(var_dump($params));
 				$replace  = $template->create('pirateProfile_member_card_link_item', $params)->render();
 				$contents = str_replace($search, $search . "\n" . $replace, $contents);
 				return $contents;
 			case 'navigation_visitor_tab_links2':
+				$params  += array('visitor' => XenForo_Visitor::getInstance());
 				$search   = '<ul class="col2 blockLinksList">';
 				$replace  = $template->create('pirateProfile_navigation_list_item_member', $params)->render();
 				$contents = str_replace($search, $search . "\n" . $replace, $contents);
