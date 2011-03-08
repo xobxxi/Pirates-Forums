@@ -106,6 +106,8 @@
   </properties>
   <templates>
     <template title="ad_below_content" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:hook name="ad_below_content">
+<xen:include template="dark_azucloud" />
+
 <div id="adsenseFooter">
 <script type="text/javascript"><!--
 google_ad_client = "pub-8295054066991282";
@@ -119,8 +121,6 @@ google_ad_height = 90;
 src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 </div>
-
-<xen:include template="dark_azucloud" />
 </xen:hook>]]></template>
     <template title="ad_sidebar_bottom" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:hook name="ad_sidebar_bottom">
 <div class="section">
