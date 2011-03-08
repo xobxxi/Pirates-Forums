@@ -2,9 +2,9 @@
 
 class PollsList_Listener
 {
-	public static function templateCreate(&$name, array &$params, XenForo_Template_Abstract $template)
+	public static function templateCreate(&$templateName, array &$params, XenForo_Template_Abstract $template)
 	{
-		switch ($name)
+		switch ($templateName)
 		{
 			case 'PAGE_CONTAINER':
 				$template->preloadTemplate('pollsList_navigation_list_item');
@@ -12,12 +12,12 @@ class PollsList_Listener
 		}
 	}
 	
-	public static function templateHook($name, &$contents, array $params, XenForo_Template_Abstract $template)
+	public static function templateHook($hookName, &$contents, array $hookParams, XenForo_Template_Abstract $template)
 	{
-		switch ($name)
+		switch ($hookName)
 		{
 			case 'navigation_tabs_forums':
-				$template = $template->create('pollsList_navigation_list_item', $params)->render();
+				$template = $template->create('pollsList_navigation_list_item', $hookParams)->render();
 				$contents = $template . $contents;
 				return $contents;
 		}

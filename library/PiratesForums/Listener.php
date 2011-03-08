@@ -2,9 +2,9 @@
 
 class PiratesForums_Listener
 {
-	public static function templateCreate(&$name, array &$params, XenForo_Template_Abstract $template)
+	public static function templateCreate(&$templateName, array &$params, XenForo_Template_Abstract $template)
 	{
-		switch ($name)
+		switch ($templateName)
 		{
 			case 'PAGE_CONTAINER':
 				$template->preloadTemplate('piratesForums_logo_block');
@@ -14,21 +14,20 @@ class PiratesForums_Listener
 		}
 	}
 	
-	public static function templateHook($name, &$contents, array $params, XenForo_Template_Abstract $template)
+	public static function templateHook($hookName, &$contents, array $hookParams, XenForo_Template_Abstract $template)
 	{
-		switch ($name)
+		switch ($hookName)
 		{
 			case 'header_logo':
 				$search   = 'alt="Pirates of the Caribbean Online - Pirates Forums" ';
-				$replace  = $template->create('piratesForums_logo_block', $params)->render();
+				$replace  = $template->create('piratesForums_logo_block', $hookParams)->render();
 				$contents = str_replace($search, $search . $replace, $contents);
 				return $contents;
 			case 'page_container_content_title_bar':
-				$contents .= $template->create('piratesForums_siteStatusMessage', $params)->render();
+				$contents .= $template->create('piratesForums_siteStatusMessage', $hookParams)->render();
 				return $contents;
 			case 'page_container_notices':
-				$params  += array('visitor' => XenForo_Visitor::getInstance());
-				$contents .= $template->create('piratesForums_welcome', $params)->render();
+				$contents .= $template->create('piratesForums_welcome', $template->getParams())->render();
 				return $contents;
 		}
 	}

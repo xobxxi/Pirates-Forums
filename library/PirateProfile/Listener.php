@@ -12,9 +12,9 @@ class PirateProfile_Listener
 		);
 	}
 	
-	public static function templateCreate(&$name, array &$params, XenForo_Template_Abstract $template)
+	public static function templateCreate(&$templateName, array &$params, XenForo_Template_Abstract $template)
 	{
-		switch ($name)
+		switch ($templateName)
 		{
 			case 'account_wrapper':
 				$template->preloadTemplate('pirateProfile_account_management_list_item');
@@ -38,24 +38,23 @@ class PirateProfile_Listener
 		}
 	}
 	
-	public static function templateHook($name, &$contents, array $params, XenForo_Template_Abstract $template)
+	public static function templateHook($hookName, &$contents, array $hookParams, XenForo_Template_Abstract $template)
 	{
-		switch ($name)
+		switch ($hookName)
 		{
 			case 'account_wrapper_sidebar':
-				$params  += array('visitor' => XenForo_Visitor::getInstance());
 				$search   = 'Personal Details</a></li>';
-				$replace  = $template->create('pirateProfile_account_management_list_item', $params)->render();
+				$replace  = $template->create('pirateProfile_account_management_list_item', $template->getParams())->render();
 				$contents = str_replace($search, $search . "\n" . $replace, $contents);
 				return $contents;
 			case 'account_alerts_extra':
-				$contents .= $template->create('pirateProfile_alert_preferences', $params)->render();
+				$contents .= $template->create('pirateProfile_alert_preferences', $hookParams)->render();
 				return $contents;
 			case 'member_view_tabs_heading':
-				$contents .= $template->create('pirateProfile_profile_tab', $params)->render();
+				$contents .= $template->create('pirateProfile_profile_tab', $hookParams)->render();
 				return $contents;
 			case 'member_view_tabs_content':
-				$contents .= $template->create('pirateProfile_profile_tab_content', $params)->render();
+				$contents .= $template->create('pirateProfile_profile_tab_content', $hookParams)->render();
 				return $contents;
 			case 'member_card_links':
 				$search   = 'Profile Page</a>';
@@ -63,13 +62,12 @@ class PirateProfile_Listener
 				$contents = str_replace($search, $search . "\n" . $replace, $contents);
 				return $contents;
 			case 'navigation_visitor_tab_links2':
-				$params  += array('visitor' => XenForo_Visitor::getInstance());
 				$search   = '<ul class="col2 blockLinksList">';
-				$replace  = $template->create('pirateProfile_navigation_list_item_member', $params)->render();
+				$replace  = $template->create('pirateProfile_navigation_list_item_member', $template->getParams())->render();
 				$contents = str_replace($search, $search . "\n" . $replace, $contents);
 				return $contents;
 			case 'recentActivityBlock_items':
-				$contents .= $template->create('pirateProfile_recent_activity_block_items', $params)->render();
+				$contents .= $template->create('pirateProfile_recent_activity_block_items', $hookParams)->render();
 				return $contents;
 		}
 	}
