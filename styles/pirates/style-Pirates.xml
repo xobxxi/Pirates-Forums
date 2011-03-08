@@ -1,3 +1,11 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+	</body>
+</html>
 <?xml version="1.0" encoding="utf-8"?>
 <style title="Pirates" description="Avast! This style is themed with elements from Disney's Pirates of the Caribbbean Online!" user_selectable="1">
   <properties>
@@ -105,6 +113,38 @@
     <property property_name="animationSpeedMultiplier" property_type="scalar"><![CDATA[1]]></property>
   </properties>
   <templates>
+    <template title="ad_below_content" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:hook name="ad_below_content">
+<div id="adsenseFooter">
+<script type="text/javascript"><!--
+google_ad_client = "pub-8295054066991282";
+/* Footer */
+google_ad_slot = "3768756375";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<xen:include template="dark_azucloud" />
+</xen:hook>]]></template>
+    <template title="ad_sidebar_bottom" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:hook name="ad_sidebar_bottom">
+<div class="section">
+<script type="text/javascript"><!--
+google_ad_client = "pub-8295054066991282";
+/* Rightbar */
+google_ad_slot = "0664174302";
+google_ad_width = 250;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+</xen:hook>]]></template>
     <template title="conversation_message" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<xen:include template="message">
 	
 	<xen:set var="$messageId">message-{$message.message_id}</xen:set>
@@ -486,214 +526,121 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	text-align: center;
 	padding: 7px;
 }]]></template>
-    <template title="member_list" addon_id="XenForo" version_id="1000053" version_string="1.0.0 Release Candidate 3"><![CDATA[<xen:title>{xen:phrase registered_members}{xen:helper pagenumber, $page}</xen:title>
-<xen:h1>{xen:phrase registered_members}</xen:h1>
-
-<xen:description>{xen:phrase this_is_list_of_all_members_registered_at_x, 'board_title={$xenOptions.boardTitle}'}</xen:description>
-
-<xen:container var="$head.canonical">
-	<link rel="canonical" href="{xen:link 'canonical:members', '', 'page={$page}'}" /></xen:container>
-
+    <template title="pirateProfile_list" addon_id="pirateProfile" version_id="42" version_string="1.8.1"><![CDATA[<xen:require css="discussion_list.css" />
 <xen:require css="member_list.css" />
-<xen:require css="xenforo_member_list_item.css" />
-	
-<xen:if is="{$userNotFound}">
-	<div class="importantMessage">{xen:phrase specified_member_cannot_be_found_enter_entire_name}</div>
+<xen:require css="pirateProfile_list.css" />
+<xen:require js="js/card/loader.js" />
+
+<xen:title>{xen:phrase pirateProfile_pirate_directory}</xen:title>
+<xen:description>{xen:phrase pirateProfile_this_is_directory_of_all_member_pirates}</xen:description>
+
+<xen:if is="{$visitor.user_id}">
+<xen:topctrl>
+	<a href="{xen:link pirates/add}" class="callToAction OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}"><span>{xen:phrase pirateProfile_add_pirate}</span></a>
+</xen:topctrl>
 </xen:if>
-	
+
+<xen:if is="{$pirateNotFound}">
+	<div class="importantMessage">{xen:phrase pirateProfile_specified_pirate_cannot_be_found_enter_entire_name}</div>
+</xen:if>
+
 <div class="pageNavLinkGroup">
-	<xen:pagenav link="members" page="{$page}" perpage="{$usersPerPage}" total="{$totalUsers}" />
+	<xen:pagenav link="pirates" linkparams="{$pageNavParams}" page="{$page}" perpage="{$piratesPerPage}" total="{$totalPirates}" />
+</div>
+
+<div class="discussionList sectionMain"> 
+	<dl class="sectionHeaders">
+		<dt class="posterAvatar">
+                        <a><span></span></a>
+                </dt>
+		<dd class="main">
+			<a href="{xen:link pirates, false, '_params={$orderParams.name}'}" class="title"><span>{xen:phrase pirateProfile_pirate_name}{xen:helper sortArrow, $order, $orderDirection, name}</span></a>
+			<a href="{xen:link pirates, false, '_params={$orderParams.modified_date}'}" class="postDate"><span>{xen:phrase pirateProfile_last_updated}{xen:helper sortArrow, $order, $orderDirection, modified_date}</span></a>
+		</dd>
+		<dd class="stats">
+			<a href="{xen:link pirates, false, '_params={$orderParams.level}'}" class="major"><span>{xen:phrase pirateProfile_pirate_level}{xen:helper sortArrow, $order, $orderDirection, level}</span></a>
+			<a href="{xen:link pirates, false, '_params={$orderParams.guild}'}" class="minor"><span>{xen:phrase pirateProfile_pirate_guild}{xen:helper sortArrow, $order, $orderDirection, guild}</span></a>
+		</dd>
+		<dd class="lastPost"><a href="{xen:link pirates, false, '_params={$orderParams.last_comment_date}'}"><span>{xen:phrase pirateProfile_last_comment}{xen:helper sortArrow, $order, $orderDirection, last_comment_date}</span></a></dd>
+	</dl>
+
+	<ol class="discussionListItems">
+	<xen:if is="{$pirates}">
+		<xen:foreach loop="$pirates" value="$pirate">
+			<xen:include template="pirateProfile_list_item" />
+		</xen:foreach>
+	<xen:else />
+		<li class="primaryContent">{xen:phrase pirateProfile_there_are_no_pirates_to_display}</li>
+	</xen:if>
+	</ol>
+        <xen:if is="{$pirates}">
+                <div class="sectionFooter SelectionCountContainer">
+		        <span class="contentSummary">{xen:phrase pirateProfile_showing_pirates_x_to_y_of_z, 'x={xen:number $piratesStartOffset}', 'y={xen:number $piratesEndOffset}', 'z={xen:number $totalPirates}'}</span>
+		</div>
+        </xen:if>
+</div>
+
+<div class="pageNavLinkGroup">
+        <xen:if is="{$visitor.user_id}">
+        <div class="linkGroup">
+                <a href="{xen:link 'pirates/add'}" class="callToAction OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}"><span>{xen:phrase pirateProfile_add_pirate}</span></a>
+        </div>
+        </xen:if>
+	<xen:pagenav link="pirates" linkparams="{$pageNavParams}" page="{$page}" perpage="{$piratesPerPage}" total="{$totalPirates}" />
 </div>	
 
-<ol class="section memberList">
-	<xen:foreach loop="$users" value="$user">
-		<xen:include template="member_list_item">
-			<xen:set var="$noOverlay">1</xen:set>
-		</xen:include>
-	</xen:foreach>
-</ol>
-
-<div class="pageNavLinkGroup">
-	<xen:pagenav link="members" page="{$page}" perpage="{$usersPerPage}" total="{$totalUsers}" />
+<xen:sidebar>
+<div class="section">
+	<form action="{xen:link pirates}" method="post" class="secondaryContent findMember">
+		<h3>Find Pirate</h3>
+			
+		<input type="search" name="pirateName" placeholder="{xen:phrase pirateProfile_pirate_name}..." results="0" class="textCtrl AutoComplete" data-autoSubmit="true" data-acUrl="{xen:link pirates/find, false, '_xfResponseType=json'}" />
+		<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+	</form>
 </div>
 
-<xen:sidebar>
-	<div class="section">
-		<form action="{xen:link members}" method="post" class="secondaryContent findMember">
-			<h3><a href="{xen:link online}" title="{xen:phrase see_all_online_users}">{xen:phrase find_member}</a></h3>
-				
-			<input type="search" name="username" placeholder="{xen:phrase name}..." results="0" class="textCtrl AutoComplete" data-autoSubmit="true" />
-			<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
-		</form>
+<xen:if hascontent="true">
+<div class="section avatarList">
+	<div class="secondaryContent">
+		<h3>{xen:phrase pirateProfile_recently_updated}</h3>
+	
+	         <ol>
+                        <xen:contentcheck>
+			<xen:foreach loop="$recentlyUpdated" value="$pirate">
+			<li>
+                                <xen:avatar user="$pirate.user" size="s" img="true" text="{$pirate.user.username}" class="Tooltip" title="{$pirate.user.username}" />
+				<a href="{xen:link pirates/card, $pirate}" class="pirateName OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{$pirate.name}</a>
+                                <p class="muted"><em>{xen:phrase pirateProfile_updated}: <xen:datetime time="$pirate.modified_date" /></em></p>
+                        </li>
+			</xen:foreach>
+                        </xen:contentcheck>
+		</ol>
 	</div>
-	
-	<div class="section activeMembers">
-		<div class="secondaryContent avatarHeap">
-			<h3>{xen:phrase highest_posting_members}</h3>
-			
-			<ol>
-				<xen:foreach loop="$activeUsers" value="$user">
-					<li><xen:avatar user="$user" size="s" text="{$user.username} ({xen:number $user.message_count})" class="Tooltip" title="{$user.username}, {xen:phrase messages}: {xen:number $user.message_count}" /></li>
-				</xen:foreach>
-			</ol>
-		</div>
-	</div>
-	
-	<div class="section newestMembers">
-		<div class="secondaryContent avatarHeap">
-			<h3>{xen:phrase newest_members}</h3>
-			
-			<ol>
-				<xen:foreach loop="$latestUsers" value="$user">
-					<li><xen:avatar user="$user" size="s" text="{$user.username} ({xen:datetime $user.register_date})" class="Tooltip" title="{$user.username}, {xen:phrase joined}: {xen:datetime $user.register_date}" /></li>
-				</xen:foreach>
-			</ol>
-		</div>
-	</div>
-	
-	<xen:if is="{$xenOptions.facebookAppId} AND {$xenOptions.facebookFacepile}">
-		<xen:container var="$facebookSdk">1</xen:container>
-		<fb:facepile width="{xen:property sidebar.width}" colorscheme="{xen:property fbColorScheme}"></fb:facepile>
-	</xen:if>
-        <xen:include template="googleAdsense_rightbar" />
-</xen:sidebar>]]></template>
-    <template title="PAGE_CONTAINER" addon_id="XenForo" version_id="1000053" version_string="1.0.0 Release Candidate 3"><![CDATA[<!DOCTYPE html>
-<html id="XenForo" lang="{$visitorLanguage.language_code}" class="Public {xen:if {$visitor.user_id}, 'LoggedIn', 'LoggedOut'}" xmlns:fb="http://www.facebook.com/2008/fbml">
-<head>
-<xen:hook name="page_container_head">
-	<meta charset="utf-8" />
-	<xen:if is="{$requestPaths.fullBasePath}"><base href="{$requestPaths.fullBasePath}" /></xen:if>
-	
-	<title><xen:if is="{$title}">{xen:raw $title} | {$xenOptions.boardTitle}<xen:else />{$xenOptions.boardTitle}</xen:if></title>
-	
-	<noscript><style type="text/css">.JsOnly { display: none !important; }</style></noscript>
-	<link rel="stylesheet" type="text/css" href="css.php?css=xenforo,form,public&amp;style={xen:urlencode $_styleId}&amp;d={$visitorStyle.last_modified_date}" />
-	<!--XenForo_Require:CSS-->
-
-	<xen:include template="google_analytics" />
-	<xen:include template="page_container_js_head" />
-	
-	<xen:if is="{$pageDescription.content} AND !{$pageDescription.skipmeta} AND !{$head.description}"><meta name="description" content="{xen:string wordTrim, {xen:helper stripHtml, {xen:raw $pageDescription.content}}, 200}" /></xen:if>
-	<xen:if is="{$head}"><xen:foreach loop="$head" value="$headElement">{xen:raw $headElement}</xen:foreach></xen:if>
-</xen:hook>
-</head>
-<body>
-
-<xen:if is="{$visitor.is_moderator} || {$visitor.is_admin}">
-	<xen:include template="moderator_bar" />
-<xen:elseif is="!{$visitor.user_id} && !{$hideLoginBar}" />
-	<xen:include template="login_bar" />
+</div>
 </xen:if>
 
-<div id="headerMover">
-	<div id="headerProxy"></div>
-
-<div id="content" class="{$contentTemplate}">
-	<div class="pageWidth">
-		<div class="pageContent">
-			<!-- main content area -->
-			
-			<xen:hook name="page_container_content_top" />
-			
-			<xen:if is="{$sidebar}">
-				<div class="mainContainer">
-					<div class="mainContent"></xen:if>
-					
-						<xen:hook name="page_container_notices">
-						<xen:if is="{$showUpgradePendingNotice}">
-							<p class="importantMessage">
-								{xen:phrase upgrade_is_pending_forum_only_accessible_in_debug} <br />
-								<a href="install/">{xen:phrase complete_upgrade}</a>
-							</p>
-						</xen:if>
-						
-						<xen:if is="{$showBoardClosedNoticed}">
-							<p class="importantMessage">
-								{xen:phrase forum_is_currently_closed_only_admins_may_access}<br />
-								<a href="admin.php">{xen:phrase reopen_via_admin_control_panel}</a>
-							</p>
-						</xen:if>
-						
-						<xen:if is="{$isAwaitingEmailConfirmation}">
-							<p class="importantMessage">
-								{xen:phrase your_account_is_currently_awaiting_confirmation_confirmation_sent_to_x, 'email={$visitor.email}'}<br />
-								<a href="{xen:link account-confirmation/resend}" class="OverlayTrigger">{xen:phrase resend_confirmation_email}</a>
-							</p>
-						</xen:if>
-						</xen:hook>
-						
-						<xen:hook name="page_container_breadcrumb_top">
-						<div class="breadBoxTop">
-							<xen:if is="{$topctrl}"><div class="topCtrl">{xen:raw $topctrl}</div></xen:if>
-							<xen:include template="breadcrumb"><xen:set var="$microdata">1</xen:set></xen:include>
-						</div>
-						</xen:hook>
-						
-						<xen:hook name="page_container_content_title_bar">
-						<xen:if is="!{$noH1}">						
-							<!-- h1 title, description -->
-							<div class="titleBar">
-								<h1><xen:if
-									is="{$h1}">{xen:raw $h1}<xen:elseif
-									is="{$title}" />{xen:raw $title}<xen:else
-									/>{$xenOptions.boardTitle}</xen:if></h1>
-								
-								<xen:if is="{$pageDescription.content}"><p id="pageDescription" class="muted {$pageDescription.class}">{xen:raw $pageDescription.content}</p></xen:if>
-							</div>
-						</xen:if>
-						</xen:hook>
-						
-						<!-- main template -->
-						{xen:raw $contents}
-
-						<xen:include template="dark_azucloud" />
-
-						<xen:if is="!{$visitor.user_id} && !{$hideLoginBar}">
-							<!-- login form, to be moved to the upper drop-down -->
-							<xen:include template="login_bar_form" />
-						</xen:if>
-						
-					<xen:if is="{$sidebar}"></div>
-				</div>
-				
-				<!-- sidebar -->
-				<aside>
-					<div class="sidebar">
-						<xen:hook name="page_container_sidebar">
-						<xen:if is="!{$noVisitorPanel}"><xen:include template="sidebar_visitor_panel" /></xen:if>
-						{xen:raw $sidebar}
-						</xen:hook>
-					</div>
-				</aside>
-			</xen:if>
-			
-			<xen:hook name="page_container_breadcrumb_bottom">			
-			<div class="breadBoxBottom"><xen:include template="breadcrumb" /></div>
-			</xen:hook>
-						
-		</div>
+<xen:if hascontent="true">
+<div class="section avatarList">
+	<div class="secondaryContent">
+		<h3>{xen:phrase pirateProfile_recently_added}</h3>
+	
+	         <ol>
+                        <xen:contentcheck>
+			<xen:foreach loop="$recentlyAdded" value="$pirate">
+			<li>
+                                <xen:avatar user="$pirate.user" size="s" img="true" text="{$pirate.user.username}" class="Tooltip" title="{$pirate.user.username}" />
+				<a href="{xen:link pirates/card, $pirate}" class="pirateName OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{$pirate.name}</a>
+                                <p class="muted"><em>{xen:phrase pirateProfile_added}: <xen:datetime time="$pirate.modified_date" /></em></p>
+                        </li>
+			</xen:foreach>
+                        </xen:contentcheck>
+		</ol>
 	</div>
 </div>
+</xen:if>
 
-<header>
-	<xen:include template="header" />
-	<xen:edithint template="navigation" />
-	<xen:edithint template="search_bar" />
-</header>
-
-</div>
-
-<footer>
-	<xen:include template="footer" />
-</footer>
-
-<xen:include template="page_container_js_body" />
-
-<xen:if is="{$cronLink}"><img src="{$cronLink}" width="1" height="1" alt="" /></xen:if>
-
-</body>
-</html>]]></template>
-    <template title="quick_navigation_menu" addon_id="XenForo" version_id="1000053" version_string="1.0.0 Release Candidate 3"><![CDATA[<xen:title>{xen:phrase quick_navigation_menu}</xen:title>
+</xen:sidebar>]]></template>
+    <template title="quick_navigation_menu" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase quick_navigation_menu}</xen:title>
 
 <xen:require css="quick_navigation_menu.css" />
 
@@ -718,7 +665,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 						<li><a href="{xen:link conversations}">{xen:phrase conversations}</a></li>
 						<li><a href="{xen:link account/news-feed}">{xen:phrase your_news_feed}</a></li>
 					<xen:else />
-						<li><a href="{xen:link login}">{xen:phrase log_in_or_sign_up}</a></li>
+						<li><a href="{xen:link login}">{xen:if $xenOptions.registrationSetup.enabled, {xen:phrase log_in_or_sign_up}, {xen:phrase log_in}}</a></li>
 					</xen:if>
 					</ul>
 					<ul>
@@ -743,7 +690,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 			</div>
 		</div>
 	</div>
-	<div class="sectionFooter overlayOnly"><a class="button primary OverlayCloser">{xen:phrase cancel}</a></div>
+	<div class="sectionFooter overlayOnly"><a class="button primary OverlayCloser">{xen:phrase close}</a></div>
 </div>]]></template>
     <template title="style_chooser.css" addon_id="XenForo" version_id="1000052" version_string="1.0.0 Release Candidate 2"><![CDATA[.styleChooser .icon.style7
 {
@@ -781,7 +728,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="thread_view" addon_id="XenForo" version_id="1000053" version_string="1.0.0 Release Candidate 3"><![CDATA[<xen:title>{$thread.title}{xen:helper pagenumber, $page}</xen:title>
+    <template title="thread_view" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:title>{$thread.title}{xen:helper pagenumber, $page}</xen:title>
 <xen:h1>{$thread.title}</xen:h1>
 
 <xen:description>
@@ -802,7 +749,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 <xen:container var="$head.openGraph"><xen:include template="open_graph_meta">
 		<xen:set var="$url">{xen:link 'canonical:threads', $thread}</xen:set>
 		<xen:set var="$title">{$thread.title}</xen:set>
-		<xen:comment><xen:set var="$avatar">{xen:helper avatar, $thread, m, 0, 1}</xen:set></xen:comment>
+		<xen:set var="$avatar">{xen:helper avatar, $thread, m, 0, 1}</xen:set>
 	</xen:include></xen:container>
 
 <xen:if is="{$canReply}">
@@ -897,6 +844,8 @@ blockquote .bbCodeQuote aside .attribution a:hover
 		unreadlink="{$unreadLink}" />
 </div>
 
+<xen:include template="ad_thread_view_above_messages" />
+
 <xen:hook name="thread_view_form_before" params="{xen:array 'thread={$thread}'}" />
 
 <form action="{xen:link 'inline-mod/post/switch'}" method="post"
@@ -973,6 +922,8 @@ blockquote .bbCodeQuote aside .attribution a:hover
 		</xen:contentcheck>
 	</div>
 </xen:if>
+
+<xen:include template="ad_thread_view_below_messages" />
 
 <xen:hook name="thread_view_qr_before" params="{xen:array 'thread={$thread}'}" />
 
