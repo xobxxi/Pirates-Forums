@@ -4,9 +4,11 @@ class Welcome_Listener
 {
         public static function loadClassController($class, &$extend)
         {
-			if ($class == 'XenForo_ControllerPublic_Register') 
+			switch ($class) 
 			{
-                $extend[] = 'Welcome_ControllerPublic_Register';
+				case 'XenForo_ControllerPublic_Register':
+                	$extend[] = 'Welcome_ControllerPublic_Register';
+                	break;
 			}
         }
 }
