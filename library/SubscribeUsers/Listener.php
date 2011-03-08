@@ -9,10 +9,10 @@ class SubscribeUsers_Listener
 		{
 			case 'XenForo_ControllerPublic_Forum':
 				$extend[] = 'SubscribeUsers_ControllerPublic_Forum';
-			break;
+				break;
 			case 'XenForo_ControllerPublic_Thread':
 				$extend[] = 'SubscribeUsers_ControllerPublic_Thread';
-			break;
+				break;
 		}
     }
 	
