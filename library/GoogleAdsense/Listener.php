@@ -2,18 +2,28 @@
 
 class GoogleAdsense_Listener
 {
+	public static function templateCreate(&$name, array &$params, XenForo_Template_Abstract $template)
+	{
+		switch ($name)
+		{
+			case 'forum_list':
+				$template->preloadTemplate('googleAdsense_rightbar');
+				break;
+			case 'PAGE_CONTAINER':
+				$template->preloadTemplate('googleAdsense_footer');
+				break;
+		}
+	}
 
-	public static function template_hook($name, &$contents, array $params, XenForo_Template_Abstract $template)
+	public static function templateHook($name, &$contents, array $params, XenForo_Template_Abstract $template)
 	{
 		switch ($name)
 		{
 			case 'forum_list_sidebar':
-				$template  = $template->create('googleAdsense_rightbar', $params)->render();
-				$contents .= $template;
+				$contents .= $template->create('googleAdsense_rightbar', $params)->render();
 				return $contents;
 			case 'page_container_breadcrumb_bottom':
-				$template = $template->create('googleAdsense_footer', $params)->render();
-				$contents = $template . $contents;
+				$contents .= $template->create('googleAdsense_footer', $params)->render();
 				return $contents;
 		}
 	}

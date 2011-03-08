@@ -2,8 +2,17 @@
 
 class PollsList_Listener
 {
+	public static function templateCreate(&$name, array &$params, XenForo_Template_Abstract $template)
+	{
+		switch ($name)
+		{
+			case 'PAGE_CONTAINER':
+				$template->preloadTemplate('pollsList_navigation_list_item');
+				break;
+		}
+	}
 	
-	public static function template_hook($name, &$contents, array $params, XenForo_Template_Abstract $template)
+	public static function templateHook($name, &$contents, array $params, XenForo_Template_Abstract $template)
 	{
 		switch ($name)
 		{

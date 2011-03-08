@@ -2,7 +2,7 @@
 
 class PirateProfile_Listener
 {
-	public static function navigation_tabs(array &$extraTabs, $selectedTabId)
+	public static function navigationTabs(array &$extraTabs, $selectedTabId)
 	{
 		$extraTabs['pirates'] = array(
 			'title'    => new XenForo_Phrase('pirateProfile_pirates'),
@@ -12,7 +12,33 @@ class PirateProfile_Listener
 		);
 	}
 	
-	public static function template_hook($name, &$contents, array $params, XenForo_Template_Abstract $template)
+	public static function templateCreate(&$name, array &$params, XenForo_Template_Abstract $template)
+	{
+		switch ($name)
+		{
+			case 'account_wrapper':
+				$template->preloadTemplate('pirateProfile_account_management_list_item');
+				break;
+			case 'account_alert_preferences':
+				$template->preloadTemplate('pirateProfile_alert_preferences');
+				break;
+			case 'member_view':
+				$template->preloadTemplate('pirateProfile_profile_tab');
+				$template->preloadTemplate('pirateProfile_profile_tab_content');
+				break;
+			case 'member_card':
+				$template->preloadTemplate('pirateProfile_member_card_link_item');
+				break;
+			case 'PAGE_CONTAINER':
+				$template->preloadTemplate('pirateProfile_navigation_list_item_member');
+				break;
+			case 'forum_list':
+				$template->preloadTemplate('pirateProfile_recent_activity_block_items');
+				break;
+		}
+	}
+	
+	public static function templateHook($name, &$contents, array $params, XenForo_Template_Abstract $template)
 	{
 		switch ($name)
 		{

@@ -2,8 +2,19 @@
 
 class PiratesForums_Listener
 {
+	public static function templateCreate(&$name, array &$params, XenForo_Template_Abstract $template)
+	{
+		switch ($name)
+		{
+			case 'PAGE_CONTAINER':
+				$template->preloadTemplate('piratesForums_logo_block');
+				$template->preloadTemplate('piratesForums_siteStatusMessage');
+				$template->preloadTemplate('piratesForums_welcome');
+				break;
+		}
+	}
 	
-	public static function template_hook($name, &$contents, array $params, XenForo_Template_Abstract $template)
+	public static function templateHook($name, &$contents, array $params, XenForo_Template_Abstract $template)
 	{
 		switch ($name)
 		{
