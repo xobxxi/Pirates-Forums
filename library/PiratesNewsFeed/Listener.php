@@ -2,42 +2,32 @@
 
 class PiratesNewsFeed_Listener
 {
-	private static $model;
-	public static function loadClassListener($class, &$extend)
+	public static function loadClassController($class, &$extend)
 	{
-		if ($class == 'XenForo_ControllerPublic_Forum') {
+		if ($class == 'XenForo_ControllerPublic_Forum')
+		{
 			$extend[] = 'PiratesNewsFeed_ControllerPublic_Forum';
 		}
 	}
 
-
-	public static function checkNews ($name, $contents, $params , XenForo_Template_Abstract $template)
+	public static function template_hook($name, $contents, $params , XenForo_Template_Abstract $template)
 	{
         switch($name) {
         	case 'forum_view_pagenav_before':
-	        	if (!XenForo_Visitor::getInstance()->hasPermission('forum', 'check4Updates')) {
-					return $contents;
-				}
+				// we need to check for permissions (in the model once implemented) and pass to the template
+				$options = XenForo_Application::get('options');
+				
+				$forumModel = XenForo_Model::create('XenForo_Model_Forum');
+				$forum      = $forumModel->getForumById($options->piratesNewsFeed_news_forum_id);
 
-				$model = XenForo_Model::create('XenForo_Model_Forum');
-				$forum = $model->getForumById(2);
-
-				$params        += array(
-					'check4updates' => true,
-					'refreshLink' => XenForo_Link::buildPublicLink('forums/refreshNews',$forum)
-				);//$newsModel->x();
-
-
-
-				$href = XenForo_Link::buildPublicLink('forums/DisplayNews',$forum);
-
-				$link = "<a href=\"$href\" class=\"OverlayTrigger\"><img src=\"http://piratesforums.com/data/check4news.png\" border=\"0\"/></a>";
-				$contents      .= $link;//.$template->create('check4updates_link', $params)->render();
-
-				return $contents;
-        	break;
+				$params += array(
+					'forum' => $forum
+				);
+				
+				$link      = $template->create('piratesNewsFeed_link', $params)->render();
+				$contents .= $link;
+				
+			return $contents;
         }
-
 	}
-
 }

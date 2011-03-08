@@ -16,6 +16,7 @@ class PiratesForums_Listener
 				$contents .= $template->create('piratesForums_siteStatusMessage', $params)->render();
 				return $contents;
 			case 'page_container_notices':
+				$params  += array('visitor' => XenForo_Visitor::getInstance());
 				$contents .= $template->create('piratesForums_welcome', $params)->render();
 				return $contents;
 		}

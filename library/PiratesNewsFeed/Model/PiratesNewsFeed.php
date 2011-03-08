@@ -1,5 +1,10 @@
 <?php
+/*
 
+
+
+
+*/
 class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 
 	private static $blogs;
@@ -219,6 +224,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	}
 
 	private static $fetch_link;
+	
 	/**
 	* get a News Page
 	*
@@ -227,23 +233,24 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	* @param boolean $clean_response
 	* @return string
 	*/
-	public function fetch($url,$close_link = true)
+	public function fetch($url, $close_link = true)
 	{
 		self::$fetch_link = curl_init();
 		curl_setopt(self::$fetch_link, CURLOPT_URL, $url);
-		//curl_setopt($link, CURLOPT_POSTFIELDS, http_build_query($data));
 		curl_setopt(self::$fetch_link, CURLOPT_VERBOSE, 0);
 		curl_setopt(self::$fetch_link, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt(self::$fetch_link, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt(self::$fetch_link, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt(self::$fetch_link, CURLOPT_MAXREDIRS, 6);
 		curl_setopt(self::$fetch_link, CURLOPT_CONNECTTIMEOUT, 30);
-		curl_setopt(self::$fetch_link, CURLOPT_TIMEOUT, 15); // 60
-		$results=curl_exec(self::$fetch_link);
+		curl_setopt(self::$fetch_link, CURLOPT_TIMEOUT, 15);
+		$results = curl_exec(self::$fetch_link);
 
-		if($close_link) {
+		if ($close_link)
+		{
 			curl_close(self::$fetch_link);
 		}
+		
 		return $results;
 	}
 
@@ -254,7 +261,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 * @param $setting
 	 * @param $data
 	 */
-	function injectCache($id, $setting,$data)
+	function injectCache($id, $setting, $data)
 	{
 		$registry = $this->registry();
 		$registry[$id][$setting] = $data;
@@ -270,19 +277,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 */
 	public static function mkThread($forumId, $user, $title, $message)
 	{
-		$writer = XenForo_DataWriter::create('XenForo_DataWriter_Discussion_Thread');
-		$writer->set('user_id', $user['user_id']);
-		$writer->set('username', $user['username']);
-		$writer->set('title', $title);
-
-		$postWriter = $writer->getFirstMessageDw();
-		$postWriter->set('message', $message);
-
-		$writer->set('node_id', $forumId);
-		$writer->preSave();
-		$writer->save();
-
-		return $writer->getMergedData();
+		return PiratesForums_Helper_Thread::create($forumId, $user, $title, $message); // seriously, no need for duplication. change references directly.
 	}
 
 	/**
@@ -320,20 +315,22 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 */
 	function markNotPosted($new_id)
 	{
-		$record = XenForo_Model::create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedRecord');
-		if(is_array($record) && isset($record[$new_id])) {
-
+		$dataRegistryModel = $this->getDataRegistryModel();
+		
+		$record = $dataRegistryModel->get('PiratesNewsFeedRecord');
+		
+		if(is_array($record) && isset($record[$new_id]))
+		{
 			unset($record[$new_id]);
-
-			$this->_getDataRegistryModel()->set('PiratesNewsFeedRecord', $record);
+			$dataRegistryModel->set('PiratesNewsFeedRecord', $record);
 		}
 
-		//update Cache...
-		//update Cache...
 		$registry = $this->registry();
-		$news = $registry[$new_id];
-		$news['posted'] = false;
+		$news     = $registry[$new_id];
+		
+		$news['posted']           = false;
 		$registry[$news['stamp']] = $news;
+		
 		$this->registry($registry);
 	}
 
@@ -344,7 +341,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 */
 	function getPosted()
 	{
-		return XenForo_Model::create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedRecord');
+		return $this->_getDataRegistryModel()->get('PiratesNewsFeedRecord');
 	}
 
 	/**
@@ -354,17 +351,21 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 */
 	public function registry($cache = array())
 	{
-		if($cache===array()) {
-			return XenForo_Model::create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedCache');
+		$dataRegistryModel = $this->_getDataRegistryModel();
+		
+		if($cache === array())
+		{
+			return $dataRegistryModel->get('PiratesNewsFeedCache');
 		}
-		$this->_getDataRegistryModel()->set('PiratesNewsFeedCache', $cache);
+		
+		$dataRegistryModel->set('PiratesNewsFeedCache', $cache);
 	}
 
 	/**
 	 *
 	 * Delete cache
 	 */
-	function  deleteRegistry()
+	public function deleteRegistry()
 	{
 		$this->_getDataRegistryModel()->delete('PiratesNewsFeedCache');
 	}
@@ -377,42 +378,42 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 */
 	function feed($forum_id, $itemsCount)
 	{
-		if(self::$blogs) {
+		if (self::$blogs)
+		{
 			return self::$blogs;
 		}
+		
 		$visitor = XenForo_Visitor::getInstance();
 
-		$model = XenForo_Model::create('XenForo_Model_Forum');//new XenForo_Model_Forum;
-		$forum = $forum = $model->getForumById($forum_id);
+		$forum = $this->_getForumModel()->getForumById($forum_id);
 
-		$feed = "http://blog.piratesonline.go.com/blog/pirates/feed2/entries/atom?numEntries=$itemsCount";
+		$feed = "http://blog.piratesonline.go.com/blog/pirates/feed2/entries/atom?numEntries={$itemsCount}";
 		$data = simplexml_load_file($feed);
 
 		$posted = $this->getPosted();
 
-		foreach($data->entry as $k =>$v) {
-			$attr = $v->link->attributes();
-			$blog['title'] = str_replace("'","\'",(string)  $v->title);
-			$blog['url'] = (string) $attr->href;
-			$blog['summary'] = (string) $v->summary;
-			$blog['published'] = (string) $v->published;
-			$blog['updated'] = (string) $v->updated;
-			$blog['stamp'] = strtotime((string) $v->published);
-			$blog['date'] = date("M/d/Y", strtotime((string) $v->published));
-			$blog['markPosted'] = XenForo_Link::buildPublicLink("forums/markPosted&news_id={$blog['stamp']}",$forum);
-			$blog['markNotPosted'] = XenForo_Link::buildPublicLink("forums/markNotPosted&news_id={$blog['stamp']}",$forum);
-
-//			$blog['postLink'] = XenForo_Link::buildPublicLink("forums/PostNews?url=".urlencode($blog['url'])."&title={$blog['title']}",$forum);
-
-			$blog['postLink'] = XenForo_Link::buildPublicLink("forums/PostNews/&news_id={$blog['stamp']}",$forum);
-			if(isset($posted[$blog['stamp']])) {
-				//news already posted...
-				$blog['posted']  = $posted[$blog['stamp']];
-			} else {
-				$blog['posted']  = false;
-			}
+		$blogs = array();
+		foreach ($data->entry as $key => $entry)
+		{
+			$attr = $entry->link->attributes();
+			
+			$blog = array(
+				'title'         => str_replace("'", "\'", (string)  $entry->title),
+				'url'           => (string) $attr->href,
+				'summary'       => (string) $entry->summary,
+				'published'     => (string) $entry->published,
+				'updated'       => (string) $entry->updated,
+				'stamp'         => strtotime((string) $entry->published),
+				'date'          => date('M/d/Y', strtotime((string) $entry->published)),
+				'markPosted'    => XenForo_Link::buildPublicLink('forums/mark-posted',     $forum, array('news_id' => strtotime((string) $entry->published))),
+				'marknotPosted' => XenForo_Link::buildPublicLink('forums/mark-not-posted', $forum, array('news_id' => strtotime((string) $entry->published))),
+				'postLink'      => XenForo_Link::buildPublicLink('forums/post-news',       $forum, array('news_id' => strtotime((string) $entry->published))),
+				/*'posted'        => ($posted[strtotime((string) $entry->published]) ? $posted[strtotime((string) $entry->published] : false*/
+			);
+			
 			$blogs[$blog['stamp']] = $blog;
 		}
+		
 		$blogs['last_stamp'] = key($blogs);
 
 		$this->_getDataRegistryModel()->set('PiratesNewsFeedCache', $blogs);
@@ -426,5 +427,10 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	protected function _getUserModel()
 	{
 		return $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
+	}
+	
+	protected function _getForumModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_Forum');
 	}
 }
