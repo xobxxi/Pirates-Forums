@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <language title="English (US)" date_format="M j, Y" time_format="g:i A" decimal_point="." thousands_separator="," language_code="en-US">
-  <phrase title="terms_rules_text" addon_id="XenForo" version_id="1000053" version_string="1.0.0 Release Candidate 3"><![CDATA[<p class="subHeading">Last modified: March 9th, 2011</p>
+  <phrase title="terms_rules_text" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<p class="subHeading">Last modified: March 9th, 2011</p>
 <h3>Rules</h3>
 <ul>
 <li>No Flaming</li>
@@ -16,6 +16,7 @@
 If you are found, at our discretion, to be editing posts with arbitrary intentions, removing posts
 to disrupt this site, posting spam content to the site, or otherwise causing problems, it could result
 in removal of site privileges and/or a temporary or permanent ban. This includes working around the censors we have setup.</p>
+<p>Abuse of the like system is not allowed. Persons found, at our discretion, to be soliciting or exchanging likes could receive a temporary or permanent ban.</p>
 <p>Additionally, content posted that disrupts the community, such at those promoting other sites or games, will be removed at our discretion.</p>
 <li>No Drama</li>
 <p>We do not allow drama here. Please conduct yourself respectfully and don't cause trouble between any group or individual.</p>

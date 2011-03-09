@@ -518,6 +518,21 @@ blockquote .bbCodeQuote aside .attribution a:hover
 	text-align: center;
 	padding: 7px;
 }]]></template>
+    <template title="profile_post_comment" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<li class="comment secondaryContent">
+	<xen:avatar user="$comment" size="s" img="true" />
+
+	<div class="commentInfo">
+		<div class="commentContent">
+			<xen:username user="$comment" class="poster" />
+			<article><blockquote>{xen:helper bodytext, $comment.message}</blockquote></article>
+		</div>
+		<div class="commentControls">
+			<xen:datetime time="$comment.comment_date" class="muted" />
+                        <xen:include template="commentsPlus_profile_post_comment_edit_link" />
+			<xen:if is="{$comment.canDelete}"><a href="{xen:link 'profile-posts/comment-delete', $profilePost, "comment={$comment.profile_post_comment_id}"}" class="OverlayTrigger item control delete"><span></span>{xen:phrase delete}</a></xen:if>
+		</div>
+	</div>
+</li>]]></template>
     <template title="quick_navigation_menu" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase quick_navigation_menu}</xen:title>
 
 <xen:require css="quick_navigation_menu.css" />
