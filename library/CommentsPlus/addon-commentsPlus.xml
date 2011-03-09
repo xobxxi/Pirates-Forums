@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="commentsPlus" title="Comments Plus" version_string="1.0.0" version_id="1" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="CommentsPlus_Listener" callback_method="loadClassController" active="1" description="Extends controllers"/>
+    <listener event_id="load_class_model" execute_order="10" callback_class="CommentsPlus_Listener" callback_method="loadClassModel" active="1" description="Extends models"/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <optiongroups/>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="commentsPlus_edit_profile_post_comment_by_x" version_id="1" version_string="1.0.0"><![CDATA[Edit Profile Post Comment by {name}]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates>
+    <template title="commentsPlus_profile_post_comment_edit" version_id="1" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase commentsPlus_edit_profile_post_comment_by_x, 'name={$profilePost.username}'}</xen:title>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link 'profile-posts/comment-edit', $profilePost, 'comment={$comment.profile_post_comment_id}'}" method="post" class="xenForm formOverlay">
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_message">{xen:phrase message}:</label></dt>
+		<dd><textarea name="message" id="ctrl_message" class="textCtrl Elastic" rows="2">{$comment.message}</textarea></dd>
+	</dl>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<input type="submit" value="{xen:phrase save_changes}" accesskey="s" class="button primary" />
+			<xen:if is="{$canDeletePost}">
+				<a href="{xen:link profile-posts/delete, $profilePost}" class="button OverlayTrigger">{xen:phrase delete_post}...</a>
+			</xen:if>
+		</dd>
+	</dl>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="commentsPlus_profile_post_comment_edit_link" version_id="1" version_string="1.0.0"><![CDATA[<xen:if is="{$comment.canEdit}"><a href="{xen:link 'profile-posts/comment-edit', $profilePost, "comment={$comment.profile_post_comment_id}"}" class="OverlayTrigger item control edit"><span></span>{xen:phrase edit}</a></xen:if>]]></template>
+  </templates>
+</addon>
