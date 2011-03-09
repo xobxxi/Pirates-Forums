@@ -535,6 +535,65 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		}
 	}
 	
+	public function actionCommentEdit()
+	{
+		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);
+		$commentId = $this->_input->filterSingle('comment', XenForo_Input::UINT);
+		
+		$pirateModel = $this->_getPirateModel();
+		
+		$comment = $pirateModel->getPirateCommentById($commentId);
+		
+		if (empty($comment))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('requested_comment_not_found'), 404)
+			);
+		}
+		
+		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
+		
+		
+		if ($pirateId != $comment['pirate_id'])
+		{
+			return $this->responseNoPermission();
+		}
+		
+		if (!$pirateModel->canEditPirateComment($comment, $pirate, $user, $errorPhraseKey))
+		{
+			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
+		}
+		
+		if ($this->_request->isPost())
+		{
+			$inputMessage = $this->_input->filterSingle('message', XenForo_Input::STRING);
+			
+			$dw = XenForo_DataWriter::create('PirateProfile_DataWriter_PirateComment');
+			$dw->setExistingData($commentId);
+			$dw->set('message', $inputMessage);
+			$dw->save();
+			
+			return $this->responseRedirect(
+					XenForo_ControllerResponse_Redirect::SUCCESS,
+					XenForo_Link::buildPublicLink('pirates/card', $pirate)
+			);
+		}
+		else
+		{
+			$viewParams = array(
+				'comment' => $comment,
+				'pirate'  => $pirate,
+				'user'    => $user
+			);
+
+			return $this->responseView(
+				'PirateProfile_ViewPublic_Pirate_CommentEdit',
+				'pirateProfile_pirate_comment_edit',
+				$viewParams
+			);
+		}
+	}
+	
 	public function actionCommentDelete()
 	{
 		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);

@@ -472,7 +472,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		if (isset($commentIdMap))
 		{
 			$comments = $this->getPirateCommentsByIds(array_keys($commentIdMap), $fetchOptions);
-			foreach ($commentIdMap AS $commentId => $profilePostId)
+			foreach ($commentIdMap AS $commentId => $pirateId)
 			{
 				if (isset($comments[$commentId]))
 				{
@@ -488,11 +488,37 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		return $pirate;
 	}
 	
-	public function preparePirateComment(array $comment, array $profilePost, array $user, array $viewingUser = null)
+	public function preparePirateComment(array $comment, array $pirate, array $user, array $viewingUser = null)
 	{
-		$comment['canDelete'] = $this->canDeletePirateComment($comment, $profilePost, $user, $null, $viewingUser);
+		$comment['canEdit']   = $this->canEditPirateComment($comment, $pirate, $user, $viewingUser);
+		$comment['canDelete'] = $this->canDeletePirateComment($comment, $pirate, $user, $null, $viewingUser);
 		
 		return $comment;
+	}
+	
+	public function canEditPirateComment(array $comment, array $pirate, array $user, &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+
+		if (!$viewingUser['user_id'])
+		{
+			return false;
+		}
+		
+		$perms = $this->getPermissions($viewingUser);
+		if ($perms['canManage'])
+		{
+			return true;
+		}
+		
+		if ($viewingUser['user_id'] == $comment['user_id'])
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	public function canDeletePirateComment(array $comment, array $pirate, array $user, &$errorPhraseKey = '', array $viewingUser = null)

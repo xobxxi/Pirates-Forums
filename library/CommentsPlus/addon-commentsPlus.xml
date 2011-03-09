@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="commentsPlus" title="Comments Plus" version_string="1.0.0" version_id="1" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="commentsPlus" title="Comments Plus" version_string="1.0.1" version_id="2" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -23,7 +23,7 @@
   <route_prefixes/>
   <style_properties/>
   <templates>
-    <template title="commentsPlus_profile_post_comment_edit" version_id="1" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase commentsPlus_edit_profile_post_comment_by_x, 'name={$profilePost.username}'}</xen:title>
+    <template title="commentsPlus_profile_post_comment_edit" version_id="1" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase commentsPlus_edit_profile_post_comment_by_x, 'name={$comment.username}'}</xen:title>
 
 <xen:navigation>
 	<xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
@@ -39,9 +39,6 @@
 		<dt></dt>
 		<dd>
 			<input type="submit" value="{xen:phrase save_changes}" accesskey="s" class="button primary" />
-			<xen:if is="{$canDeletePost}">
-				<a href="{xen:link profile-posts/delete, $profilePost}" class="button OverlayTrigger">{xen:phrase delete_post}...</a>
-			</xen:if>
 		</dd>
 	</dl>
 

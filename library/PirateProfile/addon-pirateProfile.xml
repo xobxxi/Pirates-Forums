@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.8.3" version_id="44" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.8.4" version_id="45" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -84,6 +84,7 @@
     <phrase title="pirateProfile_delete_pirate_x" version_id="20" version_string="1.2.1"><![CDATA[Delete Pirate: {pirate}]]></phrase>
     <phrase title="pirateProfile_deleting_pirate_comment" version_id="19" version_string="1.2.0"><![CDATA[Deleting pirate comment]]></phrase>
     <phrase title="pirateProfile_editing_pirate" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Editing pirate]]></phrase>
+    <phrase title="pirateProfile_edit_profile_post_comment_by_x" version_id="44" version_string="1.8.3"><![CDATA[Edit Pirate Comment by {name}]]></phrase>
     <phrase title="pirateProfile_forces_all_image_content_into_card" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Forces all image content into card.]]></phrase>
     <phrase title="pirateProfile_formerly_x" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Formerly {old}]]></phrase>
     <phrase title="pirateProfile_go_to_pirate" version_id="26" version_string="1.4.0"><![CDATA[Go to pirate]]></phrase>
@@ -1035,7 +1036,7 @@ div.label,
         list-style: none !important;
         margin-left: 0 !important;
 }]]></template>
-    <template title="pirateProfile_pirate_comment" version_id="18" version_string="1.1.0"><![CDATA[<li class="comment secondaryContent">
+    <template title="pirateProfile_pirate_comment" version_id="44" version_string="1.8.3"><![CDATA[<li class="comment secondaryContent">
 	<xen:avatar user="$comment" size="s" img="true" />
 
 	<div class="commentInfo">
@@ -1045,6 +1046,7 @@ div.label,
 		</div>
 		<div class="commentControls">
 			<xen:datetime time="$comment.comment_date" class="muted" />
+                        <xen:if is="{$comment.canEdit}"><a href="{xen:link 'pirates/comment-edit', $pirate, "comment={$comment.pirate_comment_id}"}" class="OverlayTrigger item control edit"><span></span>{xen:phrase edit}</a></xen:if>
 			<xen:if is="{$comment.canDelete}"><a href="{xen:link 'pirates/comment-delete', $pirate, "comment={$comment.pirate_comment_id}"}" class="OverlayTrigger item control delete"><span></span>{xen:phrase delete}</a></xen:if>
 		</div>
 	</div>
@@ -1090,6 +1092,27 @@ div.label,
 	</dl>
 
 	<input type="hidden" name="_xfConfirm" value="1" />
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="pirateProfile_pirate_comment_edit" version_id="44" version_string="1.8.3"><![CDATA[<xen:title>{xen:phrase pirateProfile_edit_profile_post_comment_by_x, 'name={$comment.username}'}</xen:title>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link 'pirates/comment-edit', $pirate, 'comment={$comment.pirate_comment_id}'}" method="post" class="xenForm formOverlay">
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_message">{xen:phrase message}:</label></dt>
+		<dd><textarea name="message" id="ctrl_message" class="textCtrl Elastic" rows="2">{$comment.message}</textarea></dd>
+	</dl>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<input type="submit" value="{xen:phrase save_changes}" accesskey="s" class="button primary" />
+		</dd>
+	</dl>
+
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
     <template title="pirateProfile_pirate_comment_post" version_id="18" version_string="1.1.0"><![CDATA[<xen:title>{xen:phrase pirateProfile_comment_on_pirate_x, 'pirate={$pirate.name}'}</xen:title>
