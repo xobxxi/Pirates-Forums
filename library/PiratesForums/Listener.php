@@ -39,6 +39,19 @@ class PiratesForums_Listener
 			case 'XenForo_DataWriter_DiscussionMessage_ProfilePost':
 				$extend[] = 'PiratesForums_DataWriter_DiscussionMessage_ProfilePost';
 				break;
+			case 'XenForo_DataWriter_ReportComment':
+				$extend[] = 'PiratesForums_DataWriter_ReportComment';
+				break;
+		}
+	}
+	
+	public static function loadClassModel($class, array &$extend)
+	{
+		switch ($class)
+		{
+			case 'XenForo_Model_Report':
+				$extend[] = 'PiratesForums_Model_Report';
+				break;
 		}
 	}
 }

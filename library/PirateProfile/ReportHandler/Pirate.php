@@ -41,7 +41,14 @@ class PirateProfile_ReportHandler_Pirate extends XenForo_ReportHandler_Abstract
 
 	public function getVisibleReportsForUser(array $reports, array $viewingUser)
 	{
-		return $reports;
+		$pirateModel = XenForo_Model::create('PirateProfile_Model_Pirate');
+		
+		$perms = $pirateModel->getPermissions($viewingUser);
+		if ($perms['canManage']) {
+			return $reports;
+		}
+		
+		return array();
 	}
 
 	public function getContentTitle(array $report, array $contentInfo)

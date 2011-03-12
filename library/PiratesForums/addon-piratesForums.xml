@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="piratesForums" title="Pirates Forums" version_string="1.0.4" version_id="4" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="piratesForums" title="Pirates Forums" version_string="1.1.0" version_id="6" url="http://piratesforums.com" install_callback_class="PiratesForums_Install" install_callback_method="install" uninstall_callback_class="PiratesForums_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -7,6 +7,7 @@
   <code_events/>
   <code_event_listeners>
     <listener event_id="load_class_datawriter" execute_order="10" callback_class="PiratesForums_Listener" callback_method="loadClassDatawriter" active="1" description="Extends datawriters"/>
+    <listener event_id="load_class_model" execute_order="10" callback_class="PiratesForums_Listener" callback_method="loadClassModel" active="1" description="Extends models"/>
     <listener event_id="template_create" execute_order="10" callback_class="PiratesForums_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
     <listener event_id="template_hook" execute_order="10" callback_class="PiratesForums_Listener" callback_method="templateHook" active="1" description="Template hooks for Pirates Forums"/>
   </code_event_listeners>
@@ -22,10 +23,15 @@
     <phrase title="piratesForums_welcome_message" version_id="1" version_string="1.0.1"><![CDATA[<p class="importantMessage">Ahoy there Pirate, and welcome to our forums!<br />
         To gain full access you must <a href="{register_link}">register.</a> Registration is free and only takes a few moments to complete.<br />
         Already a member? <a href="{login_link}">Login here</a> then!</p>]]></phrase>
+    <phrase title="piratesForums_x_commented_on_report" version_id="5" version_string="1.0.5"><![CDATA[{name} commented on a <a {report_attributes}>report</a>.]]></phrase>
   </phrases>
   <route_prefixes/>
   <style_properties/>
   <templates>
+    <template title="alert_report_comment" version_id="5" version_string="1.0.5"><![CDATA[{xen:phrase piratesForums_x_commented_on_report,
+	'name={xen:helper username, $user, 'subject'}',
+	'report_attributes=href="{xen:link reports, $content}" class="PopupItemLink"'
+}]]></template>
     <template title="piratesForums_logo_block" version_id="0" version_string="1.0.0"><![CDATA[width="962" height="96" ]]></template>
     <template title="piratesForums_siteStatusMessage" version_id="0" version_string="1.0.0"><![CDATA[<!--<div style="background-color:#880303;color:#fff;margin:4px;padding:4px;">
 <p><strong></strong></p>

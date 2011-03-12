@@ -8,7 +8,10 @@ class PirateProfile_AttachmentHandler_Pirate extends XenForo_AttachmentHandler_A
 	protected function _canUploadAndManageAttachments(array $contentData, array $viewingUser)
 	{
 		$perms = $this->_getPirateModel()->getPermissions();
-		if ($perms['canAttach']) return true;
+		if ($perms['canAttach'])
+		{
+			return true;
+		}
 		
 		return false;
 	}

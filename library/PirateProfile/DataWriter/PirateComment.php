@@ -110,6 +110,7 @@ class PirateProfile_DataWriter_PirateComment extends XenForo_DataWriter
 								'comment_other_commenter'
 							);
 						}
+						break;
 				}
 			}
 		}
