@@ -7,31 +7,6 @@
 
 class ReportConversations_XFCP_ControllerPublic_Conversation extends XFCP_ReportConversations_XFCP_ControllerPublic_Conversation
 {
-	/**
-	 * Decides whether or not to display link
-	 * 
-	 * @return XenForo_ControllerResponse_Abstract
-	 */
-	public function actionView()
-	{
-		$response = parent::actionView();
-		
-		$params = $response->params;
-		
-		foreach ($params['messages'] as $key => $message)
-		{
-			$canReport = true;
-			
-			if (XenForo_Visitor::getUserId() == $message['user_id'])
-			{
-				$canReport = false;
-			}
-			
-			$response->params['messages'][$key]['canReport'] = $canReport;
-		}
-		
-		return $response;
-	}
 	
 	/**
 	 * Reports this message.
@@ -46,11 +21,6 @@ class ReportConversations_XFCP_ControllerPublic_Conversation extends XFCP_Report
 		list($conversation, $conversationMessage) = $this->_getConversationAndMessageOrError($messageId, $conversationId);
 
 		$this->_assertCanReplyToConversation($conversation);
-		
-		if (XenForo_Visitor::getUserId() == $conversationMessage['user_id'])
-		{
-			throw $this->getNoPermissionResponseException();
-		}
 
 		if ($this->_request->isPost())
 		{

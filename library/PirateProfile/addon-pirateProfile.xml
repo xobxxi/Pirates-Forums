@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.8.4" version_id="45" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.8.5" version_id="46" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -467,7 +467,7 @@
 		new XenForo.AddPictureButton();
 	});
 </script>]]></template>
-    <template title="pirateProfile_form.css" version_id="36" version_string="1.6.1"><![CDATA[dfn.required
+    <template title="pirateProfile_form.css" version_id="45" version_string="1.8.4"><![CDATA[dfn.required
 {
         color: rgb(204, 0, 0) !important;
 }
@@ -478,6 +478,18 @@
         top: 3px;
         right: 0;
         color: green;
+}
+
+.extraCounter.warning
+{
+    color: orange;
+    font-weight: bold;
+}
+
+.extraCounter.error
+{
+    color: red;
+    font-weight: bold;
 }
 
 .xenOverlay .extraCounter
