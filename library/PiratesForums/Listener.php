@@ -31,4 +31,14 @@ class PiratesForums_Listener
 				return $contents;
 		}
 	}
+	
+	public static function loadClassDatawriter($class, array &$extend)
+	{
+		switch ($class)
+		{
+			case 'XenForo_DataWriter_DiscussionMessage_ProfilePost':
+				$extend[] = 'PiratesForums_DataWriter_DiscussionMessage_ProfilePost';
+				break;
+		}
+	}
 }

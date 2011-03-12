@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="piratesForums" title="Pirates Forums" version_string="1.0.3" version_id="3" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="piratesForums" title="Pirates Forums" version_string="1.0.4" version_id="4" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates/>
   <code_events/>
   <code_event_listeners>
+    <listener event_id="load_class_datawriter" execute_order="10" callback_class="PiratesForums_Listener" callback_method="loadClassDatawriter" active="1" description="Extends datawriters"/>
     <listener event_id="template_create" execute_order="10" callback_class="PiratesForums_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
     <listener event_id="template_hook" execute_order="10" callback_class="PiratesForums_Listener" callback_method="templateHook" active="1" description="Template hooks for Pirates Forums"/>
   </code_event_listeners>
