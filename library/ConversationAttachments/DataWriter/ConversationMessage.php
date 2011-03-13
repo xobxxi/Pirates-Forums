@@ -13,8 +13,6 @@ class ConversationAttachments_DataWriter_ConversationMessage extends XFCP_Conver
 		);
 		
 		return $fields;
-		
-		// ALTER TABLE  `xf_conversation_message` ADD  `attach_count` SMALLINT( 5 ) UNSIGNED NOT NULL DEFAULT  '0'
 	}
 	
 	protected function _postSave()

@@ -2,7 +2,6 @@
 
 class ConversationAttachments_Install
 {
-	// install - new column, uninstall - remove attachments
 	public static function install($existingAddOn, $addOnData)
 	{
 		$db = XenForo_Application::get('db');
