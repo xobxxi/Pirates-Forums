@@ -44,7 +44,8 @@ class PirateProfile_ReportHandler_Pirate extends XenForo_ReportHandler_Abstract
 		$pirateModel = XenForo_Model::create('PirateProfile_Model_Pirate');
 		
 		$perms = $pirateModel->getPermissions($viewingUser);
-		if ($perms['canManage']) {
+		if ($perms['canManage'])
+		{
 			return $reports;
 		}
 		
