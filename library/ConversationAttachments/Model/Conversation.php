@@ -13,11 +13,11 @@ class ConversationAttachments_Model_Conversation extends XFCP_ConversationAttach
 				$messageIds[] = $messageId;
 			}
 		}
-
+		
 		if ($messageIds)
 		{
 			$attachmentModel = $this->_getAttachmentModel();
-
+			
 			$attachments = $attachmentModel->getAttachmentsByContentIds('conversation_message', $messageIds);
 
 			foreach ($attachments AS $attachment)
@@ -66,6 +66,23 @@ class ConversationAttachments_Model_Conversation extends XFCP_ConversationAttach
 	{	
 		$this->standardizeViewingUserReference($viewingUser);
 		return XenForo_Permission::hasPermission($viewingUser['permissions'], 'conversation', 'addAttachments');
+	}
+	
+	public function unassociateAttachmentsFromConversationById($id)
+	{
+		$messages = $this->fetchAllKeyed('
+			SELECT message_id
+			FROM xf_conversation_message
+			WHERE conversation_id = ?
+		', 'message_id', $id);
+		
+		$messageIds = array_keys($messages); // not that, not that
+		
+		$this->_getDb()->update('xf_attachment', array(
+			'unassociated' => 1,
+		),  'content_id IN (' . $this->_getDb()->quote($messageIds) . ')');
+		
+		return true;
 	}
 	
 	protected function _getAttachmentModel()

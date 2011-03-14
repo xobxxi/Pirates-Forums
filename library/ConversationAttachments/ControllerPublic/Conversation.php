@@ -15,7 +15,8 @@ class ConversationAttachments_ControllerPublic_Conversation extends XFCP_Convers
 		
 		$viewParams = array(
 			'attachmentParams'		=> $attachmentParams,
-			'attachmentConstraints' => $attachmentConstraints
+			'attachmentConstraints' => $attachmentConstraints,
+			'canViewAttachments'    => true
 		);
 		
 		$response->params += $viewParams;
@@ -158,6 +159,15 @@ class ConversationAttachments_ControllerPublic_Conversation extends XFCP_Convers
 			$dw->setExistingData($messageId);
 			$dw->setExtraData('attachmentHash', $attachment['attachment_hash']);
 			$dw->save();
+			
+			$lastMessage = $dw->getMergedData();
+	
+			$response->params['messages'][$lastMessage['message_id']] = $lastMessage;
+			$response->params['lastMessage'] = $lastMessage;
+			
+			$response->params['messages'] = $this->_getConversationModel()->getAndMergeAttachmentsIntoMessages(
+				$response->params['messages']
+			);
 		}
 		
 		return $response;

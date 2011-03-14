@@ -29,6 +29,9 @@ class ConversationAttachments_Listener
 			case 'XenForo_DataWriter_ConversationMessage':
 				$extend[] = 'ConversationAttachments_DataWriter_ConversationMessage';
 				break;
+			case 'XenForo_DataWriter_ConversationMaster':
+				$extend[] = 'ConversationAttachments_DataWriter_ConversationMaster';
+				break;
 		}
 	}
 }
