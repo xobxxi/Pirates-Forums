@@ -137,9 +137,68 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 </div>
 </xen:hook>]]></template>
-    <template title="conversation_message" addon_id="XenForo" version_id="1000051" version_string="1.0.0 Release Candidate 1"><![CDATA[<xen:include template="message">
+    <template title="conversation_add" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase start_new_conversation}</xen:title>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:conversations}">{xen:phrase conversations}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link 'conversations/insert'}" method="post" class="xenForm Preview"
+	data-previewUrl="{xen:link conversations/preview}"
+>
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_recipients">{xen:phrase participants}:</label></dt>
+		<dd>
+			<textarea name="recipients" id="ctrl_recipients" rows="2" class="textCtrl AutoComplete Elastic">{$to}</textarea>
+			<p class="explain">{xen:phrase separate_names_with_comma} <xen:if is="{$remaining} > 0">{xen:phrase you_may_invite_up_to_x_members, 'number={xen:number $remaining}'}</xen:if></p>
+		</dd>
+	</dl>
+
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_title">{xen:phrase title}:</label></dt>
+		<dd><input type="text" name="title" class="textCtrl" data-liveTitleTemplate="{xen:phrase start_new_conversation}: <em>%s</em>" id="ctrl_title" maxlength="100" /></dd>
+	</dl>
+
+	<dl class="ctrlUnit fullWidth">
+		<dt></dt>
+		<dd>{xen:raw $editorTemplate}</dd>
+	</dl>
+
+	<dl class="ctrlUnit">
+		<dt></dt>
+		<dd>
+			<ul>
+				<li><label for="ctrl_open_invite"><input type="checkbox" name="open_invite" id="ctrl_open_invite" value="1" /> {xen:phrase allow_anyone_in_conversation_to_invite_others}</label></li>
+				<li><label for="ctrl_conversation_locked"><input type="checkbox" name="conversation_locked" id="ctrl_conversation_locked" value="1" /> {xen:phrase lock_conversation_no_responses_will_be_allowed}</label></li>
+			</ul>
+		</dd>
+	</dl>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<input type="submit" value="{xen:phrase start_conversation}" accesskey="s" class="button primary" />
+                        <xen:include template="attachment_upload_button" />
+			<input type="button" value="{xen:phrase preview}..." class="button PreviewButton JsOnly" />
+		</dd>
+	</dl>
+
+	<xen:if is="{$attachmentParams}">
+		<dl class="ctrlUnit AttachedFilesUnit">
+			<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
+			<dd><xen:include template="attachment_editor" /></dd>
+		</dl>
+	</xen:if>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="conversation_message" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:require css="conversationAttachments_conversation_message.css" />
+
+<xen:include template="message">
 	
 	<xen:set var="$messageId">message-{$message.message_id}</xen:set>
+     
+        <xen:set var="$messageContentAfterTemplate"><xen:if is="{$message.attachments}"><xen:include template="attached_files"><xen:map from="$message" to="$post" /></xen:include></xen:if></xen:set>
 	
 	<xen:set var="$messageAfterTemplate">
 		<div class="messageMeta">
@@ -155,9 +214,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 						data-messageSelector="#message-{$message.message_id}"><span></span>{xen:phrase edit}</a>
 					<xen:require js="js/xenforo/discussion.js" />
 				</xen:if>
-                                <xen:if is="{$message.canReport}">
-                                        <a href="{xen:link 'conversations/report', $conversation, 'm={$message.message_id}'}" class="OverlayTrigger item control report" data-cacheOverlay="false"><span></span>{xen:phrase report}</a>
-                                </xen:if>
+                                <a href="{xen:link 'conversations/report', $conversation, 'm={$message.message_id}'}" class="OverlayTrigger item control report" data-cacheOverlay="false"><span></span>{xen:phrase report}</a>
 			</div>
 			
 			<xen:if hascontent="true">
@@ -174,6 +231,75 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 	</xen:set>
 	
 </xen:include>]]></template>
+    <template title="conversation_message_edit" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase edit_message_by_x, 'name={$conversationMessage.username}'}</xen:title>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:conversations}">{xen:phrase conversations}</xen:breadcrumb>
+	<xen:breadcrumb href="{xen:link full:conversations, $conversation}">{$conversation.title}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link 'conversations/save-message', $conversation, 'm={$conversationMessage.message_id}'}" method="post" class="xenForm Preview"
+	data-previewUrl="{xen:link 'conversations/edit-message/preview', $conversation, 'm={$conversationMessage.message_id}'}">
+
+	<fieldset>
+		<dl class="ctrlUnit fullWidth surplusLabel">
+			<dt><label for="ctrl_message">{xen:phrase message}:</label></dt>
+			<dd>{xen:raw $editorTemplate}</dd>
+		</dl>
+	</fieldset>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<input type="submit" value="{xen:phrase save_changes}" accesskey="s" class="button primary" />
+                        <xen:include template="attachment_upload_button" />
+			<input type="button" value="{xen:phrase preview}..." class="button PreviewButton JsOnly" />
+		</dd>
+	</dl>
+
+	<xen:if is="{$attachmentParams}">
+		<dl class="ctrlUnit AttachedFilesUnit">
+			<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
+			<dd><xen:include template="attachment_editor"><xen:map from="$conversationMessage.attachments" to="$attachments" /></xen:include></dd>
+		</dl>
+	</xen:if>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="conversation_reply" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase reply_to_conversation}: {$conversation.title}</xen:title>
+<xen:h1>{xen:phrase reply_to_conversation}</xen:h1>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:conversations}">{xen:phrase conversations}</xen:breadcrumb>
+	<xen:breadcrumb href="{xen:link full:conversations, $conversation}">{$conversation.title}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link 'conversations/insert-reply', $conversation}" method="post" class="xenForm Preview"
+	data-previewUrl="{xen:link conversations/preview}"
+>
+	<dl class="ctrlUnit fullWidth">
+		<dt></dt>
+		<dd>{xen:raw $editorTemplate}</dd>
+	</dl>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<input type="submit" value="{xen:phrase reply_to_conversation}" accesskey="s" class="button primary" />
+                        <xen:include template="attachment_upload_button" />
+			<input type="button" value="{xen:phrase preview}" class="button PreviewButton JsOnly" />
+		</dd>
+	</dl>
+
+	<xen:if is="{$attachmentParams}">
+		<dl class="ctrlUnit AttachedFilesUnit">
+			<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
+			<dd><xen:include template="attachment_editor" /></dd>
+		</dl>
+	</xen:if>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
     <template title="EXTRA.css" addon_id="XenForo" version_id="1000052" version_string="1.0.0 Release Candidate 2"><![CDATA[/* login bar */
 #loginBar
 {

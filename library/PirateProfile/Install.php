@@ -104,6 +104,12 @@ class PirateProfile_Install
 			DELETE FROM xf_content_type
 			WHERE xf_content_type.addon_id = 'pirateProfile'
 		");
+		
+		$db->query("
+			UPDATE xf_attachment 
+			SET    unassociated =  '1' 
+			WHERE  xf_attachment.content_type = 'pirate';
+		");
 
 		return true;
 	}
