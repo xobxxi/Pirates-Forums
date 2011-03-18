@@ -25,8 +25,13 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 *
 	 * Well, first I'll go about how the data is stored,
 	 *
+	 * There are in total 2 entries in the registry.
+	 *
 	 * The data uses the registry, in an entry call "PiratesNewsFeedCache"
-	 * this entry has an array, with all the previously posted articles
+	 *
+	 * (it does not include the article itself,  only information about it)
+	 *
+	 * this entry has information about feeds that have been fetched in the past.
 	 * when fetching the atom/rss  from pirates site,
 	 * These are the items returned by the news feed ( and saved to the registry):
 	 * href
@@ -34,10 +39,6 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 * published
 	 * updated
 	 *
-	 * to keep track of which article is which, we convert the "published" date, into a time stamp,
-	 * this provies a unique numeric value for each article that becomes the key of the article in the stack,
-	 * and helps to know if an article has been already posted or not.
-	 * then this becomes the key identifier of each individual article.
 	 *
 	 * href - is the url of article
 	 *
@@ -47,7 +48,22 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 *
 	 * update - if the article was updated, this is the date and time of that update
 	 *
-	 * ------------------------------
+	 * ----------------------------
+ 	 *
+	 *  "PiratesNewsFeedRecord"
+	 *
+	 * this entry has an array, with all the previously posted articles.
+	 * this is only a stack of keys data time stamp of an specific
+	 * article. So only the key is stored, and that is how we know if
+	 * an specic article has been published or not, by saving the time stamp of the date.
+	 * If it is not there, it means it hasn't been published on the site. If it is there it has.
+	 *
+	 * to keep track of which article is which, we convert the "published" date, into a time stamp,
+	 * this provies a unique numeric value for each article that becomes the key of the article in the stack,
+	 * and helps to know if an article has been already posted or not.
+	 * then this becomes the key identifier of each individual article.
+	 *
+	 * -----------------------------
 	 *
 	 * $feed = $this->feed($forum_id,$itemsCount);
 	 *
@@ -57,7 +73,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 *
 	 * $itemsCount - the number of news articles to fetch
 	 *
-	 * ------------------------------
+	 * -----------------------------
 	 *
 	 * It is important to note that there are to registry entries used,
 	 * one to hold the articles data, and another one to hold what articles have been posted
