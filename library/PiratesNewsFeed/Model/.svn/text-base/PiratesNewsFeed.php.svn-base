@@ -80,11 +80,8 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		//get an instance of the Xenforo registry
 		$registry = XenForo_Model::create('XenForo_Model_DataRegistry');
 
-		//get articles feeds already in the system
-		$cache = $registry->get('PiratesNewsFeedCache');
 
-		//get the articles already posted
-		$record = $registry->get('PiratesNewsFeedRecord');
+		$cache = $registry->get('PiratesNewsFeedCache');
 
 		/**
 		 *
@@ -132,12 +129,11 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		/**
 		 * this can be used to make changes to  articles, of specific tags, or string, before is converted into bbcode.
 		 * see reference below, after the preg_match statement
-		 * *EXAMPLE*
+		 *
 		 * $search['search this'] = "replace with this";
 		 */
 		$search['<br>'] = "<br /><br />";
 		$search['<br />'] = "<br /><br />";
-
 
 
 		/**
@@ -146,7 +142,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		foreach($feed as $k => $v) {
 
 			//we check if the article already exist  if the key is in $cache then it exists.
-			if($record && isset($record[$v['stamp']])) {
+			if($cache && isset($cache[$v['stamp']])) {
 				//if isset/ or exists ,  then we skip this article, and move on to the next article
 				continue;
 			}
@@ -219,19 +215,15 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			curl_close(self::$fetch_link);
 		}
 
-		/**
-		 * This posts on the news reporter forum (if any) announcing of new articles avilable to be posted.
-		 */
+
 		$this->_notifyParties($reportNews);
 
+		$model->deleteRegistry('PiratesNewsFeedCache');
 		if(!$cache) {
-			//update the registry last article time stamp
 			$feed['last_stamp'] = $latest['stamp'];
-			$this->registry($feed);
+			$model->registry($feed);
 		} else {
-			//delete the whole cache.
-			//forces it to refresh, when used again.
-			$this->_getDataRegistryModel()->delete('PiratesNewsFeedCache');
+			$model->deleteRegistry('PiratesNewsFeedCache');
 		}
 	}
 
@@ -266,45 +258,26 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			<b>News</b>:\n<br />
 		".implode("<br /><br />",$reportNews);
 
-		//who will post the message
 		$user = $model->getNewsPoster();
-
-		//turns the text into bbcode
 		$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml($new_message, $msg_options));
 
-		//create the thread
 		$thread = self::mkThread($xoptions->news_notification_forum, $user,"News Waiting to be posted",str_replace("\\'","'",$new_message));
 
 		if($xoptions->news_subscribe_posters) {
 
-			//
 			$permission = $this->getModelFromCache('Xenforo_Model_UserGroup');
-
-			//get user_ids from "news reporter" group
 			$user_ids = $permission->getUserIdsInUserGroup($xoptions->news_group_id);
 
-			//this will get everyone in the group to an alert when the message is posted.
 			$watch = $this->getModelFromCache('XenForo_Model_ThreadWatch');
-
 			$notify_method = ($xoptions->news_notify_posters_email? 'watch_email':'watch_no_email');
 
 
 			//get user model.
 			$user_model = $this->getModelFromCache('Xenforo_Model_User');
 			foreach ($user_ids as $k => $v) {
-				//adds "watch" to users in group news reporter
 				$watch->setThreadWatchState($k, $thread['thread_id'], $notify_method);
 
-
 				if($xoptions->news_alert) {
-					/**
-					 * I am not really sure if the above action will trigger an alert.
-					 *
-					 * When I tested it, it did not trigger an alert, so this belong statement was added, which
-					 * triggers an alert to the users in group "news reporter".
-					 */
-
-					//  this creates the news alert.
 					$pv_user = $user_model->getUserById($k);
 					XenForo_Model_Alert::alert(
 						$k,
@@ -339,9 +312,6 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		$poster = $xoptions->news_poster_options;
 		$news_group_id = $xoptions->news_group_id;
 
-		/**
-		 * This swtich uses admin option to determine what user will post the news article.
-		 */
 		switch($poster) {
 			default:
 			case self::POSTER_DEFAULT:
@@ -369,54 +339,34 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 					return false;
 				}
 				$permission = $this->getModelFromCache('Xenforo_Model_UserGroup');
-
-				//get the user_ids from group
 				$user_ids = $permission->getUserIdsInUserGroup($news_group_id);
 
-				//pick a random id from the group
 				$user_id = array_rand($user_ids, 1);
 
-
 				$user_model = $this->getModelFromCache('Xenforo_Model_User');
-
-				//get user from picked id
 				$user = $user_model->getUserById($user_id);
 
 
 				break;
 			case self::POSTER_RAMDOM_AND_POSTER_ID:
 
-				/**
-				 * this is basically the same as the above option, but it also adds spefici ids specified
-				 * in the "poster id" field in the admin. So it will add any specified id(s) to the pool of ids.
-				 * before a random one is picked once all together.
-				 *
-				 */
 				if(is_array($user_ids)) {
-					//more than one id specific in "poster id"
 					$field_user_ids = array_flip($user_ids);
 				} else {
 					//is an int
 					if($user_ids) {
-						//just one id specified
 						$field_user_ids[$user_ids] = $user_ids;
 					} else {
-						// field was empty.
 						$field_user_ids = array();
 					}
 				}
 
 				$permission = $this->getModelFromCache('Xenforo_Model_UserGroup');
-				//gets the ids from group
 				$user_ids = $permission->getUserIdsInUserGroup($news_group_id);
-
-				//mergest the ids from poster and group
 				$user_ids += $field_user_ids;
 
-				//picks a random id from the pool of ids
 				$user_id = array_rand($user_ids, 1);
 
-				//get user
 				$user_model = $this->getModelFromCache('Xenforo_Model_User');
 				$user = $user_model->getUserById($user_id);
 
@@ -456,12 +406,8 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	}
 
 	/**
-	 * This basically would add specific setting to an article already saved in cached.
 	 *
-	 * This is not used.  But it is a good reference here.
-	 *
-	 * can safely be removed.
-	 *
+	 * Not really used but this is where it was heading.
 	 * @param $id
 	 * @param $setting
 	 * @param $data
@@ -504,27 +450,20 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 */
 	function markPosted($new_id)
 	{
-		//get the record of posted articles.
 		$record = XenForo_Model::create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedRecord');
 
-		//is already posted
 		if(is_array($record) && isset($record[$new_id])) {
 			//this means the article is already marked as posted, so no need to go any further.
 			return;
 		}
 		$visitor = XenForo_Visitor::getInstance();
 		//just for reference, post who posted the article.
-
-		//adds the new id to the key stack. and in addition adds the username as value.
 		$record[$new_id]  = $visitor->username;
 
-		//saves the record.
+		//_getDataRegistryModel is from Xenforo so there is no reference of it anywhere in the addon.
 		$this->_getDataRegistryModel()->set('PiratesNewsFeedRecord', $record);
 
-		//here in indicates the the article was posted  outside of the "newsfeed" system,
-		//so admins can mark it as posted, and take credit for posting it
-		//since possible the person who posted it  is not in the news reporter group or doesn't know how to use it.
-		//update who posted it.
+		//update Cache...
 		$registry = $this->_modelRegistry();
 		$news = $registry[$new_id];
 		if(isset($news['poster'])) {
@@ -546,11 +485,11 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		if(is_array($record) && isset($record[$new_id])) {
 
 			unset($record[$new_id]);
-			//updates the record
+
 			$this->_getDataRegistryModel()->set('PiratesNewsFeedRecord', $record);
 		}
 
-		//removes any reference of who posted the article, since it is marked as not posted..
+		//update Cache...
 		$registry = $this->_modelRegistry();
 		$news = $registry[$new_id];
 		$news['posted'] = false;
@@ -559,6 +498,14 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	}
 
 
+	/**
+	 *
+	 * Get news list blueprint of these already posted to see what has been posted and what hasn't
+	 */
+	function getPosted()
+	{
+		return XenForo_Model::create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedRecord');
+	}
 
 	/**
 	 *
@@ -582,17 +529,6 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		$this->_getDataRegistryModel()->delete('PiratesNewsFeedCache');
 	}
 
-
-	/**
-	 *
-	 * Get news records of posted articles
-	 * @return array - return an array with key identifier of each article posted (time stamp)
-	 */
-	function _getPosted()
-	{
-		return XenForo_Model::create('XenForo_Model_DataRegistry')->get('PiratesNewsFeedRecord');
-	}
-
 	/**
 	 * Gets news articles from piratesonline.com and saves them in cache.
 	 *
@@ -610,11 +546,9 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		$forum = $forum = $model->getForumById($forum_id);
 
 		$feed = "http://blog.piratesonline.go.com/blog/pirates/feed2/entries/atom?numEntries=$itemsCount";
-		//pharse the feeds from piratesonline.com
 		$data = simplexml_load_file($feed);
 
-		//get already posted articles
-		$posted = $this->_getPosted();
+		$posted = $this->getPosted();
 
 		foreach($data->entry as $k =>$v) {
 			$attr = $v->link->attributes();
@@ -629,24 +563,26 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			$blog['markNotPosted'] = XenForo_Link::buildPublicLink("forums/markNotPosted&news_id={$blog['stamp']}",$forum);
 
 			$blog['postLink'] = XenForo_Link::buildPublicLink("forums/PostNews/&news_id={$blog['stamp']}",$forum);
-			/**
-			 * checks if the article is already posted
-			 */
 			if(isset($posted[$blog['stamp']])) {
 				//news already posted...
 				$blog['posted']  = $posted[$blog['stamp']];
 			} else {
 				$blog['posted']  = false;
 			}
-
-			//stacks the article into the blogs stack
 			$blogs[$blog['stamp']] = $blog;
 		}
-		//gets the last time stamp and save it it for reference.
 		$blogs['last_stamp'] = key($blogs);
 
 		$this->_getDataRegistryModel()->set('PiratesNewsFeedCache', $blogs);
 
 		return self::$blogs = $blogs;
+	}
+
+	/**
+	 * @return PiratesNewsFeed_Model_PiratesNewsFeed
+	 */
+	protected function _getUserModel()
+	{
+		return $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
 	}
 }
