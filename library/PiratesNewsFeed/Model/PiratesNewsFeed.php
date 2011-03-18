@@ -211,6 +211,10 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 
 			$prepare_message = $out[1] ;
 
+			/**
+			 *
+			 * Convert html into bbcode
+			 */
 			$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml($prepare_message, $msg_options));
 
 
