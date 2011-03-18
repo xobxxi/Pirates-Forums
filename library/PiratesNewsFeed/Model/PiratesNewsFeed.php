@@ -75,8 +75,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	 *
 	 * -----------------------------
 	 *
-	 * It is important to note that there are to registry entries used,
-	 * one to hold the articles data, and another one to hold what articles have been posted
+	 * Two registry entries:
 	 *
 	 * - PiratesNewsFeedCache
 	 * - PiratesNewsFeedRecord
