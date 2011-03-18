@@ -146,7 +146,8 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		$reportNews = array();
 
 		/**
-		 * this can be used to make changes to  articles, of specific tags, or string, before is converted into bbcode.
+		 * this can be used to make changes to  articles, of specific tags, or string, while
+		 * in its orginal html form, before is converted into bbcode.
 		 * see reference below, after the preg_match statement
 		 * *EXAMPLE*
 		 * $search['search this'] = "replace with this";
