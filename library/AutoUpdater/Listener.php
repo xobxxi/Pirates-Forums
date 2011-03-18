@@ -25,7 +25,10 @@ class AutoUpdater_Listener
 
 					//$extend[] = 'AutoUpdater_ControllerPublic_FindNew';
 					break;
+				case 'XenForo_ControllerPublic_RecentActivity':
 
+					$extend[] = 'AutoUpdater_ControllerPublic_RecentActivity';
+					break;
 			}
 		}
 	}

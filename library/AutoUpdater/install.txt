@@ -1,12 +1,12 @@
 1. Put the contents of the library directory into your XenForo library directory.
 
 
-2. Find the "natigation_visitor_tab" template in the admin and replace it with the  content of "navigation_visitor_tab.tpl" file.
+2. Find the "navigation_visitor_tab" template in the admin and replace it with the  content of "navigation_visitor_tab.tpl" file.
 (included in the addon)
 
  - OR -
 	
-	Find template "natigation_visitor_tab" in your admin, add the following changes:
+	Find template "navigation_visitor_tab" in your admin, add the following changes:
 	
 	On line 98:(after: <xen:if is="{$visitor.conversations_unread}">
 					<strong class="itemCount" id="ConversationsMenu_Counter">{xen:number $visitor.conversations_unread}

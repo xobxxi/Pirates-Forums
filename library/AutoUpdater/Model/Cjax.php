@@ -21,6 +21,7 @@ class AutoUpdater_Model_Cjax {
 
 			//To see stuff on firebug you can enable this..
 			//$ajax->debug = true;
+
 			$data['a[sound]']  = $options->AutoUpdaterSound;
 
 			$data['a[engine]']  = $options->AutoUpdaterTimeEngine;
@@ -28,7 +29,7 @@ class AutoUpdater_Model_Cjax {
 			$data['a[unread_msgs]'] = $visitor['conversations_unread'];
 			$ajax->post = $data;
 			$ajax->text = 'Loading AutoUpdater..';
-			$ajax->call("Library/AutoUpdater/ajax.php?controller=alert&function=dispatcher");
+			$ajax->call("library/AutoUpdater/ajax.php?controller=alert&function=dispatcher");
 		}
 	}
 

@@ -89,7 +89,7 @@ class controller_alert extends CJAX {
 			$ajax->text = false;
 			$ajax->loading = true; //dont't change this one. Is special variable ajusted to this addon.
 			$ajax->post = $this->data;
-			$ajax->call("Library/AutoUpdater/ajax.php?controller=alert&function=looper");
+			$ajax->call("library/AutoUpdater/ajax.php?controller=alert&function=looper");
 		}
 	}
 
@@ -139,7 +139,7 @@ class controller_alert extends CJAX {
 		$ajax->text = false; //this prevents the "loading..." message to appear on the screen. It can be changed.
 		$ajax->loading = true; //don't change this.
 		$ajax->post = $this->data;
-		$ajax->call("Library/AutoUpdater/ajax.php?controller=alert&function=looper");
+		$ajax->call("library/AutoUpdater/ajax.php?controller=alert&function=looper");
 	}
 
 	/**
