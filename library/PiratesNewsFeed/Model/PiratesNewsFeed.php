@@ -321,7 +321,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 					/**
 					 * I am not really sure if the above action will trigger an alert.
 					 *
-					 * When I tested it, it did not trigger an alert, so this belong statement was added, which
+					 * When I tested it, it did not trigger an alert, so the statement below was added to address that, which
 					 * triggers an alert to the users in group "news reporter".
 					 */
 
