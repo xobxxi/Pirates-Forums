@@ -247,7 +247,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		if(!$cache) {
 			//update the registry last article time stamp
 			$feed['last_stamp'] = $latest['stamp'];
-			$this->registry($feed);
+			$this->_getDataRegistryModel()->set('PiratesNewsFeedCache', $feed);
 		} else {
 			//delete the whole cache.
 			//forces it to refresh, when used again.
