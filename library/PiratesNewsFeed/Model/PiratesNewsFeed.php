@@ -2,7 +2,6 @@
 
 class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 
-
 	//this holds feeds()
 	private static $blogs;
 
