@@ -2,6 +2,7 @@
 
 class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 
+	//this holds feeds()
 	private static $blogs;
 
 	/**
@@ -80,7 +81,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		//get an instance of the Xenforo registry
 		$registry = XenForo_Model::create('XenForo_Model_DataRegistry');
 
-		//get articles feeds already in the system
+		//get articles latest feeds already in the system
 		$cache = $registry->get('PiratesNewsFeedCache');
 
 		//get the articles already posted
