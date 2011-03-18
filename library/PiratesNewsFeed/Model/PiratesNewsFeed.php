@@ -298,10 +298,10 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		if($xoptions->news_subscribe_posters) {
 
 			//
-			$permission = $this->getModelFromCache('Xenforo_Model_UserGroup');
+			$group = $this->getModelFromCache('Xenforo_Model_UserGroup');
 
 			//get user_ids from "news reporter" group
-			$user_ids = $permission->getUserIdsInUserGroup($xoptions->news_group_id);
+			$user_ids = $group->getUserIdsInUserGroup($xoptions->news_group_id);
 
 			//this will get everyone in the group to an alert when the message is posted.
 			$watch = $this->getModelFromCache('XenForo_Model_ThreadWatch');
@@ -388,10 +388,10 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 				if(!$news_group_id) {
 					return false;
 				}
-				$permission = $this->getModelFromCache('Xenforo_Model_UserGroup');
+				$group = $this->getModelFromCache('Xenforo_Model_UserGroup');
 
 				//get the user_ids from group
-				$user_ids = $permission->getUserIdsInUserGroup($news_group_id);
+				$user_ids = $group->getUserIdsInUserGroup($news_group_id);
 
 				//pick a random id from the group
 				$user_id = array_rand($user_ids, 1);
@@ -426,9 +426,9 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 					}
 				}
 
-				$permission = $this->getModelFromCache('Xenforo_Model_UserGroup');
+				$group = $this->getModelFromCache('Xenforo_Model_UserGroup');
 				//gets the ids from group
-				$user_ids = $permission->getUserIdsInUserGroup($news_group_id);
+				$user_ids = $group->getUserIdsInUserGroup($news_group_id);
 
 				//merges the ids from poster and group
 				$user_ids += $field_user_ids;
