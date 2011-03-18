@@ -431,7 +431,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 				//gets the ids from group
 				$user_ids = $permission->getUserIdsInUserGroup($news_group_id);
 
-				//mergest the ids from poster and group
+				//merges the ids from poster and group
 				$user_ids += $field_user_ids;
 
 				//picks a random id from the pool of ids
