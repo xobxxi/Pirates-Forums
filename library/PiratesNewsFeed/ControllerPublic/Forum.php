@@ -111,9 +111,12 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 	function ActionRefreshNews()
 	{
 		$model  = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
-		$model->deleteRegistry('PiratesNewsFeedCache');
 
-		$this->actionDisplayNews();
+		$registry = $this->getModelFromCache('XenForo_Model_DataRegistry');
+
+		$registry->delete('PiratesNewsFeedCache');
+
+		//$this->actionDisplayNews();
 
 		return $this->_genericView();
 	}
@@ -130,21 +133,21 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		$poster = $options->news_poster_options;
 		$news_group_id = $options->news_group_id;
 
+		$viewParams = array();
+
 		$model  = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
-		$blogs = $model->registry();
+
+		$registry = $this->getModelFromCache('XenForo_Model_DataRegistry');
+
+		$blogs = $registry->get('PiratesNewsFeedCache');
 
 		$news_id = $this->_input->filterSingle('news_id', XenForo_Input::INT);
 
 		$news = $blogs[$news_id];
 
 		$message = $model->fetch($news['url']);
-		//pirates provides service notications in a slightly different format, so if check for news fails then will check with a second regular expression
-		if(!preg_match("/\<div class\=\"news_body\"\>(.+)\t+\s+\<br\>\<br\>/sm",$message,$out)) {
-			preg_match("/\<div class\=\"news_body\"\>(.+)\n\s+\<div class\=\"next\-previous\"\>/sm",$message,$out);
-		}
-		$viewParams = array();
 
-		if(!$out) {
+		if(!$message) {
 			//$this->error(new XenForo_Phrase('error_msg'), 'group_id');
 			return $this->responseView(
 				'PiratesNewsFeed_ViewPublic_Forum_Yo', // This is a fictional class, don't worry about why I guess lol

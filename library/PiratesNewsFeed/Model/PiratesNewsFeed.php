@@ -168,6 +168,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 				continue;
 			}
 
+			//title of article
 			//$reportNews - is stack used in self::mkTread()
 			//this is for notification purposes, to notify news posters that there are new articles waiting to be posted
 			$reportNews[$k] = $v['title'];
@@ -185,20 +186,6 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 				//this means  we failed to fetch the article.
 				continue;
 			}
-
-			//from the page that was fetched, we need to extract the article, and remove all the other html from the page.
-			if(!preg_match("/\<div class\=\"news_body\"\>(.+)\t+\s+\<br\>\<br\>/sm",$message,$out)) {
-				//if the above fails, we try to see if this is a "service" notification message
-				//the "service" notification messages, have a slightly different format than a regular articles, so we adjust the regular expression to reflec that.
-				preg_match("/\<div class\=\"news_body\"\>(.+)\n\s+\<div class\=\"next\-previous\"\>/sm",$message,$out);
-			}
-
-			if(!$out) {
-				//this means the format how pirates show blogs could have changed etc..
-				//in this case, the regular expressions above will need to be updated.
-				continue;
-			}
-
 
 			/**
 			* this can be used to make changes to  articles, of specific tags, or string, before is converted into bbcode.
@@ -245,11 +232,14 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		 */
 		$this->_notifyParties($reportNews);
 
+		//this might indicate that this is the first time this is ran, so we save everything in the cache.
 		if(!$cache) {
 			//update the registry last article time stamp
 			$feed['last_stamp'] = $latest['stamp'];
 			$this->_getDataRegistryModel()->set('PiratesNewsFeedCache', $feed);
 		} else {
+		//otherwise.. we delete the cache, so that it can make a fresh fetch when used again.
+
 			//delete the whole cache.
 			//forces it to refresh, when used again.
 			$this->_getDataRegistryModel()->delete('PiratesNewsFeedCache');
@@ -269,7 +259,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	function _notifyParties($reportNews)
 	{
 		$xoptions = XenForo_Application::get('options');
-		if($xoptions->news_notification_forum && $reportNews) {
+		if(!$xoptions->news_notification_forum || !$reportNews) {
 			return;
 		}
 
@@ -473,7 +463,21 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		if($close_link) {
 			curl_close(self::$fetch_link);
 		}
-		return $results;
+
+		//from the page that was fetched, we need to extract the article, and remove all the other html from the page.
+		if(!preg_match("/\<div class\=\"news_body\"\>(.+)\t+\s+\<br\>\<br\>/sm",$results,$out)) {
+			//if the above fails, we try to see if this is a "service" notification message
+			//the "service" notification messages, have a slightly different format than a regular articles, so we adjust the regular expression to reflec that.
+			preg_match("/\<div class\=\"news_body\"\>(.+)\n\s+\<div class\=\"next\-previous\"\>/sm",$results,$out);
+		}
+
+		if(!$out) {
+			//this means the format how pirates show blogs could have changed etc..
+			//in this case, the regular expressions above will need to be updated.
+			continue;
+		}
+
+		return $out[1];
 	}
 
 	/**
