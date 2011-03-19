@@ -155,8 +155,6 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		$search['<br>'] = "<br /><br />";
 		$search['<br />'] = "<br /><br />";
 
-
-
 		/**
 		 * Then we loop through $feed (the fresh stack of articles fetched from piratesonline.com)
 		 */

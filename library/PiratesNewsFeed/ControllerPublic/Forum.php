@@ -181,8 +181,6 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 
 		$model->markPosted($news['stamp']);
 
-		//$model->injectCache($news_id,'message',$new_message);
-
 		return $this->responseView(
 			'PiratesNewsFeed_ViewPublic_Forum_Yo',
 			'PiratesNewsFeed_news_posted',
