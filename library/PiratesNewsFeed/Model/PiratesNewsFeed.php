@@ -476,7 +476,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		if(!$out) {
 			//this means the format how pirates show blogs could have changed etc..
 			//in this case, the regular expressions above will need to be updated.
-			continue;
+			return false;
 		}
 
 		return $out[1];
