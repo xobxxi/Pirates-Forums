@@ -446,6 +446,18 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		}
 
 
+		//from the page that was fetched, we need to extract the article, and remove all the other html from the page.
+		if(!preg_match("/\<div class\=\"news_body\"\>(.+)\t+\s+\<br\>\<br\>/sm",$results,$out)) {
+			//if the above fails, we try to see if this is a "service" notification message
+			//the "service" notification messages, have a slightly different format than a regular articles, so we adjust the regular expression to reflec that.
+			preg_match("/\<div class\=\"news_body\"\>(.+)\n\s+\<div class\=\"next\-previous\"\>/sm",$results,$out);
+		}
+
+		if(!$out) {
+			//this means the format how pirates show blogs could have changed etc..
+			//in this case, the regular expressions above will need to be updated.
+			return false;
+		}
 
 		/**
 		 * this can be used to make changes to  articles, of specific tags, or string, while
@@ -462,27 +474,11 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		* Uncomment if it becomes necessary..
 		*
 		* this uses the $search  array defined above
-		*
-		*
 		*/
 
-		$message = str_replace(array_keys($search),$search, $message);
-		//$results = str_replace(array("\<br\>","<br />"),array("\n\n","\n\n"),$results);
+		$message = str_replace(array_keys($search),$search, $out[1]);
 
-		//from the page that was fetched, we need to extract the article, and remove all the other html from the page.
-		if(!preg_match("/\<div class\=\"news_body\"\>(.+)\t+\s+\<br\>\<br\>/sm",$results,$out)) {
-			//if the above fails, we try to see if this is a "service" notification message
-			//the "service" notification messages, have a slightly different format than a regular articles, so we adjust the regular expression to reflec that.
-			preg_match("/\<div class\=\"news_body\"\>(.+)\n\s+\<div class\=\"next\-previous\"\>/sm",$results,$out);
-		}
-
-		if(!$out) {
-			//this means the format how pirates show blogs could have changed etc..
-			//in this case, the regular expressions above will need to be updated.
-			return false;
-		}
-
-		return $out[1];
+		return $message;
 	}
 
 	/**
