@@ -462,6 +462,10 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			curl_close(self::$fetch_link);
 		}
 
+		if(!$results) {
+			return false;
+		}
+
 		//from the page that was fetched, we need to extract the article, and remove all the other html from the page.
 		if(!preg_match("/\<div class\=\"news_body\"\>(.+)\t+\s+\<br\>\<br\>/sm",$results,$out)) {
 			//if the above fails, we try to see if this is a "service" notification message
