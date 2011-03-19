@@ -145,15 +145,6 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		//holds the titles of articles that needs to be posted, in news posters notification.
 		$reportNews = array();
 
-		/**
-		 * this can be used to make changes to  articles, of specific tags, or string, while
-		 * in its orginal html form, before is converted into bbcode.
-		 * see reference below, after the preg_match statement
-		 * *EXAMPLE*
-		 * $search['search this'] = "replace with this";
-		 */
-		$search['<br>'] = "<br /><br />";
-		$search['<br />'] = "<br /><br />";
 
 		/**
 		 * Then we loop through $feed (the fresh stack of articles fetched from piratesonline.com)
@@ -186,22 +177,10 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			}
 
 			/**
-			* this can be used to make changes to  articles, of specific tags, or string, before is converted into bbcode.
-			* Uncomment if it becomes necessary..
-			*
-			* this uses the $search  array defined above
-			*
-			* $out[1] = str_replace(array_keys($search),$search,$out[1]);
-			*/
-
-			$prepare_message = $out[1] ;
-
-			/**
 			 *
 			 * Convert html into bbcode
 			 */
-			$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml($prepare_message, $msg_options));
-
+			$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml($message, $msg_options));
 
 			/**
 			 *
@@ -465,6 +444,30 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		if(!$results) {
 			return false;
 		}
+
+
+
+		/**
+		 * this can be used to make changes to  articles, of specific tags, or string, while
+		 * in its orginal html form, before is converted into bbcode.
+		 * see reference below, after the preg_match statement
+		 * *EXAMPLE*
+		 * $search['search this'] = "replace with this";
+		 */
+		$search['<br>'] = "\n\n";
+		$search['<br />'] = "\n\n";
+
+		/**
+		* this can be used to make changes to  articles, of specific tags, or string, before is converted into bbcode.
+		* Uncomment if it becomes necessary..
+		*
+		* this uses the $search  array defined above
+		*
+		*
+		*/
+
+		$message = str_replace(array_keys($search),$search, $message);
+		//$results = str_replace(array("\<br\>","<br />"),array("\n\n","\n\n"),$results);
 
 		//from the page that was fetched, we need to extract the article, and remove all the other html from the page.
 		if(!preg_match("/\<div class\=\"news_body\"\>(.+)\t+\s+\<br\>\<br\>/sm",$results,$out)) {
