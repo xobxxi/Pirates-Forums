@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.9.0" version_id="48" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.9.1" version_id="49" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -366,7 +366,7 @@
                 <xen:set var="$action">{xen:phrase edit}</xen:set>
         </xen:include>
 </form>]]></template>
-    <template title="pirateProfile_form" version_id="46" version_string="1.8.5"><![CDATA[<xen:require js="js/card/form.js" />
+    <template title="pirateProfile_form" version_id="48" version_string="1.9.0"><![CDATA[<xen:require js="js/card/form.js" />
 <xen:require css="pirateProfile_form.css" />
 
 <xen:if is="{$errors}">
@@ -463,7 +463,7 @@
 </dl>
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfile_rank_privateering">{xen:phrase pirateProfile_pirate_privateering_rank}:</label></dt>
+	<dt><label for="ctrl_pirateProfile_rank_privateering">{xen:phrase pirateProfile_pirate_privateering} {xen:phrase pirateProfile_pirate_rank}:</label></dt>
 	<dd>
 		<select name="infamy_privateering" class="textCtrl autoSize" id="ctrl_pirateProfile_rank_privateering">
 			<xen:foreach loop="$ranks.privateering" key="$rank" value="$name">
@@ -474,7 +474,7 @@
 </dl>
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfile_rank_pvp">{xen:phrase pirateProfile_pirate_pvp_rank}:</label></dt>
+	<dt><label for="ctrl_pirateProfile_rank_pvp">{xen:phrase pirateProfile_pirate_pvp} {xen:phrase pirateProfile_pirate_rank}:</label></dt>
 	<dd>
 		<select name="infamy_pvp" class="textCtrl autoSize" id="ctrl_pirateProfile_rank_pvp">
 			<xen:foreach loop="$ranks.pvp" key="$rank" value="$name">
@@ -781,7 +781,7 @@ div.label,
         <li><a href="{xen:link pirates/add}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:phrase pirateProfile_add_pirate}</a></li>
         </xen:if>
 </ul>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="46" version_string="1.8.5"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="48" version_string="1.9.0"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
 <xen:require js="js/card/skills.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
@@ -807,12 +807,10 @@ div.label,
 				<div class="pirateLevel">
 					<p>{xen:phrase pirateProfile_pirate_level} {$pirate.level}</p>
 				</div>
-                                <xen:if is="{$pirate.ranks_set}">
                                 <ul class="pirateRanks">
                                         <li class="privateering">{$pirate.ranks.privateering}</li>
                                         <li class="pvp">{$pirate.ranks.pvp}</li>
                                 </ul>
-                                </xen:if>
                                 <xen:if is="{$pirate.picture}">
                                 <img class="avatar" src="{xen:link attachments, $pirate.picture}" width="{$pirate.picture.width}" height="{$pirate.picture.height}" alt="{xen:phrase pirateProfile_pirate_picture}" <xen:if is="{$pirate.picture.margin}">style="margin-left:{$pirate.picture.margin}px;" </xen:if>/>
                                 </xen:if>
@@ -904,7 +902,7 @@ div.label,
         });
         </script>
 </div>]]></template>
-    <template title="pirateProfile_pirate_card.css" version_id="47" version_string="1.8.6"><![CDATA[#pirateProfile #cardLoader
+    <template title="pirateProfile_pirate_card.css" version_id="48" version_string="1.9.0"><![CDATA[#pirateProfile #cardLoader
 {
 	min-height: 500px;
 }
@@ -981,6 +979,7 @@ div.label,
 .pirateCard .pirateProfile .pirateAvatar .pirateRanks
 {
         width: 86px;
+        height: 46px;
         margin-top: 4px;
         line-height: 19px;
         font-size: 13px;
