@@ -34,7 +34,8 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			'modified_date'     => 'pirate.modified_date',
 			'level'             => 'pirate.level',
 			'guild'             => 'pirate.guild',
-			'last_comment_date' => 'pirate.last_comment_date'
+			'last_comment_date' => 'pirate.last_comment_date',
+			'likes'             => 'pirate.likes'
 		);
 		
 		$orderSql = null;

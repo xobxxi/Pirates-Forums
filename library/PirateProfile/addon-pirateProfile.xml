@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.8.6" version_id="47" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.9.0" version_id="48" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -904,7 +904,7 @@ div.label,
         });
         </script>
 </div>]]></template>
-    <template title="pirateProfile_pirate_card.css" version_id="46" version_string="1.8.5"><![CDATA[#pirateProfile #cardLoader
+    <template title="pirateProfile_pirate_card.css" version_id="47" version_string="1.8.6"><![CDATA[#pirateProfile #cardLoader
 {
 	min-height: 500px;
 }
@@ -980,12 +980,11 @@ div.label,
 
 .pirateCard .pirateProfile .pirateAvatar .pirateRanks
 {
-        width: 91px;
+        width: 86px;
         margin-top: 4px;
         line-height: 19px;
         font-size: 13px;
         text-align: center;
-        font-weight: bold;
         position: relative;
         z-index: 2;
 }
