@@ -27,6 +27,8 @@ class PirateProfile_Install
 			  `staff` int(11) NOT NULL COMMENT 'Staff level',
 			  `potions` int(11) NOT NULL COMMENT 'Potions level',
 			  `fishing` int(11) NOT NULL COMMENT 'Fishing level',
+			  `infamy_pvp` text NOT NULL,
+			  `infamy_privateering` text NOT NULL,
 			  `make_fit` int(11) NOT NULL DEFAULT '0' COMMENT 'Make picture fit',
 			  `comment_count` int(10) NOT NULL DEFAULT '0',
 			  `first_comment_date` int(10) NOT NULL DEFAULT '0',

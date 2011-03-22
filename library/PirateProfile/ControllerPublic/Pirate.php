@@ -705,6 +705,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$attachmentConstraints = PirateProfile_AttachmentHandler_Pirate::getAttachmentConstraints();
 		
 		$viewParams = array(
+			'ranks'                 => $pirateModel::getRanks(),
 			'attachmentParams'		=> $attachmentParams,
 			'attachmentConstraints' => $attachmentConstraints
 		);
@@ -745,6 +746,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$viewParams = array(
 			'user'					=> $user,
 			'pirate'				=> $pirate,
+			'ranks'                 => $pirateModel::getRanks(),
 			'attachments'			=> $pictures,
 			'attachmentParams'		=> $attachmentParams,
 			'attachmentConstraints' => $attachmentConstraints
@@ -799,21 +801,23 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$this->_assertPostOnly();
 
 		$input = $this->_input->filter(array(
-			'name'		 => XenForo_Input::STRING,
-			'level'		 => XenForo_Input::UINT,
-			'guild'		 => XenForo_Input::STRING,
-			'cannon'	 => XenForo_Input::UINT,
-			'sailing'	 => XenForo_Input::UINT,
-			'sword'		 => XenForo_Input::UINT,
-			'shooting'	 => XenForo_Input::UINT,
-			'doll'		 => XenForo_Input::UINT,
-			'dagger'	 => XenForo_Input::UINT,
-			'grenade'	 => XenForo_Input::UINT,
-			'staff'		 => XenForo_Input::UINT,
-			'potions'	 => XenForo_Input::UINT,
-			'fishing'	 => XenForo_Input::UINT,
-			'extra'		 => XenForo_Input::STRING,
-			'make_fit'   => XenForo_Input::UINT));
+			'name'				  => XenForo_Input::STRING,
+			'level'				  => XenForo_Input::UINT,
+			'guild'				  => XenForo_Input::STRING,
+			'cannon'			  => XenForo_Input::UINT,
+			'sailing'	 		  => XenForo_Input::UINT,
+			'sword'		 		  => XenForo_Input::UINT,
+			'shooting'	 		  => XenForo_Input::UINT,
+			'doll'				  => XenForo_Input::UINT,
+			'dagger'	 		  => XenForo_Input::UINT,
+			'grenade'	 	  	  => XenForo_Input::UINT,
+			'staff'		 		  => XenForo_Input::UINT,
+			'potions'	 		  => XenForo_Input::UINT,
+			'fishing'	 		  => XenForo_Input::UINT,
+			'infamy_privateering' => XenForo_Input::STRING,
+			'infamy_pvp'		  => XenForo_Input::STRING,
+			'extra'		 		  => XenForo_Input::STRING,
+			'make_fit'   		  => XenForo_Input::UINT));
 		$input = $this->_stripZeros($input);
 		
 		$attachment = $this->_input->filter(array(
@@ -867,21 +871,23 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$user = $this->_getUserModel()->getUserById($pirate['user_id']);
 
 		$input = $this->_input->filter(array(
-			'name'		 => XenForo_Input::STRING,
-			'level'		 => XenForo_Input::UINT,
-			'guild'		 => XenForo_Input::STRING,
-			'cannon'	 => XenForo_Input::UINT,
-			'sailing'	 => XenForo_Input::UINT,
-			'sword'		 => XenForo_Input::UINT,
-			'shooting'	 => XenForo_Input::UINT,
-			'doll'		 => XenForo_Input::UINT,
-			'dagger'	 => XenForo_Input::UINT,
-			'grenade'	 => XenForo_Input::UINT,
-			'staff'		 => XenForo_Input::UINT,
-			'potions'	 => XenForo_Input::UINT,
-			'fishing'	 => XenForo_Input::UINT,
-			'extra'		 => XenForo_Input::STRING,
-			'make_fit'   => XenForo_Input::UINT));
+			'name'				  => XenForo_Input::STRING,
+			'level'				  => XenForo_Input::UINT,
+			'guild'				  => XenForo_Input::STRING,
+			'cannon'			  => XenForo_Input::UINT,
+			'sailing'	 		  => XenForo_Input::UINT,
+			'sword'		 		  => XenForo_Input::UINT,
+			'shooting'	 		  => XenForo_Input::UINT,
+			'doll'				  => XenForo_Input::UINT,
+			'dagger'	 		  => XenForo_Input::UINT,
+			'grenade'	 	  	  => XenForo_Input::UINT,
+			'staff'		 		  => XenForo_Input::UINT,
+			'potions'	 		  => XenForo_Input::UINT,
+			'fishing'	 		  => XenForo_Input::UINT,
+			'infamy_privateering' => XenForo_Input::STRING,
+			'infamy_pvp'		  => XenForo_Input::STRING,
+			'extra'		 		  => XenForo_Input::STRING,
+			'make_fit'   		  => XenForo_Input::UINT));
 		$input = $this->_stripZeros($input);
 
 		$attachment = $this->_input->filter(array(

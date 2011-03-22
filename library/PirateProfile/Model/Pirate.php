@@ -234,7 +234,9 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 				'skill'	 => $options->pirateProfile_maxLevelSkill
 			),
 			'weapons'    => array(),
-			'skills'     => array()
+			'skills'     => array(),
+			'ranks_set'  => true,
+			'rank'       => array()
 		);
 
 		foreach ($pirate as $name => $level)
@@ -284,6 +286,28 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		{
 			$pirate['skills_set'] = false;
 		}
+		
+		if (empty($pirate['infamy_privateering']) && empty($pirate['infamy_pvp']))
+		{
+			$pirate['ranks_set'] = false;
+		}
+		
+		if ($pirate['ranks_set'])
+		{
+			$privateering = new XenForo_Phrase(
+				'pirateProfile_pirate_rank_privateering_' . $pirate['infamy_privateering']
+			);
+			$pvp          = new XenForo_Phrase(
+				'pirateProfile_pirate_rank_pvp_' . $pirate['infamy_pvp']
+				);
+			
+			$pirate['ranks'] = array(
+				'privateering' => $privateering,
+				'pvp'          => $pvp
+			);
+		}
+		
+		unset($pirate['infamy_privateering'], $pirate['infamy_pvp']);
 		
 		$pictures          = $this->getPicturesById($pirate['pirate_id']);
 		$pirate['picture'] = $this->_preparePicture($pictures[0], $pirate['make_fit']);
@@ -587,6 +611,33 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		if (!$perms['canView']) return false;
 
 		return true;
+	}
+	
+	public static function getRanks()
+	{
+		$ranks = array(
+			'privateering' => array(
+				'', 'swabbie', 'mariner', 'lieutenant', 'commander', 'captain', 'commodore', 'vice_admiral', 'admiral'
+			),
+			'pvp' => array(
+				'', 'novice', 'rookie', 'brawler', 'duelist', 'buccaneer', 'swashbuckler', 'war_dog', 'war_master'
+			)
+		);
+		
+		foreach ($ranks as $type => $children)
+		{
+			foreach ($children as $key => $rank)
+			{
+				if (!empty($rank))
+				{
+					$name = new XenForo_Phrase('pirateProfile_pirate_rank_' . $type . '_' . $rank);
+					$ranks[$type][$rank] = $name->__toString();
+					unset($ranks[$type][$key]);
+				}
+			}
+		}
+		
+		return $ranks;
 	}
 	
 	protected function _hasPermission($permissions, $group, $permission)

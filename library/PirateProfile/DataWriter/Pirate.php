@@ -11,7 +11,10 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 		$maxLevelNotoriety = $options->pirateProfile_maxLevelNotoriety;
 		$maxLevelWeapon	   = $options->pirateProfile_maxLevelWeapon;
 		$maxLevelSkill	   = $options->pirateProfile_maxLevelSkill;
-
+		
+		$pirateModel = $this->_getPirateModel();
+		$ranks = $pirateModel::getRanks();
+		
 		return array(
 			'pirate' => array(
 				'pirate_id' => array(
@@ -89,6 +92,16 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 				'fishing' => array(
 					'type' => self::TYPE_UINT,
 					'max'  => $maxLevelSkill
+				),
+				'infamy_privateering' => array(
+					'type'    => self::TYPE_STRING,
+					'default' => 0,
+					'allowedValues' => array_keys($ranks['privateering'])
+				),
+				'infamy_pvp' => array(
+					'type'    => self::TYPE_STRING,
+					'default' => 0,
+					'allowedValues' => array_keys($ranks['pvp'])
 				),
 				'extra' => array(
 					'type'		=> self::TYPE_STRING,
@@ -252,6 +265,38 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 					$changes[] = array(
 						'action' => 'guild',
 						'data'   => array('old' => $this->getExisting('guild'), 'new' => $guild)
+					);
+				}
+			}
+			
+			if ($this->isChanged('infamy_privateering'))
+			{
+				$rank = $this->get('infamy_privateering');
+				if (!empty($rank))
+				{
+					$changes[] = array(
+						'action' => 'infamy',
+						'data'   => array(
+							'type' => 'privateering',
+							'old'  => $this->getExisting('infamy_privateering'),
+							'new'  => $rank
+						)
+					);
+				}
+			}
+			
+			if ($this->isChanged('infamy_pvp'))
+			{
+				$rank = $this->get('infamy_pvp');
+				if (!empty($rank))
+				{
+					$changes[] = array(
+						'action' => 'infamy',
+						'data'   => array(
+							'type' => 'pvp', 
+							'old'  => $this->getExisting('infamy_pvp'), 
+							'new'  => $rank
+						)
 					);
 				}
 			}

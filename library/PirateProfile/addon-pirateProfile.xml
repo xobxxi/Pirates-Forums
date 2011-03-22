@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.8.5" version_id="46" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.8.6" version_id="47" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -86,7 +86,7 @@
     <phrase title="pirateProfile_editing_pirate" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Editing pirate]]></phrase>
     <phrase title="pirateProfile_edit_profile_post_comment_by_x" version_id="44" version_string="1.8.3"><![CDATA[Edit Pirate Comment by {name}]]></phrase>
     <phrase title="pirateProfile_forces_all_image_content_into_card" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Forces all image content into card.]]></phrase>
-    <phrase title="pirateProfile_formerly_x" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[Formerly {old}]]></phrase>
+    <phrase title="pirateProfile_formerly_x" version_id="46" version_string="1.8.5"><![CDATA[Formerly {old}]]></phrase>
     <phrase title="pirateProfile_go_to_pirate" version_id="26" version_string="1.4.0"><![CDATA[Go to pirate]]></phrase>
     <phrase title="pirateProfile_last_comment" version_id="26" version_string="1.4.0"><![CDATA[Last Comment]]></phrase>
     <phrase title="pirateProfile_last_updated" version_id="26" version_string="1.4.0"><![CDATA[Last Updated]]></phrase>
@@ -116,6 +116,25 @@
     <phrase title="pirateProfile_pirate_notoriety" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Notoriety]]></phrase>
     <phrase title="pirateProfile_pirate_picture" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Pirate Picture]]></phrase>
     <phrase title="pirateProfile_pirate_potions" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Potions]]></phrase>
+    <phrase title="pirateProfile_pirate_privateering" version_id="46" version_string="1.8.5"><![CDATA[Privateering]]></phrase>
+    <phrase title="pirateProfile_pirate_pvp" version_id="46" version_string="1.8.5"><![CDATA[PVP]]></phrase>
+    <phrase title="pirateProfile_pirate_rank" version_id="46" version_string="1.8.5"><![CDATA[Rank]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_privateering_admiral" version_id="46" version_string="1.8.5"><![CDATA[Admiral]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_privateering_captain" version_id="46" version_string="1.8.5"><![CDATA[Captain]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_privateering_commander" version_id="46" version_string="1.8.5"><![CDATA[Commander]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_privateering_commodore" version_id="46" version_string="1.8.5"><![CDATA[Commodore]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_privateering_lieutenant" version_id="46" version_string="1.8.5"><![CDATA[Lieutenant]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_privateering_mariner" version_id="46" version_string="1.8.5"><![CDATA[Mariner]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_privateering_swabbie" version_id="0" version_string=""><![CDATA[Swabbie]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_privateering_vice_admiral" version_id="46" version_string="1.8.5"><![CDATA[Vice Admiral]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_pvp_brawler" version_id="46" version_string="1.8.5"><![CDATA[Brawler]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_pvp_buccaneer" version_id="46" version_string="1.8.5"><![CDATA[Buccaneer]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_pvp_duelist" version_id="46" version_string="1.8.5"><![CDATA[Duelist]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_pvp_novice" version_id="46" version_string="1.8.5"><![CDATA[Novice]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_pvp_rookie" version_id="46" version_string="1.8.5"><![CDATA[Rookie]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_pvp_swashbuckler" version_id="46" version_string="1.8.5"><![CDATA[Swashbuckler]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_pvp_war_dog" version_id="46" version_string="1.8.5"><![CDATA[War Dog]]></phrase>
+    <phrase title="pirateProfile_pirate_rank_pvp_war_master" version_id="46" version_string="1.8.5"><![CDATA[War Master]]></phrase>
     <phrase title="pirateProfile_pirate_sailing" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Sailing]]></phrase>
     <phrase title="pirateProfile_pirate_shooting" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Shooting]]></phrase>
     <phrase title="pirateProfile_pirate_staff" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Staff]]></phrase>
@@ -157,6 +176,7 @@
     <phrase title="pirateProfile_xs_pirate_y_has_gotten_new_name" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has gotten a new name.]]></phrase>
     <phrase title="pirateProfile_xs_pirate_y_has_joined_guild_z" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has joined the guild {guild}.]]></phrase>
     <phrase title="pirateProfile_xs_pirate_y_has_new_card_picture" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username}'s pirate: {pirate} has a new card picture.]]></phrase>
+    <phrase title="pirateProfile_xs_pirate_y_is_now_a_z_in_r" version_id="46" version_string="1.8.5"><![CDATA[{username}'s pirate: {pirate} is now a {rank} in {type}.]]></phrase>
     <phrase title="pirateProfile_x_also_commented_on_ys_pirate" version_id="18" version_string="1.1.0"><![CDATA[{name} also commented on {owner}'s pirate: <a {pirate_attributes}>{pirate}</a>.]]></phrase>
     <phrase title="pirateProfile_x_commented_on_your_pirate" version_id="18" version_string="1.1.0"><![CDATA[{name} commented on your pirate: <a {pirate_attributes}>{pirate}</a>.]]></phrase>
     <phrase title="pirateProfile_x_has_added_a_new_pirate_y" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username} has added a new pirate: {pirate}.]]></phrase>
@@ -214,6 +234,18 @@
 </h3>
 <xen:if is="{$guild.old}">
         <p class="snippet">{xen:phrase pirateProfile_formerly_x, 'old=in "<em>{$guild.old}</em>"'}</p>
+</xen:if>
+]]></template>
+    <template title="news_feed_item_pirate_infamy" version_id="46" version_string="1.8.5"><![CDATA[<h3 class="description">
+{xen:phrase pirateProfile_xs_pirate_y_is_now_a_z_in_r,
+       'username={xen:helper username, $user, 'primaryText'}',
+       'pirate=<a href="{xen:link pirates/card, $content}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{$content.name}</a>',
+       'rank=<em>{$rank.new}</em>',
+       'type={$type}'
+}
+</h3>
+<xen:if is="{$rank.old}">
+        <p class="snippet">{xen:phrase pirateProfile_formerly_x, 'old=a "<em>{$rank.old}</em>"'}</p>
 </xen:if>
 ]]></template>
     <template title="news_feed_item_pirate_level" version_id="40" version_string="1.7.1"><![CDATA[<h3 class="description">
@@ -334,7 +366,7 @@
                 <xen:set var="$action">{xen:phrase edit}</xen:set>
         </xen:include>
 </form>]]></template>
-    <template title="pirateProfile_form" version_id="36" version_string="1.6.1"><![CDATA[<xen:require js="js/card/form.js" />
+    <template title="pirateProfile_form" version_id="46" version_string="1.8.5"><![CDATA[<xen:require js="js/card/form.js" />
 <xen:require css="pirateProfile_form.css" />
 
 <xen:if is="{$errors}">
@@ -352,88 +384,109 @@
 
 <dl class="ctrlUnit">
 	<dt>
-                <label for="ctrl_pirateProfileAdd_name">{xen:phrase pirateProfile_pirate_name}:</label>
+                <label for="ctrl_pirateProfile_name">{xen:phrase pirateProfile_pirate_name}:</label>
                 <dfn class="required">{xen:phrase pirateProfile_required}</dfn>
         </dt>
-	<dd><input type="text" name="name" value="{$pirate.name}" id="ctrl_pirateProfileAdd_name" class="textCtrl" data-liveTitleTemplate="{xen:phrase pirateProfile_action_pirate, 'action={$action}'}: <em>%s</em>" /></dd>
+	<dd><input type="text" name="name" value="{$pirate.name}" id="ctrl_pirateProfile_name" class="textCtrl" data-liveTitleTemplate="{xen:phrase pirateProfile_action_pirate, 'action={$action}'}: <em>%s</em>" /></dd>
 </dl>
 
 <dl class="ctrlUnit">
 	<dt>
-                <label for="ctrl_pirateProfileAdd_level">{xen:phrase pirateProfile_pirate_notoriety} {xen:phrase pirateProfile_pirate_level}:</label>
+                <label for="ctrl_pirateProfile_level">{xen:phrase pirateProfile_pirate_notoriety} {xen:phrase pirateProfile_pirate_level}:</label>
                 <dfn class="required">{xen:phrase pirateProfile_required}</dfn>
         </dt>
-	<dd><input type="text" name="level" value="{$pirate.level}" id="ctrl_pirateProfileAdd_level" class="textCtrl" /></dd>
+	<dd><input type="text" name="level" value="{$pirate.level}" id="ctrl_pirateProfile_level" class="textCtrl" /></dd>
 </dl>
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_guild">{xen:phrase pirateProfile_pirate_guild}:</label></dt>
-	<dd><input type="text" name="guild" value="{$pirate.guild}" id="ctrl_pirateProfileAdd_guild" class="textCtrl" /></dd>
+	<dt><label for="ctrl_pirateProfile_guild">{xen:phrase pirateProfile_pirate_guild}:</label></dt>
+	<dd><input type="text" name="guild" value="{$pirate.guild}" id="ctrl_pirateProfile_guild" class="textCtrl" /></dd>
 </dl>
 
-
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_cannon">{xen:phrase pirateProfile_pirate_cannon} {xen:phrase pirateProfile_pirate_level}:</label></dt>
-	<dd><input type="text" name="cannon" value="{$pirate.cannon}" id="ctrl_pirateProfileAdd_cannon" class="textCtrl" /></dd>
-</dl>
-
-
-<dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_sailing">{xen:phrase pirateProfile_pirate_sailing} {xen:phrase pirateProfile_pirate_level}:</label></dt>
-	<dd><input type="text" name="sailing" value="{$pirate.sailing}" id="ctrl_pirateProfileAdd_sailing" class="textCtrl" /></dd>
+	<dt><label for="ctrl_pirateProfile_cannon">{xen:phrase pirateProfile_pirate_cannon} {xen:phrase pirateProfile_pirate_level}:</label></dt>
+	<dd><input type="text" name="cannon" value="{$pirate.cannon}" id="ctrl_pirateProfile_cannon" class="textCtrl" /></dd>
 </dl>
 
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_sword">{xen:phrase pirateProfile_pirate_sword} {xen:phrase pirateProfile_pirate_level}:</label></dt>
-	<dd><input type="text" name="sword" value="{$pirate.sword}" id="ctrl_pirateProfileAdd_sword" class="textCtrl" /></dd>
+	<dt><label for="ctrl_pirateProfile_sailing">{xen:phrase pirateProfile_pirate_sailing} {xen:phrase pirateProfile_pirate_level}:</label></dt>
+	<dd><input type="text" name="sailing" value="{$pirate.sailing}" id="ctrl_pirateProfile_sailing" class="textCtrl" /></dd>
 </dl>
 
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_shooting">{xen:phrase pirateProfile_pirate_shooting} {xen:phrase pirateProfile_pirate_level}:</label></dt>
-	<dd><input type="text" name="shooting" value="{$pirate.shooting}" id="ctrl_pirateProfileAdd_shooting" class="textCtrl" /></dd>
+	<dt><label for="ctrl_pirateProfile_sword">{xen:phrase pirateProfile_pirate_sword} {xen:phrase pirateProfile_pirate_level}:</label></dt>
+	<dd><input type="text" name="sword" value="{$pirate.sword}" id="ctrl_pirateProfile_sword" class="textCtrl" /></dd>
 </dl>
 
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_doll">{xen:phrase pirateProfile_pirate_doll} {xen:phrase pirateProfile_pirate_level}:</label></dt>
-	<dd><input type="text" name="doll" value="{$pirate.doll}" id="ctrl_pirateProfileAdd_doll" class="textCtrl" /></dd>
+	<dt><label for="ctrl_pirateProfile_shooting">{xen:phrase pirateProfile_pirate_shooting} {xen:phrase pirateProfile_pirate_level}:</label></dt>
+	<dd><input type="text" name="shooting" value="{$pirate.shooting}" id="ctrl_pirateProfile_shooting" class="textCtrl" /></dd>
 </dl>
 
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_dagger">{xen:phrase pirateProfile_pirate_dagger} {xen:phrase pirateProfile_pirate_level}:</label></dt>
-	<dd><input type="text" name="dagger" value="{$pirate.dagger}" id="ctrl_pirateProfileAdd_dagger" class="textCtrl" /></dd>
+	<dt><label for="ctrl_pirateProfile_doll">{xen:phrase pirateProfile_pirate_doll} {xen:phrase pirateProfile_pirate_level}:</label></dt>
+	<dd><input type="text" name="doll" value="{$pirate.doll}" id="ctrl_pirateProfile_doll" class="textCtrl" /></dd>
 </dl>
 
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_grenade">{xen:phrase pirateProfile_pirate_grenade} {xen:phrase pirateProfile_pirate_level}:</label></dt>
-	<dd><input type="text" name="grenade" value="{$pirate.grenade}" id="ctrl_pirateProfileAdd_grenade" class="textCtrl" /></dd>
+	<dt><label for="ctrl_pirateProfile_dagger">{xen:phrase pirateProfile_pirate_dagger} {xen:phrase pirateProfile_pirate_level}:</label></dt>
+	<dd><input type="text" name="dagger" value="{$pirate.dagger}" id="ctrl_pirateProfile_dagger" class="textCtrl" /></dd>
 </dl>
 
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_staff">{xen:phrase pirateProfile_pirate_staff} {xen:phrase pirateProfile_pirate_level}:</label></dt>
-	<dd><input type="text" name="staff" value="{$pirate.staff}" id="ctrl_pirateProfileAdd_staff" class="textCtrl" /></dd>
+	<dt><label for="ctrl_pirateProfile_grenade">{xen:phrase pirateProfile_pirate_grenade} {xen:phrase pirateProfile_pirate_level}:</label></dt>
+	<dd><input type="text" name="grenade" value="{$pirate.grenade}" id="ctrl_pirateProfile_grenade" class="textCtrl" /></dd>
 </dl>
 
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_potions">{xen:phrase pirateProfile_pirate_potions} {xen:phrase pirateProfile_pirate_level}:</label></dt>
-	<dd><input type="text" name="potions" value="{$pirate.potions}" id="ctrl_pirateProfileAdd_potions" class="textCtrl" /></dd>
+	<dt><label for="ctrl_pirateProfile_staff">{xen:phrase pirateProfile_pirate_staff} {xen:phrase pirateProfile_pirate_level}:</label></dt>
+	<dd><input type="text" name="staff" value="{$pirate.staff}" id="ctrl_pirateProfile_staff" class="textCtrl" /></dd>
 </dl>
 
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_fishing">{xen:phrase pirateProfile_pirate_fishing} {xen:phrase pirateProfile_pirate_level}:</label></dt>
-	<dd><input type="text" name="fishing" value="{$pirate.fishing}" id="ctrl_pirateProfileAdd_fishing" class="textCtrl" /></dd>
+	<dt><label for="ctrl_pirateProfile_potions">{xen:phrase pirateProfile_pirate_potions} {xen:phrase pirateProfile_pirate_level}:</label></dt>
+	<dd><input type="text" name="potions" value="{$pirate.potions}" id="ctrl_pirateProfile_potions" class="textCtrl" /></dd>
+</dl>
+
+
+<dl class="ctrlUnit">
+	<dt><label for="ctrl_pirateProfile_fishing">{xen:phrase pirateProfile_pirate_fishing} {xen:phrase pirateProfile_pirate_level}:</label></dt>
+	<dd><input type="text" name="fishing" value="{$pirate.fishing}" id="ctrl_pirateProfile_fishing" class="textCtrl" /></dd>
 </dl>
 
 <dl class="ctrlUnit">
-	<dt><label for="ctrl_pirateProfileAdd_extra">{xen:phrase pirateProfile_pirate_extra}:</label></dt>
-	<dd><input type="text" name="extra" value="{$pirate.extra}" id="ctrl_pirateProfileAdd_extra" class="textCtrl ExtraCounter" /></dd>
+	<dt><label for="ctrl_pirateProfile_rank_privateering">{xen:phrase pirateProfile_pirate_privateering_rank}:</label></dt>
+	<dd>
+		<select name="infamy_privateering" class="textCtrl autoSize" id="ctrl_pirateProfile_rank_privateering">
+			<xen:foreach loop="$ranks.privateering" key="$rank" value="$name">
+			<option value="{$rank}" {xen:selected "{$pirate.infamy_privateering} == {$rank} "}>{$name}</option>
+			</xen:foreach>
+		</select>
+	</dd>
+</dl>
+
+<dl class="ctrlUnit">
+	<dt><label for="ctrl_pirateProfile_rank_pvp">{xen:phrase pirateProfile_pirate_pvp_rank}:</label></dt>
+	<dd>
+		<select name="infamy_pvp" class="textCtrl autoSize" id="ctrl_pirateProfile_rank_pvp">
+			<xen:foreach loop="$ranks.pvp" key="$rank" value="$name">
+			<option value="{$rank}" {xen:selected "{$pirate.infamy_pvp} == {$rank} "}>{$name}</option>
+			</xen:foreach>
+		</select>
+	</dd>
+</dl>
+
+<dl class="ctrlUnit">
+	<dt><label for="ctrl_pirateProfile_extra">{xen:phrase pirateProfile_pirate_extra}:</label></dt>
+	<dd><input type="text" name="extra" value="{$pirate.extra}" id="ctrl_pirateProfile_extra" class="textCtrl ExtraCounter" /></dd>
 </dl>
 
 <dl class="ctrlUnit submitUnit">
@@ -728,7 +781,7 @@ div.label,
         <li><a href="{xen:link pirates/add}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:phrase pirateProfile_add_pirate}</a></li>
         </xen:if>
 </ul>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="38" version_string="1.6.3"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="46" version_string="1.8.5"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
 <xen:require js="js/card/skills.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
@@ -754,6 +807,12 @@ div.label,
 				<div class="pirateLevel">
 					<p>{xen:phrase pirateProfile_pirate_level} {$pirate.level}</p>
 				</div>
+                                <xen:if is="{$pirate.ranks_set}">
+                                <ul class="pirateRanks">
+                                        <li class="privateering">{$pirate.ranks.privateering}</li>
+                                        <li class="pvp">{$pirate.ranks.pvp}</li>
+                                </ul>
+                                </xen:if>
                                 <xen:if is="{$pirate.picture}">
                                 <img class="avatar" src="{xen:link attachments, $pirate.picture}" width="{$pirate.picture.width}" height="{$pirate.picture.height}" alt="{xen:phrase pirateProfile_pirate_picture}" <xen:if is="{$pirate.picture.margin}">style="margin-left:{$pirate.picture.margin}px;" </xen:if>/>
                                 </xen:if>
@@ -845,7 +904,7 @@ div.label,
         });
         </script>
 </div>]]></template>
-    <template title="pirateProfile_pirate_card.css" version_id="34" version_string="1.5.1"><![CDATA[#pirateProfile #cardLoader
+    <template title="pirateProfile_pirate_card.css" version_id="46" version_string="1.8.5"><![CDATA[#pirateProfile #cardLoader
 {
 	min-height: 500px;
 }
@@ -919,9 +978,36 @@ div.label,
         z-index: 2;
 }
 
+.pirateCard .pirateProfile .pirateAvatar .pirateRanks
+{
+        width: 91px;
+        margin-top: 4px;
+        line-height: 19px;
+        font-size: 13px;
+        text-align: center;
+        font-weight: bold;
+        position: relative;
+        z-index: 2;
+}
+
+.pirateCard .pirateProfile .pirateAvatar .pirateRanks li
+{
+        padding: 2px;
+}
+
+.pirateCard .pirateProfile .pirateAvatar .pirateRanks .privateering
+{
+        background-color: rgb(0, 37, 91);
+}
+
+.pirateCard .pirateProfile .pirateAvatar .pirateRanks .pvp
+{
+        background-color: rgb(98, 24, 0);
+}
+
 .pirateCard .pirateProfile .pirateAvatar img
 {
-        margin-top: -19px;
+        margin-top: -70px;
         
 }
 
@@ -1235,7 +1321,7 @@ div.label,
 </li>
 
 <xen:edithint template="pirateProfile_view" />]]></template>
-    <template title="pirateProfile_recent_activity_block_items" version_id="40" version_string="1.7.1"><![CDATA[<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'add'">
+    <template title="pirateProfile_recent_activity_block_items" version_id="46" version_string="1.8.5"><![CDATA[<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'add'">
 	{xen:phrase pirateProfile_x_has_added_a_new_pirate_y,
 	       'username={xen:helper username, $item.user, 'primaryText'}',
 	       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{$item.content.name}</a>'
@@ -1275,6 +1361,15 @@ div.label,
 	{xen:phrase pirateProfile_xs_pirate_y_has_new_card_picture,
 	       'username={xen:helper username, $item.user, 'primaryText'}',
 	       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{$item.content.name}</a>'
+	}
+</xen:if>
+
+<xen:if is="{$item.content_type} == 'pirate' AND {$item.action} == 'infamy'">
+	{xen:phrase pirateProfile_xs_pirate_y_is_now_a_z_in_r,
+	       'username={xen:helper username, $item.user, 'primaryText'}',
+	       'pirate=<a href="{xen:link pirates/card, $item.content}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{$item.content.name}</a>',
+	       'rank=<em>{$item.rank.new}</em>',
+	       'type={$item.type}'
 	}
 </xen:if>
 

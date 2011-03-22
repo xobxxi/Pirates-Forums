@@ -67,6 +67,32 @@ class PirateProfile_NewsFeedHandler_Pirate extends XenForo_NewsFeedHandler_Abstr
 		return $item;
 	}
 	
+	protected function _prepareInfamy(array $item)
+	{
+		$item['extra_data'] = unserialize($item['extra_data']);
+		
+		$item['type'] = $item['extra_data']['type'];
+		unset($item['extra_data']['type']);
+		
+		$item['rank'] = $item['extra_data'];
+		
+		unset($item['extra_data']);
+		
+		foreach ($item['rank'] as $key => $rank)
+		{
+			$name = new XenForo_Phrase(
+				'pirateProfile_pirate_rank_' . $item['type'] . '_' . $rank
+			);
+			
+			$item['rank'][$key] = $name->__toString();
+		}
+		
+		$type = new XenForo_Phrase('pirateProfile_pirate_' . $item['type']);
+		$item['type'] = $type->__toString();
+		
+		return $item;
+	}
+	
 	protected function _prepareLike(array $item)
 	{
 		$item['owner'] =
