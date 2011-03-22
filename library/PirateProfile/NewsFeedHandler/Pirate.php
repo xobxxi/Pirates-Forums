@@ -80,11 +80,14 @@ class PirateProfile_NewsFeedHandler_Pirate extends XenForo_NewsFeedHandler_Abstr
 		
 		foreach ($item['rank'] as $key => $rank)
 		{
-			$name = new XenForo_Phrase(
-				'pirateProfile_pirate_rank_' . $item['type'] . '_' . $rank
-			);
+			if (!empty($rank))
+			{
+				$name = new XenForo_Phrase(
+					'pirateProfile_pirate_rank_' . $item['type'] . '_' . $rank
+				);
 			
-			$item['rank'][$key] = $name->__toString();
+				$item['rank'][$key] = $name->__toString();
+			}
 		}
 		
 		$type = new XenForo_Phrase('pirateProfile_pirate_' . $item['type']);
