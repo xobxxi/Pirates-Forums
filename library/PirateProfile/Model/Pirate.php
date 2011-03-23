@@ -236,7 +236,6 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			),
 			'weapons'    => array(),
 			'skills'     => array(),
-			'ranks_set'  => true,
 			'rank'       => array()
 		);
 
@@ -288,29 +287,29 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			$pirate['skills_set'] = false;
 		}
 		
-		if (empty($pirate['infamy_privateering']) && empty($pirate['infamy_pvp']))
-		{
-			$pirate['ranks_set'] = false;
-		}
+		$pirate['ranks'] = array();
 		
-		if ($pirate['ranks_set'])
+		if (!empty($pirate['infamy_privateering']))
 		{
 			$privateering = new XenForo_Phrase(
 				'pirateProfile_pirate_rank_privateering_' . $pirate['infamy_privateering']
 			);
-			$pvp          = new XenForo_Phrase(
-				'pirateProfile_pirate_rank_pvp_' . $pirate['infamy_pvp']
-				);
 			
-			$pirate['ranks'] = array(
-				'privateering' => array(
-					'title' => $pirate['infamy_privateering'],
-					'name'  => $privateering
-				),
-				'pvp'          => array(
-					'title' => $pirate['infamy_pvp'],
-					'name'  => $pvp
-				)
+			$pirate['ranks']['privateering'] = array(
+				'title' => $pirate['infamy_privateering'],
+				'name'  => $privateering
+			);
+		}
+		
+		if (!empty($pirate['infamy_pvp']))
+		{
+			$pvp = new XenForo_Phrase(
+				'pirateProfile_pirate_rank_pvp_' . $pirate['infamy_pvp']
+			);
+			
+			$pirate['ranks']['pvp'] = array(
+				'title' => $pirate['infamy_pvp'],
+				'name'  => $pvp
 			);
 		}
 		
