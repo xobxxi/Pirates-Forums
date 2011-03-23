@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.9.7" version_id="52" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="1.9.8" version_id="53" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -781,7 +781,7 @@ div.label,
         <li><a href="{xen:link pirates/add}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:phrase pirateProfile_add_pirate}</a></li>
         </xen:if>
 </ul>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="49" version_string="1.9.1"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="52" version_string="1.9.7"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
 <xen:require js="js/card/skills.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
@@ -808,9 +808,11 @@ div.label,
 					<p>{xen:phrase pirateProfile_pirate_level} {$pirate.level}</p>
 				</div>
                                 <ul class="pirateRanks">
+                                        <xen:if is="{$pirate.ranks_set}">
                                         <xen:foreach loop="$pirate.ranks" key="$type" value="$rank">
                                         <li class="{$type}"><img src="{xen:property imagePath}/ranks/{$type}/{$rank.title}.png" width="32" height="32" alt="{$rank.name}" /></li>
                                         </xen:foreach>
+                                        </xen:if>
                                 </ul>
                                 <xen:if is="{$pirate.picture}">
                                 <img class="avatar" src="{xen:link attachments, $pirate.picture}" width="{$pirate.picture.width}" height="{$pirate.picture.height}" alt="{xen:phrase pirateProfile_pirate_picture}" <xen:if is="{$pirate.picture.margin}">style="margin-left:{$pirate.picture.margin}px;" </xen:if>/>
