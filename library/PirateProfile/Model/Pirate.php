@@ -303,8 +303,14 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 				);
 			
 			$pirate['ranks'] = array(
-				'privateering' => $privateering,
-				'pvp'          => $pvp
+				'privateering' => array(
+					'title' => $pirate['infamy_privateering'],
+					'name'  => $privateering
+				),
+				'pvp'          => array(
+					'title' => $pirate['infamy_pvp'],
+					'name'  => $pvp
+				)
 			);
 		}
 		
@@ -618,10 +624,10 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	{
 		$ranks = array(
 			'privateering' => array(
-				'', 'swabbie', 'mariner', 'lieutenant', 'commander', 'captain', 'commodore', 'vice_admiral', 'admiral'
+				'', 'mariner', 'lieutenant', 'commander', 'captain', 'commodore', 'vice_admiral', 'admiral'
 			),
 			'pvp' => array(
-				'', 'novice', 'rookie', 'brawler', 'duelist', 'buccaneer', 'swashbuckler', 'war_dog', 'war_master'
+				'', 'rookie', 'brawler', 'duelist', 'buccaneer', 'swashbuckler', 'war_dog', 'war_master'
 			)
 		);
 		
