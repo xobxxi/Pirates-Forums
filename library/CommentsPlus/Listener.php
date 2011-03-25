@@ -9,6 +9,9 @@ class CommentsPlus_Listener
 			case 'XenForo_ControllerPublic_ProfilePost':
 				$extend[] = 'CommentsPlus_ControllerPublic_ProfilePost';
 				break;
+			case 'XenForo_ControllerPublic_Member':
+				$extend[] = 'CommentsPlus_ControllerPublic_Member';
+				break;
 		}
 	}
 	
@@ -22,8 +25,13 @@ class CommentsPlus_Listener
 		}
 	}
 	
-	public static function loadClassDataWriter()
+	public static function loadClassDataWriter($class, array &$extend)
 	{
-		
+		switch ($class)
+		{
+			case 'XenForo_DataWriter_ProfilePostComment':
+				$extend[] = 'CommentsPlus_DataWriter_ProfilePostComment';
+				break;
+		}
 	}
 }

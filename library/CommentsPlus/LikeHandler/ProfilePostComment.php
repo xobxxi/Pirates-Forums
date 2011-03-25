@@ -1,6 +1,6 @@
 <?php
 
-class LikeComments_LikeHandler_ProfilePostComment extends XenForo_LikeHandler_Abstract
+class CommentsPlus_LikeHandler_ProfilePostComment extends XenForo_LikeHandler_Abstract
 {
 	public function incrementLikeCounter($contentId, array $latestLikes, $adjustAmount = 1)
 	{
