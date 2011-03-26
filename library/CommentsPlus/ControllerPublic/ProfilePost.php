@@ -59,7 +59,7 @@ class CommentsPlus_ControllerPublic_ProfilePost extends XFCP_CommentsPlus_Contro
 		
 		if (!$this->_getProfilePostModel()->canLikeProfilePostComment($comment, $user, $errorPhraseKey))
 		{
-			//throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
+			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
 		}
 		
 		$likeModel = $this->getModelFromCache('XenForo_Model_Like');

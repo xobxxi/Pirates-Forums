@@ -5,13 +5,17 @@ class CommentsPlus_ViewPublic_ProfilePost_CommentLikeConfirmed extends XenForo_V
 	public function renderJson()
 	{
 		$profilePost = $this->_params['profilePost'];
-		$comment = $this->_params['comment'];
+		$comment     = $this->_params['comment'];
 
 		if (!empty($comment['likeUsers']))
 		{
 			$params = array(
 				'message'  => $comment,
-				'likesUrl' => XenForo_Link::buildPublicLink('profile-post/comment-likes', $profilePost)
+				'likesUrl' => XenForo_Link::buildPublicLink(
+					'profile-posts/comment-likes',
+					$profilePost,
+					array('comment' => $comment['profile_post_comment_id'])
+				)
 			);
 
 			$output = $this->_renderer->getDefaultOutputArray(get_class($this), $params, 'likes_summary');

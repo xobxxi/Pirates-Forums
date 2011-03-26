@@ -66,11 +66,11 @@ class CommentsPlus_Install
 		");
 		
 		$db->query("
-			ALTER TABLE xf_conversation_message DROP likes
+			ALTER TABLE xf_profile_post_comment DROP likes
 		");
 		
 		$db->query("
-			ALTER TABLE xf_conversation_message DROP like_users
+			ALTER TABLE xf_profile_post_comment DROP like_users
 		");
 
 		return true;

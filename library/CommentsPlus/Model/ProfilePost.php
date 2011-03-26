@@ -82,6 +82,7 @@ class CommentsPlus_Model_ProfilePost extends XFCP_CommentsPlus_Model_ProfilePost
 		$comment = parent::prepareProfilePostComment($comment, $profilePost, $user, $viewingUser);
 		
 		$comment['canEdit']    = $this->canEditProfilePostComment($comment, $profilePost, $user, $null, $viewingUser);
+		$comment['canLike']    = $this->canLikeProfilePost($comment, $user, $null, $viewingUser);
 		$comment['likeUsers']  = unserialize($comment['like_users']);
 		
 		return $comment;
