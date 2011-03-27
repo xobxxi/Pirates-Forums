@@ -29,12 +29,12 @@ _Find_:
 
 _Add **above**_:
 
-`<xen:if is="{$attachmentParams}">
- 		<dl class="ctrlUnit AttachedFilesUnit">
-			<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
-			<dd><xen:include template="attachment_editor" /></dd>
-		</dl>
-</xen:if>`
+	<xen:if is="{$attachmentParams}">
+	 		<dl class="ctrlUnit AttachedFilesUnit">
+				<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
+				<dd><xen:include template="attachment_editor" /></dd>
+			</dl>
+	</xen:if>
 
 #### In conversation_reply:
 
@@ -52,12 +52,12 @@ _Add **below**_:
 
 _Add **above**_:
 
-`<xen:if is="{$attachmentParams}">
- 		<dl class="ctrlUnit AttachedFilesUnit">
-			<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
-			<dd><xen:include template="attachment_editor" /></dd>
-		</dl>
-</xen:if>`
+	<xen:if is="{$attachmentParams}">
+	 		<dl class="ctrlUnit AttachedFilesUnit">
+				<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
+				<dd><xen:include template="attachment_editor" /></dd>
+			</dl>
+	</xen:if>
 
 #### In conversation_message_edit:
 
@@ -75,12 +75,12 @@ _Find_:
 
 _Add **above**_:
 
-`<xen:if is="{$attachmentParams}">
-		<dl class="ctrlUnit AttachedFilesUnit">
-			<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
-			<dd><xen:include template="attachment_editor"><xen:map from="$conversationMessage.attachments" to="$attachments" /></xen:include></dd>
-		</dl>
-</xen:if>`
+	<xen:if is="{$attachmentParams}">
+			<dl class="ctrlUnit AttachedFilesUnit">
+				<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
+				<dd><xen:include template="attachment_editor"><xen:map from="$conversationMessage.attachments" to="$attachments" /></xen:include></dd>
+			</dl>
+	</xen:if>
 
 #### In conversation_message:
 
