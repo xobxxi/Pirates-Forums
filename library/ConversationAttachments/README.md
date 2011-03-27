@@ -17,15 +17,15 @@ Installation
 
 _Find_:
 
-`<input type="submit" value="{xen:phrase start_conversation}" accesskey="s" class="button primary" />`
+	<input type="submit" value="{xen:phrase start_conversation}" accesskey="s" class="button primary" />
 
 _Add **below**_:
 
-`<xen:include template="attachment_upload_button" />`
+	<xen:include template="attachment_upload_button" />
 
 _Find_:
 
-`<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />`
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 
 _Add **above**_:
 
@@ -40,15 +40,15 @@ _Add **above**_:
 
 _Find_:
 
-`<input type="submit" value="{xen:phrase reply_to_conversation}" accesskey="s" class="button primary" />`
+	<input type="submit" value="{xen:phrase reply_to_conversation}" accesskey="s" class="button primary" />
 
 _Add **below**_:
 
-`<xen:include template="attachment_upload_button" />`
+	<xen:include template="attachment_upload_button" />
 
 *Find*:
 
-`<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />`
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 
 _Add **above**_:
 
@@ -63,15 +63,15 @@ _Add **above**_:
 
 _Find_:
 
-`<input type="submit" value="{xen:phrase save_changes}" accesskey="s" class="button primary" />`
+	<input type="submit" value="{xen:phrase save_changes}" accesskey="s" class="button primary" />
 
 _Add **below**_:
 
-`<xen:include template="attachment_upload_button" />`
+	<xen:include template="attachment_upload_button" />
 
 _Find_:
 
-`<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />`
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 
 _Add **above**_:
 
@@ -86,15 +86,15 @@ _Add **above**_:
 
 _Add at top_:
 
-`<xen:require css="conversationAttachments_conversation_message.css" />`
+	<xen:require css="conversationAttachments_conversation_message.css" />
 
 _Find_:
 
-`<xen:set var="$messageId">message-{$message.message_id}</xen:set>`
+	<xen:set var="$messageId">message-{$message.message_id}</xen:set>
 
 _Add **after**_:
 
-`<xen:set var="$messageContentAfterTemplate"><xen:if is="{$message.attachments}"><xen:include template="attached_files"><xen:map from="$message" to="$post" /></xen:include></xen:if></xen:set>`
+	<xen:set var="$messageContentAfterTemplate"><xen:if is="{$message.attachments}"><xen:include template="attached_files"><xen:map from="$message" to="$post" /></xen:include></xen:if></xen:set>
 
 
 Uninstallation
