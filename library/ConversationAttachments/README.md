@@ -7,9 +7,11 @@ Installation
 1. Upload this folder to the /library directory of your XenForo installation.
 
 2. Go to your Admin CP > Install Add-on and under 'Install from file on server' enter:
-'library/ConversationAttachments/addon-conversationAttachments.xml'
+'library/ConversationAttachments/addon-conversationAttachments.xml'.
 
-3. Apply the following template edits
+3. Apply the template edits that follow.
+
+4. Set permissions for 'View attachments' and 'Add attachments' for groups under 'Personal Conversation Permissions'.
 
 ### Template Edits
 

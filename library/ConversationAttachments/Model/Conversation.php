@@ -76,7 +76,7 @@ class ConversationAttachments_Model_Conversation extends XFCP_ConversationAttach
 			WHERE conversation_id = ?
 		', 'message_id', $id);
 		
-		$messageIds = array_keys($messages); // not that, not that
+		$messageIds = array_keys($messages);
 		
 		$this->_getDb()->update('xf_attachment', array(
 			'unassociated' => 1,
