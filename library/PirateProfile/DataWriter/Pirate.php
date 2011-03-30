@@ -7,15 +7,18 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 	protected function _getFields()
 	{
 		$options = XenForo_Application::get('options');
-
-		$maxLevelNotoriety = $options->pirateProfile_maxLevelNotoriety;
-		$maxLevelWeapon	   = $options->pirateProfile_maxLevelWeapon;
-		$maxLevelSkill	   = $options->pirateProfile_maxLevelSkill;
 		
-		$pirateModel = $this->_getPirateModel();
-		$ranks = $pirateModel::getRanks();
+		$maxLevels = array(
+			'notoriety' => $options->pirateProfile_maxLevelNotoriety,
+			'weapon'    => $options->pirateProfile_maxLevelWeapon,
+			'skill'     => $options->pirateProfile_maxLevelSkill
+		);
 		
-		return array(
+		$weapons = PirateProfile_Model_Pirate::getWeapons(true, true);
+		$skills  = PirateProfile_Model_Pirate::getSkills(true, true);
+		$ranks   = PirateProfile_Model_Pirate::getRanks(true, true);
+		
+		$fields = array(
 			'pirate' => array(
 				'pirate_id' => array(
 					'type'			=> self::TYPE_UINT,
@@ -39,7 +42,7 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 				'level' => array(
 					'type' => self::TYPE_UINT,
 					'min'  => 1,
-					'max'  => $maxLevelNotoriety
+					'max'  => $maxLevels['notoriety']
 				),
 				'guild' =>	array(
 					'type'		=> self::TYPE_STRING,
@@ -52,56 +55,6 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 				'like_users' => array(
 					'type' => self::TYPE_SERIALIZED,
 					'default' => 'a:0:{}'
-				),
-				'sailing' => array(
-					'type' => self::TYPE_UINT,
-					'max'  => $maxLevelWeapon
-				),
-				'cannon' => array(
-					'type' => self::TYPE_UINT,
-					'max'  => $maxLevelWeapon
-				),
-				'sword' => array(
-					'type' => self::TYPE_UINT,
-					'max'  => $maxLevelWeapon
-				),
-				'shooting' => array(
-					'type' => self::TYPE_UINT,
-					'max'  => $maxLevelWeapon
-				),
-				'doll' => array(
-					'type' => self::TYPE_UINT,
-					'max'  => $maxLevelWeapon
-				),
-				'dagger' => array(
-					'type' => self::TYPE_UINT,
-					'max'  => $maxLevelWeapon
-				),
-				'grenade' => array(
-					'type' => self::TYPE_UINT,
-					'max'  => $maxLevelWeapon
-				),
-				'staff' => array(
-					'type' => self::TYPE_UINT,
-					'max'  => $maxLevelWeapon
-				),
-				'potions' => array(
-					'type' => self::TYPE_UINT,
-					'max'  => $maxLevelSkill
-				),
-				'fishing' => array(
-					'type' => self::TYPE_UINT,
-					'max'  => $maxLevelSkill
-				),
-				'infamy_privateering' => array(
-					'type'    => self::TYPE_STRING,
-					'default' => 0,
-					'allowedValues' => array_keys($ranks['privateering'])
-				),
-				'infamy_pvp' => array(
-					'type'    => self::TYPE_STRING,
-					'default' => 0,
-					'allowedValues' => array_keys($ranks['pvp'])
 				),
 				'extra' => array(
 					'type'		=> self::TYPE_STRING,
@@ -131,6 +84,32 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 				)
 			)
 		);
+		
+		foreach ($weapons as $weapon)
+		{
+			$fields['pirate'][$weapon] = array(
+				'type' => self::TYPE_STRING,
+				'max'  => $maxLevels['weapon']
+			);
+		}
+		
+		foreach ($skills as $skill)
+		{
+			$fields['pirate'][$skill] = array(
+				'type' => self::TYPE_UINT,
+				'max'  => $maxLevels['skill']
+			);
+		}
+		
+		foreach (array_keys($ranks) as $type)
+		{
+			$fields['pirate'][$type] = array(
+				'type'          => self::TYPE_STRING,
+				'allowedValues' => array_keys($ranks[$type])
+			);
+		}
+		
+		return $fields;
 	}
 
 	protected function _getExistingData($data)
@@ -145,8 +124,7 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 			return false;
 		}
 
-		$returnData = $this->getTablesDataFromArray($pirate);
-		return $returnData;
+		return $this->getTablesDataFromArray($pirate);
 	}
 
 	protected function _getUpdateCondition($tableName)
@@ -155,32 +133,18 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 	}
 
 	public function setPirate(array $input)
-	{
+	{	
+		$weapons = PirateProfile_Model_Pirate::getWeapons(false, true);
+		
 		foreach ($input as $name => $level)
 		{
-			if (!empty($level))
+			if (!empty($level) && isset($weapons[$name]['level']))
 			{
-				switch ($name)
+				if ($input['level'] < $weapons[$name]['level'])
 				{
-					case 'doll':
-						$required = 5;
-						break;
-					case 'dagger':
-						$required = 12;
-						break;
-					case 'grenade':
-						$required = 20;
-						break;
-					case 'staff':
-						$required = 30;
-					break;
+					return false;
 				}
 			}
-		}
-
-		if (!empty($required)) {
-			if ($input['level'] < $required)
-				return false;
 		}
 
 		$this->bulkSet($input);
@@ -269,46 +233,25 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 				}
 			}
 			
-			if ($this->isChanged('infamy_privateering'))
-			{
-				$rank = $this->get('infamy_privateering');
-				if (!empty($rank))
-				{
-					$changes[] = array(
-						'action' => 'infamy',
-						'data'   => array(
-							'type' => 'privateering',
-							'old'  => $this->getExisting('infamy_privateering'),
-							'new'  => $rank
-						)
-					);
-				}
-			}
-			
-			if ($this->isChanged('infamy_pvp'))
-			{
-				$rank = $this->get('infamy_pvp');
-				if (!empty($rank))
-				{
-					$changes[] = array(
-						'action' => 'infamy',
-						'data'   => array(
-							'type' => 'pvp', 
-							'old'  => $this->getExisting('infamy_pvp'), 
-							'new'  => $rank
-						)
-					);
-				}
-			}
-			
 			$skills = $this->_getChangedSkills();
-			
 			if (!empty($skills))
 			{
 				$changes[] = array(
 					'action' => 'level',
 					'data'   => $skills
 				);
+			}
+			
+			$ranks = $this->_getChangedRanks();
+			if (!empty($ranks))
+			{
+				foreach ($ranks as $rank)
+				{	
+					$changes[] = array(
+						'action' => 'rank',
+						'data'   => $rank 
+					);
+				}
 			}
 			
 			if ($this->isChanged('extra'))
@@ -339,18 +282,12 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 	
 	protected function _getChangedSkills()
 	{
-		$skills = array(
-			'level',
-			'cannon',
-			'sailing',
-			'sword',
-			'shooting',
-			'doll',
-			'dagger',
-			'grenade',
-			'staff',
-			'potions',
-			'fishing'
+		$skills = array('level');
+		
+		$skills = array_merge(
+			$skills,
+			PirateProfile_Model_Pirate::getWeapons(true, true), 
+			PirateProfile_Model_Pirate::getSkills(true, true)
 		);
 		
 		$changed = array();
@@ -359,6 +296,28 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 			if ($this->isChanged($skill) && ($this->get($skill) > $this->getExisting($skill)))
 			{
 				$changed[$skill] = $this->get($skill);
+			}
+		}
+		
+		return $changed;
+	}
+	
+	protected function _getChangedRanks()
+	{
+		$ranks = PirateProfile_Model_Pirate::getRanks(true, true);
+		
+		$types = array_keys($ranks);
+		$changed = array();
+		foreach ($types as $type)
+		{
+			$new = $this->get($type);
+			if (!empty($new) && $this->isChanged($type))
+			{
+				$changed[$type] = array(
+					'type' => $type,
+					'old'  => $this->getExisting($type),
+					'new'  => $new
+				);
 			}
 		}
 		
@@ -381,40 +340,6 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 		}
 		
 		return $username;
-	}
-	
-	public function rebuildProfilePostCommentCounters()
-	{
-		$db = $this->_db;
-		$pirateId = $this->get('pirate_id');
-
-		$counts = $db->fetchRow('
-			SELECT COUNT(*) AS comment_count,
-				MIN(comment_date) AS first_comment_date,
-				MAX(comment_date) AS last_comment_date
-			FROM pirate_comment
-			WHERE pirate_id = ?
-		', $pirateId);
-
-		if ($counts['comment_count'])
-		{
-			$ids = $db->fetchCol($db->limit(
-				'
-					SELECT pirate_comment_id
-					FROM pirate_comment
-					WHERE pirate_id = ?
-					ORDER BY comment_date DESC
-				', 3
-			), $pirateId);
-			$ids = array_reverse($ids);
-		}
-		else
-		{
-			$ids = array();
-		}
-
-		$this->bulkSet($counts);
-		$this->set('latest_comment_ids', implode(',', $ids));
 	}
 
 	public function insertNewComment($commentId, $commentDate)

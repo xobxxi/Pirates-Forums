@@ -10,7 +10,10 @@ class PirateProfile_NewsFeedHandler_Pirate extends XenForo_NewsFeedHandler_Abstr
 		
 		$permissions = $model->getModelFromCache('PirateProfile_Model_Pirate')
 		                     ->getPermissions($viewingUser);
-		if (!$permissions['canView']) return $pirates;
+		if (!$permissions['view'])
+		{
+			return $pirates;
+		}
 		
 		return $model->getModelFromCache('PirateProfile_Model_Pirate')->getPiratesByIds($contentIds);
 	}
@@ -47,9 +50,12 @@ class PirateProfile_NewsFeedHandler_Pirate extends XenForo_NewsFeedHandler_Abstr
 
 		foreach ($skills as $skill => $level)
 		{
-			if ($skill == 'level') $skill = 'notoriety';
+			if ($skill == 'level')
+			{
+				$skill = 'notoriety';
+			}
 			
-			$skill = new XenForo_Phrase('pirateProfile_pirate_' . $skill);
+			$skill = new XenForo_Phrase('pirateProfile_' . $skill);
 			$item['skills'][$skill->__toString()] = $level;
 		}
 
@@ -67,7 +73,7 @@ class PirateProfile_NewsFeedHandler_Pirate extends XenForo_NewsFeedHandler_Abstr
 		return $item;
 	}
 	
-	protected function _prepareInfamy(array $item)
+	protected function _prepareRank(array $item)
 	{
 		$item['extra_data'] = unserialize($item['extra_data']);
 		
@@ -75,7 +81,6 @@ class PirateProfile_NewsFeedHandler_Pirate extends XenForo_NewsFeedHandler_Abstr
 		unset($item['extra_data']['type']);
 		
 		$item['rank'] = $item['extra_data'];
-		
 		unset($item['extra_data']);
 		
 		foreach ($item['rank'] as $key => $rank)
@@ -83,14 +88,14 @@ class PirateProfile_NewsFeedHandler_Pirate extends XenForo_NewsFeedHandler_Abstr
 			if (!empty($rank))
 			{
 				$name = new XenForo_Phrase(
-					'pirateProfile_pirate_rank_' . $item['type'] . '_' . $rank
+					'pirateProfile_' . $item['type'] . '_' . $rank
 				);
 			
 				$item['rank'][$key] = $name->__toString();
 			}
 		}
 		
-		$type = new XenForo_Phrase('pirateProfile_pirate_' . $item['type']);
+		$type = new XenForo_Phrase('pirateProfile_' . $item['type']);
 		$item['type'] = $type->__toString();
 		
 		return $item;

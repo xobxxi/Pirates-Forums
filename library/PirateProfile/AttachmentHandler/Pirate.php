@@ -7,8 +7,8 @@ class PirateProfile_AttachmentHandler_Pirate extends XenForo_AttachmentHandler_A
 
 	protected function _canUploadAndManageAttachments(array $contentData, array $viewingUser)
 	{
-		$perms = $this->_getPirateModel()->getPermissions();
-		if ($perms['canAttach'])
+		$permissions = $this->_getPirateModel()->getPermissions();
+		if ($permissions['attach'])
 		{
 			return true;
 		}
@@ -18,8 +18,11 @@ class PirateProfile_AttachmentHandler_Pirate extends XenForo_AttachmentHandler_A
 
 	protected function _canViewAttachment(array $attachment, array $viewingUser)
 	{
-		$perms = $this->_getPirateModel()->getPermissions();
-		if ($perms['canView']) return true;
+		$permissions = $this->_getPirateModel()->getPermissions();
+		if ($permissions['view'])
+		{
+			return true;
+		}
 		
 		return false;
 	}

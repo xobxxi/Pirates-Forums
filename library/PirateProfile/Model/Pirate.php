@@ -236,87 +236,67 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			),
 			'weapons'    => array(),
 			'skills'     => array(),
-			'rank'       => array()
+			'ranks'      => array()
 		);
-
-		foreach ($pirate as $name => $level)
+		
+		$weapons = self::getWeapons();
+		$skills  = self::getSkills();
+		$ranks   = self::getRanks();
+		foreach ($pirate as $rawName => $value)
 		{
-			switch ($name)
+			$prefixes = array('w_', 's_', 'r_');
+			$name = str_replace($prefixes, '', $rawName);
+			
+			if (in_array($name, array_keys($weapons)) && !empty($value))
 			{
-				case 'cannon':
-				case 'sailing':
-				case 'sword':
-				case 'shooting':
-				case 'doll':
-				case 'dagger':
-				case 'grenade':
-				case 'staff':
-					$phrase = new XenForo_Phrase('pirateProfile_pirate_' . $name);
-					$phrase = $phrase->__toString();
-					$pirate['weapons'][$name] = array(
-						'name'	=> $phrase,
-						'level' => $level
-					);
-					unset($pirate[$name]);
-				break;
-				case 'potions':
-				case 'fishing':
-					$phrase = new XenForo_Phrase('pirateProfile_pirate_' . $name);
-					$phrase = $phrase->__toString();
-					$pirate['skills'][$name] = array(
-						'name'	=> $phrase,
-						'level' => $level
-					);
-					unset($pirate[$name]);
-				break;
+				$pirate['weapons'][$name] = array(
+					'name'  => $weapons[$name]['name'],
+					'level' => $value
+				);
+				
+				unset($pirate[$rawName]);
+			}
+			
+			if (in_array($name, array_keys($skills)) && !empty($value))
+			{
+				$pirate['skills'][$name] = array(
+					'name'  => $skills[$name],
+					'level' => $value
+				);
+				
+				unset($pirate[$rawName]);
+			}
+			
+			if (in_array($name, array_keys($ranks)) && !empty($value))
+			{
+				if (!empty($ranks[$name][$value]))
+				{
+				$pirate['ranks'][$name] = array(
+					'value' => $value,
+					'name'  => $ranks[$name][$value],
+				);
+			}
+				
+				unset($pirate[$rawName]);
 			}
 		}
 
-		$skillsSet = false;
-		foreach ($pirate['weapons'] as $weapon)
-		{
-			if (!empty($weapon['level'])) $skillsSet = true;
-		}
-		foreach ($pirate['skills'] as $skill)
-		{
-			if (!empty($skill['level'])) $skillsSet = true;
-		}
-
-		if (!$skillsSet)
+		if (empty($pirate['skills']) AND empty($pirate['weapons']))
 		{
 			$pirate['skills_set'] = false;
 		}
 		
-		$pirate['ranks'] = array();
-		
-		if (!empty($pirate['infamy_privateering']))
-		{
-			$privateering = new XenForo_Phrase(
-				'pirateProfile_pirate_rank_privateering_' . $pirate['infamy_privateering']
-			);
-			
-			$pirate['ranks']['privateering'] = array(
-				'title' => $pirate['infamy_privateering'],
-				'name'  => $privateering
-			);
-		}
-		
-		if (!empty($pirate['infamy_pvp']))
-		{
-			$pvp = new XenForo_Phrase(
-				'pirateProfile_pirate_rank_pvp_' . $pirate['infamy_pvp']
-			);
-			
-			$pirate['ranks']['pvp'] = array(
-				'title' => $pirate['infamy_pvp'],
-				'name'  => $pvp
-			);
-		}
-		
-		unset($pirate['infamy_privateering'], $pirate['infamy_pvp']);
-		
 		$pictures          = $this->getPicturesById($pirate['pirate_id']);
 		$pirate['picture'] = $this->_preparePicture($pictures[0], $pirate['make_fit']);
+		
+		$permissions = $this->getPermissions();
+		$permissions += array(
+			'like'    => $this->canLikePirate($pirate),
+			'report'  => $this->canReportPirate($pirate),
+			'comment' => $this->canCommentOnPirate($pirate)
+		);
+		
+		$pirate['permissions'] = $permissions;
 
 		return $pirate;
 	}
@@ -388,10 +368,64 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 
 	public function canUploadAndManageAttachment()
 	{
-		$perms = $this->getPermissions();
-		if (!$perms['canAttach']) return false;
+		$permissions = $this->getPermissions();
+		if (!$permissions['attach']) return false;
 		
 		return true;
+	}
+	
+	public function canLikePirate(array $pirate, &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+
+		if ($pirate['user_id'] == $viewingUser['user_id'])
+		{
+			$errorPhraseKey = 'liking_own_content_cheating';
+			return false;
+		}
+		
+		if ($viewingUser['user_id'])
+		{
+			$permissions = $this->getPermissions($viewingUser);
+			if ($permissions['view'])
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	public function canReportPirate(array $pirate, &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+		
+		if ($viewingUser['user_id'])
+		{
+			$permissions = $this->getPermissions($viewingUser);
+			if ($permissions['view'])
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public function canCommentOnPirate(array $pirate, &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+		
+		if ($viewingUser['user_id'])
+		{
+			$permissions = $this->getPermissions($viewingUser);
+			if ($permissions['view'])
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public function preparePirateCommentFetchOptions(array $fetchOptions)
@@ -520,7 +554,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	
 	public function preparePirateComment(array $comment, array $pirate, array $user, array $viewingUser = null)
 	{
-		$comment['canEdit']   = $this->canEditPirateComment($comment, $pirate, $user, $viewingUser);
+		$comment['candit']   = $this->canEditPirateComment($comment, $pirate, $user, $viewingUser);
 		$comment['canDelete'] = $this->canDeletePirateComment($comment, $pirate, $user, $null, $viewingUser);
 		
 		return $comment;
@@ -535,8 +569,8 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			return false;
 		}
 		
-		$perms = $this->getPermissions($viewingUser);
-		if ($perms['canManage'])
+		$permissions = $this->getPermissions($viewingUser);
+		if ($permissions['manage'])
 		{
 			return true;
 		}
@@ -560,8 +594,8 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			return false;
 		}
 		
-		$perms = $this->getPermissions($viewingUser);
-		if ($perms['canManage'])
+		$permissions = $this->getPermissions($viewingUser);
+		if ($permissions['manage'])
 		{
 			return true;
 		}
@@ -584,42 +618,89 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	{
 			$this->standardizeViewingUserReference($viewingUser);
 			
-			$permissions = $viewingUser['permissions'];
+			$userPermissions = $viewingUser['permissions'];
 			
-			$perms = array(
-				'canView'   => $this->_hasPermission($permissions, 'pirateProfile', 'canView'),
-				'canAdd'    => $this->_hasPermission($permissions, 'pirateProfile', 'canAdd'),
-				'canAttach' => $this->_hasPermission($permissions, 'pirateProfile', 'canAttach'),
-				'canEdit'   => $this->_hasPermission($permissions, 'pirateProfile', 'canEdit'),
-				'canDelete' => $this->_hasPermission($permissions, 'pirateProfile', 'canDelete'),
-				'canManage' => $this->_hasPermission($permissions, 'pirateProfile', 'canManage')
+			$permissions = array(
+				'view'   => $this->_hasPermission($userPermissions, 'pirateProfile', 'canView'),
+				'add'    => $this->_hasPermission($userPermissions, 'pirateProfile', 'canAdd'),
+				'attach' => $this->_hasPermission($userPermissions, 'pirateProfile', 'canAttach'),
+				'edit'   => $this->_hasPermission($userPermissions, 'pirateProfile', 'canEdit'),
+				'delete' => $this->_hasPermission($userPermissions, 'pirateProfile', 'canDelete'),
+				'manage' => $this->_hasPermission($userPermissions, 'pirateProfile', 'canManage'),
 			);
 
-			return $perms;
+			return $permissions;
 	}
 	
-	public function canLikePirate(array $pirate, array $user, &$errorPhraseKey = '', array $viewingUser = null)
+	public static function getWeapons($listOnly = false, $prefix = false)
 	{
-		$this->standardizeViewingUserReference($viewingUser);
-
-		if (!$viewingUser['user_id'])
+		$weapons = array(
+			'cannon'   => 0,
+			'sailing'  => 0,
+			'sword'    => 0,
+			'shooting' => 0,
+			'doll'     => 5,
+			'dagger'   => 12,
+			'grenade'  => 20,
+			'staff'    => 30
+		);
+		
+		if ($prefix)
 		{
-			return false;
-		}
-
-		if ($pirate['user_id'] == $viewingUser['user_id'])
-		{
-			$errorPhraseKey = 'liking_own_content_cheating';
-			return false;
+			foreach ($weapons as $key => $weapon)
+			{
+				$weapons['w_' . $key] = $weapon;
+				unset($weapons[$key]);
+			}
 		}
 		
-		$perms = $this->getPermissions($viewingUser);
-		if (!$perms['canView']) return false;
-
-		return true;
+		if ($listOnly)
+		{
+			return array_keys($weapons);
+		}
+		
+		foreach ($weapons as $weapon => $level)
+		{
+			unset($weapons[$weapon]);
+			
+			$name = new XenForo_Phrase('pirateProfile_w_' . $weapon);
+			$weapons[$weapon] = array(
+				'name'  => $name->__toString(),
+				'level' => $level
+			);
+		}
+		
+		return $weapons;
 	}
 	
-	public static function getRanks()
+	public static function getSkills($listOnly = false, $prefix = false)
+	{
+		$skills = array('potions', 'fishing');
+		
+		if ($prefix)
+		{
+			foreach ($skills as &$skill)
+			{
+				$skill = 's_' . $skill;
+			}
+		}
+		
+		if ($listOnly)
+		{
+			return $skills;
+		}
+		
+		foreach ($skills as $key => $skill)
+		{
+			$name = new XenForo_Phrase('pirateProfile_s_' . $skill);
+			$skills[$skill] = $name->__toString();
+			unset($skills[$key]);
+		}
+		
+		return $skills;
+	}
+	
+	public static function getRanks($listOnly = false, $prefix = false)
 	{
 		$ranks = array(
 			'privateering' => array(
@@ -630,13 +711,27 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			)
 		);
 		
+		if ($prefix)
+		{
+			foreach ($ranks as $key => $children)
+			{
+				$ranks['r_' . $key] = $children;
+				unset($ranks[$key]);
+			}
+		}
+		
+		if ($listOnly)
+		{
+			return $ranks;
+		}
+		
 		foreach ($ranks as $type => $children)
 		{
 			foreach ($children as $key => $rank)
 			{
 				if (!empty($rank))
 				{
-					$name = new XenForo_Phrase('pirateProfile_pirate_rank_' . $type . '_' . $rank);
+					$name = new XenForo_Phrase('pirateProfile_r_' . $type . '_' . $rank);
 					$ranks[$type][$rank] = $name->__toString();
 					unset($ranks[$type][$key]);
 				}

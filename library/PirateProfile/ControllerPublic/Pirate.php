@@ -11,13 +11,11 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			return $this->responseReroute(__CLASS__, 'member');
 		}
 
+		$this->_assertCanView();
+
 		$pirateModel = $this->_getPirateModel();
 		
-		$perms = $pirateModel->getPermissions();
-		if (!$perms['canView'])
-		{
-			throw $this->getNoPermissionResponseException();
-		}
+		$permissions = $pirateModel->getPermissions();
 		
 		$pirateName = $this->_input->filterSingle('pirateName', XenForo_Input::STRING);
 		if ($pirateName !== '')
@@ -56,6 +54,18 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			'order'     => $order,
 			'direction' => $direction
 		));
+		
+		$empty = array();
+		foreach ($pirates as $key => $pirate)
+		{
+			if (empty($pirate[$order]))
+			{
+				$empty[] = $pirate;
+				unset($pirates[$key]);
+			}
+		}
+		
+		$pirates = array_merge($pirates, $empty);
 		
 		$commentIds = array();
 		foreach ($pirates as &$pirate)
@@ -133,18 +143,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			$pirate['user'] = $users[$pirate['user_id']];
 		}
 		
-		$format = $this->_input->filterSingle('f', XenForo_Input::STRING);
-		
-		switch ($format)
-		{
-			case 'compare':
-				$template = 'pirateProfile_compare';
-				/*break;*/
-			case 'list':
-			default:
-				$template = 'pirateProfile_list';
-		}
-		
 		$orderParams = array();
 		foreach (array('name', 'modified_date', 'level', 'guild', 'last_comment_date') AS $field)
 		{
@@ -157,6 +155,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		$viewParams = array(
 			'pirates'            => $pirates,
+			'permissions'        => $permissions,
 			'page'               => $page,
 			'piratesStartOffset' => ($page - 1) * $piratesPerPage + 1,
 			'piratesEndOffset'   => ($page - 1) * $piratesPerPage + count($pirates),
@@ -179,7 +178,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		return $this->responseView(
 			'PirateProfile_ViewPublic_Pirate_List',
-			$template,
+			'pirateProfile_list',
 			$viewParams
 		);
 	}
@@ -196,25 +195,23 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			);
 		}
 
-		$user = $this->_getMemberOrError($userId);
+		$user = $this->getHelper('UserProfile')->getUserOrError($userId);
 
 		$this->_canonicalize($user);
 		
+		$this->_assertCanView();
+		
 		$pirateModel = $this->_getPirateModel();
 		
-		$perms = $pirateModel->getPermissions();
-		if (!$perms['canView'])
-		{
-			throw $this->getNoPermissionResponseException();
-		}
+		$permissions = $pirateModel->getPermissions();
 
 		$pirates = $pirateModel->getUserPirates($userId);
 		$pirates = $this->_censorPirates($pirates);
 
 		$viewParams = array(
-			'user'	  => $user,
-			'perms'   => $perms,
-			'pirates' => $pirates
+			'user'	        => $user,
+			'permissions'   => $permissions,
+			'pirates'       => $pirates
 		);
 		
 		return $this->responseView(
@@ -226,6 +223,8 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	
 	public function actionFind()
 	{
+		$this->_assertCanView();
+		
 		$q = $this->_input->filterSingle('q', XenForo_Input::STRING);
 
 		if ($q !== '')
@@ -290,8 +289,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		$pirate = $pirateModel->preparePirate($pirate);
 		
-		$pirate = $this->_assertCanLikePirate($pirate, $user);
-		
 		$pirate = $pirateModel->addPirateCommentsToPirate($pirate, array(
 			'join' => PirateProfile_Model_Pirate::FETCH_COMMENT_USER
 		));
@@ -303,10 +300,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 				$comment = $pirateModel->preparePirateComment($comment, $pirate, $user);
 			}
 		}
-		
-		$visitorId = XenForo_Visitor::getUserId();
-		$pirate['canReport']  = $this->_assertCanReportPirate($pirate, $visitorId);
-		$pirate['canComment'] = $this->_assertCanCommentOnPirate($pirate, $visitorId);
 
 		$viewParams = array(
 			'user'	   => $user,
@@ -325,12 +318,13 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 
 		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
-		$pirate = $this->_censorPirate($pirate);
 		
-		if (XenForo_Visitor::getUserId() == $pirate['user_id'])
+		if (!$this->_getPirateModel()->canReportPirate($pirate, $errorPhraseKey))
 		{
-			throw $this->getNoPermissionResponseException();
+			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
 		}
+		
+		$pirate = $this->_censorPirate($pirate);
 
 		if ($this->_request->isPost())
 		{
@@ -371,7 +365,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
 		
-		if (!$this->_getPirateModel()->canLikePirate($pirate, $user, $errorPhraseKey))
+		if (!$this->_getPirateModel()->canLikePirate($pirate, $errorPhraseKey))
 		{
 			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
 		}
@@ -471,9 +465,12 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	{
 		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		
-		$this->_assertLoggedIn();
-		
 		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
+		
+		if (!$this->_getPirateModel()->canCommentOnPirate($pirate, $errorPhraseKey))
+		{
+			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
+		}
 
 		if ($this->_request->isPost())
 		{
@@ -693,18 +690,16 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	}
 
 	public function actionAdd()
-	{
-		$this->_assertLoggedIn();
+	{	
+		$this->_assertCanAddPirate();
 		
 		$pirateModel = $this->_getPirateModel();
-		
-		$perms = $pirateModel->getPermissions();
-		if (!$perms['canAdd']) throw $this->getNoPermissionResponseException();
-		
 		$attachmentParams = $pirateModel->getAttachmentParams(array());
 		$attachmentConstraints = PirateProfile_AttachmentHandler_Pirate::getAttachmentConstraints();
 		
 		$viewParams = array(
+			'weapons'               => $pirateModel::getWeapons(),
+			'skills'                => $pirateModel::getSkills(),
 			'ranks'                 => $pirateModel::getRanks(),
 			'attachmentParams'		=> $attachmentParams,
 			'attachmentConstraints' => $attachmentConstraints
@@ -723,20 +718,11 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
 		
-		$this->_canonicalize($this->_censorPirate($pirate), 'edit');
-
+		$this->_assertCanManagePirate($pirate, $visitor);
+		$this->_assertCanEditPirate();
+		
 		$pirateModel = $this->_getPirateModel();
 		
-		if (!$pirate['canEdit'])
-		{
-			throw $this->getNoPermissionResponseException();
-		}
-		
-		$visitor = XenForo_Visitor::getInstance();
-		$this->_assertCanManagePirate($pirate, $visitor);
-
-		$user = $this->_getUserModel()->getUserById($pirate['user_id']);
-
         $pictures = $pirateModel->getPicturesById($pirate['pirate_id']);
 		$attachmentParams = $pirateModel->getAttachmentParams(array(
 			'pirate_id' => $pirate['pirate_id']
@@ -746,6 +732,8 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$viewParams = array(
 			'user'					=> $user,
 			'pirate'				=> $pirate,
+			'weapons'               => $pirateModel::getWeapons(),
+			'skills'                => $pirateModel::getSkills(),
 			'ranks'                 => $pirateModel::getRanks(),
 			'attachments'			=> $pictures,
 			'attachmentParams'		=> $attachmentParams,
@@ -760,10 +748,18 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	}
 
 	public function actionDelete()
-	{
+	{	
 		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		
 		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
+		
+		$this->_assertCanManagePirate($pirate);
+		
+		$permissions = $this->_getPirateModel()->getPermissions();
+		if (!$permissions['delete'])
+		{
+			throw $this->getNoPermissionResponseException();
+		}
 
 		if ($this->isConfirmedPost()) {
 			$dw = XenForo_DataWriter::create('PirateProfile_DataWriter_Pirate');
@@ -789,40 +785,47 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 	public function actionNew()
 	{
-		$visitor = XenForo_Visitor::getInstance();
-		$this->_assertLoggedIn($visitor['user_id']);
-		
-		$perms = $this->_getPirateModel()->getPermissions();
-		if (!$perms['canAdd'])
-		{
-			throw $this->getNoPermissionResponseException();
-		}
-
+		$this->_assertCanAddPirate();
 		$this->_assertPostOnly();
+		
+		$pirateModel = $this->_getPirateModel();
+		
+		$filter = array(
+			'name'     => XenForo_Input::STRING,
+			'level'    => XenForo_Input::UINT,
+			'guild'    => XenForo_Input::STRING,
+			'extra'    => XenForo_Input::STRING,
+			'make_fit' => XenForo_Input::UINT
+		);
+		
+		
+		$skills = array_merge(
+			$pirateModel::getWeapons(true, true),
+			$pirateModel::getSkills(true, true)
+		);
 
-		$input = $this->_input->filter(array(
-			'name'				  => XenForo_Input::STRING,
-			'level'				  => XenForo_Input::UINT,
-			'guild'				  => XenForo_Input::STRING,
-			'cannon'			  => XenForo_Input::UINT,
-			'sailing'	 		  => XenForo_Input::UINT,
-			'sword'		 		  => XenForo_Input::UINT,
-			'shooting'	 		  => XenForo_Input::UINT,
-			'doll'				  => XenForo_Input::UINT,
-			'dagger'	 		  => XenForo_Input::UINT,
-			'grenade'	 	  	  => XenForo_Input::UINT,
-			'staff'		 		  => XenForo_Input::UINT,
-			'potions'	 		  => XenForo_Input::UINT,
-			'fishing'	 		  => XenForo_Input::UINT,
-			'infamy_privateering' => XenForo_Input::STRING,
-			'infamy_pvp'		  => XenForo_Input::STRING,
-			'extra'		 		  => XenForo_Input::STRING,
-			'make_fit'   		  => XenForo_Input::UINT));
+		foreach ($skills as $skill)
+		{
+			if (!empty($skill))
+			{
+				$filter[$skill] = XenForo_Input::UINT;
+			}
+		}
+		
+		$ranks = $pirateModel::getRanks(true, true);
+		foreach ($ranks as $type => $children)
+		{
+			$filter[$type] = XenForo_Input::STRING;
+		}
+		
+		$input = $this->_input->filter($filter);
 		$input = $this->_stripZeros($input);
 		
 		$attachment = $this->_input->filter(array(
 			'attachment_hash' => XenForo_Input::STRING)
 		);
+		
+		$visitor = XenForo_Visitor::getInstance();
 
 		$dw = XenForo_DataWriter::create('PirateProfile_DataWriter_Pirate');
 		$dw->set('user_id', $visitor['user_id']);
@@ -848,46 +851,45 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 	public function actionSave()
 	{
-		$visitorId = XenForo_Visitor::getUserId();
-		if (empty($visitorId)){
-			throw $this->getNoPermissionResponseException();
-		}
+		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		
-		$pirateModel = $this->_getPirateModel();
+		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
 		
-		$perms = $pirateModel->getPermissions();
-		if (!$perms['canEdit'])
-		{
-			throw $this->getNoPermissionResponseException();
-		}
+		$this->_assertCanManagePirate($pirate);
+		$this->_assertCanEditPirate();
 
 		$this->_assertPostOnly();
 
-		$pirate_id = $this->_input->filterSingle('id', XenForo_Input::UINT);
-
-		$pirate = $pirateModel->getPirateById($pirate_id);
-		if (empty($pirate)) throw $this->getNoPermissionResponseException();
-
 		$user = $this->_getUserModel()->getUserById($pirate['user_id']);
+		
+		$filter = array(
+			'name'     => XenForo_Input::STRING,
+			'level'    => XenForo_Input::UINT,
+			'guild'    => XenForo_Input::STRING,
+			'extra'    => XenForo_Input::STRING,
+			'make_fit' => XenForo_Input::UINT
+		);
+		
+		$skills = array_merge(
+			PirateProfile_Model_Pirate::getWeapons(true, true),
+			PirateProfile_Model_Pirate::getSkills(true, true)
+		);
 
-		$input = $this->_input->filter(array(
-			'name'				  => XenForo_Input::STRING,
-			'level'				  => XenForo_Input::UINT,
-			'guild'				  => XenForo_Input::STRING,
-			'cannon'			  => XenForo_Input::UINT,
-			'sailing'	 		  => XenForo_Input::UINT,
-			'sword'		 		  => XenForo_Input::UINT,
-			'shooting'	 		  => XenForo_Input::UINT,
-			'doll'				  => XenForo_Input::UINT,
-			'dagger'	 		  => XenForo_Input::UINT,
-			'grenade'	 	  	  => XenForo_Input::UINT,
-			'staff'		 		  => XenForo_Input::UINT,
-			'potions'	 		  => XenForo_Input::UINT,
-			'fishing'	 		  => XenForo_Input::UINT,
-			'infamy_privateering' => XenForo_Input::STRING,
-			'infamy_pvp'		  => XenForo_Input::STRING,
-			'extra'		 		  => XenForo_Input::STRING,
-			'make_fit'   		  => XenForo_Input::UINT));
+		foreach ($skills as $skill)
+		{
+			if (!empty($skill))
+			{
+				$filter[$skill] = XenForo_Input::UINT;
+			}
+		}
+		
+		$ranks = PirateProfile_Model_Pirate::getRanks(true, true);
+		foreach ($ranks as $type => $children)
+		{
+			$filter[$type] = XenForo_Input::STRING;
+		}
+		
+		$input = $this->_input->filter($filter);
 		$input = $this->_stripZeros($input);
 
 		$attachment = $this->_input->filter(array(
@@ -895,7 +897,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		);
 
 		$dw = XenForo_DataWriter::create('PirateProfile_DataWriter_Pirate');
-		$dw->setExistingData($pirate_id);
+		$dw->setExistingData($pirateId);
 
 		if (!$dw->setPirate($input))
 		{
@@ -930,8 +932,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 			switch ($action)
 			{
-				case 'Index':
-					return new XenForo_Phrase('pirateProfile_viewing_pirates');
 				case 'Member':
 					$userModel	= new XenForo_Model_User;
 					$pirateUser = $userModel->getUserById($activity['params']['id']);
@@ -972,66 +972,15 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 							new XenForo_Phrase('pirateProfile_viewing_pirate'), $pirate['name'], $link, $link
 						)
 					);
-				case 'Like':
-					return new XenForo_Phrase('pirateProfile_liking_pirate');
-				case 'Likes':
-					return new XenForo_Phrase('pirateProfile_viewing_pirate_likes');
-				case 'Comment':
-					return new XenForo_Phrase('pirateProfile_commenting_on_a_pirate');
-				case 'Comments':
-					return new XenForo_Phrase('pirateProfile_viewing_pirate_comments');
-				case 'CommentDelete':
-					return new XenForo_Phrase('pirateProfile_deleting_pirate_comment');
 				case 'Add':
 					return new XenForo_Phrase('pirateProfile_adding_pirate');
 				case 'Edit':
 					return new XenForo_Phrase('pirateProfile_editing_pirate');
-				case 'Delete':
-					return new XenForo_Phrase('pirateProfile_removing_pirate');
+				case 'Index':
+				default:
+					return new XenForo_Phrase('pirateProfile_viewing_pirates');
 			}
 		}
-	}
-	
-	protected function _getMemberOrError($userId = false)
-	{
-		if (!$userId)
-		{
-			$user = XenForo_Visitor::getInstance();
-			$userId = $user['user_id'];
-			if (empty($userId))
-			{
-				throw $this->getNoPermissionResponseException();
-			}
-		}
-		else
-		{
-			$user = $this->_getUserModel()->getUserById($userId);
-			if (empty($user['user_id']))
-			{
-				throw $this->responseException(
-					$this->responseError(
-						new XenForo_Phrase('requested_member_not_found'), 404
-					)
-				);
-			}
-		}
-		
-		return $user;
-	}
-	
-	protected function _assertLoggedIn($userId = null)
-	{
-		if (empty($userId))
-		{
-			$userId = XenForo_Visitor::getUserId();
-		}
-		
-		if (empty($userId))
-		{
-			throw $this->getNoPermissionResponseException();
-		}
-		
-		return true;
 	}
 	
 	protected function _canonicalize($params, $action = false)
@@ -1054,8 +1003,8 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	{
 		$pirateModel = $this->_getPirateModel();
 		
-		$perms = $pirateModel->getPermissions();
-		if (!$perms['canView'])
+		$permissions = $pirateModel->getPermissions();
+		if (!$permissions['view'])
 		{
 			throw $this->getNoPermissionResponseException();
 		}
@@ -1071,8 +1020,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 				new XenForo_Phrase('pirateProfile_requested_pirate_not_found'), 404)
 			);
 		}
-		
-		$pirate = array_merge_recursive($pirate, $perms);
 		
 		$user = $this->_getUserModel()->getUserById($pirate['user_id']);
 		
@@ -1118,53 +1065,55 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 		return $return;
 	}
-	
-	protected function _assertCanReportPirate($pirate, $userId)
-	{
-		if ($pirate['canView'])
-		{
-			if (!empty($userId))
-			{
-				if ($pirate['user_id'] != $userId)
-				{
-					return true;
-				}
-			}
-		}
-		
-		return false;
-	}
-	
-	protected function _assertCanLikePirate($pirate, $user)
-	{
-		$pirate['canLike'] = $this->_getPirateModel()->canLikePirate($pirate, $user);
-		
-		return $pirate;
-	}
-	
-	protected function _assertCanCommentOnPirate($pirate, $userId)
-	{
-		if ($pirate['canView'])
-		{
-			if (!empty($userId))
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
 
-	protected function _assertCanManagePirate($pirate, $visitor)
+	protected function _assertCanManagePirate($pirate, &$errorPhraseKey = '')
 	{
-		$perms = $this->_getPirateModel()->getPermissions();
+		$permissions = $this->_getPirateModel()->getPermissions();
 		
-		if (($pirate['user_id'] == $visitor['user_id']) OR ($perms['canManage']))
+		if ($permissions['manage'])
 		{
 			return true;
 		}
 		
-		throw $this->getNoPermissionResponseException();
+		if ($pirate['user_id'] == XenForo_Visitor::getUserId())
+		{
+			return true;
+		}
+		
+		throw $this->getNoPermissionResponseException($errorPhraseKey);
+	}
+	
+	protected function _assertCanAddPirate(&$errorPhraseKey = '')
+	{
+		$permissions = $this->_getPirateModel()->getPermissions();
+		if ($permissions['add'] AND XenForo_Visitor::getUserId())
+		{
+			return true;
+		}
+		
+		throw $this->getNoPermissionResponseException($errorPhraseKey);
+	}
+	
+	protected function _assertCanEditPirate(&$errorPhraseKey = '')
+	{
+		$permissions = $this->_getPirateModel()->getPermissions();
+		if ($permissions['edit'] AND XenForo_Visitor::getUserId())
+		{
+			return true;
+		}
+		
+		throw $this->getNoPermissionResponseException($errorPhraseKey);
+	}
+	
+	protected function _assertCanView(&$errorPhraseKey = '')
+	{
+		$permissions = $this->_getPirateModel()->getPermissions();
+		if ($permissions['view'])
+		{
+			return true;
+		}
+		
+		throw $this->getNoPermissionResponseException($errorPhraseKey);
 	}
 
 	protected function _stripZeros(array $input)
@@ -1179,11 +1128,17 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$match = false;
 		foreach ($checks as $check)
 		{
-			if (strpos($referrer, $check)) $match = true;
+			if (strpos($referrer, $check))
+			{
+				$match = true;
+			}
 		}
 
-		if ($match) return $fallback;
-		
+		if ($match)
+		{
+			return $fallback;
+		}
+				
 		return $this->getDynamicRedirect(
 			XenForo_Link::buildPublicLink('pirates'), true
 		);
