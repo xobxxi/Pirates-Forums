@@ -60,7 +60,8 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		{
 			if (!$pirate[$order])
 			{
-				unset($pirates[$key]);
+				echo "removal\n";
+				//unset($pirates[$key]);
 			}
 		}
 		
