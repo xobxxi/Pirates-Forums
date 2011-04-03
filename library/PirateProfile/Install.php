@@ -35,19 +35,19 @@ class PirateProfile_Install
 			self::addColumnIfNotExist(
 				$db,
 				'pirate',
-				$db->quote($skill),
+				$skill,
 				'int(11) NOT NULL'
 			);
 		}
 		
-		$ranks = PirateProfile_Model_Pirate::getRanks();
-		foreach ($ranks as $type)
+		$ranks = PirateProfile_Model_Pirate::getRanks(true, true);
+		foreach ($ranks as $type => $children)
 		{
 			self::addColumnIfNotExist(
 				$db,
 				'pirate',
-				$db->quote($type),
-				'text NOT NULL,'
+				$type,
+				'text NOT NULL'
 			);
 		}
 		
@@ -119,6 +119,18 @@ class PirateProfile_Install
 			DELETE FROM xf_content_type
 			WHERE xf_content_type.addon_id = 'pirateProfile'
 		");
+		
+		$db->query("
+			DELETE FROM xf_user_alert
+			WHERE xf_user_alert.content_type = 'pirate'
+		");
+		
+		/* this data will be retained until likes can be removed from the user count
+		$db->query("
+			DELETE FROM xf_liked_content
+			WHERE xf_liked_content.content_type = 'pirate'
+		");
+		*/
 		
 		$db->query("
 			UPDATE xf_attachment 
