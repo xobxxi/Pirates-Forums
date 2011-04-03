@@ -861,7 +861,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		}
 		
 		$input = $this->_input->filter($filter);
-		$input = $this->_stripZeros($input);
 		
 		$attachment = $this->_input->filter(array(
 			'attachment_hash' => XenForo_Input::STRING)
@@ -932,7 +931,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		}
 		
 		$input = $this->_input->filter($filter);
-		$input = $this->_stripZeros($input);
 
 		$attachment = $this->_input->filter(array(
 			'attachment_hash' => XenForo_Input::STRING)

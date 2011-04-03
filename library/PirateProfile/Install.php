@@ -36,7 +36,7 @@ class PirateProfile_Install
 				$db,
 				'pirate',
 				$skill,
-				'int(11) NOT NULL'
+				'int(11) NOT NULL DEFAULT  \'0\''
 			);
 		}
 		

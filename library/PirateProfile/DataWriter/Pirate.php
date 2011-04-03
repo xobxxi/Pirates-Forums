@@ -88,16 +88,18 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 		foreach ($weapons as $weapon)
 		{
 			$fields['pirate'][$weapon] = array(
-				'type' => self::TYPE_STRING,
-				'max'  => $maxLevels['weapon']
+				'type'    => self::TYPE_STRING,
+				'max'     => $maxLevels['weapon']
+				'default' => 0
 			);
 		}
 		
 		foreach ($skills as $skill)
 		{
 			$fields['pirate'][$skill] = array(
-				'type' => self::TYPE_UINT,
-				'max'  => $maxLevels['skill']
+				'type'    => self::TYPE_UINT,
+				'max'     => $maxLevels['skill']
+				'default' => 0
 			);
 		}
 		
@@ -194,7 +196,7 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 			$this->_db->delete('pirate_comment', 'pirate_id = ' . $this->_db->quote($pirateId));
 		}
 		
-		$this->_getModelFromCache('XenForo_Model_NewsFeed')->delete(
+		$this->getModelFromCache('XenForo_Model_NewsFeed')->delete(
 			'pirate',
 			$pirateId
 		);
