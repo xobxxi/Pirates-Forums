@@ -300,7 +300,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="EXTRA.css" addon_id="XenForo" version_id="1000052" version_string="1.0.0 Release Candidate 2"><![CDATA[/* login bar */
+    <template title="EXTRA.css" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[/* login bar */
 #loginBar
 {
 	color: rgb(252, 252, 255) !important; /* white text */
@@ -643,8 +643,29 @@ blockquote .bbCodeQuote aside .attribution a:hover
 {
 	text-align: center;
 	padding: 7px;
-}]]></template>
-    <template title="profile_post_comment" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<li class="comment secondaryContent">
+}
+
+/* april fools */
+/*
+.avatarScaler img,
+.avatar .img,
+.avatar img,
+.smilie,
+#logo,
+.listBlock.stats dd,
+#jumpMenu
+{
+    transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+}
+*/]]></template>
+    <template title="profile_post_comment" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:require css="commentsPlus_profile_post_comment_likes.css" />
+
+<li class="comment secondaryContent">
 	<xen:avatar user="$comment" size="s" img="true" />
 
 	<div class="commentInfo">
@@ -654,9 +675,20 @@ blockquote .bbCodeQuote aside .attribution a:hover
 		</div>
 		<div class="commentControls">
 			<xen:datetime time="$comment.comment_date" class="muted" />
-                        <xen:include template="commentsPlus_profile_post_comment_edit_link" />
+                        <xen:if is="{$comment.canEdit}"><a href="{xen:link 'profile-posts/comment-edit', $profilePost, "comment={$comment.profile_post_comment_id}"}" class="OverlayTrigger item control edit"><span></span>{xen:phrase edit}</a></xen:if>
 			<xen:if is="{$comment.canDelete}"><a href="{xen:link 'profile-posts/comment-delete', $profilePost, "comment={$comment.profile_post_comment_id}"}" class="OverlayTrigger item control delete"><span></span>{xen:phrase delete}</a></xen:if>
+                        <xen:if is="{$comment.canLike}"><a href="{xen:link 'profile-posts/comment-like', $profilePost, "comment={$comment.profile_post_comment_id}"}" class="LikeLink item control {xen:if $comment.like_date, unlike, like}" data-container="#likes-wp-c-{$comment.profile_post_comment_id}"><span></span><span class="LikeLabel">{xen:if $comment.like_date, {xen:phrase unlike}, {xen:phrase like}}</span></a></xen:if>
 		</div>
+                <ol class="messageResponse messageSimple">
+		<li id="likes-wp-c-{$comment.profile_post_comment_id}">
+                <xen:if is="{$comment.likes}">
+                         <xen:include template="likes_summary">
+                                 <xen:map from="$comment" to="$message" />
+                                 <xen:set var="$likesUrl">{xen:link profile-posts/comment-likes, $profilePost, "comment={$comment.profile_post_comment_id}"}</xen:set>
+                         </xen:include>
+                 </xen:if>
+                 </li>
+                 </ol>
 	</div>
 </li>]]></template>
     <template title="quick_navigation_menu" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase quick_navigation_menu}</xen:title>
