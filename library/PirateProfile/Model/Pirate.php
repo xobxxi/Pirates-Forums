@@ -595,7 +595,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	
 	public function preparePirateComment(array $comment, array $pirate, array $user, array $viewingUser = null)
 	{
-		$comment['candit']   = $this->canEditPirateComment($comment, $pirate, $user, $viewingUser);
+		$comment['canEdit']    = $this->canEditPirateComment($comment, $pirate, $user, $null, $viewingUser);
 		$comment['canDelete'] = $this->canDeletePirateComment($comment, $pirate, $user, $null, $viewingUser);
 		
 		return $comment;
