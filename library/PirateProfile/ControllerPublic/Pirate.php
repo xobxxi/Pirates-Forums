@@ -55,12 +55,11 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			'direction' => $direction
 		));
 		
-		$empty = array();
+		//$empty = array();
 		foreach ($pirates as $key => $pirate)
 		{
-			if (empty($pirate[$order]))
+			if (!$pirate[$order])
 			{
-				//$empty[] = $pirate;
 				unset($pirates[$key]);
 			}
 		}
