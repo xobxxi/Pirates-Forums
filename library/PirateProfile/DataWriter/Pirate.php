@@ -89,7 +89,7 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 		{
 			$fields['pirate'][$weapon] = array(
 				'type'    => self::TYPE_STRING,
-				'max'     => $maxLevels['weapon']
+				'max'     => $maxLevels['weapon'],
 				'default' => 0
 			);
 		}
@@ -98,7 +98,7 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 		{
 			$fields['pirate'][$skill] = array(
 				'type'    => self::TYPE_UINT,
-				'max'     => $maxLevels['skill']
+				'max'     => $maxLevels['skill'],
 				'default' => 0
 			);
 		}
