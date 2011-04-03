@@ -366,7 +366,7 @@
                 <xen:set var="$action">{xen:phrase edit}</xen:set>
         </xen:include>
 </form>]]></template>
-    <template title="pirateProfile_form" version_id="60" version_string="2.0.0"><![CDATA[<xen:require js="js/card/form.js" />
+    <template title="pirateProfile_form" version_id="100" version_string="2.0.0 Beta 1"><![CDATA[<xen:require js="js/pirate/form.js" />
 <xen:require css="pirateProfile_form.css" />
 
 <xen:if is="{$errors}">
@@ -727,8 +727,8 @@ div.label,
         <li><a href="{xen:link pirates/add}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:phrase pirateProfile_add_pirate}</a></li>
         </xen:if>
 </ul>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="61" version_string="2.0.0"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
-<xen:require js="js/card/skills.js" />
+    <template title="pirateProfile_pirate_card" version_id="100" version_string="2.0.0 Beta 1"><![CDATA[<xen:require js="js/pirate/jquery-ui.js" />
+<xen:require js="js/pirate/skills.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
 <xen:require css="message.css" />
