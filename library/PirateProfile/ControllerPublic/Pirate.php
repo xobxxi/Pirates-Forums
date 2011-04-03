@@ -92,7 +92,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$pirateCount = $pirateModel->countPirates(array());
 		$this->canonicalizePageNumber($page, $piratesPerPage, $pirateCount, 'pirates', $pirates);
 		
-		$pirates = $this->_censorPirates($pirates);
+		$pirates = $pirateModel->censorPirates($pirates);
 		
 		$recentlyUpdated = $pirateModel->getLatestPirates(array(), array('limit' => 4));
 		$recentlyUpdated = $this->_censorPirates($recentlyUpdated);
@@ -206,7 +206,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$permissions = $pirateModel->getPermissions();
 
 		$pirates = $pirateModel->getUserPirates($userId);
-		$pirates = $this->_censorPirates($pirates);
+		$pirates = $pirateModel->censorPirates($pirates);
 
 		$viewParams = array(
 			'user'	        => $user,
@@ -229,7 +229,9 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 		if ($q !== '')
 		{
-			$pirates = $this->_getPirateModel()->getPirates(
+			$pirateModel = $this->_getPirateModel();
+			
+			$pirates = $pirateModel->getPirates(
 				array('name' => array($q , 'r')),
 				array('limit' => 10)
 			);
@@ -237,7 +239,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			$ids = array();
 			foreach ($pirates as $key => $pirate)
 			{
-				$censored = $this->_censorPirate($pirate);
+				$censored = $pirateModel->censorPirate($pirate);
 				
 				if ($pirate['name'] != $censored['name'])
 				{
@@ -258,7 +260,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 				}
 			}
 			
-			$pirates = $this->_censorPirates($pirates);
+			$pirates = $pirateModel->censorPirates($pirates);
 		}
 		else
 		{
@@ -281,7 +283,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		
 		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
-		$pirate = $this->_censorPirate($pirate);
 		
 		$this->_canonicalize($pirate, 'card');
 
@@ -323,8 +324,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		{
 			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
 		}
-		
-		$pirate = $this->_censorPirate($pirate);
 
 		if ($this->_request->isPost())
 		{
@@ -951,7 +950,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 		$checks = array(
 			XenForo_Link::buildPublicLink('pirates/edit', $pirate),
-			XenForo_Link::buildPublicLink('members', $user)
 		);
 		$fallback = XenForo_Link::buildPublicLink('pirates', $user);
 		$redirect = $this->_redirector($checks, $fallback);
@@ -1071,39 +1069,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		}
 		
 		return array($pirate, $user);
-	}
-
-	protected function _censorPirate($pirate)
-	{
-		if (!empty($pirate['name']))
-		{
-			$pirate['name']	 = XenForo_Helper_String::censorString($pirate['name']);
-		}
-
-		if (!empty($pirate['guild']))
-		{
-			$pirate['guild'] = XenForo_Helper_String::censorString($pirate['guild']);
-		}
-
-		if (!empty($pirate['extra']))
-		{
-			$pirate['extra'] = XenForo_Helper_String::censorString($pirate['extra']);
-		}
-
-		return $pirate;
-	}
-
-	protected function _censorPirates(array $pirates)
-	{
-		$return = array();
-		foreach ($pirates as $pirate)
-		{
-			$return[] = $this->_censorPirate($pirate);
-		}
-
-		if (empty($return)) return false;
-
-		return $return;
 	}
 
 	protected function _assertCanManagePirate($pirate, &$errorPhraseKey = '')

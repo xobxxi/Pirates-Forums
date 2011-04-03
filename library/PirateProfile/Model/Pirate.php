@@ -223,7 +223,43 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		', 'pirate_id', $name);
 	}
 	
-	public function preparePirate($pirate)
+	public static function censorPirate($pirate)
+	{
+		if (!empty($pirate['name']))
+		{
+			$pirate['name']	 = XenForo_Helper_String::censorString($pirate['name']);
+		}
+
+		if (!empty($pirate['guild']))
+		{
+			$pirate['guild'] = XenForo_Helper_String::censorString($pirate['guild']);
+		}
+
+		if (!empty($pirate['extra']))
+		{
+			$pirate['extra'] = XenForo_Helper_String::censorString($pirate['extra']);
+		}
+
+		return $pirate;
+	}
+
+	public static function censorPirates(array $pirates)
+	{
+		$return = array();
+		foreach ($pirates as $pirate)
+		{
+			$return[] = self::censorPirate($pirate);
+		}
+
+		if (empty($return))
+		{
+			return false;
+		}
+
+		return $return;
+	}
+	
+	public function preparePirate($pirate, $censor = true)
 	{
 		$options = XenForo_Application::get('options');
 		
@@ -297,6 +333,11 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		);
 		
 		$pirate['permissions'] = $permissions;
+		
+		if ($censor)
+		{
+			$pirate = $this->censorPirate($pirate);
+		}
 
 		return $pirate;
 	}
@@ -621,12 +662,12 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			$userPermissions = $viewingUser['permissions'];
 			
 			$permissions = array(
-				'view'   => $this->_hasPermission($userPermissions, 'pirateProfile', 'canView'),
-				'add'    => $this->_hasPermission($userPermissions, 'pirateProfile', 'canAdd'),
-				'attach' => $this->_hasPermission($userPermissions, 'pirateProfile', 'canAttach'),
-				'edit'   => $this->_hasPermission($userPermissions, 'pirateProfile', 'canEdit'),
-				'delete' => $this->_hasPermission($userPermissions, 'pirateProfile', 'canDelete'),
-				'manage' => $this->_hasPermission($userPermissions, 'pirateProfile', 'canManage'),
+				'view'   => $this->_hasPermission($userPermissions, 'pirateProfile', 'view'),
+				'add'    => $this->_hasPermission($userPermissions, 'pirateProfile', 'add'),
+				'attach' => $this->_hasPermission($userPermissions, 'pirateProfile', 'attach'),
+				'edit'   => $this->_hasPermission($userPermissions, 'pirateProfile', 'edit'),
+				'delete' => $this->_hasPermission($userPermissions, 'pirateProfile', 'delete'),
+				'manage' => $this->_hasPermission($userPermissions, 'pirateProfile', 'manage'),
 			);
 
 			return $permissions;

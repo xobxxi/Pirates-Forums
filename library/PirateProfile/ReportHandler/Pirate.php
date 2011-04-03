@@ -13,21 +13,6 @@ class PirateProfile_ReportHandler_Pirate extends XenForo_ReportHandler_Abstract
 			return array(false, false, false);
 		}
 		
-		if (!empty($pirate['name']))
-		{
-			$pirate['name']	 = XenForo_Helper_String::censorString($pirate['name']);
-		}
-
-		if (!empty($pirate['guild']))
-		{
-			$pirate['guild'] = XenForo_Helper_String::censorString($pirate['guild']);
-		}
-
-		if (!empty($pirate['extra']))
-		{
-			$pirate['extra'] = XenForo_Helper_String::censorString($pirate['extra']);
-		}
-		
 		$pirate = $pirateModel->preparePirate($pirate);
 
 		return array(
