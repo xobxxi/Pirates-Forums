@@ -95,10 +95,10 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$pirates = $pirateModel->censorPirates($pirates);
 		
 		$recentlyUpdated = $pirateModel->getLatestPirates(array(), array('limit' => 4));
-		$recentlyUpdated = $this->_censorPirates($recentlyUpdated);
+		$recentlyUpdated = $pirateModel->censorPirates($recentlyUpdated);
 
 		$recentlyAdded = $pirateModel->getNewestPirates(array(), array('limit' => 4));
-		$recentlyAdded = $this->_censorPirates($recentlyAdded);
+		$recentlyAdded = $pirateModel->censorPirates($recentlyAdded);
 		
 		$ids = array();
 		foreach ($pirates as $pirate)
@@ -734,7 +734,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		list($pirate, $user) = $this->_assertPirateValidAndViewable($pirateId);
 		
-		$this->_assertCanManagePirate($pirate, $visitor);
+		$this->_assertCanManagePirate($pirate);
 		$this->_assertCanEditPirate();
 		
 		$pirateModel = $this->_getPirateModel();
@@ -1073,16 +1073,21 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 	protected function _assertCanManagePirate($pirate, &$errorPhraseKey = '')
 	{
-		$permissions = $this->_getPirateModel()->getPermissions();
+		$visitor = XenForo_Visitor::getInstance();
 		
-		if ($permissions['manage'])
+		if ($visitor['user_id'])
 		{
-			return true;
-		}
+			$permissions = $this->_getPirateModel()->getPermissions();
 		
-		if ($pirate['user_id'] == XenForo_Visitor::getUserId())
-		{
-			return true;
+			if ($permissions['manage'])
+			{
+				return true;
+			}
+		
+			if ($pirate['user_id'] == XenForo_Visitor::getUserId())
+			{
+				return true;
+			}
 		}
 		
 		throw $this->getNoPermissionResponseException($errorPhraseKey);
@@ -1102,7 +1107,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	protected function _assertCanEditPirate(&$errorPhraseKey = '')
 	{
 		$permissions = $this->_getPirateModel()->getPermissions();
-		if ($permissions['edit'] AND XenForo_Visitor::getUserId())
+		if ($permissions['edit'])
 		{
 			return true;
 		}

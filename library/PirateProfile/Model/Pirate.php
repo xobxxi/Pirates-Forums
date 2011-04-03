@@ -595,8 +595,10 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	
 	public function preparePirateComment(array $comment, array $pirate, array $user, array $viewingUser = null)
 	{
-		$comment['canEdit']    = $this->canEditPirateComment($comment, $pirate, $user, $null, $viewingUser);
-		$comment['canDelete'] = $this->canDeletePirateComment($comment, $pirate, $user, $null, $viewingUser);
+		$comment['permissions'] = array(
+			'edit'   => $this->canEditPirateComment($comment, $pirate, $user, $null, $viewingUser),
+			'delete' => $this->canDeletePirateComment($comment, $pirate, $user, $null, $viewingUser)
+		);
 		
 		return $comment;
 	}
@@ -663,12 +665,20 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			
 			$permissions = array(
 				'view'   => $this->_hasPermission($userPermissions, 'pirateProfile', 'view'),
-				'add'    => $this->_hasPermission($userPermissions, 'pirateProfile', 'add'),
-				'attach' => $this->_hasPermission($userPermissions, 'pirateProfile', 'attach'),
-				'edit'   => $this->_hasPermission($userPermissions, 'pirateProfile', 'edit'),
-				'delete' => $this->_hasPermission($userPermissions, 'pirateProfile', 'delete'),
-				'manage' => $this->_hasPermission($userPermissions, 'pirateProfile', 'manage'),
+				'add'    => false,
+				'attach' => false,
+				'edit'   => false,
+				'manage' => false
 			);
+			
+			if ($viewingUser['user_id'])
+			{
+				$permissions['add']    = $this->_hasPermission($userPermissions, 'pirateProfile', 'add');
+				$permissions['attach'] = $this->_hasPermission($userPermissions, 'pirateProfile', 'attach');
+				$permissions['edit']   = $this->_hasPermission($userPermissions, 'pirateProfile', 'edit');
+				$permissions['delete'] = $this->_hasPermission($userPermissions, 'pirateProfile', 'delete');
+				$permissions['manage'] = $this->_hasPermission($userPermissions, 'pirateProfile', 'manage');
+			}
 
 			return $permissions;
 	}
