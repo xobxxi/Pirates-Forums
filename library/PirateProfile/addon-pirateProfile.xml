@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0" version_id="61" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0 Beta 1" version_id="100" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -727,7 +727,7 @@ div.label,
         <li><a href="{xen:link pirates/add}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:phrase pirateProfile_add_pirate}</a></li>
         </xen:if>
 </ul>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="54" version_string="1.9.9"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="61" version_string="2.0.0"><![CDATA[<xen:require js="js/card/jquery-ui.js" />
 <xen:require js="js/card/skills.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
@@ -796,7 +796,7 @@ div.label,
                                 <a href="{xen:link 'pirates/report', $pirate}" class="OverlayTrigger item control report" data-cacheOverlay="false">{xen:phrase report}</a>
                         </xen:if>
                         <xen:if is="{$pirate.permissions.like}">
-				<a href="{xen:link 'pirates/like', $pirate}" class="LikeLink item control {xen:if $pirate.like_date, unlike, like}" data-container="#likes-wp-{$pirate.pirate_id}"><span></span><span class="LikeLabel">{xen:if $pirate.like_date, {xen:phrase unlike}, {xen:phrase like}}</span></a>
+				<a href="{xen:link 'pirates/like', $pirate}" class="LikeLink item control {xen:if $pirate.like_date, unlike, like}" data-container="#likes-wp-p-{$pirate.pirate_id}"><span></span><span class="LikeLabel">{xen:if $pirate.like_date, {xen:phrase unlike}, {xen:phrase like}}</span></a>
 			</xen:if>
                         <xen:if is="{$pirate.permissions.comment}">
 				<a href="{xen:link 'pirates/comment', $pirate}" class="CommentPoster item control postComment" data-commentArea="#pirate-commentSubmit-{$pirate.pirate_id}"><span></span>{xen:phrase comment}</a>
@@ -804,7 +804,7 @@ div.label,
 
                         <ol class="messageResponse messageSimple">
 
-			        <li id="likes-wp-c-{$pirate.pirate_id}">
+			        <li id="likes-wp-p-{$pirate.pirate_id}">
 				        <xen:if is="{$pirate.likes}">
 					        <xen:include template="likes_summary">
 						        <xen:map from="$pirate" to="$message" />
@@ -1078,7 +1078,7 @@ div.label,
     
     max-width: 380px;
 }]]></template>
-    <template title="pirateProfile_pirate_comment" version_id="44" version_string="1.8.3"><![CDATA[<li class="comment secondaryContent">
+    <template title="pirateProfile_pirate_comment" version_id="61" version_string="2.0.0"><![CDATA[<li class="comment secondaryContent">
 	<xen:avatar user="$comment" size="s" img="true" />
 
 	<div class="commentInfo">
@@ -1088,8 +1088,8 @@ div.label,
 		</div>
 		<div class="commentControls">
 			<xen:datetime time="$comment.comment_date" class="muted" />
-                        <xen:if is="{$comment.canEdit}"><a href="{xen:link 'pirates/comment-edit', $pirate, "comment={$comment.pirate_comment_id}"}" class="OverlayTrigger item control edit"><span></span>{xen:phrase edit}</a></xen:if>
-			<xen:if is="{$comment.canDelete}"><a href="{xen:link 'pirates/comment-delete', $pirate, "comment={$comment.pirate_comment_id}"}" class="OverlayTrigger item control delete"><span></span>{xen:phrase delete}</a></xen:if>
+                        <xen:if is="{$comment.permissions.edit}"><a href="{xen:link 'pirates/comment-edit', $pirate, "comment={$comment.pirate_comment_id}"}" class="OverlayTrigger item control edit"><span></span>{xen:phrase edit}</a></xen:if>
+			<xen:if is="{$comment.permissions.delete}"><a href="{xen:link 'pirates/comment-delete', $pirate, "comment={$comment.pirate_comment_id}"}" class="OverlayTrigger item control delete"><span></span>{xen:phrase delete}</a></xen:if>
 		</div>
 	</div>
 </li>]]></template>
