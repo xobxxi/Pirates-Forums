@@ -55,18 +55,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			'direction' => $direction
 		));
 		
-		//$empty = array();
-		foreach ($pirates as $key => $pirate)
-		{
-			if (!$pirate[$order])
-			{
-				echo "removal\n";
-				//unset($pirates[$key]);
-			}
-		}
-		
-		//$pirates = array_merge_recursive($pirates, $empty);
-		
 		$commentIds = array();
 		foreach ($pirates as &$pirate)
 		{
