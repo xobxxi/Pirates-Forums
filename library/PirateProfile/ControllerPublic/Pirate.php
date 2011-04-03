@@ -698,7 +698,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$attachmentConstraints = PirateProfile_AttachmentHandler_Pirate::getAttachmentConstraints();
 		
 		$skills = $pirateModel::getSkills(false, true);
-		foreach ($skills as $skill => &$name)
+		foreach ($skills as &$name)
 		{
 			$name = array(
 				'name'    => $name,
