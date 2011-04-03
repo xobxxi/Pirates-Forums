@@ -60,12 +60,12 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		{
 			if (empty($pirate[$order]))
 			{
-				$empty[] = $pirate;
+				//$empty[] = $pirate;
 				unset($pirates[$key]);
 			}
 		}
 		
-		$pirates = array_merge_recursive($pirates, $empty);
+		//$pirates = array_merge_recursive($pirates, $empty);
 		
 		$commentIds = array();
 		foreach ($pirates as &$pirate)
