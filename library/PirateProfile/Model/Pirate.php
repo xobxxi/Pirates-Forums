@@ -663,7 +663,14 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		{
 			unset($weapons[$weapon]);
 			
-			$name = new XenForo_Phrase('pirateProfile_w_' . $weapon);
+			if (!$prefix)
+			{
+				$name = new XenForo_Phrase('pirateProfile_w_' . $weapon);
+			}
+			else 
+			{
+				$name = new XenForo_Phrase('pirateProfile_' . $weapon);
+			}
 			$weapons[$weapon] = array(
 				'name'  => $name->__toString(),
 				'level' => $level
@@ -690,14 +697,21 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			return $skills;
 		}
 		
-		foreach ($skills as $key => $skill)
+		$skillsFinal = array();
+		foreach ($skills as &$skill)
 		{
-			$name = new XenForo_Phrase('pirateProfile_s_' . $skill);
-			$skills[$skill] = $name->__toString();
-			unset($skills[$key]);
+			if (!$prefix)
+			{
+				$name = new XenForo_Phrase('pirateProfile_s_' . $skill);
+			}
+			else
+			{
+				$name = new XenForo_Phrase('pirateProfile_' . $skill);
+			}
+			$skillsFinal[$skill] = $name->__toString();
 		}
 		
-		return $skills;
+		return $skillsFinal;
 	}
 	
 	public static function getRanks($listOnly = false, $prefix = false)
@@ -731,7 +745,14 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			{
 				if (!empty($rank))
 				{
-					$name = new XenForo_Phrase('pirateProfile_r_' . $type . '_' . $rank);
+					if (!$prefix)
+					{
+						$name = new XenForo_Phrase('pirateProfile_r_' . $type . '_' . $rank);
+					}
+					else 
+					{
+						$name = new XenForo_Phrase('pirateProfile_' . $type . '_' . $rank);
+					}
 					$ranks[$type][$rank] = $name->__toString();
 					unset($ranks[$type][$key]);
 				}

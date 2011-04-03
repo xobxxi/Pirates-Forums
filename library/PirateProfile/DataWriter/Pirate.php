@@ -169,8 +169,43 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 	
 	protected function _postDelete()
 	{
-		$this->getModelFromCache('XenForo_Model_Alert')->deleteAlerts('pirate', $this->get('pirate_id'));
-		$this->_db->delete('pirate_comment', 'pirate_id = ' . $this->_db->quote($this->get('pirate_id')));
+		$pirateId = $this->get('pirate_id');
+		
+		$this->getModelFromCache('XenForo_Model_Alert')->deleteAlerts('pirate', $pirateId);
+		
+		if ($likes = $this->get('likes'))
+		{
+			$this->getModelFromCache('XenForo_Model_Like')->deleteContentLikes(
+				'pirate', $pirateId
+			);
+			
+			if ($userId = $this->get('user_id'))
+			{
+				$this->_db->query('
+					UPDATE xf_user
+					SET like_count = IF(like_count > ?, like_count - ?, 0)
+					WHERE user_id = ?
+				', array($likes, $likes, $userId));
+			}
+		}
+		
+		if ($this->get('comment_count'))
+		{
+			$this->_db->delete('pirate_comment', 'pirate_id = ' . $this->_db->quote($pirateId));
+		}
+		
+		$this->_getModelFromCache('XenForo_Model_NewsFeed')->delete(
+			'pirate',
+			$pirateId
+		);
+		
+		if ($this->get('attach_count'))
+		{
+			$this->getModelFromCache('XenForo_Model_Attachment')->deleteAttachmentsFromContentIds(
+				'pirate',
+				array($pirateId)
+			);
+		}
 	}
 
 	protected function _associatePictures($attachmentHash)

@@ -697,10 +697,27 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$attachmentParams = $pirateModel->getAttachmentParams(array());
 		$attachmentConstraints = PirateProfile_AttachmentHandler_Pirate::getAttachmentConstraints();
 		
+		$skills = $pirateModel::getSkills(false, true);
+		foreach ($skills as $skill => &$name)
+		{
+			$name = array(
+				'name'    => $name,
+			);
+		}
+		
+		$ranks = $pirateModel::getRanks(false, true);
+		foreach ($ranks as $type => &$children)
+		{
+			$children = array(
+				'children'   => $children,
+				'name'    => new XenForo_Phrase('pirateProfile_' . $type)
+			);
+		}
+		
 		$viewParams = array(
-			'weapons'               => $pirateModel::getWeapons(),
-			'skills'                => $pirateModel::getSkills(),
-			'ranks'                 => $pirateModel::getRanks(),
+			'weapons'               => $pirateModel::getWeapons(false, true),
+			'skills'                => $skills,
+			'ranks'                 => $ranks,
 			'attachmentParams'		=> $attachmentParams,
 			'attachmentConstraints' => $attachmentConstraints
 		);
@@ -723,6 +740,31 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		
 		$pirateModel = $this->_getPirateModel();
 		
+		$weapons = $pirateModel::getWeapons(false, true);
+		foreach ($weapons as $key => &$weapon)
+		{
+			$weapon['current'] = $pirate[$key];
+		}
+		
+		$skills = $pirateModel::getSkills(false, true);
+		foreach ($skills as $skill => &$name)
+		{
+			$name = array(
+				'name'    => $name,
+				'current' => $pirate[$skill]
+			);
+		}
+		
+		$ranks = $pirateModel::getRanks(false, true);
+		foreach ($ranks as $type => &$children)
+		{
+			$children = array(
+				'children'   => $children,
+				'name'    => new XenForo_Phrase('pirateProfile_' . $type),
+				'current' => $pirate[$type]
+			);
+		}
+		
         $pictures = $pirateModel->getPicturesById($pirate['pirate_id']);
 		$attachmentParams = $pirateModel->getAttachmentParams(array(
 			'pirate_id' => $pirate['pirate_id']
@@ -732,9 +774,9 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$viewParams = array(
 			'user'					=> $user,
 			'pirate'				=> $pirate,
-			'weapons'               => $pirateModel::getWeapons(),
-			'skills'                => $pirateModel::getSkills(),
-			'ranks'                 => $pirateModel::getRanks(),
+			'weapons'               => $weapons,
+			'skills'                => $skills,
+			'ranks'                 => $ranks,
 			'attachments'			=> $pictures,
 			'attachmentParams'		=> $attachmentParams,
 			'attachmentConstraints' => $attachmentConstraints

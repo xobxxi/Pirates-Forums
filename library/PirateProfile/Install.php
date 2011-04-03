@@ -17,18 +17,6 @@ class PirateProfile_Install
 			  `likes` int(10) NOT NULL DEFAULT '0',
 			  `like_users` blob NOT NULL,
 			  `extra` text NOT NULL COMMENT 'Extra text',
-			  `cannon` int(11) NOT NULL COMMENT 'Cannon level',
-			  `sailing` int(11) NOT NULL COMMENT 'Sailing level',
-			  `sword` int(11) NOT NULL COMMENT 'Sword level',
-			  `shooting` int(11) NOT NULL COMMENT 'Shooting level',
-			  `doll` int(11) NOT NULL COMMENT 'Doll level',
-			  `dagger` int(11) NOT NULL COMMENT 'Dagger level',
-			  `grenade` int(11) NOT NULL COMMENT 'Grenades level',
-			  `staff` int(11) NOT NULL COMMENT 'Staff level',
-			  `potions` int(11) NOT NULL COMMENT 'Potions level',
-			  `fishing` int(11) NOT NULL COMMENT 'Fishing level',
-			  `infamy_pvp` text NOT NULL,
-			  `infamy_privateering` text NOT NULL,
 			  `make_fit` int(11) NOT NULL DEFAULT '0' COMMENT 'Make picture fit',
 			  `comment_count` int(10) NOT NULL DEFAULT '0',
 			  `first_comment_date` int(10) NOT NULL DEFAULT '0',
@@ -37,6 +25,31 @@ class PirateProfile_Install
 			  PRIMARY KEY (`pirate_id`)
 			) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 		");
+		
+		$skills = array_merge(
+			PirateProfile_Model_Pirate::getWeapons(true, true),
+			PirateProfile_Model_Pirate::getSkills(true, true)
+		);
+		foreach ($skills as $skill)
+		{
+			self::addColumnIfNotExist(
+				$db,
+				'pirate',
+				$db->quote($skill),
+				'int(11) NOT NULL'
+			);
+		}
+		
+		$ranks = PirateProfile_Model_Pirate::getRanks();
+		foreach ($ranks as $type)
+		{
+			self::addColumnIfNotExist(
+				$db,
+				'pirate',
+				$db->quote($type),
+				'text NOT NULL,'
+			);
+		}
 		
 		$db->query("
 			CREATE TABLE IF NOT EXISTS pirate_comment (
@@ -152,5 +165,15 @@ class PirateProfile_Install
 			INSERT INTO `{$row['table']}` ({$row['fields']}) VALUES
 			({$row['values']})
 		");
+	}
+	
+	public static function addColumnIfNotExist($db, $table, $field, $attr)
+	{
+	    if ($db->fetchRow('SHOW COLUMNS FROM ' . $table . ' WHERE Field = ?', $field))
+	    {
+	        return;
+	    }
+
+	    return $db->query('ALTER TABLE ' . $table . ' ADD ' . $field . ' ' . $attr);
 	}
 }
