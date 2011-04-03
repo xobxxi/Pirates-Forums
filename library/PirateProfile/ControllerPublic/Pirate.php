@@ -65,7 +65,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			}
 		}
 		
-		$pirates = array_merge($pirates, $empty);
+		$pirates = array_merge_recursive($pirates, $empty);
 		
 		$commentIds = array();
 		foreach ($pirates as &$pirate)
