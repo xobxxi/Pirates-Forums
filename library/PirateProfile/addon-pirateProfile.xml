@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0 Beta 2" version_id="100" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0 Beta 3" version_id="101" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -209,13 +209,13 @@
 	'pirate_attributes=href="{xen:link pirates/card, $content}" class="PopupItemLink OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}"',
         'pirate={$content.name}'
 }]]></template>
-    <template title="news_feed_item_pirate_add" version_id="40" version_string="1.7.1"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_pirate_add" version_id="100" version_string="2.0.0 Beta 2"><![CDATA[<h3 class="description">
 {xen:phrase pirateProfile_x_has_added_a_new_pirate_y,
        'username={xen:helper username, $user, 'primaryText'}',
        'pirate=<a href="{xen:link pirates/card, $content}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{$content.name}</a>'
 }
 </h3>
-<p class="snippet">{xen:phrase pirateProfile_pirate_notoriety} {xen:phrase pirateProfile_pirate_level}: {$content.level}</p>
+<p class="snippet">{xen:phrase pirateProfile_notoriety} {xen:phrase pirateProfile_pirate_level}: {$content.level}</p>
 ]]></template>
     <template title="news_feed_item_pirate_extra" version_id="40" version_string="1.7.1"><![CDATA[<h3 class="description">
 {xen:phrase pirateProfile_xs_pirate_y_has_been_updated,
