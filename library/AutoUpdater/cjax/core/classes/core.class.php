@@ -1,22 +1,5 @@
 <?php
-/** ################################################################################################**   
-* Copyright (c)  2008  CJ.   
-* Permission is granted to copy, distribute and/or modify this document   
-* under the terms of the GNU Free Documentation License, Version 1.2   
-* or any later version published by the Free Software Foundation;   
-* Provided 'as is' with no warranties, nor shall the autor be responsible for any mis-use of the same.     
-* A copy of the license is included in the section entitled 'GNU Free Documentation License'.   
-*   
-*   CJAX  3.1 RC3                $     
-*   ajax made easy with cjax                    
-*   -- DO NOT REMOVE THIS --                    
-*   -- AUTHOR COPYRIGHT MUST REMAIN INTACT -   
-*   Written by: CJ Galindo                  
-*   Website: https://github.com/cjax/Cjax-Framework                     $      
-*   Email: cjxxi@msn.com    
-*   Date: 2/12/2007                           $     
-*   File Last Changed:  02/20/2011            $     
-**####################################################################################################    */   
+//@app_header;
 
 
 function cjax_autoload($class)
@@ -25,7 +8,7 @@ function cjax_autoload($class)
 	if(file_exists(CJAX_CLASSES_DIR.$file)) {
 		require_once CJAX_CLASSES_DIR.$file;
 		return true;
-	} 
+	}
 }
 spl_autoload_register('cjax_autoload'); // As of PHP 5.3.0
 /**
@@ -34,78 +17,80 @@ spl_autoload_register('cjax_autoload'); // As of PHP 5.3.0
  * @param string $c
  */
 class CoreEvents extends cjaxFormat {
-	
+
 	//acts more strict in the kind of information you provide. This coulde be used to identify error etc.
 	public $strict = false;
-	
+
 	const FLAG_NO_FLAG = 0;
     //default wait for any timouts
     const FLAG_WAIT = 1;
     //skip timeouts
     const FLAG_NO_WAIT = 2;
-    
+
     const FLAG_ELEMENT_BY_ID = 3;
     const FLAG_ELEMENT_BY_CLASS = 4;
-    
+
     const FLAG_DEBUG_DISABLED  = 0;
     const FLAG_DEBUG_ENABLED  = 1;
-	
+    
+    const FLAG_ORDER_LAST = 10;
+
 	/**
-	 * 
+	 *
 	 * Force the sytem to adapt to a loading or not loading state.
 	 * @var unknown_type
 	 */
 	public $loading = false;
-	
+
 	public $post = 0;
-	
+
 	public $dir;
-	
+
 	public $attach_event = true;
-	
+
 	//public static $action_cache = array();
-	
+
 	public  static $cjax_data_counter = 0;
-	
+
 	/**
 	 * default port when connecting to web pages
 	 *
 	 * @var unknown_type
 	 */
 	public $port = 80;
-	
+
 	/**
 	 * if controllers are located in a sub directory
 	 *
 	 * @var string
 	 */
 	public $controller_dir = '';
-	
-	
+
+
 	public $controller_type = null;
-	
-	
+
+
 	/*
 	 * hold an object with some formattig helpers
 	 * not meant to be added to the package but it was added at some point
 	 * @return cjaxFormat
 	 */
 	public $format;
-	
+
 	/**
 	 * Where the data is stored before the output
 	 *
 	 * @var unknown_type
 	 */
 	private static $out = array();
-	
+
 	/**
 	 * Check whether or not to call the shutdown function
 	 *
 	 * @var boolean $_is_shutdown_called
 	 */
 	private static $_is_shutdown_called = false;
-	
+
 	/**
 	 * store cache procedure
 	 *
@@ -114,26 +99,34 @@ class CoreEvents extends cjaxFormat {
 	public static $cache = array();
 	
 	/**
+	 * 
+	 * Hold cache set for to execute last. Use flag $ajax->setFlag('last'); to store commands.
+	 * This makes it so that commands even if called first can be executed last.
+	 * @var unknown_type
+	 */
+	public static $lastCache = array();
+
+	/**
 	 * hold cache for actions
 	 *
 	 * @var array
 	 */
 	public static $actions = array();
-	
+
 	/**
 	 * specified whether to use the cache system or normal mode
 	 *
 	 * @var boolean $use_cache
 	 */
 	static $use_cache;
-	
+
 	//new alias to replace $JSevent.
 	public $event = "onClick";
-	
+
 	/**
 	 * Set the text to show when the page is loading
 	 * this replaces the "loading.."
-	 * 
+	 *
 	 *
 	 * @var mixed $text
 	 */
@@ -149,50 +142,50 @@ class CoreEvents extends cjaxFormat {
 	 * This must be set to true before making a CJAX call,
 	 * only if the element you are interacting with is an anchor
 	 * or an image
-	 * 
+	 *
 	 */
 	public $link;
-	
+
 	/*
 	 * The the CJAX console on debug mode
 	 */
 	public $debug;
-	
+
 	/**
 	 * Set the default directory when images loading images reside
 	 *
 	 * @var string $image_dir
 	 */
 	public $image_dir;
-	
+
 	/**
 	 * Get the current version of CJAX FRAMEWORK you are using
 	 *
 	 * @var string
 	 */
 	public $version;
-	
+
 	/**
 	 * Define that you are using an external extension
-	 * 
+	 *
 	 *
 	 * @var string
 	 */
 	public $extension;
-	
+
 	/**
 	 * When using th plugin system, you will need to specify what the pluing base url is
-	 * 
+	 *
 	 */
 	private $extension_dir;
-	
+
 	/**
 	 * Tells whether CJAX output has initciated or not, to void duplications
 	 *
 	 * @var boolean $is_init
 	 */
 	public $is_init;
-	
+
 	/**
 	 * Sets the default way of making AJAX calls, it can be either get or post
 	 */
@@ -201,22 +194,22 @@ class CoreEvents extends cjaxFormat {
 	 * Stores the the waiting procedure for the next action
 	 */
 	private static $wait;
-	
+
 	/**
 	 * Path where JavaScript Library is located
 	 *
 	 * @var string
 	 */
 	public static $path;
-	
+
 	/**
 	 * Path where JavaScript Library is located
 	 *
 	 * @var string
 	 */
-	private $jsdir = null;	
-	
-	
+	private $jsdir = null;
+
+
 	public $extension_sub = false;
 	/**
 	 * Auto execute methods for extensions
@@ -224,26 +217,30 @@ class CoreEvents extends cjaxFormat {
 	 * @param string $method
 	 * @param array $args
 	 */
-	
+
 	public $caller;
-	
+
 	private static $cache_type;
-	
+
 	/*
 	 * sets up the default loading image
 	 */
-	
+
 	protected static $flags = array();
-	
+
 	public static $waiting_flags = array();
-	
+
 	public static $const = array();
-	
+
 	//reference to see what official flag types are currently being used
 	private static $flag_types = array(
 		'FLAG_WAIT','FLAG_ELEMENT_GETTER','FLAG_DEBUG'
 	);
 	
+	
+	//holds he latest flag
+	public $_flag = null;
+
 	/**
 	 * Helper to generate flags quicker.
 	 * @param $flag_id
@@ -252,26 +249,31 @@ class CoreEvents extends cjaxFormat {
 	function setFlag($flag_id,$command_count = 1)
 	{
 		$flags = array();
-		
+
 		switch($flag_id) {
+			case 'last':
+				$this->_flag = 'FLAG_ORDER_LAST';
+				
+				$flags = array('FLAG_ORDER_LAST'=> CJAX::FLAG_ORDER_LAST);
+			break;
 			case 'no_wait':
 				$flags = array('FLAG_WAIT'=> CJAX::FLAG_NO_WAIT);
 				break;
 			case 'debug':
-				
+
 				$flags = array('FLAG_DEBUG'=> CJAX::FLAG_DEBUG_ENABLED);
 				break;
 			default:
-				
+
 				if(CJAX::getInstance()->strict) {
 					die("Invalid Flag Argument Prodivided");
 				}
 		}
-		
+
 		return self::setFlags($flags, $command_count);
 	}
 	/**
-	 * 
+	 *
 	 * Sets flags for the next set of commands
 	 * @param Mixed $flags
 	 * @param Int $command_count
@@ -280,7 +282,7 @@ class CoreEvents extends cjaxFormat {
 	{
 		$_flags = array();
 		$new_flags = array();
-	
+
 		$ajax = CJAX::getInstance();
 		if(!self::$const) {
 			$reflect = new ReflectionClass($ajax);
@@ -294,10 +296,10 @@ class CoreEvents extends cjaxFormat {
 				if($ajax->strict) {
 					die("Invalid flag was assigned in: $k-$v");
 				} else {
-					$_flags[$k] = $v;	
+					$_flags[$k] = $v;
 				}
 			} else {
-				$_flags[$k] = $v;//$flip[$v];
+				$_flags[$k] = $v;
 			}
 		}
 		for($i = 0; $i < $command_count; $i++) {
@@ -318,20 +320,20 @@ class CoreEvents extends cjaxFormat {
 		}
 		return self::$flags = $new_flags;
 	}
-	
+
 	public function getFlags()
 	{
 		return self::$flags;
 	}
 	
-	public function processFlag()
+	function processFlagArray()
 	{
 		if(!self::getFlags()) {
 			return;
 		}
-		
+
 		$flags = array();
-		
+
 		foreach(self::$flags as $k => $v) {
 			if(empty($v)) {
 				unset(self::$flags[$k]);
@@ -343,16 +345,42 @@ class CoreEvents extends cjaxFormat {
 				break;
 			}
 		}
-		
+
 		if($flags) {
-			$flags = self::xmlIt( 
-				array('flags'=> self::mkArray($flags,true) 
+
+			return $flags;
+		}		
+	}
+
+	public function processFlag()
+	{
+		if(!self::getFlags()) {
+			return;
+		}
+
+		$flags = array();
+
+		foreach(self::$flags as $k => $v) {
+			if(empty($v)) {
+				unset(self::$flags[$k]);
+				continue;
+			}
+			foreach($v as $k2 => $v2) {
+				$flags[$k] = $v2;
+				unset(self::$flags[$k][$k2]);
+				break;
+			}
+		}
+
+		if($flags) {
+			$flags = self::xmlIt(
+				array('flags'=> self::mkArray($flags,true)
 				));
-			
+
 			return $flags;
 		}
 	}
-	
+
 	/**
 	 * xml outputer, allows the interaction with xml
 	 *
@@ -384,26 +412,38 @@ class CoreEvents extends cjaxFormat {
 				self::$wait = '';
 			}
 		}
-		
-		if($flags = self::processFlag()) {
+
+		if($flags = self::processFlagArray()) {
+			if(isset($flags['FLAG_ORDER_LAST'])) {
+				$data = "{$function}{$xml}";
+				$data = "<cjax>$data</cjax>";
+				
+				self::$cjax_data_counter++;
+				self::setLastCache($data);
+				
+				return $data;
+			} else {
+				$flags = self::processFlag();
+			}
 			$xml .= $flags;
 		}
 		$data = "{$function}{$xml}";
-	
+
+		$data = "<cjax>$data</cjax>";
 		if($function=='<do>AddEventTo</do>') {
-			self::cache("<cjax>$data</cjax>",'actions');
+			self::cache($data,'actions');
 		} else {
 			self::$cjax_data_counter++;
-			self::cache("<cjax>$data</cjax>");
+			self::cache($data);
 		}
-		
+
 		//is an Iframe
 		if($this->get('cjax_iframe')) {
 			print $data;
 		}
 		return $data;
 	}
-	
+
 	public function args($input)
 	{
 		return "&--&".$input;
@@ -430,9 +470,9 @@ class CoreEvents extends cjaxFormat {
 		if(!$msg) {
 			$msg = "Invalid Input";
 		}
-		$ajax->message($ajax->format->message($msg,CJAX::CSS_WARNING),$seconds);		
+		$ajax->message($ajax->format->message($msg,CJAX::CSS_WARNING),$seconds);
 	}
-	
+
 	public function success($msg=null,$seconds=3)
 	{
 		$ajax = CJAX::getInstance();
@@ -441,7 +481,7 @@ class CoreEvents extends cjaxFormat {
 		}
 		$ajax->message($ajax->format->message($msg,CJAX::CSS_SUCCESS));
 	}
-	
+
 	public function process($msg=null,$seconds=3)
 	{
 		$ajax = CJAX::getInstance();
@@ -450,13 +490,13 @@ class CoreEvents extends cjaxFormat {
 		}
 		$ajax->message($ajax->format->message($msg,CJAX::CSS_PROCESS),$seconds);
 	}
-	
+
 	public function info($msg=null,$seconds=3)
 	{
 		$ajax = CJAX::getInstance();
 		$ajax->message($ajax->format->message($msg,CJAX::CSS_INFO),$seconds);
 	}
-	
+
 	public function  error($msg=null,$seconds=15)
 	{
 		$ajax = CJAX::getInstance();
@@ -465,13 +505,13 @@ class CoreEvents extends cjaxFormat {
 		}
 		$ajax->message($ajax->format->message($msg,CJAX::CSS_ERROR),$seconds);
 	}
-	
-	
+
+
 	public function __set($setting,$value)
 	{
 		return $this->set_value($setting,$value);
 	}
-	
+
 	/**
 	 * Setting up the directory where the CJAX FRAMEWORK resides
 	 *
@@ -487,7 +527,7 @@ class CoreEvents extends cjaxFormat {
 			$this->jsdir = $jsdir;
 		}
 	}
-	
+
 	/**
 	 * Outputs our FRAMEWORK to the browser
 	 * @param unknown_type $js_path
@@ -504,12 +544,12 @@ class CoreEvents extends cjaxFormat {
 			}
 			return "<script id='cjax_lib' type='text/javascript' src='".self::$path."/core/js/cjax.js'></script>\n";
 		}
-		
+
 	}
 
 	/**
 	 * initciates the process of sending the javascript file to the application
-	 *	
+	 *
 	 * @param optional boolean $echo
 	 * @return string
 	 */
@@ -518,7 +558,7 @@ class CoreEvents extends cjaxFormat {
 		$ajax = CJAX::getInstance();
 		self::clearCache();
 		if($ajax->is_init) {
-			
+
 			return;
 		}
 		if ($echo) {
@@ -531,17 +571,17 @@ class CoreEvents extends cjaxFormat {
 			return $href;
 		}
 	}
-		
+
 	/**
-	 *  Tell whether of not the a ajax request has been placed
+	 *  Tell whether or not the a ajax request has been placed
 	 *
 	 * Sunday August 3 2008 added functionality:
-	 * 
+	 *
 	 * @return boolean
 	 */
 	 function request($callback = null, &$params = null)
 	 {
-	 	$r = self::loading(); 
+	 	$r = self::loading();
 	 	if(!$r && $callback) {
 	 		if(is_array($callback) ) {
 	 			if(substr($callback[0],0,4)=='self') {
@@ -563,7 +603,7 @@ class CoreEvents extends cjaxFormat {
 	 	}
 	 	return true;
 	 }
-	 
+
 	 function setRequest($request = true)
 	 {
 	 	if($request) {
@@ -575,7 +615,7 @@ class CoreEvents extends cjaxFormat {
 	 	}
 	 }
 
-	
+
 	/**
 	 * Encode special data to void conflicts with javascript
 	 *
@@ -587,7 +627,7 @@ class CoreEvents extends cjaxFormat {
 		//$data = str_replace("+","[plus]",$data);
 		return urlencode($data);
 	}
-    
+
     /**
      * Converts an array into xml..
      */
@@ -603,8 +643,8 @@ class CoreEvents extends cjaxFormat {
 			return $xml = implode($new);
 		}
     }
-    
-	
+
+
 	function save($setting,$value)
 	{
 		@session_start();
@@ -613,13 +653,22 @@ class CoreEvents extends cjaxFormat {
 			@setcookie($setting,$value);
 		}
 	}
-	
+
 	function getSetting($setting)
 	{
 		if(isset($_SESSION[$setting])) {
 			return $_SESSION[$setting];
 		} else if(isset($_COOKIE[$setting])) {
 			return $_COOKIE[$setting];
+		}
+	}
+	
+	function setLastCache($add=null,$cache_id = null)
+	{
+		if($cache_id) {
+			self::$lastCache[$cache_id] = $add;
+		} else {
+			array_push(self::$lastCache,$add);//[self::$cjax_data_counter] = $adds;
 		}
 	}
 
@@ -634,6 +683,9 @@ class CoreEvents extends cjaxFormat {
 			$bol = register_shutdown_function(array('CoreEvents','saveSCache'));
 			self::$_is_shutdown_called = true;
 			self::$use_cache = true;
+			if(!headers_sent()) {
+				//flush();
+			}
 		}
 		if($cache_id) {
 			if($cache_id=='actions') {
@@ -644,19 +696,41 @@ class CoreEvents extends cjaxFormat {
 		} else {
 			self::$cache[self::$cjax_data_counter] = $add;
 		}
-		
+
 		if($add==null){
 			return self::$cache;
 		}
 	}
+
+	function removeLastCache($count)
+	{
+		if(!self::$lastCache) {
+			return true;
+		}
+
+		if($count==count(array_keys(self::$lastCache))) {
+			self::$lastCache = array();
+			if(self::$cjax_data_counter > 0) {
+				self::$cjax_data_counter--;
+			}
+		} else if($count < self::$cjax_data_counter) {
+			foreach(self::$lastCache as $k => $v) {
+				if(!$count) {
+					break;
+				}
+				$max = max(array_flip(self::$lastCache));
+				unset(self::$lastCache[$max]);
+				$count--;
+			}
+		}
+	}
 	
-	
-	function removeCache($count) 
+	function removeCache($count)
 	{
 		if(!self::$cache ) {
 			return true;
 		}
-	
+
 		if($count==count(array_keys(self::$cache))) {
 			self::$cache = array();
 			if(self::$cjax_data_counter > 0) {
@@ -672,9 +746,9 @@ class CoreEvents extends cjaxFormat {
 				$count--;
 			}
 		}
-		
-	}	
-	
+
+	}
+
 	/**
 	 * Saves the cache
 	 *
@@ -683,20 +757,26 @@ class CoreEvents extends cjaxFormat {
 	public static function saveSCache()
 	{
 		$ajax = CJAX::getInstance();
+
 		if(!self::loading()) {
 			if(!self::$cache && !self::$actions) {
 				return;
 			}
 			if(!self::$cache) {
 				self::$cache = self::$actions;
+				if(self::$lastCache) {
+					self::$cache = array_merge(self::$cache,self::$lastCache);
+				}
 			} else {
 				if(self::$actions) {
 					self::$cache = array_merge(self::$cache,self::$actions);
 				}
+				if(self::$lastCache) {
+					self::$cache = array_merge(self::$cache,self::$lastCache);
+				}
 			}
-			
+
 			print ("<xml class='cjax'>".implode(self::$cache)."</xml>");
-			
 			return;
 		}  else {
 			if(isset(self::$cache_type) && strlen(self::$cache_type) > 0) {
@@ -710,39 +790,44 @@ class CoreEvents extends cjaxFormat {
 			}
 			if(!self::$cache) {
 				self::$cache = self::$actions;
+				if(self::$lastCache) {
+					self::$cache = array_merge(self::$cache,self::$lastCache);
+				}
 			} else {
 				if(self::$actions) {
 					self::$cache = array_merge(self::$cache,self::$actions);
 				}
+				if(self::$lastCache) {
+					self::$cache = array_merge(self::$cache,self::$lastCache);
+				}
 			}
-			
-			$debug = ($ajax->debug? 1 : 0);
-			$out = "CJAX.loading = false;\nCJAX.process_all(\"". str_replace(array("\n","\t"), "", implode(self::$cache))."\",true,$debug);";
+
+			$debug =  ($ajax->debug? 1 : 0);
+			$out = "CJAX.loading = false;\nCJAX.process_all(\"". str_replace(array("\n","\t"), "", implode(self::$cache))."\",$debug);";
 			GLOBAL $_SESSION;
 			if(!isset($_SESSION) ) {
 				@session_start();
 			}
-			
-			
+
+
 			if(isset($_SESSION['cache_type'])) {
 				$cache = $_SESSION['cache_type'];
 			} elseif (isset($_COOKIE['cache_type'])) {
 				$cache = $_COOKIE['cache_type'];
 			}
 			$_SESSION['cjax_cache'] = $out;
-			if (!headers_sent()) {
-				@setcookie ('cjax_cache',$out,false);
-			}
+			@setcookie ('cjax_cache',$out,false);
+
 			return true;
 		}
 	}
-	
-	
+
+
 	function cacheType($type='cjax_cache')
 	{
 		self::$cache_type = $type;
 	}
-	
+
 	/**
 	 * write to a file in file system, used as an alrernative to for cache
 	 *
@@ -774,10 +859,10 @@ class CoreEvents extends cjaxFormat {
             exit;
         }
     }
-    
+
     function OS_SLASH()
     {
-		$pos = strpos(PHP_OS, 'WIN');	    
+		$pos = strpos(PHP_OS, 'WIN');
 		if ($pos !== false) {
     		return '\\';
     	}
@@ -803,24 +888,29 @@ class CoreEvents extends cjaxFormat {
 	        echo "Aborting...<br />\n";
 	        exit(1);
 	        break;
-	
+
 	    case E_USER_WARNING:
-	        echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
+	        echo "<b>Cjax WARNING</b> [$errno] $errstr<br />\n";
 	        break;
-	
+
 	    case E_USER_NOTICE:
-	        echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
+	        echo "<b>Cjax NOTICE</b> [$errno] $errstr<br />\n";
 	        break;
-	
+
 	    default:
 	        echo "Unknown error type: [$errno] $errstr<br />\n";
 	        break;
 	    }
-	
+
 	    /* Don't execute PHP internal error handler */
 	    return true;
 	}
-	
+
+	function CJAXExceptionHandler()
+	{
+
+	}
+
 	function clearCache()
 	{
 		//$old_err = set_error_handler(array('self','CJAXErrorHandler'));
@@ -829,22 +919,32 @@ class CoreEvents extends cjaxFormat {
 			@session_start();
 		}
 		$_SESSION['cjax_cache'] = '';
+		$_SESSION['cjax_dir'] = '';
+
 		if (!headers_sent()) {
 			@setcookie('cjax_cache','',false);
+			@setcookie('cjax_dir','',false);
 		}
+
 		//set_error_handler($old_err);
 	}
-	
+
 	/**
 	 * returns the current cache
-	 * 
+	 *
 	 * @return unknown_type
 	 */
-	function getCache()
+	function getCache($formatted = false)
 	{
+		if($formatted && self::$cache) {
+			foreach( self::$cache as $k =>$v) {
+				$data[$k] = urldecode($v);
+			}
+			return $data;
+		}
 		return self::$cache;
 	}
-	
+
 	/**
 	 * Image directory where loading images are loaded from
 	 *
@@ -864,7 +964,7 @@ class CoreEvents extends cjaxFormat {
 	{
 		$this->text = $ms;
 	}
-	
+
 	/**
 	 * Simple debug option to alert any output by AJAX calls
 	 *
@@ -874,7 +974,7 @@ class CoreEvents extends cjaxFormat {
 	{
 		$this->debug = $debug;
 	}
-	
+
 	/**
 	 * Require to be set to true before using a text link to execute an AJAX call
 	 *
@@ -885,39 +985,39 @@ class CoreEvents extends cjaxFormat {
 	{
 		$this->link = $link;
 	}
-	
+
 	/**
-	 * if CJAX is not located sircuntacion at the subdirectory level, and 
+	 * if CJAX is not located sircuntacion at the subdirectory level, and
 	 * CJAX is bein called from within a child directory then you will need to specify
 	 * the url where CJAX is located (eg. http://yoursite.com/cjax)
 	 *
-	 * @param string $Path [CJAX URL] 
+	 * @param string $Path [CJAX URL]
 	 */
 	function path($path)
 	{
 		self::$path = $path;
 	}
-	
+
 	public static function remotePath()
 	{
 		$host = $_SERVER['HTTP_HOST'];
 		$sname = dirname($_SERVER["SCRIPT_NAME"]);
 		return 'http://'.$host.$sname.'/cjax';
 	}
-	
+
 	public static function getFile($file=null)
 	{
 		return self::connect($_SERVER['HTTP_HOST'],(isset($_SERVER['SERVER_PORT'])? $_SERVER['SERVER_PORT']:80),$file,true);
 	}
-	
+
 	public static function connect($host=null, $file=null,$port = 80,$local = false)
 	{
 		$ajax = CJAX::getInstance();
-		
+
 		if(function_exists('curl_init')) {
 			$url = 'http://'.$host.'/'.$file;
 			$ch = curl_init($url);
-			
+
 			if($ajax->post)  {
 				curl_setopt($ch, CURLOPT_POST ,1);
 				curl_setopt($ch, CURLOPT_REFERER, 'http://google.com');
@@ -929,21 +1029,21 @@ class CoreEvents extends cjaxFormat {
 			curl_setopt ($ch, CURLOPT_TIMEOUT, 3);
 			$data = curl_exec($ch);
 			curl_close($ch);
-			
+
 			return $data;
 		}
-		
+
 		if(!$port) {
 			$port = $ajax->port;
 			if(!$port) {
 				$port = 80;
 			}
-		} 
+		}
 		if(!function_exists('fsockopen')) {
 			die('no fsockopen: be sure that php function fsockopen is enabled.');
 		}
-		
-		
+
+
 		$fp = @fsockopen($host,$port,$errno,$errstr);
 		if(!$fp) {
 			return false;
@@ -951,7 +1051,7 @@ class CoreEvents extends cjaxFormat {
 		if($errstr) {
 			die('error:'.$errstr);
 		}
-		
+
 		if($fp) {
 			$base = null;
 			if($local) {
@@ -969,7 +1069,7 @@ class CoreEvents extends cjaxFormat {
 	        @fputs($fp, "GET $base$file HTTP/1.1\r\n");
 	        @fputs($fp, "HOST: $host\r\n");
 	        @fputs($fp, "Connection: close\r\n\r\n");
-			
+
 		} else {
 			return false;
 		}
@@ -989,8 +1089,8 @@ class CoreEvents extends cjaxFormat {
 		fclose ( $fp );
 		return implode($data);
 	}
-	
-	
+
+
 	/*
 	 * checks for imputs and return values sent throught the $_GET method
 	 */
@@ -1017,7 +1117,7 @@ class CoreEvents extends cjaxFormat {
 		return addslashes($v);
 	}
 
-	
+
 	private static $_loading;
 	/*
 	 * Checks whether or not the actual load method is being iniciated from the "load"
@@ -1026,7 +1126,9 @@ class CoreEvents extends cjaxFormat {
 	public static function loading($set_loading = null)
 	{
 		$ajax = CJAX::getInstance();
-		if(strlen($ajax->get('cjax')) > 10 && is_numeric($ajax->get('cjax'))) {
+		
+		$request = $ajax->get('cjax') or $request = $ajax->get('ajax');
+		if(strlen($request) >= 10 && is_numeric($request)) {
 		      $_loading = false;
 		} else {
 			$_loading = true;
@@ -1034,12 +1136,12 @@ class CoreEvents extends cjaxFormat {
 		if(self::$_loading) {
 			return self::$_loading;
 		}
-		if($set_loading) {
+		if($set_loading!==null) {
 			$_loading = self::$_loading = $set_loading;
 		}
 		return $_loading;
 	}
-	
+
 
 	/**
 	 * Convers input formated sizes into Megabytes
@@ -1061,7 +1163,7 @@ class CoreEvents extends cjaxFormat {
 	  }
 	  return $size;
 	}
-		
+
 	/**
 	 * Syntax hilighting a program source file. It calls enscript(1) to parse and
 	 * insert HTML tags to produce syntax hilighted version of the source.
@@ -1079,37 +1181,37 @@ class CoreEvents extends cjaxFormat {
 	    } else {
 	        $argv = '-q -p - -E --language=html --color '.escapeshellcmd($filename);
 	        $buffer = array();
-	
+
 	        exec("enscript $argv", $buffer);
-	
+
 	        $buffer = join("\n", $buffer);
 	        $buffer = eregi_replace('^.*<PRE>',  '<pre>',  $buffer);
 	        $buffer = eregi_replace('</PRE>.*$', '</pre>', $buffer);
 	    }
-	
+
 	    // Making it XHTML compatible.
 	    $buffer = eregi_replace('<FONT COLOR="', '<span style="color:', $buffer);
 	    $buffer = eregi_replace('</FONT>', '</style>', $buffer);
-	
+
 	    return $buffer;
 	}
-	
+
 	function __construct()
 	{
 		$cjax_dir = $this->getSetting('cjax_dir');
-		
+
 		if(isset($_SERVER['PHP_SELF'])) {
 			$dir = dirname($_SERVER['PHP_SELF']);
 			$dir = explode("/",$dir);
 			end($dir);
 			$dir = $dir[key($dir)];
-			
+
 			if($cjax_dir !=$dir) {
 				$this->save('cjax_dir',$dir);
 			}
 		}
-		
-		
+
+
 		//check files...
 		if(isset($_FILES)  && !empty($_FILES) && $this->get('cjax_iframe')) {
 			$error = false;

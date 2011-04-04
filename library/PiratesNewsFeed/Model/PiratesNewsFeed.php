@@ -151,14 +151,14 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		 */
 		foreach($feed as $k => $v) {
 
-			//we check if the article already exist  if the key is in $cache then it exists.
+			//we check if the article already exist  if the key is in $record then it exists.
 			if($record && isset($record[$v['stamp']])) {
 				//if isset/ or exists ,  then we skip this article, and move on to the next article
 				continue;
 			}
 
 			//title of article
-			//$reportNews - is stack used in self::mkTread()
+			//$reportNews - is stack used in self::mkThread()
 			//this is for notification purposes, to notify news posters that there are new articles waiting to be posted
 			$reportNews[$k] = $v['title'];
 
@@ -205,7 +205,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		}
 
 		/**
-		 * This posts on the news reporter forum (if any) announcing of new articles avilable to be posted.
+		 * This posts on the news reporter forum (if any) announcing of new articles available to be posted.
 		 */
 		$this->_notifyParties($reportNews);
 
@@ -375,7 +375,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			case self::POSTER_RAMDOM_AND_POSTER_ID:
 
 				/**
-				 * this is basically the same as the above option, but it also adds spefici ids specified
+				 * this is basically the same as the above option, but it also adds speficic ids specified
 				 * in the "poster id" field in the admin. So it will add any specified id(s) to the pool of ids.
 				 * before a random one is picked once all together.
 				 *
@@ -462,7 +462,6 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		/**
 		 * this can be used to make changes to  articles, of specific tags, or string, while
 		 * in its orginal html form, before is converted into bbcode.
-		 * see reference below, after the preg_match statement
 		 * *EXAMPLE*
 		 * $search['search this'] = "replace with this";
 		 */

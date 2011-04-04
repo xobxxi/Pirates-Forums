@@ -1,21 +1,4 @@
-/** ################################################################################################**   
-* Copyright (c)  2008  CJ.   
-* Permission is granted to copy, distribute and/or modify this document   
-* under the terms of the GNU Free Documentation License, Version 1.2   
-* or any later version published by the Free Software Foundation;   
-* Provided 'as is' with no warranties, nor shall the autor be responsible for any mis-use of the same.     
-* A copy of the license is included in the section entitled 'GNU Free Documentation License'.   
-*   
-*   CJAX  3.1 RC3                $     
-*   ajax made easy with cjax                    
-*   -- DO NOT REMOVE THIS --                    
-*   -- AUTHOR COPYRIGHT MUST REMAIN INTACT -   
-*   Written by: CJ Galindo                  
-*   Website: https://github.com/cjax/Cjax-Framework                     $      
-*   Email: cjxxi@msn.com    
-*   Date: 2/12/2007                           $     
-*   File Last Changed:  02/20/2011            $     
-**####################################################################################################    */   
+//@app_header;
 
 /**
  * a small portion of this package is source from phpjs.org project.
@@ -27,7 +10,6 @@ function CJAX_FRAMEWORK() {
 	var CJAX_CACHE = [];
 	var _FUNCTION;
 	var __base__;
-	var __wait__;
 	var parameters;
 	this.COMPONENTS = [];
 	this.EXTENSIONS = [];
@@ -45,6 +27,10 @@ function CJAX_FRAMEWORK() {
 	this.chache_templates = [];
 	this.dir;
 	this.styles = [];
+	//collection of elements that are using listeners
+	this.current_element = [];
+	
+	this.timer;
 	
 	//don't change these
 	var FLAG_NO_FLAG = 0;
@@ -64,7 +50,6 @@ function CJAX_FRAMEWORK() {
 	
 	//holds the internal cjax style
 	var HELPER_STYLE;
-	
 	
 	/**
 	 * 
@@ -203,6 +188,16 @@ function CJAX_FRAMEWORK() {
 					}catch(e) {}
 				},
 				injectXML:function(buffer,xml) {
+					
+					/*//Injects xml into a xml string, needsw to provide with a json object.
+					 * var xml = {"rel":rel};
+					var data = '';
+					for(x in new_xml) {
+						data += CJAX.left_delimeter+x+CJAX.right_delimeter+new_xml[x]+CJAX.left_delimeter+'/'+x+CJAX.right_delimeter;
+					}
+					buffer = buffer.replace(/<\/out>/gi,data+'</out>');
+					return buffer;*/
+				
 					buffer = buffer.replace(/<\/out>/gi,xml+'</out>');
 					return buffer;
 				},
@@ -224,9 +219,9 @@ function CJAX_FRAMEWORK() {
 				eval: function (source) 
 				{
 					
-					var new_data = CJAX.decode(source).replace(/\n/ig,"");
-					new_data = new_data.replace(/[\n\r]/gim,""); 
-					new_data = new_data.replace(/[\t]/gim," "); 
+					var new_data = CJAX.decode(source).replace(/\n\r/ig,"");
+					new_data = new_data.replace(/[\n\r\t]/gm,""); 
+					new_data = new_data.replace(/\t/gm," "); 
 					
 					try {
 						eval(new_data);
@@ -315,7 +310,7 @@ function CJAX_FRAMEWORK() {
 		var options_count = CJAX.util.count(options);
 		
 		if(element.type=='select-one') {
-			element.style.display = 'block';
+			element.style.display = 'inline';
 			if(options_count) {
 				element.options.length = 0;
 				var x = 0;
@@ -343,7 +338,7 @@ function CJAX_FRAMEWORK() {
 			
 					div.appendChild(obj);
 					div.style.display = 'block';
-					obj.style.width = '200px'; 
+					//obj.style.width = '200px'; 
 					obj.className = element.className;
 					CJAX.remove(element); element = obj; 
 					if(element) { 
@@ -411,7 +406,9 @@ function CJAX_FRAMEWORK() {
 		//optional properties
 		pos['top'] = CJAX.xml('top',buffer);
 		pos['left'] = CJAX.xml('left',buffer);
-		
+		if(pos['left']=='50%' && !pos['marginLeft']) {
+			pos['marginLeft'] = '-25%';
+		}
 		if(!CJAX.defined(buffer)) {
 			var buffer = '';
 		}
@@ -443,7 +440,7 @@ function CJAX_FRAMEWORK() {
 		return div;
 	};
 	
-	this.overLay		=		function ( buffer )
+	this.overLayContent		=		function( buffer )
 	{
 		var msg = [];
 		var url = CJAX.xml('url',buffer);
@@ -458,6 +455,11 @@ function CJAX_FRAMEWORK() {
 		}
 		if(!CJAX.defined(msg.top)) {
 			msg['top'] = top;
+		}
+		if(!CJAX.defined(msg.left)) {
+			msg['position'] = 'relative';
+			msg['left'] = '50%';
+			msg['marginLeft'] = '-25%';
 		}
 		var response = null;
 		var content = CJAX.xml('content',buffer);
@@ -499,74 +501,132 @@ function CJAX_FRAMEWORK() {
 				}
 			}
 		}
-		if(!url && content) {
-			content = CJAX.decode(content);
-			if(use_cache && CJAX.chache_templates['cache_overlay']) {
-				var template = CJAX.chache_templates['cache_overlay'];
-			} else {
-				var template = CJAX.xml('template',buffer);
-				template = template.replace(CJAX.util.encode('[CONTENT]'),content);
-				CJAX.chache_templates['content'] = template;
-			}
-			
-			_options();
-			msg['data'] = CJAX.decode(template);
-			msg['element'] = "cjax_message_overlay";
-			
-			CJAX.message(msg);
-			CJAX.$('cjax_overlay').style.display = 'block';
-			
-			CJAX.chache_templates['content'] = CJAX.$('cjax_overlay_content').innerHTML = content;
+		
+		content = CJAX.decode(content);
+		if(use_cache && CJAX.chache_templates['cache_overlay']) {
+			var template = CJAX.chache_templates['cache_overlay'];
 		} else {
-			if(use_cache && CJAX.chache_templates['overlay']) {
-				if(CJAX.cache_calls[call]) {
-					CJAX.process_all(CJAX.cache_calls[call]);
-				}
-				//(response);
-				if(CJAX.chache_templates['cache_overlay']) {
-					var template = CJAX.chache_templates['cache_overlay'];
-				}
-			} else {
-				var template = CJAX.xml('template',buffer);
-				
-				CJAX.chache_templates['overlay'] = template;
+			var template = CJAX.xml('template',buffer);
+			template = template.replace(CJAX.util.encode('[CONTENT]'),content);
+			CJAX.chache_templates['content'] = template;
+		}
+		
+		_options();
+		msg['data'] = CJAX.decode(template);
+		msg['element'] = "cjax_message_overlay";
+		
+		CJAX.message(msg);
+		CJAX.$('cjax_overlay').style.display = 'block';
+		
+		CJAX.chache_templates['content'] = CJAX.$('cjax_overlay_content').innerHTML = content;
 	
-				if(!response ) {
-					setTimeout(function() {
-					content = CJAX.exe_html(call,'overlay');
-					},170);
+		
+	};
+	
+	this.overLay		=		function ( buffer )
+	{
+		var msg = [];
+		var url = CJAX.xml('url',buffer);
+		var cjax_dir = CJAX.xml('cjax_dir',buffer);
+		var use_cache = CJAX.xml('cache',buffer);
+		var top = '72px';//CJAX.xml('top',buffer);
+		var options = CJAX.xml('options',buffer);
+		options = CJAX.util.array(options);
+		
+		for(x in options) {
+			msg[x] = options[x];
+		}
+		if(!CJAX.defined(msg.top)) {
+			msg['top'] = top;
+		}
+		var response = null;
+		var content = CJAX.xml('content',buffer);
+		var call = "[url]"+url+"[/url][element]cjax_overlay_content[/element][cjax_dir]"+cjax_dir+"[/cjax_dir]";
+		
+		if(!url) {
+			return CJAX._removeOverLay();
+		}
+		function _options() {
+			if(options.transparent || options.color) {
+				var _opacity =_alpha =_color = null;
+				if(!options.transparent) {
+					options.transparent = 80;
 				}
+				_opacity = parseFloat("0."+parseFloat(options.transparent));
+				_alpha = 'alpha(opacity='+parseInt(options.transparent)+')';
+				_color = options.color;
 				
-				var content = null;
-				var interval_max = 100; //10 seconds
-				var interval_count = 0;
-				
-				//monitor AJAX response...
-				var interval = setInterval(function() {
-					interval_count++;
-					content = CJAX.cache_calls[call];
-					
-					if(content) {
-						if(!CJAX.chache_templates['cache_overlay']) {
-							CJAX.chache_templates['cache_overlay'] = CJAX.$('cjax_message_overlay').innerHTML;
+				var overlay_class = CJAX.css.add('.overlay_class','cjax');
+				if(overlay_class) {
+					with (overlay_class.style) {
+						display = 'block';
+						position = 'absolute';
+						top = 0;
+						left= 0;
+						width= '100%';
+						height = '150%';
+						Zindex = 5000;
+						marginBottom = '0px';
+						if(options.transparent) {
+							opacity = _opacity;
+							filter = _alpha;
 						}
-						CJAX.chache_templates['overlay'] = CJAX.$('cjax_message_overlay').innerHTML;
-						clearInterval ( interval );
-					}
-					if(interval_count > interval_max) {
-						alert("Could not load overlay. Please try again.");
-						clearInterval ( interval );
-					}
-				},100);
+						if(_color) {
+							backgroundColor =_color;
+						}
+			        }
+					CJAX.$('cjax_overlay').className = 'overlay_class';
+				}
+			}
+		}
+		if(use_cache && CJAX.chache_templates['overlay']) {
+			if(CJAX.cache_calls[call]) {
+				CJAX.process_all(CJAX.cache_calls[call]);
+			}
+			//(response);
+			if(CJAX.chache_templates['cache_overlay']) {
+				var template = CJAX.chache_templates['cache_overlay'];
+			}
+		} else {
+			var template = CJAX.xml('template',buffer);
+			
+			CJAX.chache_templates['overlay'] = template;
+
+			if(!response ) {
+				setTimeout(function() {
+				content = CJAX.exe_html(call,'overlay');
+				},170);
 			}
 			
-			_options();
-			CJAX.$('cjax_overlay').style.display = 'block';
-			msg['data'] = CJAX.decode(template);
-			msg['element'] = "cjax_message_overlay";
+			var content = null;
+			var interval_max = 100; //10 seconds
+			var interval_count = 0;
 			
-			CJAX.message(msg);
+			//monitor AJAX response...
+			var interval = setInterval(function() {
+				interval_count++;
+				content = CJAX.cache_calls[call];
+				
+				if(content) {
+					if(!CJAX.chache_templates['cache_overlay']) {
+						CJAX.chache_templates['cache_overlay'] = CJAX.$('cjax_message_overlay').innerHTML;
+					}
+					CJAX.chache_templates['overlay'] = CJAX.$('cjax_message_overlay').innerHTML;
+					clearInterval ( interval );
+				}
+				if(interval_count > interval_max) {
+					alert("Could not load overlay. Please try again.");
+					clearInterval ( interval );
+				}
+			},100);
 		}
+		
+		_options();
+		CJAX.$('cjax_overlay').style.display = 'block';
+		msg['data'] = CJAX.decode(template);
+		msg['element'] = "cjax_message_overlay";
+		
+		CJAX.message(msg);
 		
 	};
 	
@@ -590,6 +650,9 @@ function CJAX_FRAMEWORK() {
     	var array = CJAX.xml('array',buffer);
     	var element = CJAX.xml('element_event',buffer);
     	
+    	if(CJAX.debug) {
+    		console.log("AddEventTo is fired, and executing:",buffer);
+    	}
     	//binding elements
     	if(element.indexOf(CJAX.split_delimiter)!=-1) {
     		var bind = element.split(CJAX.split_delimiter);
@@ -617,7 +680,7 @@ function CJAX_FRAMEWORK() {
     	var alt_element = CJAX.xml('alt_element',buffer);
     	if( !element && !alt_element){
     		if(CJAX.debug) {
-    			alert('no element:'+buffer);
+    			console.log('no element:',buffer);
     		}
     		return;
     	}
@@ -627,8 +690,6 @@ function CJAX_FRAMEWORK() {
         	interval = 150;
         	interval_result = null;
         	var counter = 0;
-        	
-        	//alert(arr);
         	
         	for(x in arr) {
         		fn = CJAX.xml('_do_',arr[x] );
@@ -640,7 +701,9 @@ function CJAX_FRAMEWORK() {
         			if(e && !_element) {
         				interval_result = setInterval( function() {
 	        				if(_element =  CJAX.$( CJAX.xml('alt_element',arr[x]) ) ) {
-	        					//console.log('CJAX.set.event #1',fn);
+	        					if(CJAX.debug) {
+	                				console.log('CJAX.set.event #1 to element',element, fn);
+	                			}
 	        					CJAX.set.event(_element , e ,arr[x]);
 	        					clearInterval(interval_result);
 	        				} else {
@@ -652,7 +715,9 @@ function CJAX_FRAMEWORK() {
 	        			},interval);
         			} else {
 
-        				//console.log('CJAX.set.event #2',fn);
+        				if(CJAX.debug) {
+            				console.log('CJAX.set.event #2 to element',element, fn);
+            			}
         				CJAX.set.event(CJAX.$( _element ), e ,arr[x]);
         			}
         		} else {
@@ -663,13 +728,16 @@ function CJAX_FRAMEWORK() {
         				e = x;
         			}
         			//alert(arr[x]);
-        			//console.log('CJAX.set.event #3',fn);
+        			if(CJAX.debug) {
+        				console.log('CJAX.set.event #3 to element',element, fn);
+        			}
         			CJAX.set.event(CJAX.$( element ), e ,arr[x]);
         		}
         		
         	
         	}
     	} else {
+
     		 var fn = CJAX.xml('do', buffer );
     		 var evento = CJAX.xml('event_action',buffer);
     		 var method = CJAX.xml('event_method',buffer);
@@ -681,21 +749,30 @@ function CJAX_FRAMEWORK() {
     			function() {
     				if(CJAX.$( element )) {
     					//	CJAX._EventCache.flush(event_id);
-    					//console.log('CJAX.set.event #4',fn);
+    					if(CJAX.debug) {
+    						console.log('CJAX.set.event #4 to element',element, fn);
+    					}
     	   				event_id = CJAX.set.event(CJAX.$( element ),evento,method);
     					clearInterval(observe);
     				} 
     			},400);
     		} else {
-    			//console.log('CJAX.set.event #5',fn);
+    			if(CJAX.debug) {
+    				console.log('CJAX.set.event #5','to element: ',element, fn);
+    			}
 	       	 	CJAX.set.event(CJAX.$( element ),evento,method);
 	        }
     	}
     };
     
 	this.click		=		function( buffer ) {
-		var item = CJAX.xml('element',buffer);
-		elem = CJAX.$( item ); 
+		if(CJAX.$(buffer)){
+			var elem = CJAX.$(buffer);
+			
+		} else {
+			var item = CJAX.xml('element',buffer);
+			elem = CJAX.$( item ); 
+		}
 		if( elem )elem.click();
 	};
 	
@@ -926,20 +1003,27 @@ function CJAX_FRAMEWORK() {
 			},
 			selfpath : function() {
 				var script;
+				var name = 'cjax.js';
+				var src;
 				
 				script = CJAX.$('cjax_lib');
 				
 				if(script) {
-					return script.src;
+					src = script.src;
+					var f = src.substr(0,src.indexOf(name));
+					
+					return f;
 				}
 				
-				var scripts = CJAX.elem_docs( 'script' );
+				var scripts = document.getElementsByTagName('script');
 				for( var i = 0; i < scripts.length; i++ ){
 					script = scripts[i];
-					if(script.id='cjax_lib') return script.src;
+					src = script.src;
+					if(CJAX.get.basename(src)==name) {
+						var f = src.substr(0,src.indexOf(name));
+						return f;
+					}
 				}
-				return paths;
-				
 			},
 			value : function(elem,verbose) {
 				var type = (typeof elem);
@@ -1066,13 +1150,87 @@ function CJAX_FRAMEWORK() {
 		};
 	}();
 	
-
+	   
+	this.uniqid		=		function uniqid()
+	{
+		var newDate = new Date;
+		return newDate.getTime();
+	};
+	
 	/**
 	 * Util Set
 	 */
 	this.set				=			function() {
 		return {
-			value : function(element,_value,options){
+			event : function(element,event,method,cache_id){
+				if(CJAX.debug) {
+					console.log("set.even setting event for -..:",element);
+				}
+				if( !element ) return false;
+				var element = CJAX.is_element( element );
+				var event_id = CJAX.uniqid();
+				
+				
+				var f = method.toString();
+				f = f.substr(0,f.indexOf('('));
+				//rtrim
+				f = f.replace(/\s+$/,"");
+				
+				
+				if(f =='function') {
+				    CJAX._addEvent(element,event,eval(method));
+				} else {
+					var href;
+				    if(href = element.href) {
+				        
+				        
+				       /* if(!CJAX.ie || (CJAX.ie && href.indexOf('#')==-1)) {
+				        	//removes all clickable events
+				        	//element.onclick = function() {return false;}
+				        }*/
+				        if(href.indexOf('#')==-1) {//avoid removing internal anchors
+				        	
+				        	
+				        	
+				        	//removes all clickable events
+				        	element.onclick = function() {return false;};
+				        } else {
+				        	element.href= 'javascript:void(0)';
+				        }
+				    } else {
+				        if(element.type && (element.type == 'checkbox' || element.type=='radio')) {
+			                element.onclick = function() {return true;};
+			            } else {
+			            	if(element.tagName=='LI') {
+			            		//for now do nothing...
+			            		element.onclick = function() {return false;};
+			            	}  else {
+			            		element.onclick = function() {return false;};
+			            	}
+			            }
+		            }
+					return CJAX._addEvent(element,event,function() {
+						method = method.replace(/\[_do_\]/g,"<do>");
+						method = method.replace(/\[\/_do_\]/g,"</do>");
+						method = method.replace(/\<_do_\>/g,"<do>");
+						method = method.replace(/\<\/_do_\>/g,"</do>");
+						method =  method.replace(/\n/g,"");
+						
+						if(CJAX.util.isXML(method)) {
+							if(!CJAX.is_cjax(method)) {
+								method = "<cjax>"+method+"</cjax>";
+							}
+						
+							
+							CJAX.process(method,'set.event',element);
+						} else {
+							eval(method);
+						}
+						
+					},((typeof cache_id !='undefined')? cache_id: null));
+				}
+			}
+			,value : function(element,_value,options){
 				if(typeof options =='undefined') var options = [];
 				var element = CJAX.is_element(element);
 			
@@ -1147,63 +1305,6 @@ function CJAX_FRAMEWORK() {
 						return false;
 					}
 			}
-			,event : function(element,event,method,cache_id){
-				if( !element ) return false;
-				var element = CJAX.is_element( element );
-				
-				var f = method.toString();
-				f = f.substr(0,f.indexOf('('));
-				//rtrim
-				f = f.replace(/\s+$/,"");
-				if(f =='function') {
-				    CJAX._addEvent(element,event,eval(method));
-				} else {
-					var href;
-				    if(href = element.href) {
-				        element.href= 'javascript:void(0)';
-				        
-				       /* if(!CJAX.ie || (CJAX.ie && href.indexOf('#')==-1)) {
-				        	//removes all clickable events
-				        	//element.onclick = function() {return false;}
-				        }*/
-				        if(href.indexOf('#')==-1) {//avoid removing internal anchors
-				        	//removes all clickable events
-				        	element.onclick = function() {return false;};
-				        }
-				    } else {
-				        if(element.type && (element.type == 'checkbox' || element.type=='radio')) {
-			                element.onclick = function() {return true;};
-			            } else {
-			            	if(element.tagName=='LI') {
-			            		//for now do nothing...
-			            		element.onclick = function() {return false;};
-			            	}  else {
-			            		element.onclick = function() {return false;};
-			            	}
-			            }
-		            }
-					return CJAX._addEvent(element,event,function() {
-						method = method.replace(/\[_do_\]/g,"<do>");
-						method = method.replace(/\[\/_do_\]/g,"</do>");
-						method = method.replace(/\<_do_\>/g,"<do>");
-						method = method.replace(/\<\/_do_\>/g,"</do>");
-						method =  method.replace(/\n/g,"");
-						
-						
-						if(CJAX.util.isXML(method)) {
-							if(!CJAX.is_cjax(method)) {
-								method = "<cjax>"+method+"</cjax>";
-							}
-							CJAX.source = method;
-							CJAX.process(method,'set.event');
-							
-						} else {
-							eval(method);
-						}
-						
-					},((typeof cache_id !='undefined')? cache_id: null));
-				}
-			}
 			,center : function(obj,pos) {
 				if(typeof pos == 'undefined') var pos = [];
 				var element = CJAX.is_element(obj);
@@ -1228,11 +1329,16 @@ function CJAX_FRAMEWORK() {
 		        	var  _left = '50%';
 		        	var _margin_left = '-'+((element.offsetWidth / 2))+'px';
 		        }
+		        if(pos.marginLeft) {
+		        	_margin_left = pos.marginLeft;
+		        }
 		        with (element.style) {
 			        top = _top;
 			        left = _left;
 			        maxWidth = '800px';
-			        marginLeft = _margin_left;
+		        }
+		        if(_margin_left && _margin_left !='0px') {
+		        	element.style.marginLeft = _margin_left;
 		        }
                return element;
 			}
@@ -1585,14 +1691,20 @@ function CJAX_FRAMEWORK() {
 	}();
 	
 	
-	this.process_all		=		function ( actions , loading , debug) 
+	/**
+	 * Process all commands and pass them to CJAX.process which processes them 1 at a time
+	 */
+	this.process_all		=		function ( actions , debug) 
 	{
 		if (!CJAX.is_cjax(actions)){ return; }
 		if(!CJAX.defined(loading)) var loading = false;
+		if(caller==null) var caller = 'unkonwn';
 		if(debug!=null) {
 			CJAX.debug = debug;
 		}
-	
+		if(CJAX.debug) {
+			console.log('initiating process_all', 'initiated by:',caller);
+		}
 		
 		//remove all the output except the cjax buffer
 		
@@ -1606,16 +1718,25 @@ function CJAX_FRAMEWORK() {
 		}
 		
 		var values = CJAX.xml(CJAX.name,actions,true);
+		if(CJAX.debug) {
+			console.log('process_all command count:',values.length);
+		}
 		var buffer;
 		
 		if(!loading) {
-			//Not loading means that it needs a little extra time to process any return html so that it can be used.
+			//Not loading means that it needs a little extra time to process any returned html so that elements within can be used.
 			
 			//since the content that we are possibly going to play with isn't loaded yet, give a second or 2
 			setTimeout(function(){
 				for(var i = 0; i < values.length;i++) {
 					buffer = values[i];
+					var method = CJAX.xml('do',buffer);
+					
+					if(CJAX.debug) {
+						console.log('call #',i,'process_all not loading mode','calling:',method);
+					}
 					CJAX.process( '<cjax>'+buffer+'<caller>process_all</caller></cjax>', 'process_all');
+			
 				}
 			}
 			,200);
@@ -1625,11 +1746,17 @@ function CJAX_FRAMEWORK() {
 			var no_wait_list = CJAX.functionsNoWait();
 			var method;
 			var _wait;
+			
+			
 			for(var i = 0; i < values.length;i++) {
 				_wait = true;
 				buffer = values[i];
 				var method = CJAX.xml('do',buffer);
 				
+				if(!method) {
+					console.log('process_all skip:',buffer);
+					continue;
+				}
 				var flags = CJAX.xml('flags',buffer);
 				
 				if(flags) {
@@ -1640,8 +1767,10 @@ function CJAX_FRAMEWORK() {
 						}
 					}
 				}
-				
-				if(false && !_wait) {
+				if(CJAX.debug) {
+					console.log('#',i,'process_all in loading mode','calling:',method);
+				}
+				if( !_wait) {
 					CJAX.quickProcess( '<cjax>'+buffer+'</cjax>' ,method, 'process_all-quick');
 					if(CJAX.debug) {
 						console.log(CJAX.method ,'quickProcess');
@@ -1651,12 +1780,16 @@ function CJAX_FRAMEWORK() {
 					if(no_wait_list[method]) {
 						CJAX.quickProcess( '<cjax>'+buffer+'</cjax>' ,method,'process_all-quick');
 						continue;
-					}	
-				}	
+					}
+				}
+				
 				CJAX.process( '<cjax>'+buffer+'</cjax>', 'process_all');
 				
 			}
 		}
+		CJAX.timer = 0;
+		
+		return values;
 	};
 	
 	/**
@@ -1667,18 +1800,28 @@ function CJAX_FRAMEWORK() {
 		var fs = {"debug_env":1,"debug_test":1};
 		return fs;
 	};
-	
-	this.process		=		function( buffer , backstack) 
+
+	/**
+	 * Proccess specific command.
+	 * buffer is the command
+	 * caller, any function caller reference.
+	 * alt_element - an alternative element that is being used.
+	 */	
+	this.process		=		function( buffer , caller, alt_element) 
 	{
-		if(!CJAX.defined(backstack)) {
-			var backstack = 'default-';
+		if(!CJAX.defined(caller)) {
+			var caller = 'default-';
 		}
 		if(!CJAX.is_cjax(buffer)) {
-			alert('no cjax - caller: '+backstack+'\n'+buffer);return false ;
+			alert('no cjax - caller: '+caller+'\n'+buffer);return false ;
 		};
 		
-		if(typeof buffer =='undefined') var buffer = '';
-		if(typeof encoded =='undefined') var encoded = '';
+		if(caller=='set.evet') {
+			console.log("####process: caller",caller,buffer);
+		}
+		
+		if(buffer==null) var buffer = '';
+		if(encoded==null) var encoded = '';
 		CJAX.method = CJAX.get_function(buffer);
 		if(!CJAX.method) return false;
 		var PREFIX = 'CJAX.';
@@ -1687,6 +1830,7 @@ function CJAX_FRAMEWORK() {
 		if(CJAX.xml('debug',buffer)) {
 			CJAX.debug = true;
 		}
+		var seconds = 0;
 		
 		var _wait = true;
 		
@@ -1706,23 +1850,24 @@ function CJAX_FRAMEWORK() {
 				seconds = wait; 
 			} else {
 		    	var seconds = CJAX.xml('seconds',buffer);
-		    	if(!seconds && __wait__) {
-		    		seconds = parseInt(__wait__);
+		    	if(!seconds && CJAX.timer) {
+		    		seconds = parseInt(CJAX.timer);
 		    	} 
 			}
 			if(CJAX.debug) {
-				console.log(CJAX.method ,"waits :",seconds,'caller:',backstack);
+				console.log(CJAX.method ,"waits :",seconds,'caller:',caller);
 			}
 		} else {
 			if(CJAX.debug) {
-				console.log(CJAX.method ,'no wait time','caller:',backstack);
+				console.log(CJAX.method ,'no wait time','caller:',caller);
 			}
 		}
 	
 		
 		//If a magic call not defined in php.
 		if(CJAX.xml('__call',buffer)) {
-			
+			CJAX.method = CJAX.method.replace("_",".");
+			console.log('Magic Method:',PREFIX+CJAX.method);
 			var a =	CJAX.decode(CJAX.xml('a',buffer));
 			if(CJAX.php.is_array(a)) {
 				a = CJAX.util.array(a);
@@ -1747,12 +1892,16 @@ function CJAX_FRAMEWORK() {
 					}
 			} else {
 				
-				if(seconds){
-                   return setTimeout( function() {
-                	   eval(PREFIX+CJAX.method+'(a,b,c,d,e,f)');
-                   },seconds*1000);
-				} else {
-					return eval(PREFIX+CJAX.method+'(a,b,c,d,e,f)');
+				try {
+					if(seconds){
+	                   return setTimeout( function() {
+	                	   eval(PREFIX+CJAX.method+'(a,b,c,d,e,f)');
+	                   },seconds*1000);
+					} else {
+						return eval(PREFIX+CJAX.method+'(a,b,c,d,e,f)');
+					}
+				} catch(e) {
+					console.log("Magic Method",PREFIX+CJAX.method,'could not be initiated.',e.message);
 				}
 			}
 			return;
@@ -1861,7 +2010,10 @@ function CJAX_FRAMEWORK() {
                    setTimeout(PREFIX+CJAX.method+'("'+buffer+'")',seconds*1000);
 					
 				} else {
-				   eval(PREFIX+CJAX.method+'("'+buffer+'")');
+					if(alt_element) {
+						this.current_element = alt_element;
+					}
+					eval(PREFIX+CJAX.method+'("'+buffer+'")');
 				}
 				
 			}
@@ -1871,7 +2023,10 @@ function CJAX_FRAMEWORK() {
 				}
 				
 				try {
-					 eval(PREFIX+CJAX.method+'("'+buffer+'")');
+					if(alt_element) {
+						this.current_element = alt_element;
+					}
+					eval(PREFIX+CJAX.method+'("'+buffer+'")');
 				} catch( e ) {
 					
 					alert('#process unabled to load function: '+ CJAX.method+'();  '+e);
@@ -1886,14 +2041,14 @@ function CJAX_FRAMEWORK() {
 	/**
 	 * The quick version of CJAX.process..  for known functions that don't require all the processing.
 	 */
-	this.quickProcess		=		function( buffer , _do_,backstack) 
+	this.quickProcess		=		function( buffer , _do_,caller) 
 	{
 
-		if(!CJAX.defined(backstack)) {
-			var backstack = 'default-';
+		if(!CJAX.defined(caller)) {
+			var caller = 'default-';
 		}
 		if(!CJAX.is_cjax(buffer)) {
-			alert('no cjax - caller: '+backstack+'\n'+buffer);return false ;
+			alert('no cjax - caller: '+caller+'\n'+buffer);return false ;
 		};
 		
 		if(typeof buffer =='undefined') var buffer = '';
@@ -1934,10 +2089,11 @@ function CJAX_FRAMEWORK() {
 	};
 
     
-	this.xml		=		function (start , buffer , loop) {
+	this.xml		=		function (start , buffer , loop , caller) {
 		if(!buffer) return;
-		if(typeof loop =='undefined') var loop = 0;
+		if(loop == null) var loop = 0;
 		if(typeof start=='undefined') return '';
+		if(caller == null) var caller = 'unknown';
 		if(!buffer || !start) return '';
 		var real_var = start;
 		var end = CJAX.left_delimeter+'/'+start+CJAX.right_delimeter;
@@ -1956,16 +2112,21 @@ function CJAX_FRAMEWORK() {
 		if (loc_start == -1 || loc_end ==-1) return '';
 		var _new_var = buffer.substr(loc_start+start_len,middle);
 		var string_len = loc_start+start_len+_new_var.length+start_len;
+		
 		if(loop) {
 			var myarr = [];
 			var i = 0;
 			var value;
 			var hold = buffer;
 			while(CJAX.xml(real_var,hold) && hold) {
-				value = CJAX.xml(real_var,hold);
+				value = CJAX.xml(real_var,hold,0,'CJAX.xml');
 				hold = hold.substr((loc_start+start_len)+value.length+end_len);
 				myarr[i] = value;
+				
 				i++;
+			}
+			if(CJAX.debug) {
+				console.log("xml count:",i, 'for tag:',real_var);
 			}
 			return (myarr)?myarr:'';
 		}
@@ -2085,23 +2246,7 @@ function CJAX_FRAMEWORK() {
 				for(x in elements) {
 					new_element = elements[x];					
 					if(new_element.type=='checkbox' && new_element.id.indexOf(buffer)!=-1) {
-						/*if(!i) {
-							if(CJAX.clicked.type =='checkbox') {
-								check = true;
-							} else {
-								if(new_element.checked) {
-									check = false;
-								} else {
-									check = true;
-								}
-							}
-							i++;
-							continue;
-						}*/
-						i++;
-						
 						new_element.checked = check;
-						
 					}
 				}
 				return;
@@ -2341,13 +2486,13 @@ function CJAX_FRAMEWORK() {
 	
 	this.wait		=		function( buffer ) {
 		if(typeof buffer=='undefined') {
-			__wait__ = 0;
+			CJAX.timer = 0;
 			CJAX.waiting = false;
 			console.log("Timer has be reset.");
 			return 0;
 		}
 		if(FLAG_CLEAR_TIMEOUT) {
-			__wait__ = 0;
+			CJAX.timer = 0;
 		}
 		var count = CJAX.intval(CJAX.xml('timeout',buffer));
 		FLAG_CLEAR_TIMEOUT = CJAX.xml('clear',buffer);
@@ -2355,12 +2500,12 @@ function CJAX_FRAMEWORK() {
 			return;
 		}
 		CJAX.waiting = true;
-		if(!__wait__) {
-			__wait__ = parseInt(CJAX.xml('timeout',buffer));
+		if(!CJAX.timer) {
+			CJAX.timer = parseInt(CJAX.xml('timeout',buffer));
 		} else {
-			__wait__ = parseInt(__wait__)+parseInt(CJAX.xml('timeout',buffer));
+			CJAX.timer = parseInt(CJAX.timer)+parseInt(CJAX.xml('timeout',buffer));
 		}
-		return __wait__;
+		return CJAX.timer;
 	};
 
 	/**
@@ -2501,7 +2646,11 @@ function CJAX_FRAMEWORK() {
 		var msg = CJAX.xml('msg',buffer);
 		msg = CJAX.decode( msg );
 		if(!msg) {
-			msg = 'CJAX-alert: Nothing here!';
+			if(CJAX.debug) {
+
+				console.log('CJAX:alert',' request was empty');
+			}
+			return;
 			if(typeof caller !='undefined') {
 				msg = msg+ ' - '+caller;
 			}
@@ -2643,6 +2792,7 @@ function CJAX_FRAMEWORK() {
 		if( !text ) text = 'Loading...';
 		if(text =='no_text') text = null;
 		
+		
 		if(text) {
 			CJAX.msg.loading(text,true);
 		}
@@ -2674,20 +2824,29 @@ function CJAX_FRAMEWORK() {
 		var frame = null;
 		var files = false;
 		var first_destino = null;
-		
-		
-		if(frm != '') {
+		var form = null;
+		if(!frm && CJAX.current_element) {
+			form = CJAX.current_element.form;
+		}
+		if(frm || form) {
 			var url ='';
 			var elem_value = '';
 			var is_my_radio = new Array( 10 );
 			var splitter;
 			var assign = '=';
-			form = document.forms[frm];
 			if(!form) {
-				form = CJAX.$(frm);
+				if(!CJAX.is_element(frm) ) {
+					form = document.forms[frm];
+					if(!form) {
+						form = CJAX.$(frm);
+					}
+				} else {
+					form = CJAX.is_element(frm);
+				}
 			}
 			
 			if( !form || !form.elements) {
+				
 				var url = CJAX.form_get_elements_url( frm );
 				if( !url ){ alert('CJAX: invalid form or form is empty'); return false; }
 			} else {
@@ -2900,41 +3059,46 @@ function CJAX_FRAMEWORK() {
 			}
 		}
 		
-		CJAX.HTTP_REQUEST_INSTANCE.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+		//don't change this header or you will get a security error.
+		CJAX.HTTP_REQUEST_INSTANCE.setRequestHeader('X-Requested-With', 'CJAX FRAMEW0RK //@version;');
 		
 		CJAX.HTTP_REQUEST_INSTANCE.onreadystatechange = function () {
 			
 			if(CJAX.HTTP_REQUEST_INSTANCE.readyState) {
-				
-				switch(CJAX.HTTP_REQUEST_INSTANCE.status) {
-				case 200:
-					var txt =  buffer = CJAX.HTTP_REQUEST_INSTANCE.responseText;
-					CJAX.msg.clear();
-					
-					if(buffer) {
-						CJAX.process_all(buffer);
+				if(CJAX.HTTP_REQUEST_INSTANCE.readyState < 4) {
+					if(CJAX.debug) {
+						console.log("Waiting for response..");
 					}
-					txt = unescape(txt);
-					
-					if( container ) container.innerHTML = txt;
-		     		if (CJAX.debug) CJAX.alert('Debug: - exehtml - '+container.innerHTML);
-		     		
-					break;
-				case 400:
-					CJAX.msg.error('Error: The server returned a "Bad Request" status message 400.');
-					break;
-				case 404:
-					CJAX.msg.error('Error: File not found '+destino);
-					break;
-				case 403:
-					CJAX.msg.error('Error: Access to this request is forbidden');
-					break;
-				case 500:
-					CJAX.msg.error("Error: The server encountered an unexpected Error with status 500. See server log for details.");
-					break;
-				case 503:
-					CJAX.msg.error("Error: Gateway timeout.");
-					break;
+				} else {
+					switch(CJAX.HTTP_REQUEST_INSTANCE.status) {
+					case 200:
+						var txt =  buffer = CJAX.HTTP_REQUEST_INSTANCE.responseText;
+						CJAX.msg.clear();
+						
+						CJAX.process_all(buffer);
+						
+						txt = unescape(txt);
+						
+						if( container ) container.innerHTML = txt;
+			     		if (CJAX.debug) CJAX.alert('Debug: - exe_form - '+container.innerHTML);
+			     		
+						break;
+					case 400:
+						CJAX.msg.error('Error: The server returned a "Bad Request" status message 400.');
+						break;
+					case 404:
+						CJAX.msg.error('Error: File not found '+destino);
+						break;
+					case 403:
+						CJAX.msg.error('Error: Access to this request is forbidden');
+						break;
+					case 500:
+						CJAX.msg.error("Error: The server encountered an unexpected Error with status 500. See server log for details.");
+						break;
+					case 503:
+						CJAX.msg.error("Error: Gateway timeout.");
+						break;
+					}
 				}
 			}
 			return;
@@ -2942,30 +3106,51 @@ function CJAX_FRAMEWORK() {
 		
 		CJAX.HTTP_REQUEST_INSTANCE.send ( ((CJAX.IS_POST)? destino:null) );
 		if(files) {
-			form.submit();
-			if(iframe) {
-				var content = null;
-				var interval_max = 150;
-				var interval_count = 0;
-				
-				var interval = setInterval(function() {
-					interval_count++;
-					try {
-						content = iframe.contentWindow.document.body.innerHTML;
-					} catch(err) {
-						alert("CJAX: Error - uploading files "+err);
-						clearInterval ( interval );
-					}
-					if(content) {
-						CJAX.process_all("<xml class='cjax'><cjax>"+content+"</cjax></xml>");
-						 clearInterval ( interval );
-					}
-					if(interval_count > interval_max) {
-						alert("Uploading Failed.");
-						clearInterval ( interval );
-					}
-				},150);
-			}
+			var _submit		=	function () {
+				form.submit();
+				if(iframe) {
+					var content = null;
+					var interval_max = 300;
+					var interval_timeout = 200;
+					var interval_count = 0;
+					
+					
+					var interval = setInterval(function() {
+						interval_count++;
+						try {
+							
+							content = iframe.contentWindow.document.body.innerHTML;
+							content = content.replace("&lt;","<");
+							content = content.replace("&gt;",">");
+						} catch(err) {
+							alert("CJAX: Error - uploading files "+err);
+							clearInterval ( interval );
+						}
+						if(content) {
+							
+							console.log('iframe response:',content);
+							var values = CJAX.xml(CJAX.name,content,true);
+							
+							for(var i = 0; i < values.length;i++) {
+								buffer = values[i];
+								var method = CJAX.xml('do',buffer);
+								if(CJAX.debug) {
+									console.log('#',i,'process_all in loading mode','calling:',method);
+								}
+								CJAX.process( '<cjax>'+buffer+'</cjax>', 'process_all');
+								
+							}
+							clearInterval ( interval );
+						}
+						if(interval_count > interval_max) {
+							alert("Uploading Failed.");
+							clearInterval ( interval );
+						}
+					},interval_timeout);
+				}
+			
+			};
+			setTimeout(function(){_submit();},1000);
 		}
 	};
 	
@@ -3222,12 +3407,16 @@ function CJAX_FRAMEWORK() {
 		if(caller==null) {
 			var caller = 'unknown';
 		}
+		
+	
+		
 		if(CJAX.debug) {
 			console.log('CJAX.set.event','exe_html','called by '+caller);
 		}
 		
 		CJAX.resetDelimeters("[","]");
-		var destino = CJAX.xml('url',params).replace(/\&amp\;/gi,"&");
+		var destino = CJAX.xml('url',params);
+		destino = destino.replace(/\&amp\;/gi,"&");
 		var related = CJAX.xml('rel',params);
 		var _confirm = CJAX.xml('confirm',params);
 		var stamp = CJAX.xml('stamp',params);
@@ -3293,7 +3482,6 @@ function CJAX_FRAMEWORK() {
 		CJAX.HTTP_REQUEST_INSTANCE = this.AJAX ();
 		
 		if(destino.indexOf('&') != -1) {
-			
 			var ms=+new Date().getTime();
 			if(dir) {
 				destino += "&cjax_dir="+dir;
@@ -3316,53 +3504,62 @@ function CJAX_FRAMEWORK() {
 			CJAX.HTTP_REQUEST_INSTANCE.setRequestHeader("Connection", "Keep-Alive");
 		}
 
-		//CJAX.HTTP_REQUEST_INSTANCE.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-		
+		CJAX.HTTP_REQUEST_INSTANCE.setRequestHeader('X-Requested-With', 'CJAX FRAMEW0RK //@version;');
 		
 		try{
 			CJAX.HTTP_REQUEST_INSTANCE.onreadystatechange = function () {
 				
 				if(CJAX.HTTP_REQUEST_INSTANCE.readyState) {
-					document.body.style.cursor = 'default';
-					switch(CJAX.HTTP_REQUEST_INSTANCE.status) {
-					case 200:
-						var txt =  CJAX.HTTP_REQUEST_INSTANCE.responseText;
-						
-						CJAX.msg.clear();
-						
-						CJAX.process_all(txt,is_loading);
-						
-						txt =  unescape(txt);
-						CJAX.cache_calls[params] = response = txt;
-						if( element ){
-							try { 
-					      		element.innerHTML = txt;
-								}catch(err)   { alert("Error - Cant not use element. "+err);  }
-				      	}
-						if (CJAX.debug) {
-							var win = window.open('<pre>'+txt+'</pre>', "","width=500","height=400");
+					if(CJAX.HTTP_REQUEST_INSTANCE.readyState < 4) {
+						if(CJAX.debug) {
+							console.log("Waiting for response..");
 						}
-			     		
-						break;
-					case 400:
-						CJAX.msg.error('Error: The server returned a "Bad Request" status message 400.');
-						break;
-					case 404:
-						var msg = 'CJAX Error: File not found '+destino;
-						if( element ) {
-							if(!element.type) { alert('exe_html: element type is'+ element + msg ); return false; }
-						}	
-						CJAX.msg.error('Error: File not found '+destino);
-						break;
-					case 403:
-						CJAX.msg.error('Error: Access to this request is forbidden');
-						break;
-					case 500:
-						CJAX.msg.error("Error: The server encountered an unexpected Error with status 500. See server log for details.");
-						break;
-					case 503:
-						CJAX.msg.error("Error: Gateway timeout.");
-						break;
+					} else {
+						switch(CJAX.HTTP_REQUEST_INSTANCE.status) {
+						case 200:
+							
+							var txt =  CJAX.HTTP_REQUEST_INSTANCE.responseText;
+							
+							CJAX.msg.clear();
+						
+							CJAX.process_all(txt);
+						
+							txt =  unescape(txt);
+							CJAX.cache_calls[params] = response = txt;
+							if( element ){
+								try { 
+						      		element.innerHTML = txt;
+									}catch(err)   { alert("Error - Cant not use element. "+err);  }
+					      	}
+							if (CJAX.debug) {
+								console.log("response text:",txt);
+							}
+				     		
+							break;
+						case 400:
+							CJAX.msg.error('Error: The server returned a "Bad Request" status message 400.');
+							break;
+						case 404:
+							var msg = 'CJAX Error: File not found '+destino;
+							if( element ) {
+								if(!element.type) { alert('exe_html: element type is'+ element + msg ); return false; }
+							}	
+							CJAX.msg.error('Error: File not found '+destino);
+							break;
+						case 403:
+							CJAX.msg.error('Error: Access to this request is forbidden');
+							break;
+						case 500:
+							CJAX.msg.error("Error: The server encountered an unexpected Error with status 500. See server log for details.");
+							break;
+						case 503:
+							CJAX.msg.error("Error: Gateway timeout.");
+							break;
+						default:
+							CJAX.msg.warning("Error: Server responded with a unsual response, see available server error logs for details.");
+							break;
+						}
+					
 					}
 				}
 				
@@ -3425,7 +3622,7 @@ function CJAX_FRAMEWORK() {
 	function __construct() {
 		//if(CJAX.script.load(__base__+"/components/extensions.js")) CJAX.COMPONENTS['extensions'] = 1;
 		
-		CJAX.script.load(__base__+'/core/js/cjax.js.php');
+		CJAX.script.load(__base__+'/core/js/cjax.js.php?update='+CJAX.microtime(true));
 		//not meant to be a formatted, but it can be used as a helper to display
 		//well formatted messages
 		CJAX.script.load(__base__+'/core/css/cjax.css');
