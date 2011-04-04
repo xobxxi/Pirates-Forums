@@ -17,10 +17,12 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 	protected function _fireConversation($recipient)
 	{
 		$options    = XenForo_Application::get('options');
+		
+		$title      = $options->welcomeUsers_title;
 		$senders    = explode(',', $options->welcomeUsers_senders);
 		$recipients = array($recipient);
-		$title      = $options->welcomeUsers_title;
 		/*$messages   = explode(',', $options->welcomeUsers_messages);*/
+		
 		$davy      = 
 				"Ahoy,
 
@@ -36,6 +38,7 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 				and change your personal and account details here: http://piratesforums.com/account/personal-details
 
 				To help us identify you better in-game, please add your pirates to your profile here: http://piratesforums.com/pirates";
+				
 		$treasurer =
 				"Everyone has a story to tell and we look forward to hearing yours!
 
@@ -47,15 +50,18 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 				Just reply if you have any questions, comments, or problems.
 
 				Thank you!";
-		
-	    $messages   = array($davy, $treasurer);
-		
+				
+	    $messages = array($davy, $treasurer);
 		
 		$conversation['recipients'] = array_merge($senders, $recipients);
 		
+		
+		$ids = array();
 		$i = 0;
-		foreach ($messages as $message) {
-			if ($i === 0) {
+		foreach ($messages as $message)
+		{
+			if ($i == 0)
+			{
 				$inviteUser = $this->_getUserByName($senders[$i]);
 				$inviteUser['permissions']['conversation']['start'] = true;
 				$inviteUser['permissions']['conversation']['maxRecipients'] = count($senders) + 1;
@@ -71,8 +77,14 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 				
 				$conversationData = $this->_startConversation($conversation, $inviteUser);
 				$conversation['conversation_id'] = $conversationData['conversation_id'];
-			} else {
-				if (!$senders[$i]) $senders[$i] = end($senders);
+			}
+			else
+			{
+				if (!$senders[$i])
+				{
+					$senders[$i] = end($senders);
+				}
+				
 				$conversation['from']['name'] = $senders[$i];
 				$ids[]                        = $this->_getUserByName($senders[$i], true);
 				$conversation['from']['id']   = $ids[$i];
@@ -81,19 +93,19 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 				
 				$this->_replyConversation($conversation);
 			}
+			
 			$i++;
 		}
-		$this->_hideConversationFromUsers($conversation['conversation_id'], $ids);
 		
-		return true;
+		$this->_hideConversationFromUsers($conversation['conversation_id'], $ids);
 	}
 	
 	protected function _startConversation($conversation, $inviteUser)
 	{
 		$conversationDw = XenForo_DataWriter::create('XenForo_DataWriter_ConversationMaster');
-		$conversationDw->setExtraData('inviteUser', $inviteUser);
+		$conversationDw->setExtraData(XenForo_DataWriter_ConversationMaster::DATA_ACTION_USER, $inviteUser);
 		$conversationDw->set('user_id', $conversation['from']['id']);
-		$conversationDw->set('username', 	$conversation['from']['name']);
+		$conversationDw->set('username', $conversation['from']['name']);
 		$conversationDw->set('title', $conversation['title']);
 		$conversationDw->set('open_invite', $conversation['open_invite']);
 		$conversationDw->set('conversation_open', $conversation['conversation_locked'] ? 0 : 1);
@@ -128,13 +140,18 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 	{
 		$user  = $this->_getUserModel()->getUserByName($name);
 		
-		if (!$returnId) return $user;
+		if (!$returnId)
+		{
+			return $user;
+		}
+		
 		return $this->_getUserModel()->getUserIdFromUser($user);
 	}
 	
 	protected function _hideConversationFromUsers($id, array $users)
 	{
-		foreach ($users as $uid) {
+		foreach ($users as $uid)
+		{
 			$this->_getConversationModel()->deleteConversationForUser(
 				$id, $uid, 'delete'
 			);
@@ -143,17 +160,11 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 		return true;
 	}
 	
-	/**
-	 * @return XenForo_Model_User
-	 */
 	protected function _getUserModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_User');
 	}
 	
-	/**
-	 * @return XenForo_Model_Conversation
-	 */
 	protected function _getConversationModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_Conversation');
