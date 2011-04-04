@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0 Beta 1" version_id="100" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0 Beta 2" version_id="100" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -98,6 +98,7 @@
     <phrase title="pirateProfile_member" version_id="31" version_string="1.5.0 RC 1"><![CDATA[Member]]></phrase>
     <phrase title="pirateProfile_members_who_liked_this_pirate" version_id="15" version_string="1.0.0"><![CDATA[Members Who Liked This Pirate]]></phrase>
     <phrase title="pirateProfile_none" version_id="26" version_string="1.4.0"><![CDATA[None]]></phrase>
+    <phrase title="pirateProfile_notoriety" version_id="100" version_string="2.0.0 Beta 1"><![CDATA[Notoriety]]></phrase>
     <phrase title="pirateProfile_notoriety_level_too_low" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[The notoriety level is too low for some skill levels you've set.]]></phrase>
     <phrase title="pirateProfile_no_one_has_liked_this_pirate_yet" version_id="15" version_string="1.0.0"><![CDATA[No one has liked this pirate yet.]]></phrase>
     <phrase title="pirateProfile_owner" version_id="31" version_string="1.5.0 RC 1"><![CDATA[Owner]]></phrase>
@@ -108,7 +109,6 @@
     <phrase title="pirateProfile_pirate_guild" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Guild]]></phrase>
     <phrase title="pirateProfile_pirate_level" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Level]]></phrase>
     <phrase title="pirateProfile_pirate_name" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Name]]></phrase>
-    <phrase title="pirateProfile_pirate_notoriety" version_id="4" version_string="1.0.0 Alpha 5"><![CDATA[Notoriety]]></phrase>
     <phrase title="pirateProfile_pirate_picture" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Pirate Picture]]></phrase>
     <phrase title="pirateProfile_pirate_rank" version_id="46" version_string="1.8.5"><![CDATA[Rank]]></phrase>
     <phrase title="pirateProfile_pirate_x" version_id="20" version_string="1.2.1"><![CDATA[Pirate: {pirate}]]></phrase>
@@ -183,7 +183,7 @@
     <phrase title="pirateProfile_x_liked_your_pirate" version_id="18" version_string="1.1.0"><![CDATA[{name} liked your pirate: <a {pirate_attributes}>{pirate}</a>.]]></phrase>
     <phrase title="pirateProfile_x_liked_ys_pirate" version_id="15" version_string="1.0.0"><![CDATA[{name} liked {username}'s pirate: <a {pirate_attributes}>{pirate}</a>]]></phrase>
     <phrase title="pirateProfile_your_pirates" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Your Pirates]]></phrase>
-    <phrase title="pirateProfile_you_have_not_entered_any_pirates" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[You have not entered any pirates]]></phrase>
+    <phrase title="pirateProfile_you_have_not_entered_any_pirates" version_id="100" version_string="2.0.0 Beta 1"><![CDATA[You have not entered any pirates.]]></phrase>
     <phrase title="pirateProfile_you_sure_you_want_to_like_this_pirate" version_id="15" version_string="1.0.0"><![CDATA[Are you sure you want to like this pirate?]]></phrase>
     <phrase title="pirateProfile_you_sure_you_want_to_unlike_this_pirate" version_id="15" version_string="1.0.0"><![CDATA[Are you sure you want to unlike this pirate?]]></phrase>
     <phrase title="pollsList_there_no_polls_to_display" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[There are no polls to display.]]></phrase>
@@ -392,7 +392,7 @@
 
 <dl class="ctrlUnit">
 	<dt>
-                <label for="ctrl_pirateProfile_level">{xen:phrase pirateProfile_pirate_notoriety} {xen:phrase pirateProfile_pirate_level}:</label>
+                <label for="ctrl_pirateProfile_level">{xen:phrase pirateProfile_notoriety} {xen:phrase pirateProfile_pirate_level}:</label>
                 <dfn class="required">{xen:phrase pirateProfile_required}</dfn>
         </dt>
 	<dd><input type="text" name="level" value="{$pirate.level}" id="ctrl_pirateProfile_level" class="textCtrl" /></dd>
@@ -801,8 +801,9 @@ div.label,
                         <xen:if is="{$pirate.permissions.comment}">
 				<a href="{xen:link 'pirates/comment', $pirate}" class="CommentPoster item control postComment" data-commentArea="#pirate-commentSubmit-{$pirate.pirate_id}"><span></span>{xen:phrase comment}</a>
 			</xen:if>
-
-                        <ol class="messageResponse messageSimple">
+                        
+                        <div class="messageSimple">
+                        <ol class="messageResponse">
 
 			        <li id="likes-wp-p-{$pirate.pirate_id}">
 				        <xen:if is="{$pirate.likes}">
@@ -839,6 +840,7 @@ div.label,
 			</xen:if>
 
 		        </ol>
+                        </div>
 
                 </div>
 	</div>
@@ -849,7 +851,7 @@ div.label,
         });
         </script>
 </div>]]></template>
-    <template title="pirateProfile_pirate_card.css" version_id="60" version_string="2.0.0"><![CDATA[#pirateProfile #cardLoader
+    <template title="pirateProfile_pirate_card.css" version_id="100" version_string="2.0.0 Beta 1"><![CDATA[#pirateProfile #cardLoader
 {
 	min-height: 500px;
 }
@@ -1070,13 +1072,6 @@ div.label,
 {
         list-style: none !important;
         margin-left: 0 !important;
-}
-
-.messageSimple .comment,
-.messageSimple .secondaryContent
-{
-    
-    max-width: 380px;
 }]]></template>
     <template title="pirateProfile_pirate_comment" version_id="61" version_string="2.0.0"><![CDATA[<li class="comment secondaryContent">
 	<xen:avatar user="$comment" size="s" img="true" />
