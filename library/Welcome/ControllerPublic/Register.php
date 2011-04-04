@@ -16,11 +16,12 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 	
 	protected function _fireConversation($recipient)
 	{
-		$options    = XenForo_Application::get('options');
+		$options = XenForo_Application::get('options');
 		
-		$title      = $options->welcomeUsers_title;
-		$senders    = explode(',', $options->welcomeUsers_senders);
-		$recipients = array($recipient);
+		$title   = $options->welcomeUsers_title;
+		$senders = $options->welcomeUsers_senders;
+		
+		$senders = explode(',', $options->welcomeUsers_senders);
 		/*$messages   = explode(',', $options->welcomeUsers_messages);*/
 		
 		$davy      = 
@@ -53,7 +54,7 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 				
 	    $messages = array($davy, $treasurer);
 		
-		$conversation['recipients'] = array_merge($senders, $recipients);
+		$conversation['recipients'] = array_merge($senders, array($recipient));
 		
 		
 		$ids = array();
@@ -70,10 +71,11 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 				$conversation['open_invite']         = 0;
 				$conversation['conversation_locked'] = 0;
 				
-				$conversation['from']['name']        = $senders[$i];
-				$ids[]                               = $inviteUser['user_id'];
-				$conversation['from']['id']          = $ids[$i];
+				$conversation['from']['name']        = $inviteUser['username'];
+				$conversation['from']['id']          = $inviteUser['user_id'];
 				$conversation['message']             = $message;
+				
+				$ids[] = $inviteUser['user_id'];
 				
 				$conversationData = $this->_startConversation($conversation, $inviteUser);
 				$conversation['conversation_id'] = $conversationData['conversation_id'];
@@ -85,13 +87,16 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 					$senders[$i] = end($senders);
 				}
 				
-				$conversation['from']['name'] = $senders[$i];
-				$ids[]                        = $this->_getUserByName($senders[$i], true);
-				$conversation['from']['id']   = $ids[$i];
+				$replyUser = $this->_getUserByName($senders[$i]);
+				
+				$conversation['from']['name'] = $replyUser['username'];
+				$conversation['from']['id']   = $replyUser['user_id'];
 				$conversation['message_date'] = $conversationData['last_message_date'] + $i;
 				$conversation['message']      = $message;
 				
-				$this->_replyConversation($conversation);
+				$ids[] = $replyUser['user_id'];
+				
+				$this->_replyConversation($conversation, $replyUser);
 			}
 			
 			$i++;
@@ -121,11 +126,12 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 		return $conversationData;
 	}
 	
-	protected function _replyConversation($conversation)
+	protected function _replyConversation($conversation, $replyUser)
 	{
 		$conversation['message'] = XenForo_Helper_String::autoLinkBbCode($conversation['message']);
 		
 		$messageDw = XenForo_DataWriter::create('XenForo_DataWriter_ConversationMessage');
+		$messageDw->setExtraData(XenForo_DataWriter_ConversationMessage::DATA_MESSAGE_SENDER, $replyUser);
 		$messageDw->set('conversation_id', $conversation['conversation_id']);
 		$messageDw->set('user_id', $conversation['from']['id']);
 		$messageDw->set('username', $conversation['from']['name']);
