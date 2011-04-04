@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="conversationAttachments" title="Conversation Attachments" version_string="1.0.0" version_id="0" url="http://xenforo.com/community/members/jeremy-p.450/" install_callback_class="ConversationAttachments_Install" install_callback_method="install" uninstall_callback_class="ConversationAttachments_Install" uninstall_callback_method="uninstall">
+<addon addon_id="conversationAttachments" title="Conversation Attachments" version_string="1.0.1" version_id="1" url="http://xenforo.com/community/members/jeremy-p.450/" install_callback_class="ConversationAttachments_Install" install_callback_method="install" uninstall_callback_class="ConversationAttachments_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -9,6 +9,7 @@
     <listener event_id="load_class_controller" execute_order="10" callback_class="ConversationAttachments_Listener" callback_method="loadClassController" active="1" description="Extends controllers"/>
     <listener event_id="load_class_datawriter" execute_order="10" callback_class="ConversationAttachments_Listener" callback_method="loadClassDatawriter" active="1" description="Extends datawriters"/>
     <listener event_id="load_class_model" execute_order="10" callback_class="ConversationAttachments_Listener" callback_method="loadClassModel" active="1" description="Extends models"/>
+    <listener event_id="load_class_view" execute_order="10" callback_class="ConversationAttachments_Listener" callback_method="loadClassView" active="1" description="Extends views"/>
   </code_event_listeners>
   <cron/>
   <email_templates/>

@@ -12,12 +12,12 @@ class ConversationAttachments_AttachmentHandler_ConversationMessage extends XenF
 
 	protected function _canViewAttachment(array $attachment, array $viewingUser)
 	{
-		if (!XenForo_Permission::hasPermission($viewingUser['permissions'], 'conversation', 'viewAttachments'))
+		$conversationModel = $this->_getConversationModel();
+		
+		if (!$conversationModel->canViewAttachments())
 		{
 			return false;
 		}
-		
-		$conversationModel = $this->_getConversationModel();
 		
 		$message = $conversationModel->getConversationMessageById($attachment['content_id']);
 		$user    = $conversationModel->getConversationRecipient($message['conversation_id'], $viewingUser['user_id']);

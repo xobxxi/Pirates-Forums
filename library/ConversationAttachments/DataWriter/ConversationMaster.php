@@ -2,10 +2,8 @@
 
 class ConversationAttachments_DataWriter_ConversationMaster extends XFCP_ConversationAttachments_DataWriter_ConversationMaster
 {
-	protected function _preDelete()
+	protected function _postDelete()
 	{
-		parent::_preDelete();
-		
 		$this->_getConversationModel()->unassociateAttachmentsFromConversationById($this->get('conversation_id'));
 	}
 }

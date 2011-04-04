@@ -68,6 +68,12 @@ class ConversationAttachments_Model_Conversation extends XFCP_ConversationAttach
 		return XenForo_Permission::hasPermission($viewingUser['permissions'], 'conversation', 'addAttachments');
 	}
 	
+	public function canViewAttachments(array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+		return XenForo_Permission::hasPermission($viewingUser['permissions'], 'conversation', 'viewAttachments');
+	}
+	
 	public function unassociateAttachmentsFromConversationById($id)
 	{
 		$messages = $this->fetchAllKeyed('

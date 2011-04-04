@@ -11,7 +11,7 @@ class ConversationAttachments_Listener
 				break;
 		}
 	}
-	
+
 	public static function loadClassModel($class, array &$extend)
 	{
 		switch ($class)
@@ -21,7 +21,7 @@ class ConversationAttachments_Listener
 				break;
 		}
 	}
-	
+
 	public static function loadClassDatawriter($class, array &$extend)
 	{
 		switch ($class)
@@ -34,4 +34,20 @@ class ConversationAttachments_Listener
 				break;
 		}
 	}
+
+        public static function loadClassView($class, array &$extend)
+        {
+            switch ($class)
+            {
+                case 'XenForo_ViewPublic_Conversation_View':
+                    $extend[] = 'ConversationAttachments_ViewPublic_Conversation_View';
+                    break;
+				case 'XenForo_ViewPublic_Conversation_ViewMessage':
+		    		$extend[] = 'ConversationAttachments_ViewPublic_Conversation_ViewMessages';
+		    		break;
+				case 'XenForo_ViewPublic_Conversation_ViewNewMessages':
+		    		$extend[] = 'ConversationAttachments_ViewPublic_Conversation_ViewNewMessages';
+		    		break;
+            }
+        }
 }

@@ -77,7 +77,7 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		$pirateNewsFeedModel = $this->_getPiratesNewsFeedModel();
 		$forumModel          = $this->_getForumModel();
 
-		$blogs = $pirateNewsFeedModel->registry();
+		$blogs = $pirateNewsFeedModel->_modelRegistry();
 		if (!$blogs) {
 			$blogs = $pirateNewsFeedModel->feed($forumId, $itemsCount);
 		}
