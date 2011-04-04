@@ -2,10 +2,72 @@
 
 class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_ControllerPublic_Forum
 {
+	Const POSTER_RAMDOM = 1;
+
 	/**
 	 *
-	 * Mark an specific news article as "not posted" TODO: check permissions, getSessionActivityDetailsForList
+	 * Mark an specific news article as "not posted"
 	 */
+	function ActionMarkNotposted()
+	{
+		$news_id = $this->_input->filterSingle('news_id', XenForo_Input::INT);
+
+		$model = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
+
+		if(!$news_id) {
+			return $this->_genericError();
+		}
+		$model = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
+		$model->markNotPosted($news_id);
+
+		return $this->_genericView();
+	}
+
+	/**
+	 *
+	 * Marks an specific news article as "posted"
+	 */
+	function ActionMarkPosted()
+	{
+		$news_id = $this->_input->filterSingle('news_id', XenForo_Input::INT);
+
+		if(!$news_id) {
+			return $this->_genericError();
+		}
+		$model = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
+		$model->markPosted($news_id);
+
+		return $this->_genericView();
+	}
+
+	/**
+	 *
+	 * Generic message showing an action was done to avoid too much redundancy.
+	 */
+	function _genericView()
+	{
+
+		$viewParams = array();
+		return $this->responseView(
+			'PiratesNewsFeed_ViewPublic_Forum_Yo', // This is a fictional class, don't worry about why I guess lol
+			'PiratesNewsFeed_news_success_generic',
+			$viewParams
+		);
+	}
+
+	/**
+	 *
+	 * Generic Error
+	 */
+	function _genericError()
+	{
+		$viewParams = array();
+		return $this->responseView(
+			'PiratesNewsFeed_ViewPublic_Forum_Yo', // This is a fictional class, don't worry about why I guess lol
+			'PiratesNewsFeed_generic_error',
+			$viewParams
+		);
+	}
 
 	/**
 	 *
@@ -13,31 +75,31 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 	 */
 	public function actionDisplayNews()
 	{
-		$options = XenForo_Application::get('options');
-		$forumId = $options->piratesNewsFeed_news_forum_id;
-		
-		$pirateNewsFeedModel = $this->_getPirateNewsFeedModel();
+		$visitor = XenForo_Visitor::getInstance();
 
-		$blogs = $pirateNewsFeedModel->registry();
-		if(empty($blogs))
-		{
-			$blogs = $pirateNewsFeedModel->feed($forumId, $options->news_count);
+		$options = XenForo_Application::get('options');
+		$itemsCount = $options->news_count;
+		$forum_id = $options->news_forum_id;
+
+		$model  = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
+
+		$blogs = $model->registry();
+		if(!$blogs) {
+			$blogs = $model->feed($forum_id, $itemsCount);
 		}
 
-		$forumModel = $this->_getForumModel();
-		$forum      = $forumModel->getForumById($forumId);
+		$model = XenForo_Model::create('XenForo_Model_Forum');
+		$forum = $model->getForumById($forum_id);
 
-		$visitor = XenForo_Visitor::getInstance();
-		
 		$viewParams = array(
-			'blog'          => $blogs,
+			'blog' => $blogs,
 			'canManageNews' => $visitor['is_admin'],
-			'forum'         => $forum
+			'refreshLink' => XenForo_Link::buildPublicLink("forums/refreshNews",$forum)
 		);
 
 		return $this->responseView(
-			'PiratesNewsFeed_ViewPublic_Forum_DisplayNews',
-			'piratesNewsFeed_news',
+			'PiratesNewsFeed_ViewPublic_Forum_Yo', // This is a fictional class, don't worry about why I guess lol
+			'PiratesNewsFeed_news_template',
 			$viewParams
 		);
 	}
@@ -46,135 +108,100 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 	 *
 	 * Removes news feed from cache so it can be fetched/refreshed again
 	 */
-	public function actionRefreshNews()
-	{		
-		$this->_getPirateNewsFeedModel()->deleteRegistry();
+	function ActionRefreshNews()
+	{
+		$model  = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
 
-		$options = XenForo_Application::get('options');
-		
-		$forum = $this->_getForumModel()->getForumById($options->piratesNewsFeed_news_forum_id);
-		
-		return $this->responseRedirect(
-			XenForo_ControllerResponse_Redirect::RESOURCE_CREATED, //change response
-			XenForo_Link::buildPublicLink('forums/display-news', $forum),
-			new XenForo_Phrase(
-				   'pirateProfile_the_pirate_has_been_saved_successfully' //change phrase
-			)
-		);
+		$registry = $this->getModelFromCache('XenForo_Model_DataRegistry');
+
+		$registry->delete('PiratesNewsFeedCache');
+
+		//$this->actionDisplayNews();
+
+		return $this->_genericView();
 	}
 
 	/**
 	 *
 	 * Post a news article to the news forum
 	 */
-	public function actionPostNews()
+	public function ActionPostNews()
 	{
 		$options = XenForo_Application::get('options');
 		$forum_id = $options->news_forum_id;
-		$user_ids = explode(',', $options->news_users);
+		$user_ids = explode(",",$options->news_users);
 		$poster = $options->news_poster_options;
 		$news_group_id = $options->news_group_id;
 
-		$piratesNewsFeedModel = $this->_getPirateNewsFeedModel();
-		$blogs = $piratesNewsFeedModel->registry(); // what if nothing is returned? is that possible? double check above code, which checks first for a registry
+		$viewParams = array();
+
+		$model  = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
+
+		$registry = $this->getModelFromCache('XenForo_Model_DataRegistry');
+
+		$blogs = $registry->get('PiratesNewsFeedCache');
 
 		$news_id = $this->_input->filterSingle('news_id', XenForo_Input::INT);
-		// what if this isn't specified? we need to error out
+
 		$news = $blogs[$news_id];
-		// if this doesn't exist, error out
 
-		$message = $piratesNewsFeedModel->fetch($news['url']);
-		// so THIS is where fetch() is used..
-		
-		if (!preg_match("/\<div class\=\"news_body\"\>(.+)\t+\s+\<br\>\<br\>/sm", $message, $out))
-		{
-			preg_match("/\<div class\=\"news_body\"\>(.+)\n\s+\<div class\=\"next\-previous\"\>/sm", $message, $out);
+		$message = $model->fetch($news['url']);
+
+		if(!$message) {
+			//$this->error(new XenForo_Phrase('error_msg'), 'group_id');
+			return $this->responseView(
+				'PiratesNewsFeed_ViewPublic_Forum_Yo', // This is a fictional class, don't worry about why I guess lol
+				'PiratesNewsFeed_news_error',
+				$viewParams
+			);
+		}
+		$options = array('stripLinkPathTraversal' => XenForo_Visitor::isBrowsingWith('firefox'));
+		$new_message = trim(XenForo_Html_Renderer_BbCode::renderFromHtml($message, $options));
+
+		$user = $model->getNewsPoster();
+		if(!$user) {
+
+			if($poster == self::POSTER_RAMDOM && !$news_group_id) {
+				return $this->responseView(
+					'PiratesNewsFeed_ViewPublic_Forum', // This is a fictional class, don't worry about why I guess lol
+					'PiratesNewsFeed_news_no_postergroup',
+					$viewParams
+				);
+			} else {
+				return $this->responseView(
+					'PiratesNewsFeed_ViewPublic_Forum', // This is a fictional class, don't worry about why I guess lol
+					'PiratesNewsFeed_news_error',
+					$viewParams
+				);
+			}
+
 		}
 
-		if(empty($out))
-		{
-			return $this->responseError(new XenForo_Phrase('pirateNewsFeed_something_went_wrong_oh_no!')); // make phrase
-		}
-		
-		$options    = array('stripLinkPathTraversal' => XenForo_Visitor::isBrowsingWith('firefox')); // why is this?
-		$newMessage = trim(XenForo_Html_Renderer_BbCode::renderFromHtml(str_replace(array("\<br\>","<br />"), array("\n\n","\n\n"), $out[1]), $options));
+		$model->mkThread($forum_id, $user,str_replace("\\'","'",$news['title']).' '.$news['date'],$new_message);
 
-		$user = $piratesNewsFeedModel->getNewsPoster(); // look into this
+		$model->markPosted($news['stamp']);
 
-		PiratesForums_Helper_Thread::create($forum_id, $user, str_replace("\\'", "'", $news['title']).' '.$news['date'], $newMessage);
-
-		$piratesNewsFeedModel->markPosted($news['stamp']);
-
-		$piratesNewsFeedModel->injectCache($news_id, 'message', $newMessage); // what?
-
-		$viewParams = array();
 		return $this->responseView(
-			'PiratesNewsFeed_ViewPublic_Forum_PostNews',
+			'PiratesNewsFeed_ViewPublic_Forum_Yo',
 			'PiratesNewsFeed_news_posted',
 			$viewParams
 		);
 
 	}
-	
-	function actionMarkNotPosted()
-	{
-		$newsId = $this->_input->filterSingle('news_id', XenForo_Input::INT);
 
-		if(!$newsId)
-		{
-			return $this->responseError(new XenForo_Phrase('pirateNewsFeed_no_news_id_specified'));
-		}
-		
-		$this->_getPirateNewsFeedModel()->markNotPosted($newsId);
-		
-		$options = XenForo_Application::get('options');
-		
-		$forum = $this->_getForumModel()->getForumById($options->piratesNewsFeed_news_forum_id);
-		
-		return $this->responseRedirect(
-			XenForo_ControllerResponse_Redirect::RESOURCE_CREATED, // change response
-			XenForo_Link::buildPublicLink('forums/display-news', $forum),
-			new XenForo_Phrase(
-				   'pirateProfile_the_pirate_has_been_saved_successfully' // change phrase
-			)
-		);
-	}
+
 
 	/**
-	 *
-	 * Marks an specific news article as "posted"
+	 * this function is not used. Was added just for testing..
 	 */
-	function actionMarkPosted()
+	public function ActionTestCron()
 	{
-		$newsId = $this->_input->filterSingle('news_id', XenForo_Input::INT);
+		$model  = $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
+		$blogs = $model->runCron();
 
-		if(!$newsId)
-		{
-			return $this->responseError(new XenForo_Phrase('pirateNewsFeed_no_news_id_specified'));
-		}
-		
-		$this->_getPirateNewsFeedModel()->markPosted($newsId);
+		die("response..".print_r($blogs,1));
 
-		$options = XenForo_Application::get('options');
-		
-		$forum = $this->_getForumModel()->getForumById($options->piratesNewsFeed_news_forum_id);
-		
-		return $this->responseRedirect(
-			XenForo_ControllerResponse_Redirect::RESOURCE_CREATED, // change response 
-			XenForo_Link::buildPublicLink('forums/display-news', $forum),
-			new XenForo_Phrase(
-				   'pirateProfile_the_pirate_has_been_saved_successfully' // change phrase
-			)
-		);
 	}
-	
-	protected function _getPirateNewsFeedModel()
-	{
-		return $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
-	}
-	
-	protected function _getForumModel()
-	{
-		return $this->getModelFromCache('XenForo_Model_Forum');
-	}
+
+
 }
