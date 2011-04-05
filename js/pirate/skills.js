@@ -2,6 +2,9 @@
 !function($, window, document, _undefined)
 {
 	XenForo.setupSkills = function() {
+		
+		
+		
 		$('.pirateCard .pirateProfile div.pirateAvatar')
 			.css('position', 'relative')
 			.css('z-index', '2');
@@ -11,6 +14,7 @@
 		    function() { $(this).css('background-image', 'url(\'http://piratesoffline.org/pirates/card/handle/handle.gif\')')});
 	
 		$('.pirateCard .pirateSkills li').each(function() {
+			$(this).children().filter('div.pirateProgressBar').remove();
 			$(this).css('background-color', 'inherit').css('color', 'rgb(202, 202, 202)').css('margin-top', '3px').css('margin-bottom', '0');
 		
 			$(this).append('<div class="pirateProgressBar"><p></p></div>');
