@@ -259,11 +259,12 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		return $return;
 	}
 	
-	public function preparePirate($pirate, $censor = true)
+	public function preparePirate($pirate, $user, $censor = true)
 	{
 		$options = XenForo_Application::get('options');
 		
 		$pirate += array(
+			'founder'    => false,
 			'likeUsers'  => unserialize($pirate['like_users']),
 			'skills_set' => true,
 			'max'	     => array(
@@ -274,6 +275,12 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 			'skills'     => array(),
 			'ranks'      => array()
 		);
+		
+		$founderGroup = $options->pirateProfile_founderUserGroup;
+		if (!empty($user) && !empty($founderGroup))
+		{
+			$pirate['founder'] = $this->_getUserModel()->isMemberOfUserGroup($user, $founderGroup);
+		}
 		
 		$weapons = self::getWeapons();
 		$skills  = self::getSkills();
@@ -816,6 +823,11 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	protected function _hasPermission($permissions, $group, $permission)
 	{
 		return XenForo_Permission::hasPermission($permissions, $group, $permission);
+	}
+	
+	protected function _getUserModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_User');
 	}
 	
 	protected function _getAttachmentModel()

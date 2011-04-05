@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0 Beta 3" version_id="101" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0 Beta 4" version_id="102" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -14,6 +14,12 @@
   <email_templates/>
   <optiongroups>
     <group group_id="pirateProfile" display_order="1000" debug_only="0"/>
+    <option option_id="pirateProfile_founderUserGroup" edit_format="spinbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="pirateProfile" display_order="15"/>
+    </option>
     <option option_id="pirateProfile_maxLevelNotoriety" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>50</default_value>
       <edit_format_params></edit_format_params>
@@ -52,6 +58,8 @@
   <phrases>
     <phrase title="option_group_pirateProfile" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Pirate Profiles]]></phrase>
     <phrase title="option_group_pirateProfile_description" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Options for the Pirate Profiles]]></phrase>
+    <phrase title="option_pirateProfile_founderUserGroup" version_id="101" version_string="2.0.0 Beta 3"><![CDATA[Founder User Group]]></phrase>
+    <phrase title="option_pirateProfile_founderUserGroup_explain" version_id="101" version_string="2.0.0 Beta 3"><![CDATA[The user group for in-game Founders. The names of Pirates of people in this group will appear in gold.]]></phrase>
     <phrase title="option_pirateProfile_maxLevelNotoriety" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Max Notoriety Level]]></phrase>
     <phrase title="option_pirateProfile_maxLevelNotoriety_explain" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[The maximum notoriety level obtainable in-game.]]></phrase>
     <phrase title="option_pirateProfile_maxLevelSkill" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[Max Skill Level]]></phrase>
@@ -727,7 +735,7 @@ div.label,
         <li><a href="{xen:link pirates/add}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:phrase pirateProfile_add_pirate}</a></li>
         </xen:if>
 </ul>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="100" version_string="2.0.0 Beta 1"><![CDATA[<xen:require js="js/pirate/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="101" version_string="2.0.0 Beta 3"><![CDATA[<xen:require js="js/pirate/jquery-ui.js" />
 <xen:require js="js/pirate/skills.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
@@ -746,7 +754,7 @@ div.label,
 	<div class="pirateCard">
 		<div class="pirateProfile">
 			<div class="pirateTitle">
-				<p class="pirateName">{$pirate.name}</p>
+				<p class="pirateName {xen:if $pirate.founder, founder}">{$pirate.name}</p>
 				<p class="pirateGuild">{$pirate.guild}</p>
 			</div>
 			<div class="pirateAvatar">
@@ -851,7 +859,7 @@ div.label,
         });
         </script>
 </div>]]></template>
-    <template title="pirateProfile_pirate_card.css" version_id="100" version_string="2.0.0 Beta 1"><![CDATA[#pirateProfile #cardLoader
+    <template title="pirateProfile_pirate_card.css" version_id="101" version_string="2.0.0 Beta 3"><![CDATA[#pirateProfile #cardLoader
 {
 	min-height: 500px;
 }
@@ -889,6 +897,14 @@ div.label,
 	text-shadow: rgb(0,0,0) 1px 1px 1px;
 	font-weight: bold;
 	margin: 0;
+}
+
+.pirateCard .pirateProfile .pirateTitle p.pirateName.founder
+{
+	color: rgb(250,200,100);
+        background-image: url({xen:property imagePath}/card/founder.gif);
+        background-repeat: no-repeat;
+        background-position: 23px 23px;
 }
 
 .pirateCard .pirateProfile .pirateTitle p.pirateGuild

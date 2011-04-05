@@ -276,7 +276,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 		$pirateModel = $this->_getPirateModel();
 
-		$pirate = $pirateModel->preparePirate($pirate);
+		$pirate = $pirateModel->preparePirate($pirate, $user);
 
 		$pirate = $pirateModel->addPirateCommentsToPirate($pirate, array(
 			'join' => PirateProfile_Model_Pirate::FETCH_COMMENT_USER
