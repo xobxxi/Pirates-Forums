@@ -65,7 +65,7 @@
     <property property_name="formOverlayTextCtrlFocus" property_type="css"><![CDATA[{"background-image":"none"}]]></property>
     <property property_name="memberListItemGuest" property_type="css"><![CDATA[{"font-style":"italic","font-weight":"bold"}]]></property>
     <property property_name="profilePageTabHover" property_type="css"><![CDATA[{"background-color":"rgb(220, 53, 53)"}]]></property>
-    <property property_name="sidebarUserListUsernameInvisible" property_type="css"><![CDATA[[]]]></property>
+    <property property_name="sidebarUserListUsernameInvisible" property_type="css"><![CDATA[{"font-style":"italic"}]]></property>
     <property property_name="tab" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","border-color":"rgb(220, 53, 53)","border-style":"solid","border-top-left-radius":"5px","border-top-right-radius":"5px","border-width":"1px","color":"rgb(255, 255, 255)","extra":"display: inline-block;\nline-height: 18px;\ncursor: pointer;\noutline: 0 none;","height":"18px","margin-bottom":"-1px","margin-right":"-1px","padding-bottom":"0","padding-left":"5px","padding-right":"5px","padding-top":"0","text-decoration":{"none":"none"}}]]></property>
     <property property_name="discussionListItemPageNavLinkHover" property_type="css"><![CDATA[{"background-color":"rgb(198, 191, 160)","border-color":"rgb(220, 53, 53)","text-decoration":{"none":"none"}}]]></property>
     <property property_name="profilePageTabSelected" property_type="css"><![CDATA[{"background-image":"@imagePath\/images\/parchment.jpg","color":"rgb(55, 0, 0)"}]]></property>
