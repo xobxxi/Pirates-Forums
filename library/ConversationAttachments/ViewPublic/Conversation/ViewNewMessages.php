@@ -4,6 +4,11 @@ class ConversationAttachments_ViewPublic_Conversation_ViewNewMessages extends XF
 {
 	public function renderHtml()
 	{
+		if (!isset($this->_params['canViewAttachments']))
+		{
+			$this->_params['canViewAttachments'] = false;
+		}
+		
 		$bbCodeParser = new XenForo_BbCode_Parser(XenForo_BbCode_Formatter_Base::create('Base', array('view' => $this)));
 		$bbCodeOptions = array(
 			'states' => array(

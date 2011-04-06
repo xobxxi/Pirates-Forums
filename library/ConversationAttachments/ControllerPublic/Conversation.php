@@ -105,6 +105,10 @@ class ConversationAttachments_ControllerPublic_Conversation extends XFCP_Convers
 		$dw->setExistingData($messageId);
 		$dw->setExtraData('attachmentHash', $attachment['attachment_hash']);
 		$dw->save();
+		
+		$response->params += array(
+			'canViewAttachments' => $conversationModel->canViewAttachments()
+		);
 
 		return $response;
 	}
@@ -164,9 +168,15 @@ class ConversationAttachments_ControllerPublic_Conversation extends XFCP_Convers
 
 			$response->params['messages'][$lastMessage['message_id']] = $lastMessage;
 			$response->params['lastMessage'] = $lastMessage;
-
-			$response->params['messages'] = $this->_getConversationModel()->getAndMergeAttachmentsIntoMessages(
+			
+			$conversationModel = $this->_getConversationModel();
+			
+			$response->params['messages'] = $conversationModel->getAndMergeAttachmentsIntoMessages(
 				$response->params['messages']
+			);
+			
+			$response->params += array(
+				'canViewAttachments' => $conversationModel->canViewAttachments()
 			);
 		}
 
