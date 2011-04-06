@@ -3,10 +3,7 @@
 class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_ControllerPublic_Forum
 {
 	// TODO
-	// getSessionActivityDetailsForList()
-	// Proper error handling
 	// Customize templates
-	// Standardize options prefix
 	
 	Const POSTER_RANDOM = 1; // ?
 
@@ -20,12 +17,8 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 
 		$pirateNewsFeedModel = $this->_getPiratesNewsFeedModel();
 
-		if ($newsId) {
-			return $this->responseView(
-				'PiratesNewsFeed_ViewPublic_Forum_MarkNotPosted',
-				'PiratesNewsFeed_generic_error',
-				array()
-			);
+		if (!$newsId) {
+			$this->responseError(new XenForo_Phrase('piratesNewsFeed_no_news_id'));
 		}
 		
 		$pirateNewsFeedModel->markNotPosted($newsId);
@@ -46,11 +39,7 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		$newsId = $this->_input->filterSingle('news_id', XenForo_Input::INT);
 
 		if (!$newsId) {
-			return $this->responseView(
-				'PiratesNewsFeed_ViewPublic_Forum_MarkPosted',
-				'PiratesNewsFeed_generic_error',
-				array()
-			);
+			$this->responseError(new XenForo_Phrase('piratesNewsFeed_no_news_id'));
 		}
 		$pirateNewsFeedModel = $this->_getPiratesNewsFeedModel();
 		$pirateNewsFeedModel->markPosted($newsId);
@@ -71,8 +60,8 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		$visitor = XenForo_Visitor::getInstance();
 		$options = XenForo_Application::get('options');
 		
-		$itemsCount = $options->news_count;
-		$forumId    = $options->news_forum_id;
+		$itemsCount = $options->piratesNewsFeed_count;
+		$forumId    = $options->piratesNewsFeed_forumId;
 
 		$pirateNewsFeedModel = $this->_getPiratesNewsFeedModel();
 		$forumModel          = $this->_getForumModel();
@@ -87,7 +76,6 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		$viewParams = array(
 			'blog'          => $blogs,
 			'canManageNews' => $visitor['is_admin'], // move to actual permissions
-			'refreshLink'   => XenForo_Link::buildPublicLink("forums/refresh-news", $forum) // this can be built in the template
 		);
 
 		return $this->responseView(
@@ -107,8 +95,6 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 
 		$registryModel->delete('PiratesNewsFeedCache');
 
-		//$this->actionDisplayNews(); ??
-
 		return $this->responseView(
 			'PiratesNewsFeed_ViewPublic_Forum_MarkNotPosted',
 			'PiratesNewsFeed_news_success_generic',
@@ -124,10 +110,10 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 	{
 		$options = XenForo_Application::get('options');
 		
-		$forumId     = $options->news_forum_id;
-		$userIds     = explode(',', $options->news_users);
-		$poster      = $options->news_poster_options;
-		$newsGroupId = $options->news_group_id;
+		$forumId     = $options->piratesNewsFeed_forumId;
+		$userIds     = explode(',', $options->piratesNewsFeed_userIds);
+		$poster      = $options->piratesNewsFeed_poster;
+		$newsGroupId = $options->piratesNewsFeed_groupId;
 
 		$pirateNewsFeedModel = $this->_getPiratesNewsFeedModel();
 		$registryModel       = $this->_getDataRegistryModel();
@@ -141,12 +127,7 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		$message = $pirateNewsFeedModel->fetch($news['url']);
 
 		if (!$message) {
-			//$this->error(new XenForo_Phrase('error_msg'), 'group_id'); ??
-			return $this->responseView(
-				'PiratesNewsFeed_ViewPublic_Forum_PostNews',
-				'PiratesNewsFeed_news_error',
-				array()
-			);
+			$this->responseError(new XenForo_Phrase('piratesNewsFeed_no_news_item_found'));
 		}
 		
 		$options    = array('stripLinkPathTraversal' => XenForo_Visitor::isBrowsingWith('firefox'));
@@ -156,17 +137,9 @@ class PiratesNewsFeed_ControllerPublic_Forum extends XFCP_PiratesNewsFeed_Contro
 		
 		if (!$user) {
 			if ($poster == self::POSTER_RANDOM && !$newsGroupId) {
-				return $this->responseView(
-					'PiratesNewsFeed_ViewPublic_Forum_PostNews',
-					'PiratesNewsFeed_news_no_postergroup',
-					array()
-				);
+				$this->responseError(new XenForo_Phrase('piratesNewsFeed_no_news_group_set'));
 			} else {
-				return $this->responseView(
-					'PiratesNewsFeed_ViewPublic_Forum_PostNews',
-					'PiratesNewsFeed_news_error',
-					array()
-				);
+				$this->responseError(new XenForo_Phrase('piratesNewsFeed_no_news_user_available'));
 			}
 
 		}

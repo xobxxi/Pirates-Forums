@@ -89,9 +89,9 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			return;
 		}
 
-		$itemsCount = $xoptions->news_count;
-		$forum_id = $xoptions->news_forum_id;
-		$user_ids = explode(",",$xoptions->news_users);
+		$itemsCount = $xoptions->piratesNewsFeed_count;
+		$forum_id = $xoptions->piratesNewsFeed_forumId;
+		$user_ids = explode(",",$xoptions->piratesNewsFeed_userIds);
 
 		//get an instance of the Xenforo registry
 		$registry = XenForo_Model::create('XenForo_Model_DataRegistry');
@@ -269,7 +269,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 			$group = $this->getModelFromCache('Xenforo_Model_UserGroup');
 
 			//get user_ids from "news reporter" group
-			$user_ids = $group->getUserIdsInUserGroup($xoptions->news_group_id);
+			$user_ids = $group->getUserIdsInUserGroup($xoptions->piratesNewsFeed_groupId);
 
 			//this will get everyone in the group to an alert when the message is posted.
 			$watch = $this->getModelFromCache('XenForo_Model_ThreadWatch');
@@ -323,9 +323,9 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 	function getNewsPoster()
 	{
 		$xoptions = XenForo_Application::get('options');
-		$user_ids = explode(",",$xoptions->news_users);
-		$poster = $xoptions->news_poster_options;
-		$news_group_id = $xoptions->news_group_id;
+		$user_ids = explode(",",$xoptions->piratesNewsFeed_userIds);
+		$poster = $xoptions->piratesNewsFeed_poster;
+		$news_group_id = $xoptions->piratesNewsFeed_groupId;
 
 		/**
 		 * This swtich uses admin option to determine what user will post the news article.
@@ -673,5 +673,17 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model {
 		$this->_getDataRegistryModel()->set('PiratesNewsFeedCache', $blogs);
 
 		return self::$blogs = $blogs;
+	}
+	
+	public function canCheckForUpdates($viewingUser = null, &$errorPhraseKey = '')
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+		
+		if (!$viewingUser['user_id'])
+		{
+			return false;
+		}
+		
+		return XenForo_Permission::hasPermission($viewingUser['permissions'], 'forum', 'check4Updates');
 	}
 }

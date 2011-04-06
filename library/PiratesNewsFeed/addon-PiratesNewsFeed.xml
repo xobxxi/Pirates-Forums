@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="PiratesNewsFeed" title="Pirates News Feed" version_string="1.0" version_id="1" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="PiratesNewsFeed" title="Pirates News Feed" version_string="1.0" version_id="2" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -7,7 +7,8 @@
   <code_events/>
   <code_event_listeners>
     <listener event_id="load_class_controller" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="loadClassListener" active="1" description="XenForo_ControllerPublic_Account class"/>
-    <listener event_id="template_hook" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="checkNews" active="1" description="Button to check news on pirates site"/>
+    <listener event_id="template_create" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
+    <listener event_id="template_hook" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="templateHook" active="1" description="Button to check news on pirates site"/>
   </code_event_listeners>
   <cron>
     <entry entry_id="PiratesNewsFeed1" cron_class="PiratesNewsFeed_Model_PiratesNewsFeed" cron_method="runCron" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["10"],"minutes":["0"]}]]></entry>
@@ -16,25 +17,25 @@
   <email_templates/>
   <optiongroups>
     <group group_id="PiratesNewFeed" display_order="1" debug_only="0"/>
-    <option option_id="news_count" edit_format="textbox" data_type="string" can_backup="1">
-      <default_value>6</default_value>
-      <edit_format_params></edit_format_params>
-      <sub_options></sub_options>
-      <relation group_id="PiratesNewFeed" display_order="1"/>
-    </option>
-    <option option_id="news_forum_id" edit_format="textbox" data_type="string" can_backup="1">
-      <default_value>2</default_value>
-      <edit_format_params></edit_format_params>
-      <sub_options></sub_options>
-      <relation group_id="PiratesNewFeed" display_order="1"/>
-    </option>
-    <option option_id="news_group_id" edit_format="textbox" data_type="string" can_backup="1">
+    <option option_id="pirateNewsFeed_groupId" edit_format="textbox" data_type="string" can_backup="1">
       <default_value></default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
       <relation group_id="PiratesNewFeed" display_order="1"/>
     </option>
-    <option option_id="news_poster_options" edit_format="select" data_type="string" can_backup="1">
+    <option option_id="piratesNewsFeed_count" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>6</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="PiratesNewFeed" display_order="1"/>
+    </option>
+    <option option_id="piratesNewsFeed_forumId" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>2</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="PiratesNewFeed" display_order="1"/>
+    </option>
+    <option option_id="piratesNewsFeed_poster" edit_format="select" data_type="string" can_backup="1">
       <default_value>1</default_value>
       <edit_format_params>1=Random (check4news permission)
 2=Poster ID (below)
@@ -43,7 +44,7 @@
       <sub_options></sub_options>
       <relation group_id="PiratesNewFeed" display_order="1"/>
     </option>
-    <option option_id="news_users" edit_format="textbox" data_type="string" can_backup="1">
+    <option option_id="piratesNewsFeed_userIds" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>2</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
@@ -64,40 +65,27 @@
     <phrase title="latest_news_from_pirates_online" version_id="1" version_string="1.0"><![CDATA[Latest News From Pirates Online]]></phrase>
     <phrase title="option_group_PiratesNewFeed" version_id="1" version_string="1.0"><![CDATA[Pirates New Feed]]></phrase>
     <phrase title="option_group_PiratesNewFeed_description" version_id="1" version_string="1.0"><![CDATA[Fetch news feeds from piratesonline.com]]></phrase>
-    <phrase title="option_news_count" version_id="1" version_string="1.0"><![CDATA[News Count]]></phrase>
-    <phrase title="option_news_count_explain" version_id="1" version_string="1.0"><![CDATA[How many news are appropriate to be considered latest news?]]></phrase>
-    <phrase title="option_news_forum_id" version_id="1" version_string="1.0"><![CDATA[News Forum ID]]></phrase>
-    <phrase title="option_news_forum_id_explain" version_id="1" version_string="1.0"><![CDATA[Enter the id of the news forum where news will be posted.]]></phrase>
-    <phrase title="option_news_group_id" version_id="1" version_string="1.0"><![CDATA[Group ID]]></phrase>
-    <phrase title="option_news_group_id_explain" version_id="1" version_string="1.0"><![CDATA[News Reporter/Poster ID]]></phrase>
-    <phrase title="option_news_poster_options" version_id="1" version_string="1.0"><![CDATA[Poster ID Option]]></phrase>
-    <phrase title="option_news_poster_options_explain" version_id="1" version_string="1.0"><![CDATA[Define "who"  news will be posted as.]]></phrase>
-    <phrase title="option_news_users" version_id="1" version_string="1.0"><![CDATA[Poster ID]]></phrase>
-    <phrase title="option_news_users_explain" version_id="1" version_string="1.0"><![CDATA[News poster user ID. You may enter more than one by separating by comma  (a random id would be picked).]]></phrase>
+    <phrase title="option_pirateNewsFeed_groupId" version_id="1" version_string="1.0"><![CDATA[Group ID]]></phrase>
+    <phrase title="option_pirateNewsFeed_groupId_explain" version_id="1" version_string="1.0"><![CDATA[News Reporter/Poster ID]]></phrase>
+    <phrase title="option_piratesNewsFeed_count" version_id="1" version_string="1.0"><![CDATA[News Count]]></phrase>
+    <phrase title="option_piratesNewsFeed_count_explain" version_id="1" version_string="1.0"><![CDATA[How many news are appropriate to be considered latest news?]]></phrase>
+    <phrase title="option_piratesNewsFeed_forumId" version_id="1" version_string="1.0"><![CDATA[News Forum ID]]></phrase>
+    <phrase title="option_piratesNewsFeed_forumId_explain" version_id="1" version_string="1.0"><![CDATA[Enter the id of the news forum where news will be posted.]]></phrase>
+    <phrase title="option_piratesNewsFeed_poster" version_id="1" version_string="1.0"><![CDATA[Poster ID Option]]></phrase>
+    <phrase title="option_piratesNewsFeed_poster_explain" version_id="1" version_string="1.0"><![CDATA[Define "who"  news will be posted as.]]></phrase>
+    <phrase title="option_piratesNewsFeed_userIds" version_id="1" version_string="1.0"><![CDATA[Poster ID]]></phrase>
+    <phrase title="option_piratesNewsFeed_userIds_explain" version_id="1" version_string="1.0"><![CDATA[News poster user ID. You may enter more than one by separating by comma  (a random id would be picked).]]></phrase>
     <phrase title="permission_forum_check4Updates" version_id="1" version_string="1.0"><![CDATA[check4Updates]]></phrase>
+    <phrase title="piratesNewsFeed_check_news" version_id="1" version_string="1.0"><![CDATA[Check News]]></phrase>
+    <phrase title="piratesNewsFeed_no_news_group_set" version_id="1" version_string="1.0"><![CDATA[No news group is set.]]></phrase>
+    <phrase title="piratesNewsFeed_no_news_id" version_id="1" version_string="1.0"><![CDATA[No news ID was specified.]]></phrase>
+    <phrase title="piratesNewsFeed_no_news_item_found" version_id="1" version_string="1.0"><![CDATA[The news item could not be fetched.]]></phrase>
+    <phrase title="piratesNewsFeed_no_news_user_available" version_id="1" version_string="1.0"><![CDATA[No news user is available.]]></phrase>
   </phrases>
   <route_prefixes/>
   <style_properties/>
   <templates>
-    <template title="check4updates" version_id="1" version_string="1.0"><![CDATA[ <template title="subscribeUsers_input" version_id="2" version_string="1.0.2">
-
-        <dl class="ctrlUnit">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                <dt><label for="ctrl_subscribe_users">{xen:phrase check5updates_now}:</label></dt>
-                <dd><input type="text" name="subscribe_users" class="textCtrl AutoComplete" id="ctrl_subscribe_users" maxlength="100" />
-                <p class="explain">{xen:phrase click_here_to_check4updates}</p></dd>
-        </dl>
-<![CDATA[<xen:if is="{$check4updatesNow}">
-</xen:if>]]]]><![CDATA[></template>]]></template>
-    <template title="check4updates_link" version_id="1" version_string="1.0"><![CDATA[<xen:if is="{$check4updates}">
-        <dl class="ctrlUnit">
-                <dt><label for="ctrl_subscribe_users">{xen:phrase subscribeUsers_subscribe_users}:</label></dt>
-                <dd>
-{xen:phrase yo_ho_ho}
-                <p class="explain">{xen:phrase separate_names_with_comma}</p>
-</dd>
-        </dl>
-
-</xen:if>]]></template>
+    <template title="piratesNewsFeed_forum_link" version_id="1" version_string="1.0"><![CDATA[<a href="{xen:link forums/display-news, $forum}" class="OverlayTrigger">{xen:phrase piratesNewsFeed_check_news}</a>]]></template>
     <template title="PiratesNewsFeed_news_error" version_id="1" version_string="1.0"><![CDATA[<div id="a1" class="sectionMain">
 News were not posted. 
 
