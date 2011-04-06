@@ -105,8 +105,7 @@
     <property property_name="animationSpeedMultiplier" property_type="scalar"><![CDATA[1]]></property>
   </properties>
   <templates>
-    <template title="ad_below_content" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:hook name="ad_below_content">
-<xen:include template="dark_azucloud" />
+    <template title="ad_below_bottom_breadcrumb" addon_id="XenForo" version_id="1000170" version_string="1.0.1"><![CDATA[<xen:hook name="ad_below_bottom_breadcrumb">
 
 <div id="adsenseFooter">
 <script type="text/javascript"><!--
@@ -121,6 +120,10 @@ google_ad_height = 90;
 src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 </div>
+
+</xen:hook>]]></template>
+    <template title="ad_below_content" addon_id="XenForo" version_id="1000170" version_string="1.0.1"><![CDATA[<xen:hook name="ad_below_content">
+<xen:include template="dark_azucloud" />
 </xen:hook>]]></template>
     <template title="ad_sidebar_bottom" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:hook name="ad_sidebar_bottom">
 <div class="section">
@@ -137,14 +140,15 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 </div>
 </xen:hook>]]></template>
-    <template title="conversation_add" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase start_new_conversation}</xen:title>
+    <template title="conversation_add" addon_id="XenForo" version_id="1000170" version_string="1.0.1"><![CDATA[<xen:title>{xen:phrase start_new_conversation}</xen:title>
 
 <xen:navigation>
 	<xen:breadcrumb href="{xen:link full:conversations}">{xen:phrase conversations}</xen:breadcrumb>
 </xen:navigation>
 
-<form action="{xen:link 'conversations/insert'}" method="post" class="xenForm Preview"
+<form action="{xen:link 'conversations/insert'}" method="post" class="xenForm Preview AutoValidator"
 	data-previewUrl="{xen:link conversations/preview}"
+	data-redirect="on"
 >
 	<dl class="ctrlUnit">
 		<dt><label for="ctrl_recipients">{xen:phrase participants}:</label></dt>
@@ -183,7 +187,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 		</dd>
 	</dl>
 
-	<xen:if is="{$attachmentParams}">
+        <xen:if is="{$attachmentParams}">
 		<dl class="ctrlUnit AttachedFilesUnit">
 			<dt><label for="ctrl_uploader">{xen:phrase attached_files}:</label></dt>
 			<dd><xen:include template="attachment_editor" /></dd>
@@ -300,7 +304,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="EXTRA.css" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[/* login bar */
+    <template title="EXTRA.css" addon_id="XenForo" version_id="1000170" version_string="1.0.1"><![CDATA[/* login bar */
 #loginBar
 {
 	color: rgb(252, 252, 255) !important; /* white text */
@@ -497,7 +501,7 @@ ul.autoCompleteList li.selected
 
 /* member card */
 .xenOverlay.memberCard .muted,
-.xenOverlay.memberCard .userInfo .userStats th,
+.xenOverlay.memberCard .userStats.pairsInline dt,
 .xenOverlay.memberCard .lastActivity dt
 {
         color: rgb(150, 150, 150) !important;
@@ -663,6 +667,38 @@ blockquote .bbCodeQuote aside .attribution a:hover
     -khtml-transform: rotate(180deg);
 }
 */]]></template>
+    <template title="PiratesNewsFeed_news_template" addon_id="PiratesNewsFeed" version_id="1" version_string="1.0"><![CDATA[<div id="a1" class="sectionMain">
+	<xen:title>{xen:phrase latest_news_from_pirates_online} &nbsp;&nbsp; <a class="OverlayTrigger" href="{xen:link .postLink}" target="_blank"><img src='http://piratesforums.com/data/refresh.png' title='Refresh' border='0'/></a></xen:title> 
+	
+	<xen:foreach loop="$blog" value="$news">
+		<xen:if is="{$news.stamp}">
+			<ol>
+				<li class="subHeading">
+					<a href="{$news.url}" target="_blank">{xen:helper bodytext, $news.title}</a> ( {xen:helper bodytext, $news.date} )
+				</li>
+				<li>
+					<div class="commentInfo">
+						<div class="commentContent">
+						<article>
+							<blockquote>
+							{xen:helper bodytext, $news.message}
+						
+							<a href="{$news.url}" target="_blank">View</a> / <a href="{$news.postLink}" target="_blank" onclick="var r = confirm(' {xen:phrase are_you_sure_about_posting_these_news} {$news.title}?'); if(!r) { return false; }">Post These News!</a>
+							<xen:if is="{$canManageNews}"> 
+							/ <a href="{$news.url}" target="_blank" class="OverlayTrigger">Mark as Posted</a>
+							</xen:if>
+							</blockquote>
+						</article>
+						</div>
+					</div>
+				</li>
+			
+			</ol>
+		</xen:if>
+	</xen:foreach>
+
+</div>
+]]></template>
     <template title="profile_post_comment" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:require css="commentsPlus_profile_post_comment_likes.css" />
 
 <li class="comment secondaryContent">
