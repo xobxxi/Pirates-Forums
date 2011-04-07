@@ -1,14 +1,7 @@
 <?php
 
 class PiratesNewsFeed_Listener
-{
-	public static function loadClassListener($class, array &$extend)
-	{
-		if ($class == 'XenForo_ControllerPublic_Forum') {
-			$extend[] = 'PiratesNewsFeed_ControllerPublic_Forum';
-		}
-	}
-	
+{	
 	public static function templateCreate(&$templateName, array &$params, XenForo_Template_Abstract $template)
 	{
 		switch ($templateName)
@@ -21,7 +14,7 @@ class PiratesNewsFeed_Listener
 
 	public static function templateHook($hookName, &$contents, array $hookParams , XenForo_Template_Abstract $template)
 	{
-        switch($hookName) {
+        switch ($hookName) {
         	case 'forum_view_pagenav_before':
 
 				$piratesNewsFeedModel = XenForo_Model::create('PiratesNewsFeed_Model_PiratesNewsFeed');
