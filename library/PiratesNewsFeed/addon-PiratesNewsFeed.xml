@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="PiratesNewsFeed" title="Pirates News Feed" version_string="1.0" version_id="2" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="PiratesNewsFeed" title="Pirates News Feed" version_string="1.0" version_id="3" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates/>
   <code_events/>
   <code_event_listeners>
-    <listener event_id="load_class_controller" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="loadClassListener" active="1" description="XenForo_ControllerPublic_Account class"/>
     <listener event_id="template_create" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
     <listener event_id="template_hook" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="templateHook" active="1" description="Button to check news on pirates site"/>
   </code_event_listeners>
@@ -82,7 +81,11 @@
     <phrase title="piratesNewsFeed_no_news_item_found" version_id="1" version_string="1.0"><![CDATA[The news item could not be fetched.]]></phrase>
     <phrase title="piratesNewsFeed_no_news_user_available" version_id="1" version_string="1.0"><![CDATA[No news user is available.]]></phrase>
   </phrases>
-  <route_prefixes/>
+  <route_prefixes>
+    <route_type type="public">
+      <prefix original_prefix="news" class="PiratesNewsFeed_Route_Prefix_News" build_link="data_only"/>
+    </route_type>
+  </route_prefixes>
   <style_properties/>
   <templates>
     <template title="piratesNewsFeed_forum_link" version_id="1" version_string="1.0"><![CDATA[<a href="{xen:link forums/display-news, $forum}" class="OverlayTrigger">{xen:phrase piratesNewsFeed_check_news}</a>]]></template>
@@ -97,36 +100,23 @@ Please try again..
     <template title="PiratesNewsFeed_news_posted" version_id="1" version_string="1.0"><![CDATA[<div id="a1" class="sectionMain">
 News have been posted.
 </div>]]></template>
-    <template title="PiratesNewsFeed_news_template" version_id="1" version_string="1.0"><![CDATA[<div id="a1" class="sectionMain">
-	<xen:title>{xen:phrase latest_news_from_pirates_online} &nbsp;&nbsp; <a class="OverlayTrigger" href="{xen:link .postLink}" target="_blank"><img src='http://piratesforums.com/data/refresh.png' title='Refresh' border='0'/></a></xen:title> 
+    <template title="PiratesNewsFeed_news_template" version_id="2" version_string="1.0"><![CDATA[<div id="newsContainer" class="sectionMain">
+        <div class="primaryContent">
+	<xen:title>{xen:phrase latest_news_from_pirates_online} (<a class="OverlayTrigger" href="{xen:link forums/refresh-news}">Refresh</a>)</xen:title> 
 	
-	<xen:foreach loop="$blog" value="$news">
-		<xen:if is="{$news.stamp}">
+	<xen:foreach loop="$blogs" value="$news">
 			<ol>
 				<li class="subHeading">
-					<a href="{$news.url}" target="_blank">{xen:helper bodytext, $news.title}</a> ( {xen:helper bodytext, $news.date} )
+				        {xen:helper bodytext, $news.title} ({$news.date})
 				</li>
-				<li>
-					<div class="commentInfo">
-						<div class="commentContent">
-						<article>
-							<blockquote>
-							{xen:helper bodytext, $news.message}
-						
-							<a href="{$news.url}" target="_blank">View</a> / <a href="{$news.postLink}" target="_blank" onclick="var r = confirm(' {xen:phrase are_you_sure_about_posting_these_news} {$news.title}?'); if(!r) { return false; }">Post These News!</a>
-							<xen:if is="{$canManageNew}"> 
-							/ <a href="{$news.url}" target="_blank" class="OverlayTrigger">Mark as Posted</a>
-							</xen:if>
-							</blockquote>
-						</article>
-						</div>
-					</div>
+				<li>		
+					<a href="{$news.url}" target="_blank">View</a>
+                                        <a href="{xen:link forums/post-news}">Post</a>
+					<a href="{xen:link forums/mark-posted}">Mark as Posted</a>
 				</li>
-			
 			</ol>
-		</xen:if>
 	</xen:foreach>
-
+        </div>
 </div>
 ]]></template>
   </templates>
