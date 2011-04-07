@@ -105,7 +105,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 		return $news;
 	}
 	
-	public function canCheckForUpdates($viewingUser = null, &$errorPhraseKey = '')
+	public function canManageNews($viewingUser = null, &$errorPhraseKey = '')
 	{
 		$this->standardizeViewingUserReference($viewingUser);
 		
@@ -114,7 +114,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 			return false;
 		}
 		
-		return XenForo_Permission::hasPermission($viewingUser['permissions'], 'forum', 'check4Updates');
+		return XenForo_Permission::hasPermission($viewingUser['permissions'], 'general', 'piratesNewsFeed_manage');
 	}
 	
 	protected function _getDataRegistryModel()

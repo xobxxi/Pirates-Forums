@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="PiratesNewsFeed" title="Pirates News Feed" version_string="1.0" version_id="3" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="piratesNewsFeed" title="Pirates News Feed" version_string="1.0.0" version_id="4" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="PiratesNewsFeed_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -9,77 +9,41 @@
     <listener event_id="template_create" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
     <listener event_id="template_hook" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="templateHook" active="1" description="Button to check news on pirates site"/>
   </code_event_listeners>
-  <cron>
-    <entry entry_id="PiratesNewsFeed1" cron_class="PiratesNewsFeed_Model_PiratesNewsFeed" cron_method="runCron" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["10"],"minutes":["0"]}]]></entry>
-    <entry entry_id="PiratesNewsFeed2" cron_class="PiratesNewsFeed_Model_PiratesNewsFeed" cron_method="runCron" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["15"],"minutes":["0"]}]]></entry>
-  </cron>
+  <cron/>
   <email_templates/>
   <optiongroups>
-    <group group_id="PiratesNewFeed" display_order="1" debug_only="0"/>
-    <option option_id="pirateNewsFeed_groupId" edit_format="textbox" data_type="string" can_backup="1">
-      <default_value></default_value>
-      <edit_format_params></edit_format_params>
-      <sub_options></sub_options>
-      <relation group_id="PiratesNewFeed" display_order="1"/>
-    </option>
-    <option option_id="piratesNewsFeed_count" edit_format="textbox" data_type="string" can_backup="1">
+    <group group_id="piratesNewsFeed" display_order="1000" debug_only="0"/>
+    <option option_id="piratesNewsFeed_count" edit_format="spinbox" data_type="string" can_backup="1">
       <default_value>6</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="PiratesNewFeed" display_order="1"/>
+      <relation group_id="piratesNewsFeed" display_order="0"/>
     </option>
-    <option option_id="piratesNewsFeed_forumId" edit_format="textbox" data_type="string" can_backup="1">
+    <option option_id="piratesNewsFeed_forumId" edit_format="spinbox" data_type="string" can_backup="1">
       <default_value>2</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="PiratesNewFeed" display_order="1"/>
-    </option>
-    <option option_id="piratesNewsFeed_poster" edit_format="select" data_type="string" can_backup="1">
-      <default_value>1</default_value>
-      <edit_format_params>1=Random (check4news permission)
-2=Poster ID (below)
-3=Random+Poster ID
-4=Current Poster (check4news permission)</edit_format_params>
-      <sub_options></sub_options>
-      <relation group_id="PiratesNewFeed" display_order="1"/>
-    </option>
-    <option option_id="piratesNewsFeed_userIds" edit_format="textbox" data_type="string" can_backup="1">
-      <default_value>2</default_value>
-      <edit_format_params></edit_format_params>
-      <sub_options></sub_options>
-      <relation group_id="PiratesNewFeed" display_order="1"/>
+      <relation group_id="piratesNewsFeed" display_order="5"/>
     </option>
   </optiongroups>
   <permissions>
     <permission_groups/>
     <permissions>
-      <permission permission_group_id="forum" permission_id="check4Updates" permission_type="flag" default_value="unset" interface_group_id="forumModeratorPermissions" display_order="1"/>
+      <permission permission_group_id="general" permission_id="piratesNewsFeed_manage" permission_type="flag" default_value="unset" interface_group_id="generalPermissions" display_order="1000"/>
     </permissions>
     <interface_groups/>
   </permissions>
   <phrases>
-    <phrase title="are_you_sure_about_posting_these_news" version_id="1" version_string="1.0"><![CDATA[Are you sure about posting these news - ]]></phrase>
-    <phrase title="cron_entry_PiratesNewsFeed1" version_id="1" version_string="1.0"><![CDATA[PiratesNewsFeed First Task]]></phrase>
-    <phrase title="cron_entry_PiratesNewsFeed2" version_id="1" version_string="1.0"><![CDATA[PiratesNewsFeed Second Task]]></phrase>
-    <phrase title="latest_news_from_pirates_online" version_id="1" version_string="1.0"><![CDATA[Latest News From Pirates Online]]></phrase>
-    <phrase title="option_group_PiratesNewFeed" version_id="1" version_string="1.0"><![CDATA[Pirates New Feed]]></phrase>
-    <phrase title="option_group_PiratesNewFeed_description" version_id="1" version_string="1.0"><![CDATA[Fetch news feeds from piratesonline.com]]></phrase>
-    <phrase title="option_pirateNewsFeed_groupId" version_id="1" version_string="1.0"><![CDATA[Group ID]]></phrase>
-    <phrase title="option_pirateNewsFeed_groupId_explain" version_id="1" version_string="1.0"><![CDATA[News Reporter/Poster ID]]></phrase>
+    <phrase title="option_group_piratesNewsFeed" version_id="3" version_string="1.0"><![CDATA[Pirates News Feed]]></phrase>
+    <phrase title="option_group_piratesNewsFeed_description" version_id="3" version_string="1.0"><![CDATA[Facilitates news posting and management from the official Pirates Online blog.]]></phrase>
     <phrase title="option_piratesNewsFeed_count" version_id="1" version_string="1.0"><![CDATA[News Count]]></phrase>
-    <phrase title="option_piratesNewsFeed_count_explain" version_id="1" version_string="1.0"><![CDATA[How many news are appropriate to be considered latest news?]]></phrase>
+    <phrase title="option_piratesNewsFeed_count_explain" version_id="3" version_string="1.0"><![CDATA[The number of news items to fetch for management.]]></phrase>
     <phrase title="option_piratesNewsFeed_forumId" version_id="1" version_string="1.0"><![CDATA[News Forum ID]]></phrase>
-    <phrase title="option_piratesNewsFeed_forumId_explain" version_id="1" version_string="1.0"><![CDATA[Enter the id of the news forum where news will be posted.]]></phrase>
-    <phrase title="option_piratesNewsFeed_poster" version_id="1" version_string="1.0"><![CDATA[Poster ID Option]]></phrase>
-    <phrase title="option_piratesNewsFeed_poster_explain" version_id="1" version_string="1.0"><![CDATA[Define "who"  news will be posted as.]]></phrase>
-    <phrase title="option_piratesNewsFeed_userIds" version_id="1" version_string="1.0"><![CDATA[Poster ID]]></phrase>
-    <phrase title="option_piratesNewsFeed_userIds_explain" version_id="1" version_string="1.0"><![CDATA[News poster user ID. You may enter more than one by separating by comma  (a random id would be picked).]]></phrase>
-    <phrase title="permission_forum_check4Updates" version_id="1" version_string="1.0"><![CDATA[check4Updates]]></phrase>
+    <phrase title="option_piratesNewsFeed_forumId_explain" version_id="3" version_string="1.0"><![CDATA[The ID of the forum where news may be checked/posted.]]></phrase>
+    <phrase title="permission_general_piratesNewsFeed_manage" version_id="3" version_string="1.0"><![CDATA[Can manage news]]></phrase>
     <phrase title="piratesNewsFeed_check_news" version_id="1" version_string="1.0"><![CDATA[Check News]]></phrase>
-    <phrase title="piratesNewsFeed_no_news_group_set" version_id="1" version_string="1.0"><![CDATA[No news group is set.]]></phrase>
+    <phrase title="piratesNewsFeed_news_could_not_be_fetched" version_id="3" version_string="1.0"><![CDATA[The news item could not be fetched.]]></phrase>
     <phrase title="piratesNewsFeed_no_news_id" version_id="1" version_string="1.0"><![CDATA[No news ID was specified.]]></phrase>
-    <phrase title="piratesNewsFeed_no_news_item_found" version_id="1" version_string="1.0"><![CDATA[The news item could not be fetched.]]></phrase>
-    <phrase title="piratesNewsFeed_no_news_user_available" version_id="1" version_string="1.0"><![CDATA[No news user is available.]]></phrase>
   </phrases>
   <route_prefixes>
     <route_type type="public">
@@ -88,36 +52,28 @@
   </route_prefixes>
   <style_properties/>
   <templates>
-    <template title="piratesNewsFeed_forum_link" version_id="1" version_string="1.0"><![CDATA[<a href="{xen:link forums/display-news, $forum}" class="OverlayTrigger">{xen:phrase piratesNewsFeed_check_news}</a>]]></template>
-    <template title="PiratesNewsFeed_news_error" version_id="1" version_string="1.0"><![CDATA[<div id="a1" class="sectionMain">
-News were not posted. 
-
-<div>
-Please try again..
-</div>
-</div>
-]]></template>
-    <template title="PiratesNewsFeed_news_posted" version_id="1" version_string="1.0"><![CDATA[<div id="a1" class="sectionMain">
-News have been posted.
-</div>]]></template>
-    <template title="PiratesNewsFeed_news_template" version_id="2" version_string="1.0"><![CDATA[<div id="newsContainer" class="sectionMain">
+    <template title="piratesNewsFeed_forum_link" version_id="3" version_string="1.0"><![CDATA[<a href="{xen:link news}" class="OverlayTrigger">{xen:phrase piratesNewsFeed_check_news}</a>]]></template>
+    <template title="piratesNewsFeed_news" version_id="3" version_string="1.0"><![CDATA[<div id="newsContainer" class="sectionMain">
         <div class="primaryContent">
-	<xen:title>{xen:phrase latest_news_from_pirates_online} (<a class="OverlayTrigger" href="{xen:link forums/refresh-news}">Refresh</a>)</xen:title> 
+	<xen:title>Latest News From Pirates Online (<a class="OverlayTrigger" href="{xen:link news/refresh-news}">Refresh</a>)</xen:title> 
 	
 	<xen:foreach loop="$blogs" value="$news">
 			<ol>
 				<li class="subHeading">
-				        {xen:helper bodytext, $news.title} ({$news.date})
+				        {$news.title} ({$news.date})
 				</li>
 				<li>		
 					<a href="{$news.url}" target="_blank">View</a>
-                                        <a href="{xen:link forums/post-news}">Post</a>
-					<a href="{xen:link forums/mark-posted}">Mark as Posted</a>
+                                        <a href="{xen:link news/post-news, $news}">Post</a>
+                                        <xen:if is="!{$news.posted}">
+					<a href="{xen:link news/mark-posted, $news}">Mark Posted</a>
+                                        <xen:else />
+                                        <a href="{xen:link news/mark-not/posted, $news}">Mark Not Posted</a>
+                                        </xen:if>
 				</li>
 			</ol>
 	</xen:foreach>
         </div>
-</div>
-]]></template>
+</div>]]></template>
   </templates>
 </addon>

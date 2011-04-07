@@ -16,9 +16,8 @@ class PiratesNewsFeed_Listener
 	{
         switch ($hookName) {
         	case 'forum_view_pagenav_before':
-
 				$piratesNewsFeedModel = XenForo_Model::create('PiratesNewsFeed_Model_PiratesNewsFeed');
-	        	if ($piratesNewsFeedModel->canCheckForUpdates()) {
+	        	if ($piratesNewsFeedModel->canManageNews()) {
 					$contents .= $template->create('piratesNewsFeed_forum_link', $template->getParams())->render();
 				}
 				
