@@ -7,14 +7,14 @@ class ConversationAttachments_AttachmentHandler_ConversationMessage extends XenF
 
 	protected function _canUploadAndManageAttachments(array $contentData, array $viewingUser)
 	{
-		return $this->_getConversationModel()->canUploadAndManageAttachments();
+		return $this->_getConversationModel()->canUploadAndManageAttachments($viewingUser);
 	}
 
 	protected function _canViewAttachment(array $attachment, array $viewingUser)
 	{
 		$conversationModel = $this->_getConversationModel();
 		
-		if (!$conversationModel->canViewAttachments())
+		if (!$conversationModel->canViewAttachments($viewingUser))
 		{
 			return false;
 		}
@@ -24,6 +24,11 @@ class ConversationAttachments_AttachmentHandler_ConversationMessage extends XenF
 		
 		if (!$user)
 		{
+			if ($viewingUser['is_admin'])
+			{
+				return true;
+			}
+			
 			return false;
 		}
 		
