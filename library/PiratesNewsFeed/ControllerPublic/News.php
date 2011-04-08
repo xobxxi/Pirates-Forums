@@ -11,7 +11,12 @@ class PiratesNewsFeed_ControllerPublic_News extends XenForo_ControllerPublic_Abs
 			throw $this->getNoPermissionResponseException();
 		}
 		
-		$blogs = $piratesNewsFeedModel->getLatestNews();
+		$blogs = $piratesNewsFeedModel->getNews();
+		
+		if (empty($blogs))
+		{
+			$this->responseError(new XenForo_Phrase('piratesNewsFeed_news_could_not_be_fetched'));
+		}
 
 		$viewParams = array(
 			'blogs'          => $blogs
@@ -31,6 +36,8 @@ class PiratesNewsFeed_ControllerPublic_News extends XenForo_ControllerPublic_Abs
 		{
 			throw $this->getNoPermissionResponseException();
 		}
+		
+		$piratesNewsFeedModel->updateNews();
 		
 		return $this->responseRedirect(
 			XenForo_ControllerResponse_Redirect::RESOURCE_UPDATED,

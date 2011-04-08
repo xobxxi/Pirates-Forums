@@ -2,64 +2,73 @@
 
 class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 {	
-	public function markPosted($newsId)
+	public function updateNews($rebuild = false)
 	{
-		$blogs = $this->getLatestNews();
-		
-		if (!$blogs[$newsId])
+		if (!$rebuild)
 		{
-			return false;
+			$existing = $this->getNews();
+		}
+		else
+		{
+			$existing = array();
 		}
 		
-		$blogs[$newsId]['posted'] = true;
+		$latestNews = reset($existing);
 		
-		$this->_getDataRegistryModel()->set('PiratesNewsFeed', $blogs);
-		
-		return true;
-	}
+		$options = XenForo_Application::get('options');
+		$itemsCount = $options->piratesNewsFeed_count;
 	
-	public function markNotPosted($newsId)
-	{
-		$blogs = $this->getLatestNews();
+		$feed = 'http://blog.piratesonline.go.com/blog/pirates/feed2/entries/atom?numEntries=' . $itemsCount;
+		$data = simplexml_load_file($feed);
 		
-		if (!$blogs[$newsId])
+		$changes = false;
+		$updated = array();
+		foreach ($data->entry as $entry)
 		{
-			return false;
+			$id = strtotime((string) $entry->published);
+			
+			if (!isset($latestNews['id']) || $id > $latestNews['id'])
+			{
+				$news = array(
+					'id'     => $id,
+					'title'  => (string) $entry->title,
+					'url'    => (string) $entry->link->attributes()->href,
+					'date'   => date('m/d/y', $id),
+					'posted' => false
+				);
+				
+				$updated[$id] = $news;
+				
+				$changes = true;
+			}
 		}
 		
-		$blogs[$newsId]['posted'] = false;
+		$blogs = array_merge_recursive($updated, $existing);
 		
-		$this->_getDataRegistryModel()->set('PiratesNewsFeed', $blogs);
+		ksort($blogs);
 		
-		return true;
+		array_splice($blogs, $itemsCount);
+		
+		if ($changes)
+		{
+			$this->_getDataRegistryModel()->set('PiratesNewsFeed', $blogs);
+		}
+		
+		return $blogs;
 	}
 	
-	public function getLatestNews()
+	public function resetData()
+	{
+		return $this->_getDataRegistryModel()->delete('PiratesNewsFeed');
+	}
+	
+	public function getNews()
 	{
 		$dataRegistryModel = $this->_getDataRegistryModel();
 		
 		if (!$blogs = $dataRegistryModel->get('PiratesNewsFeed'))
 		{
-			$options = XenForo_Application::get('options');
-
-			$itemsCount = $options->piratesNewsFeed_count;
-		
-			$feed = 'http://blog.piratesonline.go.com/blog/pirates/feed2/entries/atom?numEntries=' . $itemsCount;
-			$data = simplexml_load_file($feed);
-			
-			$news = array();
-			foreach ($data->entry as $entry)
-			{
-				$newsItem['id']     = strtotime((string) $entry->published);
-				$newsItem['title']  = (string) $entry->title;
-				$newsItem['url']    = (string) $entry->link->attributes()->href;
-				$newsItem['date']   = date('m/d/y', $newsItem['id']);
-				$newsItem['posted'] = false;
-				
-				$blogs[$newsItem['id']] = $newsItem;
-			}
-			
-			$dataRegistryModel->set('PiratesNewsFeed', $blogs);
+			$blogs = $this->updateNews(true);
 		}
 			
 		return $blogs;
@@ -67,7 +76,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 	
 	public function getNewsContent($newsId)
 	{
-		$blogs = $this->getLatestNews();
+		$blogs = $this->getNews();
 		
 		if (!$news = $blogs[$newsId])
 		{
@@ -103,6 +112,38 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 		$news['title'] .= " ({$news['date']})";
 		
 		return $news;
+	}
+	
+	public function markPosted($newsId)
+	{
+		$blogs = $this->getNews();
+		
+		if (!$blogs[$newsId])
+		{
+			return false;
+		}
+		
+		$blogs[$newsId]['posted'] = true;
+		
+		$this->_getDataRegistryModel()->set('PiratesNewsFeed', $blogs);
+		
+		return true;
+	}
+	
+	public function markNotPosted($newsId)
+	{
+		$blogs = $this->getNews();
+		
+		if (!$blogs[$newsId])
+		{
+			return false;
+		}
+		
+		$blogs[$newsId]['posted'] = false;
+		
+		$this->_getDataRegistryModel()->set('PiratesNewsFeed', $blogs);
+		
+		return true;
 	}
 	
 	public function canManageNews($viewingUser = null, &$errorPhraseKey = '')
