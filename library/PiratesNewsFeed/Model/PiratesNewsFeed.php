@@ -51,7 +51,6 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 			$i = 1;
 			foreach ($blogs as $id => $news)
 			{
-				echo $i;
 				if ($i > $itemsCount)
 				{
 					unset($blogs[$id]);
