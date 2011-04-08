@@ -43,11 +43,24 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 			}
 		}
 		
-		$blogs = array_merge_recursive($updated, $existing);
+		$blogs = $updated + $existing;
 		
-		ksort($blogs);
-		
-		array_splice($blogs, $itemsCount);
+		$extra = count($blogs) - $itemsCount;
+		if ($extra != 0)
+		{
+			$i = 1;
+			foreach ($blogs as $id => $news)
+			{
+				echo $i;
+				if ($i > $itemsCount)
+				{
+					unset($blogs[$id]);
+					$changes = true;
+				}
+				
+				$i++;
+			}
+		}
 		
 		if ($changes)
 		{
