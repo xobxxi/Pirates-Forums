@@ -106,7 +106,7 @@ class ConversationAttachments_ControllerPublic_Conversation extends XFCP_Convers
 		$dw->setExtraData('attachmentHash', $attachment['attachment_hash']);
 		$dw->save();
 		
-		$response->params += array(
+		$response->params = array(
 			'canViewAttachments' => $this->_getConversationModel()->canViewAttachments()
 		);
 
