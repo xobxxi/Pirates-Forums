@@ -137,9 +137,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 		
 		$blogs[$newsId]['posted'] = true;
 		
-		$this->_getDataRegistryModel()->set('PiratesNewsFeed', $blogs);
-		
-		return true;
+		return $this->_getDataRegistryModel()->set('PiratesNewsFeed', $blogs);
 	}
 	
 	public function markNotPosted($newsId)
@@ -153,9 +151,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 		
 		$blogs[$newsId]['posted'] = false;
 		
-		$this->_getDataRegistryModel()->set('PiratesNewsFeed', $blogs);
-		
-		return true;
+		return $this->_getDataRegistryModel()->set('PiratesNewsFeed', $blogs);
 	}
 	
 	public function canManageNews($viewingUser = null, &$errorPhraseKey = '')

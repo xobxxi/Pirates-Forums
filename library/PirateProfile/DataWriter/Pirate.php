@@ -330,9 +330,15 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 		$changed = array();
 		foreach ($skills as $skill)
 		{
-			if ($this->isChanged($skill) && ($this->get($skill) > $this->getExisting($skill)))
+			$existing = $this->getExisting($skill);
+			$updated  = $this->get($skill);
+			
+			if (!empty($current))
 			{
-				$changed[$skill] = $this->get($skill);
+				if ($this->isChanged($skill) && ($updated > $existing))
+				{
+					$changed[$skill] = $this->get($skill);
+				}
 			}
 		}
 		
