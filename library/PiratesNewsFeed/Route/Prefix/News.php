@@ -6,7 +6,7 @@ class PiratesNewsFeed_Route_Prefix_News implements XenForo_Route_Interface
 	{
 		$action = $router->resolveActionWithIntegerParam($routePath, $request, 'news_id');
 		
-		return $router->getRouteMatch('PiratesNewsFeed_ControllerPublic_News', $action, 'pirates');
+		return $router->getRouteMatch('PiratesNewsFeed_ControllerPublic_News', $action, 'forums');
 	}
 
 	public function buildLink($originalPrefix, $outputPrefix, $action, $extension, $data, array &$extraParams)

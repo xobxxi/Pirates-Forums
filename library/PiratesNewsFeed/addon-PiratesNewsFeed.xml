@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="piratesNewsFeed" title="Pirates News Feed" version_string="1.0.0" version_id="4" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="PiratesNewsFeed_Install" uninstall_callback_method="uninstall">
+<addon addon_id="piratesNewsFeed" title="Pirates News Feed" version_string="1.0.0" version_id="5" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="PiratesNewsFeed_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates/>
   <code_events/>
   <code_event_listeners>
-    <listener event_id="template_create" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
-    <listener event_id="template_hook" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="templateHook" active="1" description="Button to check news on pirates site"/>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="PiratesNewsFeed_Listener" callback_method="loadClassController" active="1" description="Extends controllers"/>
   </code_event_listeners>
   <cron/>
   <email_templates/>
@@ -42,8 +41,16 @@
     <phrase title="option_piratesNewsFeed_forumId_explain" version_id="3" version_string="1.0"><![CDATA[The ID of the forum where news may be checked/posted.]]></phrase>
     <phrase title="permission_general_piratesNewsFeed_manage" version_id="3" version_string="1.0"><![CDATA[Can manage news]]></phrase>
     <phrase title="piratesNewsFeed_check_news" version_id="1" version_string="1.0"><![CDATA[Check News]]></phrase>
+    <phrase title="piratesNewsFeed_latest_news_from_pirates_online" version_id="4" version_string="1.0.0"><![CDATA[Latest News From Pirates Online]]></phrase>
+    <phrase title="piratesNewsFeed_mark_not_posted" version_id="4" version_string="1.0.0"><![CDATA[Mark Not Posted]]></phrase>
+    <phrase title="piratesNewsFeed_mark_posted" version_id="4" version_string="1.0.0"><![CDATA[Mark Posted]]></phrase>
+    <phrase title="piratesNewsFeed_news" version_id="4" version_string="1.0.0"><![CDATA[News]]></phrase>
+    <phrase title="piratesNewsFeed_news_already_posted" version_id="4" version_string="1.0.0"><![CDATA[This news item was already posted.]]></phrase>
     <phrase title="piratesNewsFeed_news_could_not_be_fetched" version_id="3" version_string="1.0"><![CDATA[The news item could not be fetched.]]></phrase>
+    <phrase title="piratesNewsFeed_news_refreshed" version_id="4" version_string="1.0.0"><![CDATA[The news has been refreshed.]]></phrase>
     <phrase title="piratesNewsFeed_no_news_id" version_id="1" version_string="1.0"><![CDATA[No news ID was specified.]]></phrase>
+    <phrase title="piratesNewsFeed_post_news" version_id="4" version_string="1.0.0"><![CDATA[Post News]]></phrase>
+    <phrase title="piratesNewsFeed_refresh_news" version_id="4" version_string="1.0.0"><![CDATA[Refresh News]]></phrase>
   </phrases>
   <route_prefixes>
     <route_type type="public">
@@ -52,28 +59,81 @@
   </route_prefixes>
   <style_properties/>
   <templates>
+    <template title="piratesNewsFeed_confirm_post" version_id="4" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase piratesNewsFeed_post_news}: {$news.title}</xen:title>
+
+<xen:navigation>
+		<xen:breadcrumb href="{xen:link full:forums, $forum}">{$forum.title}</xen:breadcrumb>
+		<xen:breadcrumb href="{xen:link full:news}">{xen:phrase piratesNewsFeed_news}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link news/post-news, $news}" method="post" class="xenForm formOverlay" id="piratesNewsFeedPostNews" data-redirect="on">
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<input type="submit" value="{xen:phrase piratesNewsFeed_post_news}" class="button primary" />
+		</dd>
+	</dl>
+
+	<input type="hidden" name="_xfConfirm" value="1" />
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
     <template title="piratesNewsFeed_forum_link" version_id="3" version_string="1.0"><![CDATA[<a href="{xen:link news}" class="OverlayTrigger">{xen:phrase piratesNewsFeed_check_news}</a>]]></template>
-    <template title="piratesNewsFeed_news" version_id="3" version_string="1.0"><![CDATA[<div id="newsContainer" class="sectionMain">
-        <div class="primaryContent">
-	<xen:title>Latest News From Pirates Online (<a class="OverlayTrigger" href="{xen:link news/refresh-news}">Refresh</a>)</xen:title> 
-	
-	<xen:foreach loop="$blogs" value="$news">
-			<ol>
-				<li class="subHeading">
-				        {$news.title} ({$news.date})
+    <template title="piratesNewsFeed_news" version_id="4" version_string="1.0.0"><![CDATA[<xen:require css="piratesNewsFeed_news.css" />
+
+<xen:title>{xen:phrase piratesNewsFeed_latest_news_from_pirates_online}</xen:title>
+
+<xen:navigation>
+		<xen:breadcrumb href="{xen:link full:forums, $forum}">{$forum.title}</xen:breadcrumb>
+		<xen:breadcrumb href="{xen:link full:news}">{xen:phrase piratesNewsFeed_news}</xen:breadcrumb>
+</xen:navigation>
+
+<div id="newsContainer" class="sectionMain">
+		<xen:foreach loop="$blogs" value="$news">
+		<div class="subHeading">
+			{$news.title} <span class="floatRight">{$news.date}</span>
+		</div>
+		<div class="primaryContent">
+			<ul>
+				<li>
+					<a href="{$news.url}" target="_blank">{xen:phrase view}</a>
 				</li>
-				<li>		
-					<a href="{$news.url}" target="_blank">View</a>
-                                        <a href="{xen:link news/post-news, $news}">Post</a>
-                                        <xen:if is="!{$news.posted}">
-					<a href="{xen:link news/mark-posted, $news}">Mark Posted</a>
-                                        <xen:else />
-                                        <a href="{xen:link news/mark-not/posted, $news}">Mark Not Posted</a>
-                                        </xen:if>
+				<xen:if is="!{$news.posted}">
+				<li>
+					<a href="{xen:link news/post-news, $news}" class="OverlayTrigger">{xen:phrase post}</a>
 				</li>
-			</ol>
-	</xen:foreach>
-        </div>
+				<li>
+					<a href="{xen:link news/mark-posted, $news}">{xen:phrase piratesNewsFeed_mark_posted}</a>
+				</li>
+				<xen:else />
+				<li>
+					<a href="{xen:link news/mark-not-posted, $news}">{xen:phrase piratesNewsFeed_mark_not_posted}</a>
+				</li>
+				</xen:if>
+			</ul>
+		</div>
+		</xen:foreach>
+	<div class="sectionFooter"><a href="{xen:link news/refresh}">{xen:phrase piratesNewsFeed_refresh_news}</a></div>
 </div>]]></template>
+    <template title="piratesNewsFeed_news.css" version_id="4" version_string="1.0.0"><![CDATA[.floatRight
+{
+        float: right;
+}
+
+#newsContainer ul li
+{
+        margin-left: 20px;
+        list-style-type: disc;
+}
+
+.sectionFooter
+{
+        margin-top: 8px;
+}
+
+.xenOverlay .sectionFooter
+{
+        margin-top: 0;
+}]]></template>
   </templates>
 </addon>

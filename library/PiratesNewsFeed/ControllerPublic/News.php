@@ -15,14 +15,20 @@ class PiratesNewsFeed_ControllerPublic_News extends XenForo_ControllerPublic_Abs
 		
 		if (empty($blogs))
 		{
-			$this->responseError(new XenForo_Phrase('piratesNewsFeed_news_could_not_be_fetched'));
+			return $this->responseError(new XenForo_Phrase('piratesNewsFeed_news_could_not_be_fetched'));
 		}
+		
+		$options = XenForo_Application::get('options');
+		$newsForumId = $options->piratesNewsFeed_forumId;
+		
+		$newsForum = $this->_getForumModel()->getForumById($newsForumId);
 
 		$viewParams = array(
-			'blogs'          => $blogs
+			'forum' => $newsForum,
+			'blogs' => $blogs
 		);
 		return $this->responseView(
-			'PiratesNewsFeed_ViewPublic_Forum_DisplayNews',
+			'PiratesNewsFeed_ViewPublic_News_Index',
 			'piratesNewsFeed_news',
 			$viewParams
 		);
@@ -59,7 +65,7 @@ class PiratesNewsFeed_ControllerPublic_News extends XenForo_ControllerPublic_Abs
 		
 		if (!$newsId)
 		{
-			$this->responseError(new XenForo_Phrase('piratesNewsFeed_no_news_id'));
+			return $this->responseError(new XenForo_Phrase('piratesNewsFeed_no_news_id'));
 		}
 
 		$piratesNewsFeedModel->markPosted($newsId);
@@ -84,7 +90,7 @@ class PiratesNewsFeed_ControllerPublic_News extends XenForo_ControllerPublic_Abs
 
 		if (!$newsId)
 		{
-			$this->responseError(new XenForo_Phrase('piratesNewsFeed_no_news_id'));
+			return $this->responseError(new XenForo_Phrase('piratesNewsFeed_no_news_id'));
 		}
 
 		$piratesNewsFeedModel->markNotPosted($newsId);
@@ -109,37 +115,62 @@ class PiratesNewsFeed_ControllerPublic_News extends XenForo_ControllerPublic_Abs
 		
 		if (!$newsId)
 		{
-			$this->responseError(new XenForo_Phrase('piratesNewsFeed_no_news_id'));
-		}
-		
-		if (!$news = $piratesNewsFeedModel->getNewsContent($newsId))
-		{
-			$this->responseError(new XenForo_Phrase('piratesNewsFeed_news_could_not_be_fetched'));
+			return $this->responseError(new XenForo_Phrase('piratesNewsFeed_no_news_id'));
 		}
 		
 		$options = XenForo_Application::get('options');
 		$newsForumId = $options->piratesNewsFeed_forumId;
 		
-		$news['content'] = trim(XenForo_Html_Renderer_BbCode::renderFromHtml($news['content']));
+		if (!$news = $piratesNewsFeedModel->getNewsContent($newsId))
+		{
+			return $this->responseError(new XenForo_Phrase('piratesNewsFeed_news_could_not_be_fetched'));
+		}
 
-		$thread = PiratesForums_Helper_Thread::create(
-			$newsForumId,
-			XenForo_Visitor::getInstance(),
-		    $news['title'],
-			$news['content']
+		if ($news['posted'])
+		{
+			return $this->responseError(new XenForo_Phrase('piratesNewsFeed_news_already_posted'));
+		}
+		
+		if ($this->isConfirmedPost()) 
+		{
+			$news['content'] = trim(XenForo_Html_Renderer_BbCode::renderFromHtml($news['content']));
+
+			$thread = PiratesForums_Helper_Thread::create(
+				$newsForumId,
+				XenForo_Visitor::getInstance(),
+			    $news['title'],
+				$news['content']
+			);
+
+			$piratesNewsFeedModel->markPosted($news['id']);
+
+			return $this->responseRedirect(
+				XenForo_ControllerResponse_Redirect::RESOURCE_CREATED,
+				XenForo_Link::buildPublicLink('threads', $thread),
+				new XenForo_Phrase('piratesNewsFeed_news_posted')
+			);
+		}
+		
+		$newsForum = $this->_getForumModel()->getForumById($newsForumId);
+		
+		$viewParams = array(
+			'forum' => $newsForum,
+			'news'  => $news
 		);
-
-		$piratesNewsFeedModel->markPosted($news['id']);
-
-		return $this->responseRedirect(
-			XenForo_ControllerResponse_Redirect::RESOURCE_CREATED,
-			XenForo_Link::buildPublicLink('threads', $thread),
-			new XenForo_Phrase('piratesNewsFeed_news_posted')
+		return $this->responseView(
+			'PiratesNewsFeed_ViewPublic_News_PostNews',
+			'piratesNewsFeed_confirm_post',
+			$viewParams
 		);
 	}
 	
 	protected function _getPiratesNewsFeedModel()
 	{
 		return $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');
+	}
+	
+	protected function _getForumModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_Forum');
 	}
 }

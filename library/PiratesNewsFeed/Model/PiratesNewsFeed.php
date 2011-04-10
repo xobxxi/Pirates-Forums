@@ -90,10 +90,12 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 	{
 		$blogs = $this->getNews();
 		
-		if (!$news = $blogs[$newsId])
+		if (!isset($blogs[$newsId]))
 		{
 			return false;
 		}
+		
+		$news = $blogs[$newsId];
 		
 		$entry = curl_init();
 		curl_setopt($entry, CURLOPT_URL, $news['url']);
@@ -111,14 +113,14 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 			return false;
 		}
 		
-		$contents = $matches[1];
+		$news['content'] = $matches[1];
 		
 		$search = array(
 			'<p>'    => '',
-			'</p>'   => '<br /><br />'
+			'</p>'   => '<br /><br />',
 		);
-
-		$news['content']  = str_replace(array_keys($search), array_values($search), $contents);
+		
+		$news['content']  = str_replace(array_keys($search), array_values($search), $news['content']);
 		$news['content'] .= '<a href="' . $news['url'] . '" target="_blank">' . $news['url'] . '</a>';
 		
 		$news['title'] .= " ({$news['date']})";
