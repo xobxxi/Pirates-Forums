@@ -667,6 +667,152 @@ blockquote .bbCodeQuote aside .attribution a:hover
     -khtml-transform: rotate(180deg);
 }
 */]]></template>
+    <template title="forum_view" addon_id="XenForo" version_id="1000170" version_string="1.0.1"><![CDATA[<xen:title>{$forum.title}{xen:helper pagenumber, $page}</xen:title>
+<xen:h1>{$forum.title}</xen:h1>
+
+<xen:if is="{$forum.description} AND {xen:property threadListDescriptions}">
+	<xen:description class="baseHtml">{xen:raw $forum.description}</xen:description>
+</xen:if>
+
+<xen:navigation>
+	<xen:breadcrumb source="$nodeBreadCrumbs" />
+</xen:navigation>
+
+<xen:container var="$head.canonical">
+	<link rel="canonical" href="{xen:link 'canonical:forums', $forum, 'page={$page}'}" /></xen:container>
+
+<xen:container var="$head.rss">
+	<link rel="alternate" type="application/rss+xml" title="{xen:phrase rss_feed_for_x, 'title={$forum.title}'}" href="{xen:link forums/index.rss, $forum}" /></xen:container>
+
+<xen:container var="$quickNavSelected">node-{$forum.node_id}</xen:container>
+
+<xen:if is="{$canPostThread}">
+	<xen:set var="$newDiscussionButton"><a href="{xen:link 'forums/create-thread', $forum}" class="callToAction"><span>{xen:phrase post_new_thread}</span></a></xen:set>
+	<xen:if is="!{$renderedNodes}">
+		<xen:topctrl>{xen:raw $newDiscussionButton}</xen:topctrl>
+	</xen:if>
+</xen:if>
+
+<xen:if is="{$showPostedNotice}">
+	<div class="importantMessage">{xen:phrase message_submitted_displayed_pending_approval}</div>
+</xen:if>
+
+<xen:if is="{$renderedNodes}">
+	<xen:include template="ad_forum_view_above_node_list" />
+	<xen:include template="node_list" />
+</xen:if>
+
+<xen:hook name="forum_view_pagenav_before" params="{xen:array 'forum={$forum}'}" />
+
+<xen:include template="ad_forum_view_above_thread_list" />
+
+<div class="pageNavLinkGroup">
+
+	<div class="linkGroup SelectionCountContainer">
+                <xen:if is="{$showNewsManager}">
+                <xen:include template="piratesNewsFeed_forum_link" />
+                </xen:if>
+		<xen:if is="{$visitor.user_id}">
+			<a href="{xen:link 'forums/mark-read', $forum, 'date={$serverTime}'}" class="OverlayTrigger">{xen:phrase mark_this_forum_read}</a>
+		</xen:if>
+		<xen:if is="{$canSearch}">
+			<div class="Popup">
+				<a href="{xen:link search, '', 'type=post', 'node_id={$forum.node_id}'}" method="post" rel="Menu">{xen:phrase search_this_forum}</a>
+				
+				<xen:comment>
+				<div class="Menu JsOnly">
+					<form action="{xen:link search/search}" method="post" class="xenForm">
+						<div class="primaryContent menuHeader">
+							<h3>{xen:phrase search_this_forum}</h3>
+						</div>
+						<dl class="ctrlUnit fullWidth">
+							<dt></dt>
+							<dd><input type="search" name="keywords" results="0" class="textCtrl" placeholder="{xen:phrase search}..." /></dd>
+						</dl>
+						<dl class="ctrlUnit fullWidth secondaryContent">
+							<dt></dt>
+							<dd><ul>
+								<li><label><input type="checkbox" name="title_only" value="1" /> {xen:phrase search_titles_only}</label></li>
+								<li><label><input type="checkbox" name="group_discussion" value="1" /> {xen:phrase display_results_as_threads}</label></li>
+							</ul></dd>
+						</dl>
+						<dl class="ctrlUnit fullWidth submitUnit">
+							<dt></dt>
+							<dd><input type="submit" class="button" value="{xen:phrase find_now}" /></dd>
+						</dl>
+						<a href="{xen:link search, '', 'type=post', 'node_id={$forum.node_id}'}" class="linkButton">{xen:phrase advanced_search}</a>
+					
+						<input type="hidden" name="type" value="post" />
+						<input type="hidden" name="child_nodes" value="1" />
+						<input type="hidden" name="nodes[]" value="{$forum.node_id}" />
+						<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+					</form>
+				</div>
+				</xen:comment>
+			
+				<div class="Menu JsOnly formPopup">
+					<form action="{xen:link search/search}" method="post">
+						<div class="primaryControls">
+							<input type="search" name="keywords" value="" class="textCtrl" placeholder="{xen:phrase search}..." results="0" title="{xen:phrase enter_your_search_and_hit_enter}" />
+						</div>
+						
+						<div class="secondaryControls">
+							<div class="controlsWrapper">
+							
+								<dl class="ctrlUnit fullWidth">
+									<dt></dt>
+									<dd><ul>
+										<li><label><input type="checkbox" name="title_only" value="1" /> {xen:phrase search_titles_only}</label></li>
+										<li><label><input type="checkbox" name="group_discussion" value="1" /> {xen:phrase display_results_as_threads}</label></li>
+									</ul></dd>
+								</dl>
+												
+							</div>
+								
+							<dl class="ctrlUnit submitUnit fullWidth">
+								<dt></dt>
+								<dd><input type="submit" value="{xen:phrase find_now}" class="button primary"></dd>
+							</dl>
+							
+							<a href="{xen:link search, '', 'type=post', 'node_id={$forum.node_id}'}" class="advSearchLink">{xen:phrase advanced_search}...</a>
+						</div>
+					
+						<input type="hidden" name="type" value="post" />
+						<input type="hidden" name="child_nodes" value="1" />
+						<input type="hidden" name="nodes[]" value="{$forum.node_id}" />
+						<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+					</form>
+				</div>
+
+
+
+			</div>
+		</xen:if>
+	</div>
+
+	<xen:pagenav link="forums" linkdata="{$forum}" linkparams="{$pageNavParams}" page="{$page}" perpage="{$threadsPerPage}" total="{$totalThreads}" />
+
+</div>
+
+<xen:hook name="forum_view_threads_before" params="{xen:array 'forum={$forum}'}" />
+
+<div class="discussionList section sectionMain">
+	<xen:include template="thread_list" />
+</div>
+	
+<div class="pageNavLinkGroup">
+	<div class="linkGroup">
+		<xen:if is="{$canPostThread}">
+			<a href="{xen:link 'forums/create-thread', $forum}" class="callToAction"><span>{xen:phrase post_new_thread}</span></a>
+		<xen:elseif is="{$visitor.user_id}" />
+			({xen:phrase no_permission_to_post})
+		<xen:else />
+			<label for="LoginControl"><a href="{xen:link login}" class="concealed">({xen:phrase log_in_or_sign_up_to_post})</a></label>
+		</xen:if>
+	</div>
+
+	<xen:pagenav link="forums" linkdata="{$forum}" linkparams="{$pageNavParams}" page="{$page}" perpage="{$threadsPerPage}" total="{$totalThreads}" />
+</div>]]></template>
     <template title="PiratesNewsFeed_news_template" addon_id="PiratesNewsFeed" version_id="1" version_string="1.0"><![CDATA[<div id="a1" class="sectionMain">
 	<xen:title>{xen:phrase latest_news_from_pirates_online} &nbsp;&nbsp; <a class="OverlayTrigger" href="{xen:link .postLink}" target="_blank"><img src='http://piratesforums.com/data/refresh.png' title='Refresh' border='0'/></a></xen:title> 
 	
