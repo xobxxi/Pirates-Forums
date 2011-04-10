@@ -107,7 +107,7 @@ class ConversationAttachments_ControllerPublic_Conversation extends XFCP_Convers
 		$dw->save();
 		
 		$response->params += array(
-			'canViewAttachments' => $conversationModel->canViewAttachments()
+			'canViewAttachments' => $this->_getConversationModel()->canViewAttachments()
 		);
 
 		return $response;
