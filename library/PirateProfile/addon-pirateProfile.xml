@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0 RC 1" version_id="103" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0 RC 1" version_id="104" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -530,12 +530,13 @@ div.label,
 {
         color: rgb(84, 29, 29) !important;
 }]]></template>
-    <template title="pirateProfile_list" version_id="102" version_string="2.0.0 Beta 4"><![CDATA[<xen:require css="discussion_list.css" />
+    <template title="pirateProfile_list" version_id="103" version_string="2.0.0 RC 1"><![CDATA[<xen:require css="discussion_list.css" />
 <xen:require css="member_list.css" />
 <xen:require css="pirateProfile_list.css" />
 <xen:require js="js/card/loader.js" />
 
 <xen:title>{xen:phrase pirateProfile_pirate_directory}{xen:helper pagenumber, $page}</xen:title>
+<xen:h1>{xen:phrase pirateProfile_pirate_directory}</xen:h1>
 <xen:description>{xen:phrase pirateProfile_this_is_directory_of_all_member_pirates}</xen:description>
 
 <xen:if is="{$permissions.add}">
