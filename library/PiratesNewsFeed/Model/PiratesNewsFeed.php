@@ -2,7 +2,7 @@
 
 class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 {	
-	public function updateNews($rebuild = false)
+	public function updateNews($rebuild = false, $alert = false)
 	{
 		if (!$rebuild)
 		{
@@ -64,6 +64,23 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 		if ($changes)
 		{
 			$this->_getDataRegistryModel()->set('PiratesNewsFeed', $blogs);
+			
+			if ($alert)
+			{
+				$newsMembers = $this->getNewsPosters();
+				$latestNews = reset($blogs);
+				foreach ($newsMembers as $user)
+				{
+					XenForo_Model_Alert::alert(
+						$user['user_id'],
+						$user['user_id'],
+						$user['username'],
+						'news',
+						$latestNews['id'],
+						'new'
+					);
+				}
+			}
 		}
 		
 		return $blogs;
@@ -156,6 +173,18 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 		return $this->_getDataRegistryModel()->set('PiratesNewsFeed', $blogs);
 	}
 	
+	public function getNewsPosters()
+	{
+		$options = XenForo_Application::get('options');
+		$newsGroupId = $options->piratesNewsFeed_newsGroupId;
+		
+		$userGroupModel = $this->_getUserGroupModel();
+		$newsPosterIds  = array_keys($userGroupModel->getUserIdsInUserGroup($newsGroupId));
+		
+		$userModel = $this->_getUserModel();
+		return $userModel->getUsersByIds($newsPosterIds);
+	}
+	
 	public function canManageNews($viewingUser = null, &$errorPhraseKey = '')
 	{
 		$this->standardizeViewingUserReference($viewingUser);
@@ -171,5 +200,15 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 	protected function _getDataRegistryModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_DataRegistry');
+	}
+	
+	protected function _getUserGroupModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_UserGroup');
+	}
+	
+	protected function _getUserModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_User');
 	}
 }

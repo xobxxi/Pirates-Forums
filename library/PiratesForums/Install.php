@@ -58,7 +58,7 @@ class PiratesForums_Install
 	{
 		$fields = array();
 		
-		$fields['alert_handler_class']      = 'PiratesForums_AlertHandler_Report';
+		$fields['alert_handler_class'] = 'PiratesForums_AlertHandler_Report';
 		
 		return $fields;
 	}
