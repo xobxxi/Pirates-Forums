@@ -2,6 +2,7 @@
 
 // config
 $statics   = array(
+	'server.piratesforums.com'
 	'piratesoffline.org',
 	'mcraging.com'
 );
