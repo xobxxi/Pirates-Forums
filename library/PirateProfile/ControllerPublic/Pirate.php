@@ -677,49 +677,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		);
 	}
 	
-	protected function _assertPirateCommentValidAndViewable($commentId)
-	{
-		$pirateModel = $this->_getPirateModel();
-
-		$permissions = $pirateModel->getPermissions();
-		if (!$permissions['view'])
-		{
-			throw $this->getNoPermissionResponseException();
-		}
-		
-		$comment = $pirateModel->getPirateCommentById($commentId);
-		
-		if (empty($comment))
-		{
-			throw $this->responseException($this->responseError(
-				new XenForo_Phrase('requested_comment_not_found'), 404)
-			);
-		}
-
-		$pirate = $pirateModel->getPirateById(
-			$comment['pirate_id'],
-			array('likeUserId' => XenForo_Visitor::getUserId())
-		);
-
-		if (empty($pirate))
-		{
-			throw $this->responseException($this->responseError(
-				new XenForo_Phrase('pirateProfile_requested_pirate_not_found'), 404)
-			);
-		}
-
-		$user = $this->_getUserModel()->getUserById($pirate['user_id']);
-
-		if (empty($user))
-		{
-			throw $this->responseException($this->responseError(
-				new XenForo_Phrase('requested_member_not_found'), 404)
-			);
-		}
-
-		return array($comment, $pirate, $user);
-	}
-	
 	public function actionCommentLike()
 	{
 		$commentId = $this->_input->filterSingle('comment', XenForo_Input::UINT);
@@ -1212,6 +1169,49 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		}
 
 		return array($pirate, $user);
+	}
+	
+	protected function _assertPirateCommentValidAndViewable($commentId)
+	{
+		$pirateModel = $this->_getPirateModel();
+
+		$permissions = $pirateModel->getPermissions();
+		if (!$permissions['view'])
+		{
+			throw $this->getNoPermissionResponseException();
+		}
+		
+		$comment = $pirateModel->getPirateCommentById($commentId);
+		
+		if (empty($comment))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('requested_comment_not_found'), 404)
+			);
+		}
+
+		$pirate = $pirateModel->getPirateById(
+			$comment['pirate_id'],
+			array('likeUserId' => XenForo_Visitor::getUserId())
+		);
+
+		if (empty($pirate))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('pirateProfile_requested_pirate_not_found'), 404)
+			);
+		}
+
+		$user = $this->_getUserModel()->getUserById($pirate['user_id']);
+
+		if (empty($user))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('requested_member_not_found'), 404)
+			);
+		}
+
+		return array($comment, $pirate, $user);
 	}
 
 	protected function _assertCanManagePirate($pirate, &$errorPhraseKey = '')

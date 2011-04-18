@@ -696,7 +696,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		if ($comment['user_id'] == $viewingUser['user_id'])
 		{
 			$errorPhraseKey = 'liking_own_content_cheating';
-			//return false;
+			return false;
 		}
 		
 		if ($viewingUser['user_id'])
