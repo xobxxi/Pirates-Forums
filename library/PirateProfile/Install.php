@@ -58,6 +58,8 @@ class PirateProfile_Install
 			  user_id int(10) unsigned NOT NULL,
 			  username varchar(50) NOT NULL,
 			  comment_date int(10) unsigned NOT NULL,
+		      likes int(10) NOT NULL DEFAULT '0',
+			  like_users blob NOT NULL,
 			  message mediumtext NOT NULL,
 			  PRIMARY KEY (pirate_comment_id),
 			  KEY profile_post_id_comment_date (pirate_id,comment_date)

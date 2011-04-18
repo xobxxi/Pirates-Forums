@@ -333,7 +333,7 @@ class PirateProfile_DataWriter_Pirate extends XenForo_DataWriter
 			$existing = $this->getExisting($skill);
 			$updated  = $this->get($skill);
 			
-			if (!empty($current))
+			if (!empty($existing))
 			{
 				if ($this->isChanged($skill) && ($updated > $existing))
 				{
