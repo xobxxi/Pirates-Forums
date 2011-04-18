@@ -67,7 +67,7 @@ class CommentsPlus_Model_ProfilePost extends XFCP_CommentsPlus_Model_ProfilePost
 					LEFT JOIN xf_liked_content AS liked_content
 						ON (liked_content.content_type = \'profile_post_comment\'
 							AND liked_content.content_id = profile_post_comment.profile_post_comment_id
-							AND liked_content.like_user_id = ' .$db->quote($fetchOptions['likeUserId']) . ')';
+							AND liked_content.like_user_id = ' . $db->quote($fetchOptions['likeUserId']) . ')';
 			}
 		}
 		

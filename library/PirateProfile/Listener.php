@@ -48,7 +48,7 @@ class PirateProfile_Listener
 				$contents = str_replace($search, $search . "\n" . $replace, $contents);
 				return $contents;
 			case 'account_alerts_extra':
-				$contents .= $template->create('pirateProfile_alert_preferences', $hookParams)->render();
+				$contents .= $template->create('pirateProfile_alert_preferences', $template->getParams())->render();
 				return $contents;
 			case 'member_view_tabs_heading':
 				$contents .= $template->create('pirateProfile_profile_tab', $hookParams)->render();

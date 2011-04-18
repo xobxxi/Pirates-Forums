@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0 RC 1" version_id="104" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0 RC 2" version_id="110" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -99,11 +99,14 @@
     <phrase title="pirateProfile_last_comment" version_id="26" version_string="1.4.0"><![CDATA[Last Comment]]></phrase>
     <phrase title="pirateProfile_last_updated" version_id="26" version_string="1.4.0"><![CDATA[Last Updated]]></phrase>
     <phrase title="pirateProfile_leveled" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[leveled]]></phrase>
+    <phrase title="pirateProfile_likes_your_comment_on_pirate" version_id="104" version_string="2.0.0 RC 1"><![CDATA[Likes your comment on a pirate]]></phrase>
     <phrase title="pirateProfile_likes_your_pirate" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[Likes your pirate]]></phrase>
+    <phrase title="pirateProfile_like_comment" version_id="104" version_string="2.0.0 RC 1"><![CDATA[Like Comment]]></phrase>
     <phrase title="pirateProfile_like_pirate" version_id="15" version_string="1.0.0"><![CDATA[Like Pirate]]></phrase>
     <phrase title="pirateProfile_liking_pirate" version_id="17" version_string="1.1.0 Beta 1.1"><![CDATA[Liking pirate]]></phrase>
     <phrase title="pirateProfile_make_fit" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[Make fit]]></phrase>
     <phrase title="pirateProfile_member" version_id="31" version_string="1.5.0 RC 1"><![CDATA[Member]]></phrase>
+    <phrase title="pirateProfile_members_who_liked_this_comment" version_id="104" version_string="2.0.0 RC 1"><![CDATA[Members Who Liked This Comment]]></phrase>
     <phrase title="pirateProfile_members_who_liked_this_pirate" version_id="15" version_string="1.0.0"><![CDATA[Members Who Liked This Pirate]]></phrase>
     <phrase title="pirateProfile_none" version_id="26" version_string="1.4.0"><![CDATA[None]]></phrase>
     <phrase title="pirateProfile_notoriety" version_id="100" version_string="2.0.0 Beta 1"><![CDATA[Notoriety]]></phrase>
@@ -153,6 +156,7 @@
     <phrase title="pirateProfile_someone_comments_on_a_pirate_that_you_have_commented_on" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[Someone comments on a pirate that you have commented on]]></phrase>
     <phrase title="pirateProfile_someone_comments_on_one_of_your_pirates" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[Someone comments on one of your pirates]]></phrase>
     <phrase title="pirateProfile_someone_likes_one_of_your_pirates" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[Someone likes one of your pirates]]></phrase>
+    <phrase title="pirateProfile_someone_likes_your_comment_on_pirate" version_id="104" version_string="2.0.0 RC 1"><![CDATA[Someone likes your comment on a pirate]]></phrase>
     <phrase title="pirateProfile_specified_pirate_cannot_be_found_enter_entire_name" version_id="26" version_string="1.4.0"><![CDATA[The specified pirate cannot be found. Please enter a pirate's entire name.]]></phrase>
     <phrase title="pirateProfile_s_fishing" version_id="54" version_string="1.9.9"><![CDATA[Fishing]]></phrase>
     <phrase title="pirateProfile_s_potions" version_id="54" version_string="1.9.9"><![CDATA[Potions]]></phrase>
@@ -161,6 +165,7 @@
     <phrase title="pirateProfile_the_pirate_has_been_saved_successfully" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[The pirate has been saved successfully.]]></phrase>
     <phrase title="pirateProfile_this_is_directory_of_all_member_pirates" version_id="31" version_string="1.5.0 RC 1"><![CDATA[This is a directory of all member pirates.]]></phrase>
     <phrase title="pirateProfile_this_user_has_not_entered_any_pirates" version_id="6" version_string="1.0.0 Alpha 7"><![CDATA[This user has not entered any pirates.]]></phrase>
+    <phrase title="pirateProfile_unlike_comment" version_id="104" version_string="2.0.0 RC 1"><![CDATA[Unlike Comment]]></phrase>
     <phrase title="pirateProfile_unlike_pirate" version_id="15" version_string="1.0.0"><![CDATA[Unlike Pirate]]></phrase>
     <phrase title="pirateProfile_up" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[up]]></phrase>
     <phrase title="pirateProfile_updated" version_id="30" version_string="1.5.0 Beta 2"><![CDATA[Updated]]></phrase>
@@ -188,11 +193,14 @@
     <phrase title="pirateProfile_x_also_commented_on_ys_pirate" version_id="18" version_string="1.1.0"><![CDATA[{name} also commented on {owner}'s pirate: <a {pirate_attributes}>{pirate}</a>.]]></phrase>
     <phrase title="pirateProfile_x_commented_on_your_pirate" version_id="18" version_string="1.1.0"><![CDATA[{name} commented on your pirate: <a {pirate_attributes}>{pirate}</a>.]]></phrase>
     <phrase title="pirateProfile_x_has_added_a_new_pirate_y" version_id="8" version_string="1.0.0 Alpha 9"><![CDATA[{username} has added a new pirate: {pirate}.]]></phrase>
+    <phrase title="pirateProfile_x_liked_your_comment_on_ys_pirate_z" version_id="104" version_string="2.0.0 RC 1"><![CDATA[{name} likes your comment on {owner}'s pirate: <a{pirate_params}>{pirate}</a>]]></phrase>
     <phrase title="pirateProfile_x_liked_your_pirate" version_id="18" version_string="1.1.0"><![CDATA[{name} liked your pirate: <a {pirate_attributes}>{pirate}</a>.]]></phrase>
     <phrase title="pirateProfile_x_liked_ys_pirate" version_id="15" version_string="1.0.0"><![CDATA[{name} liked {username}'s pirate: <a {pirate_attributes}>{pirate}</a>]]></phrase>
     <phrase title="pirateProfile_your_pirates" version_id="1" version_string="1.0.0 Alpha 2"><![CDATA[Your Pirates]]></phrase>
     <phrase title="pirateProfile_you_have_not_entered_any_pirates" version_id="100" version_string="2.0.0 Beta 1"><![CDATA[You have not entered any pirates.]]></phrase>
+    <phrase title="pirateProfile_you_sure_you_want_to_like_this_comment" version_id="104" version_string="2.0.0 RC 1"><![CDATA[Are you sure you want to like this comment?]]></phrase>
     <phrase title="pirateProfile_you_sure_you_want_to_like_this_pirate" version_id="15" version_string="1.0.0"><![CDATA[Are you sure you want to like this pirate?]]></phrase>
+    <phrase title="pirateProfile_you_sure_you_want_to_unlike_this_comment" version_id="104" version_string="2.0.0 RC 1"><![CDATA[Are you sure you want to unlike this comment?]]></phrase>
     <phrase title="pirateProfile_you_sure_you_want_to_unlike_this_pirate" version_id="15" version_string="1.0.0"><![CDATA[Are you sure you want to unlike this pirate?]]></phrase>
     <phrase title="pollsList_there_no_polls_to_display" version_id="7" version_string="1.0.0 Alpha 8"><![CDATA[There are no polls to display.]]></phrase>
   </phrases>
@@ -203,6 +211,12 @@
   </route_prefixes>
   <style_properties/>
   <templates>
+    <template title="alert_pirate_comment_like" version_id="104" version_string="2.0.0 RC 1"><![CDATA[{xen:phrase pirateProfile_x_liked_your_comment_on_ys_pirate_z,
+	'name={xen:helper username, $user, 'subject'}',
+	'owner={$content.pirate.user.username}',
+        'pirate_params= href="{xen:link pirates/card, $content.pirate}" class="PopupItemLink"',
+        'pirate={$content.pirate.name}'}.
+]]></template>
     <template title="alert_pirate_comment_other_commenter" version_id="40" version_string="1.7.1"><![CDATA[{xen:phrase pirateProfile_x_also_commented_on_ys_pirate,
 	'name={xen:helper username, $user, 'subject'}',
         'owner={$content.username}',
@@ -323,7 +337,7 @@
                 <xen:set var="$action">{xen:phrase pirateProfile_add}</xen:set>
         </xen:include>
 </form>]]></template>
-    <template title="pirateProfile_alert_preferences" version_id="22" version_string="1.3.0 Beta 2"><![CDATA[<h3 class="textHeading">{xen:phrase pirateProfile_pirates}</h3>
+    <template title="pirateProfile_alert_preferences" version_id="104" version_string="2.0.0 RC 1"><![CDATA[<h3 class="textHeading">{xen:phrase pirateProfile_pirates}</h3>
 <dl class="ctrlUnit">
 	<dt>{xen:phrase receive_alert_when_someone}...</dt>
 	<dd>
@@ -340,9 +354,64 @@
 				<label><input type="checkbox" value="1" name="alert[pirate_comment_other_commenter]" {xen:checked "!{$alertOptOuts.pirate_comment_other_commenter}"} /> {xen:phrase pirateProfile_also_comments_on_a_pirate}</label>
 				<p class="hint">{xen:phrase pirateProfile_someone_comments_on_a_pirate_that_you_have_commented_on}</p>
 			</li>
+                        <li><input type="hidden" name="alertSet[pirate_comment_like]" value="1" />
+	                        <label><input type="checkbox" value="1" name="alert[pirate_comment_like]" {xen:checked "!{$alertOptOuts.pirate_comment_like}"} /> {xen:phrase pirateProfile_likes_your_comment_on_pirate}</label>
+	                        <p class="hint">{xen:phrase pirateProfile_someone_likes_your_comment_on_pirate}</p>
+                        </li>
 		</ul> 
 	</dd>
 </dl>]]></template>
+    <template title="pirateProfile_comment_like" version_id="104" version_string="2.0.0 RC 1"><![CDATA[<xen:title>{$user.username} - {xen:if $like, '{xen:phrase pirateProfile_unlike_comment}', '{xen:phrase pirateProfile_like_comment}'}</xen:title>
+
+<xen:navigation>
+        <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+	<xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:pirates/card, $pirate}">{$pirate.name}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link 'pirates/comment-like', $pirate, 'comment={$comment.pirate_comment_id}'}" method="post" class="xenForm">
+
+	<dl class="ctrlUnit fullWidth">
+		<dt></dt>
+		<dd>
+			<xen:if is="{$like}">
+				{xen:phrase pirateProfile_you_sure_you_want_to_unlike_this_comment}
+			<xen:else />
+				{xen:phrase pirateProfile_you_sure_you_want_to_like_this_comment}
+			</xen:if>
+		</dd>
+	</dl>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd><input type="submit" value="{xen:if $like, '{xen:phrase pirateProfile_unlike_comment}', '{xen:phrase pirateProfile_like_comment}'}" accesskey="s" class="button primary" autofocus="true" /></dd>
+	</dl>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="pirateProfile_comment_likes" version_id="104" version_string="2.0.0 RC 1"><![CDATA[<xen:title>{$comment.username} - {xen:phrase pirateProfile_members_who_liked_this_comment}</xen:title>
+
+<xen:container var="$head.noindex">
+	<meta name="robots" content="noindex" />
+</xen:container>
+
+<xen:navigation>
+        <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+	<xen:breadcrumb href="{xen:link full:pirates, $user}">{xen:phrase pirateProfile_pirates}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:pirates/card, $pirate}">{$pirate.name}</xen:breadcrumb>
+</xen:navigation>
+
+<div class="section">
+	<ol class="overlayScroll">
+	<xen:foreach loop="$likes" value="$like">
+		<xen:include template="member_list_item">
+			<xen:set var="$extraTemplate"><xen:datetime time="$like.like_date" /></xen:set>
+			<xen:map from="$like" to="$user" />
+		</xen:include>
+	</xen:foreach>
+	</ol>
+	<div class="sectionFooter overlayOnly"><a class="button primary OverlayCloser">{xen:phrase close}</a></div>
+</div>]]></template>
     <template title="pirateProfile_delete" version_id="20" version_string="1.2.1"><![CDATA[<xen:title>{xen:phrase pirateProfile_delete_pirate_x, 'pirate={$pirate.name}'}</xen:title>
 
 <xen:navigation>
@@ -736,7 +805,7 @@ div.label,
         <li><a href="{xen:link pirates/add}" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">{xen:phrase pirateProfile_add_pirate}</a></li>
         </xen:if>
 </ul>]]></template>
-    <template title="pirateProfile_pirate_card" version_id="101" version_string="2.0.0 Beta 3"><![CDATA[<xen:require js="js/pirate/jquery-ui.js" />
+    <template title="pirateProfile_pirate_card" version_id="104" version_string="2.0.0 RC 1"><![CDATA[<xen:require js="js/pirate/jquery-ui.js" />
 <xen:require js="js/pirate/skills.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="pirateProfile_pirate_card.css" />
@@ -822,7 +891,7 @@ div.label,
 					        </xen:include>
 				        </xen:if>
 			        </li>
-                                			<xen:if is="{$pirate.comments}">
+                                <xen:if is="{$pirate.comments}">
 
 				<xen:if is="{$pirate.comment_count} > 3">
 					<li class="commentMore secondaryContent">
@@ -860,7 +929,7 @@ div.label,
         });
         </script>
 </div>]]></template>
-    <template title="pirateProfile_pirate_card.css" version_id="101" version_string="2.0.0 Beta 3"><![CDATA[#pirateProfile #cardLoader
+    <template title="pirateProfile_pirate_card.css" version_id="104" version_string="2.0.0 RC 1"><![CDATA[#pirateProfile #cardLoader
 {
 	min-height: 500px;
 }
@@ -1089,8 +1158,26 @@ div.label,
 {
         list-style: none !important;
         margin-left: 0 !important;
+}
+
+.comment .messageSimple.messageResponse
+{
+        margin-top: 0;
+}
+
+.comment .messageSimple
+{
+        margin: 0;
+        padding-bottom: 0;
+}
+
+.comment .messageSimple.messageResponse .likesSummary.secondaryContent
+{
+        background: transparent;
+        border: 0;
+        padding-left: 0px;
 }]]></template>
-    <template title="pirateProfile_pirate_comment" version_id="61" version_string="2.0.0"><![CDATA[<li class="comment secondaryContent">
+    <template title="pirateProfile_pirate_comment" version_id="104" version_string="2.0.0 RC 1"><![CDATA[<li class="comment secondaryContent">
 	<xen:avatar user="$comment" size="s" img="true" />
 
 	<div class="commentInfo">
@@ -1102,7 +1189,18 @@ div.label,
 			<xen:datetime time="$comment.comment_date" class="muted" />
                         <xen:if is="{$comment.permissions.edit}"><a href="{xen:link 'pirates/comment-edit', $pirate, "comment={$comment.pirate_comment_id}"}" class="OverlayTrigger item control edit"><span></span>{xen:phrase edit}</a></xen:if>
 			<xen:if is="{$comment.permissions.delete}"><a href="{xen:link 'pirates/comment-delete', $pirate, "comment={$comment.pirate_comment_id}"}" class="OverlayTrigger item control delete"><span></span>{xen:phrase delete}</a></xen:if>
+                        <xen:if is="{$comment.permissions.like}"><a href="{xen:link 'pirates/comment-like', $pirate, "comment={$comment.pirate_comment_id}"}" class="LikeLink item control {xen:if $comment.like_date, unlike, like}" data-container="#likes-wp-c-{$comment.profile_post_comment_id}"><span></span><span class="LikeLabel">{xen:if $comment.like_date, {xen:phrase unlike}, {xen:phrase like}}</span></a></xen:if>
 		</div>
+                <ol class="messageResponse messageSimple">
+		        <li id="likes-wp-c-{$comment.profile_post_comment_id}">
+                        <xen:if is="{$comment.likes}">
+                                <xen:include template="likes_summary">
+                                        <xen:map from="$comment" to="$message" />
+                                        <xen:set var="$likesUrl">{xen:link pirates/comment-likes, $pirate, "comment={$comment.pirate_comment_id}"}</xen:set>
+                                </xen:include>
+                        </xen:if>
+                        </li>
+                </ol>
 	</div>
 </li>]]></template>
     <template title="pirateProfile_pirate_comments" version_id="18" version_string="1.1.0"><![CDATA[<xen:title>{xen:phrase pirateProfile_comments_on_pirate_x, 'pirate={$pirate.name}'}</xen:title>

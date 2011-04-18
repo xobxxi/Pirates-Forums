@@ -90,10 +90,45 @@ class PirateProfile_Install
 		
 		self::insertRow($db, $contentTypeRow, true);
 		
+		self::installComments($db);
+		
 		$contentTypeModel = XenForo_Model::create('XenForo_Model_ContentType');
 		$contentTypeModel->rebuildContentTypeCache();
 
 		return true;
+	}
+	
+	public static function installComments($db)
+	{
+		$fields = array(
+			'alert_handler_class' => 'PirateProfile_AlertHandler_PirateComment',
+			'like_handler_class'  => 'PirateProfile_LikeHandler_PirateComment',
+			'news_handler_class'  => 'PirateProfile_NewsHandler_PirateComment'
+		);
+		
+		foreach ($fields as $name => $value)
+		{
+			$row = array(
+				'table'      => 'xf_content_type_field',
+				'identifier' => "xf_content_type_field.content_type = 'pirate_comment'
+					AND xf_content_type_field.field_name = '{$name}'",
+				'fields'     => '`content_type`, `field_name`, `field_value`',
+				'values'     => "'pirate_comment', '{$name}', '{$value}'"
+			);
+			
+			self::insertRow($db, $row, true);
+		}
+		
+		$fields = serialize($fields);
+
+		$contentTypeRow = array(
+			'table'      => 'xf_content_type',
+			'identifier' => "xf_content_type.content_type = 'pirate_comment'",
+			'fields'     => '`content_type`, `addon_id`, `fields`',
+			'values'     => "'pirate_comment', 'pirateProfile', '{$fields}'"
+		);
+
+		self::insertRow($db, $contentTypeRow, true);
 	}
 
 	public static function uninstall()
@@ -113,6 +148,11 @@ class PirateProfile_Install
 		$db->query("
 			DELETE FROM xf_content_type_field
 			WHERE xf_content_type_field.content_type = 'pirate'
+		");
+		
+		$db->query("
+			DELETE FROM xf_content_type_field
+			WHERE xf_content_type_field.content_type = 'pirate_comment'
 		");
 		
 		$db->query("

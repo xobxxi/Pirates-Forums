@@ -19,4 +19,25 @@ class CommentsPlus_DataWriter_ProfilePostComment extends XFCP_CommentsPlus_DataW
 		
 		return $fields;
 	}
+	
+	protected function _postDelete()
+	{
+		parent::_postDelete();
+		
+		if ($likes = $this->get('likes'))
+		{
+			$this->getModelFromCache('XenForo_Model_Like')->deleteContentLikes(
+				'profile_post_comment', $this->get('profile_post_comment_id')
+			);
+			
+			if ($userId = $this->get('user_id'))
+			{
+				$this->_db->query('
+					UPDATE xf_user
+					SET like_count = IF(like_count > ?, like_count - ?, 0)
+					WHERE user_id = ?
+				', array($likes, $likes, $userId));
+			}
+		}
+	}
 }

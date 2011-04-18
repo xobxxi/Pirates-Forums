@@ -279,7 +279,8 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$pirate = $pirateModel->preparePirate($pirate, $user);
 
 		$pirate = $pirateModel->addPirateCommentsToPirate($pirate, array(
-			'join' => PirateProfile_Model_Pirate::FETCH_COMMENT_USER
+			'join' => PirateProfile_Model_Pirate::FETCH_COMMENT_USER,
+			'likeUserId' => XenForo_Visitor::getUserId()
 		));
 
 		if (isset($pirate['comments']))
@@ -675,6 +676,160 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			$viewParams
 		);
 	}
+	
+	protected function _assertPirateCommentValidAndViewable($commentId)
+	{
+		$pirateModel = $this->_getPirateModel();
+
+		$permissions = $pirateModel->getPermissions();
+		if (!$permissions['view'])
+		{
+			throw $this->getNoPermissionResponseException();
+		}
+		
+		$comment = $pirateModel->getPirateCommentById($commentId);
+		
+		if (empty($comment))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('requested_comment_not_found'), 404)
+			);
+		}
+
+		$pirate = $pirateModel->getPirateById(
+			$comment['pirate_id'],
+			array('likeUserId' => XenForo_Visitor::getUserId())
+		);
+
+		if (empty($pirate))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('pirateProfile_requested_pirate_not_found'), 404)
+			);
+		}
+
+		$user = $this->_getUserModel()->getUserById($pirate['user_id']);
+
+		if (empty($user))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('requested_member_not_found'), 404)
+			);
+		}
+
+		return array($comment, $pirate, $user);
+	}
+	
+	public function actionCommentLike()
+	{
+		$commentId = $this->_input->filterSingle('comment', XenForo_Input::UINT);
+		
+		list($comment, $pirate, $user) = $this->_assertPirateCommentValidAndViewable($commentId);
+		
+		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);
+		if ($pirateId != $comment['pirate_id'])
+		{
+			return $this->responseNoPermission();
+		}
+		
+		if (!$this->_getPirateModel()->canLikePirateComment($comment, $errorPhraseKey))
+		{
+			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
+		}
+		
+		$likeModel = $this->getModelFromCache('XenForo_Model_Like');
+
+		$existingLike = $likeModel->getContentLikeByLikeUser(
+			'pirate_comment', $commentId, XenForo_Visitor::getUserId()
+		);
+		
+		if ($this->_request->isPost())
+		{
+			if ($existingLike)
+			{
+				$latestUsers = $likeModel->unlikeContent($existingLike);
+			}
+			else
+			{
+				$latestUsers = $likeModel->likeContent(
+					'pirate_comment', $commentId, $comment['user_id']
+				);
+			}
+			
+			$liked = ($existingLike ? false : true);
+
+			if ($this->_noRedirect() && $latestUsers !== false)
+			{
+				$comment['likeUsers'] = $latestUsers;
+				$comment['likes'] += ($liked ? 1 : -1);
+				$comment['like_date'] = ($liked ? XenForo_Application::$time : 0);
+
+				$viewParams = array(
+					'comment' => $comment,
+					'pirate'  => $pirate,
+					'user'    => $user,
+					'liked'   => $liked,
+				);
+
+				return $this->responseView(
+					'PirateProfile_ViewPublic_Pirate_CommentLikeConfirmed',
+					'',
+					$viewParams
+				);
+			}
+			else
+			{
+				return $this->responseRedirect(
+						XenForo_ControllerResponse_Redirect::SUCCESS,
+						XenForo_Link::buildPublicLink('pirates/card', $pirate)
+				);
+			}
+		}
+		else
+		{
+			$viewParams = array(
+				'comment' => $comment,
+				'pirate'  => $pirate,
+				'user'    => $user,
+				'like'    => $existingLike
+			);
+
+			return $this->responseView(
+				'PirateProfile_ViewPublic_Pirate_LikeComment',
+				'pirateProfile_comment_like',
+				$viewParams
+			);
+		}
+	}
+	
+	public function actionCommentLikes()
+	{
+		$commentId = $this->_input->filterSingle('comment', XenForo_Input::UINT);
+		
+		list($comment, $pirate, $user) = $this->_assertPirateCommentValidAndViewable($commentId);
+		
+		$likes = $this->getModelFromCache('XenForo_Model_Like')
+		              ->getContentLikes('pirate_comment', $commentId);
+		if (!$likes)
+		{
+			return $this->responseError(
+				new XenForo_Phrase('pirateProfile_no_one_has_liked_this_comment_yet')
+			);
+		}
+
+		$viewParams = array(
+			'pirate'  => $pirate,
+			'comment' => $comment,
+			'user'    => $user,
+			'likes'   => $likes	
+		);
+		
+		return $this->responseView(
+			'PirateProfile_ViewPublic_Pirate_CommentLikes',
+			'pirateProfile_comment_likes',
+			$viewParams
+		);
+	}
 
 	public function actionAdd()
 	{
@@ -688,7 +843,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		foreach ($skills as &$name)
 		{
 			$name = array(
-				'name'    => $name,
+				'name' => $name,
 			);
 		}
 
@@ -746,9 +901,9 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		foreach ($ranks as $type => &$children)
 		{
 			$children = array(
-				'children'   => $children,
-				'name'    => new XenForo_Phrase('pirateProfile_' . $type),
-				'current' => $pirate[$type]
+				'children' => $children,
+				'name'     => new XenForo_Phrase('pirateProfile_' . $type),
+				'current'  => $pirate[$type]
 			);
 		}
 

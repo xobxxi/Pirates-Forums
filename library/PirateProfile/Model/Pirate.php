@@ -480,6 +480,27 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	{
 		$selectFields = '';
 		$joinTables = '';
+		
+		$db = $this->_getDb();
+
+		if (isset($fetchOptions['likeUserId']))
+		{
+			if (empty($fetchOptions['likeUserId']))
+			{
+				$selectFields .= ',
+					0 AS like_date';
+			}
+			else
+			{
+				$selectFields .= ',
+					liked_content.like_date';
+				$joinTables .= '
+					LEFT JOIN xf_liked_content AS liked_content
+						ON (liked_content.content_type = \'pirate_comment\'
+							AND liked_content.content_id = pirate_comment.pirate_comment_id
+							AND liked_content.like_user_id = ' . $db->quote($fetchOptions['likeUserId']) . ')';
+			}
+		}
 
 		if (!empty($fetchOptions['join']))
 		{
@@ -601,11 +622,14 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 	}
 	
 	public function preparePirateComment(array $comment, array $pirate, array $user, array $viewingUser = null)
-	{
+	{	
 		$comment['permissions'] = array(
 			'edit'   => $this->canEditPirateComment($comment, $pirate, $user, $null, $viewingUser),
-			'delete' => $this->canDeletePirateComment($comment, $pirate, $user, $null, $viewingUser)
+			'delete' => $this->canDeletePirateComment($comment, $pirate, $user, $null, $viewingUser),
+			'like'   => $this->canLikePirateComment($comment, $null, $viewingUser)
 		);
+		
+		$comment['likeUsers']  = unserialize($comment['like_users']);
 		
 		return $comment;
 	}
@@ -662,6 +686,29 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		{
 			return false;
 		}
+	}
+	
+	
+	public function canLikePirateComment(array $comment, &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+		
+		if ($comment['user_id'] == $viewingUser['user_id'])
+		{
+			$errorPhraseKey = 'liking_own_content_cheating';
+			//return false;
+		}
+		
+		if ($viewingUser['user_id'])
+		{
+			$permissions = $this->getPermissions($viewingUser);
+			if ($permissions['view'])
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public function getPermissions(array $viewingUser = null)

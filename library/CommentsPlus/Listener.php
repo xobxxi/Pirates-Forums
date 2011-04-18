@@ -50,7 +50,7 @@ class CommentsPlus_Listener
 		switch ($hookName)
 		{
 			case 'account_alerts_messages_on_profile_pages':
-				$contents .= $template->create('commentsPlus_alert_preferences', $hookParams)->render();
+				$contents .= $template->create('commentsPlus_alert_preferences', $template->getParams())->render();
 				return $contents;
 		}
 	}

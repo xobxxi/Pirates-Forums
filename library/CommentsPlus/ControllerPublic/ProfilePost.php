@@ -113,10 +113,10 @@ class CommentsPlus_ControllerPublic_ProfilePost extends XFCP_CommentsPlus_Contro
 		else
 		{
 			$viewParams = array(
-				'comment' => $comment,
+				'comment'     => $comment,
 				'profilePost' => $profilePost,
-				'user'   => $user,
-				'like'   => $existingLike
+				'user'        => $user,
+				'like'        => $existingLike
 			);
 
 			return $this->responseView(
@@ -133,8 +133,8 @@ class CommentsPlus_ControllerPublic_ProfilePost extends XFCP_CommentsPlus_Contro
 		
 		list($comment, $profilePost, $user) = $this->getHelper('UserProfile')->assertProfilePostCommentValidAndViewable($commentId);
 		
-		$likes =  $this->getModelFromCache('XenForo_Model_Like')
-		               ->getContentLikes('profile_post_comment', $commentId);
+		$likes = $this->getModelFromCache('XenForo_Model_Like')
+		              ->getContentLikes('profile_post_comment', $commentId);
 		if (!$likes)
 		{
 			return $this->responseError(
@@ -144,8 +144,8 @@ class CommentsPlus_ControllerPublic_ProfilePost extends XFCP_CommentsPlus_Contro
 
 		$viewParams = array(
 			'comment' => $comment,
-			'user'   => $user,
-			'likes'  => $likes	
+			'user'    => $user,
+			'likes'   => $likes	
 		);
 		
 		return $this->responseView(
