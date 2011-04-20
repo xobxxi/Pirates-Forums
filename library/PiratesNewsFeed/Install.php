@@ -24,7 +24,7 @@ class PiratesNewsFeed_Install
 		
 		$contentTypeRow = array(
 			'table'      => 'xf_content_type',
-			'identifier' => "xf_content_type.content_type = 'report'",
+			'identifier' => "xf_content_type.content_type = 'news'",
 			'fields'     => '`content_type`, `addon_id`, `fields`',
 			'values'     => "'news', 'piratesNewsFeed', '{$fields}'"
 		);
