@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <language title="English (US)" date_format="M j, Y" time_format="g:i A" decimal_point="." thousands_separator="," language_code="en-US">
-  <phrase title="terms_rules_text" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<p class="subHeading">Last modified: March 9th, 2011</p>
+  <phrase title="terms_rules_text" addon_id="XenForo" version_id="1000170" version_string="1.0.1"><![CDATA[<p class="subHeading">Last modified: April 19th, 2011</p>
 <h3>Rules</h3>
 <ul>
 <li>No Flaming</li>
@@ -16,7 +16,7 @@
 If you are found, at our discretion, to be editing posts with arbitrary intentions, removing posts
 to disrupt this site, posting spam content to the site, or otherwise causing problems, it could result
 in removal of site privileges and/or a temporary or permanent ban. This includes working around the censors we have setup.</p>
-<p>Abuse of the like system is not allowed. Persons found, at our discretion, to be soliciting or exchanging likes could receive a temporary or permanent ban.</p>
+<p>Abuse of the like system is not allowed. Persons found, at our discretion, to be soliciting, exchanging, or spamming likes could receive a reduction in likes, a temporary ban, or lose the ability to like content entirely.</p>
 <p>Additionally, content posted that disrupts the community, such at those promoting other sites or games, will be removed at our discretion.</p>
 <li>No Drama</li>
 <p>We do not allow drama here. Please conduct yourself respectfully and don't cause trouble between any group or individual.</p>
@@ -26,6 +26,7 @@ in removal of site privileges and/or a temporary or permanent ban. This includes
 <p>We do not allow language that is obscene, bigoted, sexually explicit, or suggestive in nature. Additionally, you may not post harassing messages. Persons found posting such content could face a temporary or permanent ban.</p>
 <li>Discussion Topics</li>
 <p>You may not suggest, encourage, boast about, or discuss your participation in, any illegal activity. Persons found dicussing such activities could face a temporary or permanent ban.</p>
+<p>Please keep posts in threads on-topic, or start a new thread if you have something off-topic to discuss. Off-topic posts are subject to removal.</p>
 </ul>
 
 <h3>Terms</h3>

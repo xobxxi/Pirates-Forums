@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="piratesNewsFeed" title="Pirates News Feed" version_string="1.1.0" version_id="10" url="http://piratesforums.com" install_callback_class="PiratesNewsFeed_Install" install_callback_method="install" uninstall_callback_class="PiratesNewsFeed_Install" uninstall_callback_method="uninstall">
+<addon addon_id="piratesNewsFeed" title="Pirates News Feed" version_string="1.1.1" version_id="11" url="http://piratesforums.com" install_callback_class="PiratesNewsFeed_Install" install_callback_method="install" uninstall_callback_class="PiratesNewsFeed_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -63,6 +63,7 @@
     <phrase title="piratesNewsFeed_no_news_id" version_id="1" version_string="1.0"><![CDATA[No news ID was specified.]]></phrase>
     <phrase title="piratesNewsFeed_post_news" version_id="4" version_string="1.0.0"><![CDATA[Post News]]></phrase>
     <phrase title="piratesNewsFeed_refresh_news" version_id="4" version_string="1.0.0"><![CDATA[Refresh News]]></phrase>
+    <phrase title="piratesNewsFeed_viewing_news" version_id="10" version_string="1.1.0"><![CDATA[Viewing News]]></phrase>
   </phrases>
   <route_prefixes>
     <route_type type="public">

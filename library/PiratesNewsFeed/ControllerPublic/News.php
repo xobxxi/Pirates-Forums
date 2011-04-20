@@ -164,6 +164,11 @@ class PiratesNewsFeed_ControllerPublic_News extends XenForo_ControllerPublic_Abs
 		);
 	}
 	
+	public static function getSessionActivityDetailsForList(array $activities)
+	{
+		return new XenForo_Phrase('piratesNewsFeed_viewing_news');
+	}
+	
 	protected function _getPiratesNewsFeedModel()
 	{
 		return $this->getModelFromCache('PiratesNewsFeed_Model_PiratesNewsFeed');

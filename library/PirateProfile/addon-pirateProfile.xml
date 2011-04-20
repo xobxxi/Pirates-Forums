@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.0" version_id="111" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.1" version_id="112" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1177,7 +1177,7 @@ div.label,
         border: 0;
         padding-left: 0px;
 }]]></template>
-    <template title="pirateProfile_pirate_comment" version_id="104" version_string="2.0.0 RC 1"><![CDATA[<li class="comment secondaryContent">
+    <template title="pirateProfile_pirate_comment" version_id="111" version_string="2.0.0"><![CDATA[<li class="comment secondaryContent">
 	<xen:avatar user="$comment" size="s" img="true" />
 
 	<div class="commentInfo">
@@ -1189,10 +1189,10 @@ div.label,
 			<xen:datetime time="$comment.comment_date" class="muted" />
                         <xen:if is="{$comment.permissions.edit}"><a href="{xen:link 'pirates/comment-edit', $pirate, "comment={$comment.pirate_comment_id}"}" class="OverlayTrigger item control edit"><span></span>{xen:phrase edit}</a></xen:if>
 			<xen:if is="{$comment.permissions.delete}"><a href="{xen:link 'pirates/comment-delete', $pirate, "comment={$comment.pirate_comment_id}"}" class="OverlayTrigger item control delete"><span></span>{xen:phrase delete}</a></xen:if>
-                        <xen:if is="{$comment.permissions.like}"><a href="{xen:link 'pirates/comment-like', $pirate, "comment={$comment.pirate_comment_id}"}" class="LikeLink item control {xen:if $comment.like_date, unlike, like}" data-container="#likes-wp-c-{$comment.profile_post_comment_id}"><span></span><span class="LikeLabel">{xen:if $comment.like_date, {xen:phrase unlike}, {xen:phrase like}}</span></a></xen:if>
+                        <xen:if is="{$comment.permissions.like}"><a href="{xen:link 'pirates/comment-like', $pirate, "comment={$comment.pirate_comment_id}"}" class="LikeLink item control {xen:if $comment.like_date, unlike, like}" data-container="#likes-wp-c-{$comment.pirate_comment_id}"><span></span><span class="LikeLabel">{xen:if $comment.like_date, {xen:phrase unlike}, {xen:phrase like}}</span></a></xen:if>
 		</div>
                 <ol class="messageResponse messageSimple">
-		        <li id="likes-wp-c-{$comment.profile_post_comment_id}">
+		        <li id="likes-wp-c-{$comment.pirate_comment_id}">
                         <xen:if is="{$comment.likes}">
                                 <xen:include template="likes_summary">
                                         <xen:map from="$comment" to="$message" />
