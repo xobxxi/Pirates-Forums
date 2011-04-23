@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.1" version_id="112" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
+<addon addon_id="pirateProfile" title="Pirate Profiles" version_string="2.0.5" version_id="114" url="http://piratesforums.com" install_callback_class="PirateProfile_Install" install_callback_method="install" uninstall_callback_class="PirateProfile_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -929,7 +929,7 @@ div.label,
         });
         </script>
 </div>]]></template>
-    <template title="pirateProfile_pirate_card.css" version_id="104" version_string="2.0.0 RC 1"><![CDATA[#pirateProfile #cardLoader
+    <template title="pirateProfile_pirate_card.css" version_id="113" version_string="2.0.5"><![CDATA[#pirateProfile #cardLoader
 {
 	min-height: 500px;
 }
@@ -955,7 +955,7 @@ div.label,
 	width: 265px;
 	height: 60px;
 	line-height: 60px;
-	background: transparent url('{xen:property imagePath}/card/title.gif') no-repeat top center;
+	background: transparent url('{xen:property imagePath}/card/title.png') no-repeat top center;
 	text-align: center;
 	margin-left: 4px;
 }
@@ -972,7 +972,7 @@ div.label,
 .pirateCard .pirateProfile .pirateTitle p.pirateName.founder
 {
 	color: rgb(250,200,100);
-        background-image: url({xen:property imagePath}/card/founder.gif);
+        background-image: url({xen:property imagePath}/card/founder.png);
         background-repeat: no-repeat;
         background-position: 23px 23px;
 }
@@ -989,14 +989,14 @@ div.label,
 	width: 250px;
 	height: 280px;
 	margin-left: 5px;
-	background: rgb(147,122,84) url('{xen:property imagePath}/card/avatar.gif') no-repeat center center;
+	background: rgb(147,122,84) url('{xen:property imagePath}/card/avatar.png') no-repeat center center;
         overflow: hidden;
         border-style: solid;
         border-color: rgb(125, 125, 103);
 	border-width: 4px 7px 0px;
-	-moz-border-image: url({xen:property imagePath}/card/borders/border-frame.gif) 4 7 0 repeat;
-	-webkit-border-image: url({xen:property imagePath}/card/borders/border-frame.gif) 4 7 0 repeat;
-	border-image: url({xen:property imagePath}/card/borders/border-frame.gif) 4 7 0 repeat;
+	-moz-border-image: url({xen:property imagePath}/card/borders/border-frame.png) 4 7 0 repeat;
+	-webkit-border-image: url({xen:property imagePath}/card/borders/border-frame.png) 4 7 0 repeat;
+	border-image: url({xen:property imagePath}/card/borders/border-frame.png) 4 7 0 repeat;
 }
 
 .pirateCard .pirateProfile .pirateAvatar .pirateLevel
@@ -1004,7 +1004,7 @@ div.label,
 	width: 78px;
 	height: 19px;
         line-height: 19px;
-	background: rgb(100,8,11) url('{xen:property imagePath}/card/level.jpg') no-repeat top left;
+	background: rgb(100,8,11) url('{xen:property imagePath}/card/level.png') no-repeat top left;
 	font-size: 13px;
 	text-align: center;
         position: relative;
@@ -1041,7 +1041,7 @@ div.label,
 	height: 73px;
 	width: 268px;
 	line-height: 73px;
-	background-image: url('{xen:property imagePath}/card/extra.gif');
+	background-image: url('{xen:property imagePath}/card/extra.png');
 	text-align: center;
 }
 
@@ -1049,15 +1049,15 @@ div.label,
 {
 	width: 189px;
 	height: 310px;
-	background: rgb(0,0,0) url('{xen:property imagePath}/card/skill_levels.jpg') no-repeat center 1px;
+	background: rgb(0,0,0) url('{xen:property imagePath}/card/skill_levels.png') no-repeat center 1px;
 	margin-top: 24px;
 	padding-top: 50px;
         border-style: solid;
         border-color: rgb(125, 125, 103);
 	border-width: 7px 7px 7px 0px;
-	-moz-border-image: url({xen:property imagePath}/card/borders/skills-border-frame.gif) 7 7 7 0 stretch;
-	-webkit-border-image: url({xen:property imagePath}/card/borders/skills-border-frame.gif) 7 7 7 0 stretch;
-	border-image: url({xen:property imagePath}/card/borders/skills-border-frame.gif) 7 7 7 0 stretch;
+	-moz-border-image: url({xen:property imagePath}/card/borders/skills-border-frame.png) 7 7 7 0 stretch;
+	-webkit-border-image: url({xen:property imagePath}/card/borders/skills-border-frame.png) 7 7 7 0 stretch;
+	border-image: url({xen:property imagePath}/card/borders/skills-border-frame.png) 7 7 7 0 stretch;
 	float: left;
 }
 
@@ -1104,7 +1104,7 @@ div.label,
 {
 	width: 33px;
 	height: 256px;
-	background: transparent url('{xen:property imagePath}/card/handle/handle.gif') no-repeat center center;
+	background: transparent url('{xen:property imagePath}/card/handle/handle.png') no-repeat center center;
 	margin-top: 82px;
         margin-left: -6px;
 	float: left;
