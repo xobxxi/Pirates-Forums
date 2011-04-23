@@ -2,9 +2,6 @@
 !function($, window, document, _undefined)
 {
 	XenForo.setupSkills = function() {
-		
-		
-		
 		$('.pirateCard .pirateProfile div.pirateAvatar')
 			.css('position', 'relative')
 			.css('z-index', '2');
