@@ -51,7 +51,7 @@ class PirateProfile_Listener
 				$contents .= $template->create('pirateProfile_alert_preferences', $template->getParams())->render();
 				return $contents;
 			case 'member_view_tabs_heading':
-				$contents .= $template->create('pirateProfile_profile_tab', $hookParams)->render();
+				$contents .= $template->create('pirateProfile_profile_tab', $template->getParams())->render();
 				return $contents;
 			case 'member_view_tabs_content':
 				$contents .= $template->create('pirateProfile_profile_tab_content', $hookParams)->render();
