@@ -2,7 +2,7 @@
 <style title="Pirates" description="Avast! This style is themed with elements from Disney's Pirates of the Caribbbean Online!" user_selectable="1">
   <properties>
     <property property_name="header" property_type="css"><![CDATA[[]]]></property>
-    <property property_name="imagePath" property_type="scalar"><![CDATA[http://piratesforumscdn.appspot.com/media/pirates]]></property>
+    <property property_name="imagePath" property_type="scalar"><![CDATA[http://piratesoffline.org/styles/pirates]]></property>
     <property property_name="button" property_type="css"><![CDATA[{"background-color":"rgb(55, 0, 0)","background-image":"@imagePath\/images\/buttons\/button.gif","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"rgb(179, 179, 189)","border-color":"rgb(221, 221, 235)","border-radius":"7px","border-style":"solid","border-top-color":"rgb(255, 255, 255)","border-width":"1px","color":"rgb(255, 255, 255)","extra":"text-align: center;\nbox-shadow: 0px 1px 4px 0px rgb(200,200,210);\ntext-shadow: 0px -1px 2px white;\noutline: none;\nline-height: 23px;\ndisplay: inline-block;\ncursor: pointer;\nbox-sizing: border-box;","font-family":"Calibri, 'Trebuchet MS', Verdana, Geneva, Arial, Helvetica, sans-serif","font-size":"12px","height":"23px","padding-bottom":"0px","padding-left":"6px","padding-right":"6px","padding-top":"0px"}]]></property>
     <property property_name="html" property_type="css"><![CDATA[{"background-image":"@imagePath\/images\/wood.jpg","background-repeat":"repeat","color":"rgb(100, 100, 100)","extra":"background-attachment: fixed;"}]]></property>
     <property property_name="overlaySection" property_type="css"><![CDATA[{"border-color":"rgb(55, 0, 0)","border-radius":"20px","border-style":"solid","border-width":"20px","padding-all":"0px"}]]></property>
@@ -607,6 +607,13 @@ blockquote .bbCodeQuote aside .attribution a:hover
 }
 .attachedFiles .attachedFilesHeader {
          color: rgb(153, 0, 0) !important;
+}
+
+/* signatures */
+.message .signature {
+max-height: 100px;
+max-width: 500px;
+overflow: hidden !important;
 }
 
 /* profile tabs */

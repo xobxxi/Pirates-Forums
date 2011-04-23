@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <language title="English (US)" date_format="M j, Y" time_format="g:i A" decimal_point="." thousands_separator="," language_code="en-US">
-  <phrase title="terms_rules_text" addon_id="XenForo" version_id="1000170" version_string="1.0.1"><![CDATA[<p class="subHeading">Last modified: April 19th, 2011</p>
+  <phrase title="terms_rules_text" addon_id="XenForo" version_id="1000170" version_string="1.0.1"><![CDATA[<p class="subHeading">Last modified: April 24th, 2011</p>
 <h3>Rules</h3>
 <ul>
 <li>No Flaming</li>
@@ -9,8 +9,9 @@
 <p>We do not allow any bias towards or against any group or individual</p>
 <li>Links</li>
 <p>We allow linking to sites with appropriate content. Do not link to sites that include anything that isn't family friendly. Additionally, we will censor any competitive site that is not affiliated directly with Disney.</p>
-<li>Small Signatures</li>
-<p>Signatures should not be abused. Please keep them free of videos and large images, or a large amount of text. They should not distract from or be bigger than the average post.</p>
+<li>Signatures</li>
+Signatures may not be abused. Please keep them free of videos, large images, and large amounts of text. They must not distract from posts. Persons found, at our discretion, to be abusing signatures could lose the ability to have one entirely.</p>
+<p>Signatures are restricted to dimensions of 500 pixels wide by 100 pixels tall. Anything beyond that will simply be cut off.</p>
 <li>Abuse of Site Systems</li>
 <p>You may not maliciously add, modify, or remove content posted by yourself or others.
 If you are found, at our discretion, to be editing posts with arbitrary intentions, removing posts
