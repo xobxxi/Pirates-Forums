@@ -259,7 +259,7 @@ class PirateProfile_Model_Pirate extends XenForo_Model
 		return $return;
 	}
 	
-	public function preparePirate($pirate, $user, $censor = true)
+	public function preparePirate($pirate, $user = null, $censor = true)
 	{
 		$options = XenForo_Application::get('options');
 		
