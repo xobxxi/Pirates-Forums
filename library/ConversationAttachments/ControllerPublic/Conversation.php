@@ -165,6 +165,7 @@ class ConversationAttachments_ControllerPublic_Conversation extends XFCP_Convers
 			$dw->save();
 
 			$lastMessage = $dw->getMergedData();
+			$lastMessage = $this->_getConversationModel()->prepareMessage($lastMessage, $response->params['conversation']);
 
 			$response->params['messages'][$lastMessage['message_id']] = $lastMessage;
 			$response->params['lastMessage'] = $lastMessage;
