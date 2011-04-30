@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="album" title="User Albums" version_string="0.0.1 (pre-alpha)" version_id="0" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="template_create" execute_order="10" callback_class="Album_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
+    <listener event_id="template_hook" execute_order="10" callback_class="Album_Listener" callback_method="templateHook" active="1" description="Uses template hooks to spit into templates"/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <optiongroups/>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="album_albums" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[Albums]]></phrase>
+    <phrase title="album_viewing_albums" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[Viewing albums]]></phrase>
+  </phrases>
+  <route_prefixes>
+    <route_type type="public">
+      <prefix original_prefix="albums" class="Album_Route_Prefix_Albums" build_link="data_only"/>
+    </route_type>
+  </route_prefixes>
+  <style_properties/>
+  <templates>
+    <template title="album_profile_tab" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[<li><a href="{$requestPaths.requestUri}#albums">{xen:phrase album_albums}</a></li>
+
+<xen:edithint template="album_profile_tab_content" />
+<xen:edithint template="album_user" />
+]]></template>
+    <template title="album_profile_tab_content" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[<li id="album" class="profileContent" data-loadUrl="{xen:link albums, $user}">
+        {xen:phrase loading}...
+        <noscript><a href="{xen:link albums, $user}">{xen:phrase view}</a></noscript>
+</li>
+
+<xen:edithint template="album_user" />]]></template>
+    <template title="album_user" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[<xen:title>User Albums</xen:title>
+
+<xen:navigation>
+        <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:albums, $user}">{xen:phrase album_albums}</xen:breadcrumb>
+</xen:navigation>
+
+<div class="primaryContent">
+        {xen:phrase album_albums}
+</div>]]></template>
+  </templates>
+</addon>
