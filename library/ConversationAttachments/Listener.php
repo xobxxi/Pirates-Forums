@@ -43,7 +43,7 @@ class ConversationAttachments_Listener
                     $extend[] = 'ConversationAttachments_ViewPublic_Conversation_View';
                     break;
 				case 'XenForo_ViewPublic_Conversation_ViewMessage':
-		    		$extend[] = 'ConversationAttachments_ViewPublic_Conversation_ViewMessages';
+		    		$extend[] = 'ConversationAttachments_ViewPublic_Conversation_ViewMessage';
 		    		break;
 				case 'XenForo_ViewPublic_Conversation_ViewNewMessages':
 		    		$extend[] = 'ConversationAttachments_ViewPublic_Conversation_ViewNewMessages';
