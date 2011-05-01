@@ -31,6 +31,14 @@ curl_close($page);
 
 foreach (explode("\r\n", $headers) as $header)
 {
+	$lowercase = strtolower($header);
+	if (strstr($lowercase, 'content-type'))
+	{
+		if (!strstr($lowercase, 'image'))
+		{
+			die('Not an image');
+		}
+	}
 	header($header);	
 }
 
