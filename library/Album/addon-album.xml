@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="album" title="User Albums" version_string="0.0.1 (pre-alpha)" version_id="0" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="album" title="User Albums" version_string="0.0.1 Alpha" version_id="1" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -11,7 +11,15 @@
   </code_event_listeners>
   <cron/>
   <email_templates/>
-  <optiongroups/>
+  <optiongroups>
+    <group group_id="album" display_order="1000" debug_only="0"/>
+    <option option_id="albumMaxPhotos" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>100</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="album" display_order="0"/>
+    </option>
+  </optiongroups>
   <permissions>
     <permission_groups/>
     <permissions/>
@@ -19,7 +27,18 @@
   </permissions>
   <phrases>
     <phrase title="album_albums" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[Albums]]></phrase>
+    <phrase title="album_manage_album" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[Manage Album]]></phrase>
+    <phrase title="album_no_album_id_specified" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[No album ID was specified.]]></phrase>
+    <phrase title="album_photos" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[Photos]]></phrase>
+    <phrase title="album_please_enter_album_name" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Please enter a name for the album.]]></phrase>
+    <phrase title="album_requested_album_not_found" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[The requested album could not be found.]]></phrase>
+    <phrase title="album_save_album" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[Save Album]]></phrase>
+    <phrase title="album_the_album_has_been_saved_successfully" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[The album has been saved successfully.]]></phrase>
     <phrase title="album_viewing_albums" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[Viewing albums]]></phrase>
+    <phrase title="option_albumMaxPhotos" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Max Photos]]></phrase>
+    <phrase title="option_albumMaxPhotos_explain" version_id="1" version_string="0.0.1 Alpha"><![CDATA[The maximum number of photos allowed in a single album.]]></phrase>
+    <phrase title="option_group_album" version_id="1" version_string="0.0.1 Alpha"><![CDATA[User Albums]]></phrase>
+    <phrase title="option_group_album_description" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Options for user albums.]]></phrase>
   </phrases>
   <route_prefixes>
     <route_type type="public">
@@ -28,6 +47,98 @@
   </route_prefixes>
   <style_properties/>
   <templates>
+    <template title="album.css" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[.primaryContent
+{
+        overflow: hidden;
+}
+
+.imageBox
+{
+        display: inline-block;
+        float: left;
+        margin: 2px;
+}
+
+.thumbnail
+{
+        width: 150px;
+        height: 100px;
+        margin: 2px;
+        border: 1px solid rgb(0, 0, 0);
+        box-shadow: -4px -4px 2px #888;
+        background-repeat: no-repeat;
+        background-position: center center;
+        text-align: center;
+        overflow: hidden;
+}
+
+.thumbnail:hover
+{
+        box-shadow: -4px -4px 2px rgb(153, 0, 0);
+}
+
+.stats > span
+{
+        margin-left: 4px;
+        display: block;
+}
+
+.count
+{
+        font-size: 11px;
+}
+
+.hidden
+{
+        display: none;
+}]]></template>
+    <template title="album_manage" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<xen:require css="album_manage.css" />
+
+<xen:title>{xen:phrase album_manage_album}: {$album.name}</xen:title>
+
+<xen:navigation>
+        <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:albums, $user}">{xen:phrase album_albums}</xen:breadcrumb>
+        <xen:breadcrumb href="{xen:link full:albums/view, $album}">{$album.name}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link albums/save, $album}" method="post" class="xenForm formOverlay AutoValidator" id="albumAddPhotos" data-redirect="on">
+
+<xen:if is="{$attachmentParams}">
+	<dl class="ctrlUnit AttachedFilesUnit">
+		<dt><label for="ctrl_uploader">{xen:phrase album_photos}:</label></dt>
+		<dd>
+                        <xen:include template="attachment_editor" />
+                </dd>
+	</dl>
+</xen:if>
+
+<dl class="ctrlUnit submitUnit">
+	<dt></dt>
+	<dd>
+		<input type="submit" class="button primary" value="{xen:phrase album_save_album}" />
+                <xen:include template="attachment_upload_button" />
+	</dd>
+</dl>
+
+<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="album_manage.css" version_id="1" version_string="0.0.1 Alpha"><![CDATA[div.AttachmentInsertAll
+{
+        display: none !important;
+}
+
+.ResetButton,
+div.label,
+.AttachmentInserter
+{
+        display: none !important;
+}
+
+.Filename a
+{
+        color: rgb(84, 29, 29) !important;
+}]]></template>
     <template title="album_profile_tab" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[<li><a href="{$requestPaths.requestUri}#albums">{xen:phrase album_albums}</a></li>
 
 <xen:edithint template="album_profile_tab_content" />
@@ -39,15 +150,55 @@
 </li>
 
 <xen:edithint template="album_user" />]]></template>
-    <template title="album_user" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[<xen:title>User Albums</xen:title>
+    <template title="album_user" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[<xen:require css="album.css" />
+
+<xen:title>{xen:phrase album_albums}</xen:title>
+
+<xen:navigation>
+        <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+</xen:navigation>
+
+<div id="albums" class="primaryContent">
+        <xen:foreach loop="$albums" value="$album">
+                <div id="album-{$album.album_id}" class="imageBox">
+                        <a href="{xen:link albums/view, $album}">
+                                <div class="thumbnail" style="background-image: url({$album.cover.thumbnailUrl})"></div>
+                        </a>
+                        <div class="stats">                        
+                                <span class="name"><a href="{xen:link albums/view, $album}">{$album.name}</a></span>
+                                <span class="count muted">{xen:number $album.photo_count} Photos</span>
+                        </div>
+                </div>
+        </xen:foreach>
+</div>]]></template>
+    <template title="album_view" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<xen:require css="album.css" />
+<xen:require js="js/xenforo/lightbox.js" />
+
+<xen:title>{$album.name}</xen:title>
 
 <xen:navigation>
         <xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
         <xen:breadcrumb href="{xen:link full:albums, $user}">{xen:phrase album_albums}</xen:breadcrumb>
 </xen:navigation>
 
-<div class="primaryContent">
-        {xen:phrase album_albums}
+<xen:topctrl>
+	<a href="{xen:link albums/manage, $album}" class="callToAction OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}"><span>{xen:phrase album_manage_album}</span></a>
+</xen:topctrl>
+
+<div id="album" class="primaryContent" data-author="{$user.username}">
+        <xen:foreach loop="$album.photos" value="$photo">
+                <div id="photo-{$photo.attachment_id}" class="imageBox">
+                        <a href="{xen:link attachments, $photo}" target="_blank" class="LbTrigger" data-href="{xen:link misc/lightbox}">
+                                <div class="thumbnail">
+                                        <img class="LbImage" src="{$photo.thumbnailUrl}" alt="{$photo.filename}" data-src="{xen:link attachments, $photo, 'embedded=1'}" style="margin-top: {$photo.offset}px;" />
+                                </div>
+                        </a>
+                </div>
+        </xen:foreach>
+        <span class="hidden">
+                <xen:avatar user="$user" size="s" />
+                <xen:datetime time="$album.date" />
+        </span>
 </div>]]></template>
   </templates>
 </addon>

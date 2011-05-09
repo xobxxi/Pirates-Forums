@@ -17,6 +17,7 @@ class Album_Listener
 	{
 		switch ($hookName)
 		{
+			// permissions/sanity check
 			case 'member_view_tabs_heading':
 				$contents .= $template->create('album_profile_tab', $template->getParams())->render();
 				return $contents;
