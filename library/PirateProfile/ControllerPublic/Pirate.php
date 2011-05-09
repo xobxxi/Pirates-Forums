@@ -1071,10 +1071,6 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			switch ($action)
 			{
 				case 'Member':
-					$userModel	= XenForo_Model::create('XenForo_Model_User');
-					$pirateUser = $userModel->getUserById($activity['params']['id']);
-					$link		= XenForo_Link::buildPublicLink('pirates', $pirateUser);
-
 					if (!isset($activity['params']['id']))
 					{
 						$viewing = new XenForo_Phrase('pirateProfile_viewing');
@@ -1084,6 +1080,10 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 						return $doing;
 					}
+					
+					$userModel	= XenForo_Model::create('XenForo_Model_User');
+					$pirateUser = $userModel->getUserById($activity['params']['id']);
+					$link		= XenForo_Link::buildPublicLink('pirates', $pirateUser);
 
 					if ($activity['params']['id'] != $activity['user_id'])
 					{
@@ -1101,6 +1101,16 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 						new XenForo_Phrase('pirateProfile_own_pirates'), $link, false)
 					);
 				case 'Card':
+					if (!isset($activity['params']['id']))
+					{
+						$viewing = new XenForo_Phrase('pirateProfile_viewing');
+						$pirates = new XenForo_Phrase('pirateProfile_pirates');
+
+						$doing = $viewing . ' ' . $pirates;
+
+						return $doing;
+					}
+				
 					$pirateModel = XenForo_Model::create('PirateProfile_Model_Pirate');
 					$pirate		 = $pirateModel->getPirateById($activity['params']['id']);
 					$link		 = XenForo_Link::buildPublicLink('pirates/card', $pirate);
