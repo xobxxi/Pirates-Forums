@@ -94,6 +94,7 @@ class Album_Install
 		$fields = array();
 		
 		$fields['attachment_handler_class'] = 'Album_AttachmentHandler_Album';
+		$fields['news_feed_handler_class']  = 'Album_NewsFeedHandler_Album';
 		
 		return $fields;
 	}

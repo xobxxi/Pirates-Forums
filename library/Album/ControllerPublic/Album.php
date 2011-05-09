@@ -2,17 +2,13 @@
 
 /* todo
 - create album
-- change album title (dynamic)
-- upload a file => add pictures
-- getSessionActivityDetailsForList
 - permissions
-- fix count bug
-- change css hardcoded colors
-- make assert helper
+- permissions check for listener
+- news feed publishing
 */
 
 class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
-{
+{	
 	public function actionIndex()
 	{
 		$userId = $this->_input->filterSingle('id', XenForo_Input::UINT);
@@ -56,36 +52,11 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 	{
 		$albumId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		
-		// move to helper
+		list($album, $user) = $this->_assertAlbumValidAndViewable($albumId);
 		
-		if (empty($albumId))
-		{
-			return $this->responseError(
-				new XenForo_Phrase('album_no_album_id_specified')
-			);
-		}
-		
-		$albumModel = $this->_getAlbumModel();
-		
-		$album = $albumModel->getAlbumById($albumId);
-		
-		if (empty($album))
-		{
-			throw $this->responseException($this->responseError(
-				new XenForo_Phrase('album_requested_album_not_found'), 404)
-			);
-		}
-		
-		$user = $this->_getUserModel()->getUserById($album['user_id']);
-		
-		if (empty($user))
-		{
-			throw $this->responseException($this->responseError(
-				new XenForo_Phrase('requested_member_not_found'), 404)
-			);
-		}
-		
-		$album = $albumModel->prepareAlbum($album, true);
+		$this->canonicalizeRequestUrl(
+			XenForo_Link::buildPublicLink('albums/view', $album)
+		);
 		
 		$viewParams = array(
 			'user'  => $user,
@@ -103,50 +74,21 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 	{
 		$albumId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		
-		if (empty($albumId))
-		{
-			return $this->responseError(
-				new XenForo_Phrase('album_no_album_id_specified')
-			);
-		}
+		list($album, $user) = $this->_assertAlbumValidAndViewable($albumId);
 		
-		$albumModel = $this->_getAlbumModel();
-		
-		$album = $albumModel->getAlbumById($albumId);
-		
-		if (empty($album))
-		{
-			throw $this->responseException($this->responseError(
-				new XenForo_Phrase('album_requested_album_not_found'), 404)
-			);
-		}
-		
-		$user = $this->_getUserModel()->getUserById($album['user_id']);
-		
-		if (empty($user))
-		{
-			throw $this->responseException($this->responseError(
-				new XenForo_Phrase('requested_member_not_found'), 404)
-			);
-		}
-		
-		$album = $albumModel->prepareAlbum($album, true);
-		
-		$photos = $albumModel->getAllPhotosForAlbumById($album['album_id']);
-		
-		$attachmentParams      = $albumModel->getAttachmentParams(array());
+		$attachmentParams      = $this->_getAlbumModel()->getAttachmentParams(array());
 		$attachmentConstraints = Album_AttachmentHandler_Album::getAttachmentConstraints();
 		
 		$viewParams = array(
 			'user'                  => $user,
 			'album'                 => $album,
-			'attachments'			=> $photos,
+			'attachments'			=> $album['photos'],
 			'attachmentParams'		=> $attachmentParams,
 			'attachmentConstraints' => $attachmentConstraints
 		);
 		
 		return $this->responseView(
-			'Album_ViewPublic_Album_View',
+			'Album_ViewPublic_Album_Manage',
 			'album_manage',
 			$viewParams
 		);
@@ -154,38 +96,15 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 	
 	public function actionSave()
 	{
+		$this->_assertPostOnly();
+		
 		$albumId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		
-		if (empty($albumId))
-		{
-			return $this->responseError(
-				new XenForo_Phrase('album_no_album_id_specified')
-			);
-		}
+		list($album, $user) = $this->_assertAlbumValidAndViewable($albumId);
 		
-		$albumModel = $this->_getAlbumModel();
-		
-		$album = $albumModel->getAlbumById($albumId);
-		
-		if (empty($album))
-		{
-			throw $this->responseException($this->responseError(
-				new XenForo_Phrase('album_requested_album_not_found'), 404)
-			);
-		}
-		
-		$user = $this->_getUserModel()->getUserById($album['user_id']);
-		
-		if (empty($user))
-		{
-			throw $this->responseException($this->responseError(
-				new XenForo_Phrase('requested_member_not_found'), 404)
-			);
-		}
-		
-		$album = $albumModel->prepareAlbum($album, true);
-		
-		$this->_assertPostOnly();
+		$input = $this->_input->filter(array(
+			'name' => XenForo_Input::STRING
+		));
 		
 		$attachment = $this->_input->filter(array(
 			'attachment_hash' => XenForo_Input::STRING)
@@ -193,6 +112,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		
 		$dw = XenForo_DataWriter::create('Album_DataWriter_Album');
 		$dw->setExistingData($albumId);
+		$dw->set('name', $input['name']);
 		$dw->set('date', XenForo_Application::$time);
 		$dw->setExtraData('attachment_hash', $attachment['attachment_hash']);
 		$dw->save();
@@ -206,7 +126,106 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 	
 	public static function getSessionActivityDetailsForList(array $activities)
 	{
-		return new XenForo_Phrase('album_viewing_albums'); // expand in future
+		foreach ($activities AS $key => $activity)
+		{
+			$action = $activity['controller_action'];
+
+			switch ($action)
+			{
+				case 'Index':
+					if (!isset($activity['params']['id']))
+					{
+						return new XenForo_Phrase('album_viewing_albums');
+					}
+					
+					$userModel = XenForo_Model::create('XenForo_Model_User');
+					
+					$user = $userModel->getUserById($activity['params']['id']);
+					$link = XenForo_Link::buildPublicLink('albums', $user);
+					
+					if ($activity['params']['id'] != $activity['user_id'])
+					{
+						return array(
+							$key => array(
+								new XenForo_Phrase('album_viewing'),
+								new XenForo_Phrase('album_xs_albums',
+									array('username' => $user['username'])
+								),
+								$link,
+								false
+							)
+						);
+					}
+
+					return array(
+						$key => array(
+							new XenForo_Phrase('album_viewing'),
+							new XenForo_Phrase('album_own_albums'),
+							$link,
+							false
+						)
+					);
+				case 'View':
+					if (!isset($activity['params']['id']))
+					{
+						return new XenForo_Phrase('album_viewing_albums');
+					}
+					
+					$albumModel = XenForo_Model::create('Album_Model_Album');
+					
+					$album = $albumModel->getAlbumById($activity['params']['id']);
+					$album = $albumModel->prepareAlbum($album);
+					$link  = XenForo_Link::buildPublicLink('albums/view', $album);
+					
+					return array(
+						$key => array(
+							new XenForo_Phrase('album_viewing_album'),
+							new XenForo_Phrase('album_x',
+								array('album' => $album['name'])
+							),
+							$link,
+							false
+						)
+					);
+					
+				default:
+					return new XenForo_Phrase('album_viewing_albums');
+			}
+		}
+	}
+	
+	protected function _assertAlbumValidAndViewable($albumId)
+	{
+		if (empty($albumId))
+		{
+			return $this->responseError(
+				new XenForo_Phrase('album_no_album_id_specified')
+			);
+		}
+		
+		$albumModel = $this->_getAlbumModel();
+		
+		$album = $albumModel->getAlbumById($albumId);
+		
+		if (empty($album))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('album_requested_album_not_found'), 404)
+			);
+		}
+		
+		$user = $this->_getUserModel()->getUserById($album['user_id']);
+		
+		if (empty($user))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('requested_member_not_found'), 404)
+			);
+		}
+		
+		$album = $albumModel->prepareAlbum($album, true);
+		
+		return array($album, $user);
 	}
 	
 	protected function _getAlbumModel()

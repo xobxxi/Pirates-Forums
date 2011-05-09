@@ -26,9 +26,8 @@ class Album_AttachmentHandler_Album extends XenForo_AttachmentHandler_Abstract
 
 	public function getAttachmentCountLimit()
 	{
-		$options = XenForo_Application::get('options');
-		
-		return $options->albumMaxPhotos;
+		$max = XenForo_Application::get('options')->albumMaxPhotos;
+		return ($max <= 0 ? true : $max);
 	}
 	
 	public static function getAttachmentConstraints()

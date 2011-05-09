@@ -167,7 +167,7 @@ class Album_Model_Album extends XenForo_Model
 		{
 			return array(
 				'hash' => md5(uniqid('', true)),
-				'content_type' => 'pirate',
+				'content_type' => 'album',
 				'content_data' => $contentData
 			);
 		}

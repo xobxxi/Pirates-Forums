@@ -1071,7 +1071,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			switch ($action)
 			{
 				case 'Member':
-					$userModel	= new XenForo_Model_User;
+					$userModel	= XenForo_Model::create('XenForo_Model_User');
 					$pirateUser = $userModel->getUserById($activity['params']['id']);
 					$link		= XenForo_Link::buildPublicLink('pirates', $pirateUser);
 
@@ -1101,7 +1101,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 						new XenForo_Phrase('pirateProfile_own_pirates'), $link, false)
 					);
 				case 'Card':
-					$pirateModel = new PirateProfile_Model_Pirate;
+					$pirateModel = XenForo_Model::create('PirateProfile_Model_Pirate');
 					$pirate		 = $pirateModel->getPirateById($activity['params']['id']);
 					$link		 = XenForo_Link::buildPublicLink('pirates/card', $pirate);
 
