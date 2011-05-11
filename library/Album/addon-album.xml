@@ -21,24 +21,46 @@
     </option>
   </optiongroups>
   <permissions>
-    <permission_groups/>
-    <permissions/>
-    <interface_groups/>
+    <permission_groups>
+      <permission_group permission_group_id="album"/>
+    </permission_groups>
+    <permissions>
+      <permission permission_group_id="album" permission_id="upload" permission_type="flag" default_value="unset" interface_group_id="album" display_order="20"/>
+      <permission permission_group_id="album" permission_id="view" permission_type="flag" default_value="allow" interface_group_id="album" display_order="0"/>
+      <permission permission_group_id="album" permission_id="view_photos" permission_type="flag" default_value="unset" interface_group_id="album" display_order="10"/>
+    </permissions>
+    <interface_groups>
+      <interface_group interface_group_id="album" display_order="1000"/>
+    </interface_groups>
   </permissions>
   <phrases>
     <phrase title="album_albums" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[Albums]]></phrase>
+    <phrase title="album_album_name" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Album Name]]></phrase>
     <phrase title="album_manage_album" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[Manage Album]]></phrase>
     <phrase title="album_no_album_id_specified" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[No album ID was specified.]]></phrase>
+    <phrase title="album_own_albums" version_id="1" version_string="0.0.1 Alpha"><![CDATA[own albums]]></phrase>
     <phrase title="album_photos" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[Photos]]></phrase>
     <phrase title="album_please_enter_album_name" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Please enter a name for the album.]]></phrase>
     <phrase title="album_requested_album_not_found" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[The requested album could not be found.]]></phrase>
     <phrase title="album_save_album" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[Save Album]]></phrase>
     <phrase title="album_the_album_has_been_saved_successfully" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[The album has been saved successfully.]]></phrase>
+    <phrase title="album_viewing" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Viewing]]></phrase>
+    <phrase title="album_viewing_album" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Viewing album]]></phrase>
     <phrase title="album_viewing_albums" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[Viewing albums]]></phrase>
+    <phrase title="album_x" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{album}]]></phrase>
+    <phrase title="album_xs_albums" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{username}'s albums]]></phrase>
+    <phrase title="album_x_has_added_a_new_photo_to_album_z" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{username} has added a new photo to the album <a {link_params}>{name}</a>.]]></phrase>
+    <phrase title="album_x_has_added_y_new_photos_to_album_z" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{username} has added {new} new photos to the album <a {link_params}>{name}</a>.]]></phrase>
+    <phrase title="album_x_renamed_an_album_from_y_to_z" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{username} renamed an album from {old} to <a {link_params}>{new}</a>.]]></phrase>
     <phrase title="option_albumMaxPhotos" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Max Photos]]></phrase>
     <phrase title="option_albumMaxPhotos_explain" version_id="1" version_string="0.0.1 Alpha"><![CDATA[The maximum number of photos allowed in a single album.]]></phrase>
     <phrase title="option_group_album" version_id="1" version_string="0.0.1 Alpha"><![CDATA[User Albums]]></phrase>
     <phrase title="option_group_album_description" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Options for user albums.]]></phrase>
+    <phrase title="permission_album_upload" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Upload photos]]></phrase>
+    <phrase title="permission_album_view" version_id="1" version_string="0.0.1 Alpha"><![CDATA[View albums]]></phrase>
+    <phrase title="permission_album_view_photos" version_id="1" version_string="0.0.1 Alpha"><![CDATA[View photos]]></phrase>
+    <phrase title="permission_group_album" version_id="1" version_string="0.0.1 Alpha"><![CDATA[User Albums]]></phrase>
+    <phrase title="permission_interface_album" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Albums]]></phrase>
   </phrases>
   <route_prefixes>
     <route_type type="public">
@@ -47,7 +69,7 @@
   </route_prefixes>
   <style_properties/>
   <templates>
-    <template title="album.css" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[.primaryContent
+    <template title="album.css" version_id="1" version_string="0.0.1 Alpha"><![CDATA[.primaryContent
 {
         overflow: hidden;
 }
@@ -56,16 +78,17 @@
 {
         display: inline-block;
         float: left;
-        margin: 2px;
+        margin: 10px;
 }
 
 .thumbnail
 {
+        background-color: rgb(255, 255, 255);
         width: 150px;
         height: 100px;
         margin: 2px;
         border: 1px solid rgb(0, 0, 0);
-        box-shadow: -4px -4px 2px #888;
+        box-shadow: -4px -4px 2px rgb(136, 136, 136);
         background-repeat: no-repeat;
         background-position: center center;
         text-align: center;
@@ -74,7 +97,7 @@
 
 .thumbnail:hover
 {
-        box-shadow: -4px -4px 2px rgb(153, 0, 0);
+        box-shadow: -4px -4px 2px {xen:property primaryLighterStill};
 }
 
 .stats > span
@@ -93,6 +116,7 @@
         display: none;
 }]]></template>
     <template title="album_manage" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<xen:require css="album_manage.css" />
+<xen:require js="js/album/form.js" />
 
 <xen:title>{xen:phrase album_manage_album}: {$album.name}</xen:title>
 
@@ -103,6 +127,13 @@
 </xen:navigation>
 
 <form action="{xen:link albums/save, $album}" method="post" class="xenForm formOverlay AutoValidator" id="albumAddPhotos" data-redirect="on">
+
+<dl class="ctrlUnit">
+	<dt>
+                <label for="ctrl_album_name">{xen:phrase album_album_name}:</label>
+        </dt>
+	<dd><input type="text" name="name" value="{$album.name}" id="ctrl_album_name" class="textCtrl" data-liveTitleTemplate="{xen:phrase album_manage_album}: <em>%s</em>" /></dd>
+</dl>
 
 <xen:if is="{$attachmentParams}">
 	<dl class="ctrlUnit AttachedFilesUnit">
@@ -118,11 +149,18 @@
 	<dd>
 		<input type="submit" class="button primary" value="{xen:phrase album_save_album}" />
                 <xen:include template="attachment_upload_button" />
+                <input type="reset" class="button OverlayCloser ResetButton" value="{xen:phrase cancel}" />
 	</dd>
 </dl>
 
 <input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
-</form>]]></template>
+</form>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		new XenForo.AddPictureButton();
+	});
+</script>]]></template>
     <template title="album_manage.css" version_id="1" version_string="0.0.1 Alpha"><![CDATA[div.AttachmentInsertAll
 {
         display: none !important;
@@ -150,6 +188,31 @@ div.label,
 </li>
 
 <xen:edithint template="album_user" />]]></template>
+    <template title="album_recent_activity_block_items" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'name'">
+	{xen:phrase album_x_renamed_an_album_from_y_to_z,
+                'username={xen:helper username, $item.user, 'primaryText'}',
+                'old={$item.name.old}',
+                'link_params=href="{xen:link albums/view, $item.content}"',
+                'new={$item.content.name}'
+        }
+</xen:if>
+
+<xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'photos'">
+        <xen:if is="{$item.photos.new} == 1">
+                {xen:phrase album_x_has_added_a_new_photo_to_album_z,
+                        'username={xen:helper username, $item.user, 'primaryText'}',
+                        'link_params=href="{xen:link albums/view, $item.content}"',
+                        'name={$item.content.name}'
+        }
+        <xen:else />
+                {xen:phrase album_x_has_added_y_new_photos_to_album_z,
+                        'username={xen:helper username, $item.user, 'primaryText'}',
+                        'new={$item.photos.new}',
+                        'link_params=href="{xen:link albums/view, $item.content}"',
+                        'name={$item.content.name}'
+                }
+        </xen:if>
+</xen:if>]]></template>
     <template title="album_user" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[<xen:require css="album.css" />
 
 <xen:title>{xen:phrase album_albums}</xen:title>
@@ -200,5 +263,29 @@ div.label,
                 <xen:datetime time="$album.date" />
         </span>
 </div>]]></template>
+    <template title="news_feed_item_album_name" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<h3 class="description">
+{xen:phrase album_x_renamed_an_album_from_y_to_z,
+        'username={xen:helper username, $user, 'primaryText'}',
+        'old={$name.old}',
+        'link_params=href="{xen:link albums/view, $content}"',
+        'new={$content.name}'
+}
+</h3>]]></template>
+    <template title="news_feed_item_album_photos" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<h3 class="description">
+<xen:if is="{$photos.new} == 1">
+{xen:phrase album_x_has_added_a_new_photo_to_album_z,
+        'username={xen:helper username, $user, 'primaryText'}',
+        'link_params=href="{xen:link albums/view, $content}"',
+        'name={$content.name}'
+}
+<xen:else />
+{xen:phrase album_x_has_added_y_new_photos_to_album_z,
+        'username={xen:helper username, $user, 'primaryText'}',
+        'new={$photos.new}',
+        'link_params=href="{xen:link albums/view, $content}"',
+        'name={$content.name}'
+}
+</xen:if>
+</h3>]]></template>
   </templates>
 </addon>

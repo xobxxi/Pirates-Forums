@@ -12,7 +12,14 @@ class Album_AttachmentHandler_Album extends XenForo_AttachmentHandler_Abstract
 
 	protected function _canViewAttachment(array $attachment, array $viewingUser)
 	{
-		return true; // permissions
+		$permissions = $this->_getAlbumModel()->getPermissions();
+		
+		if (!$permissions['view_photos'])
+		{
+			return false;
+		}
+		
+		return true;
 	}
 
 	public function attachmentPostDelete(array $attachment, Zend_Db_Adapter_Abstract $db)

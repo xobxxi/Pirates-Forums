@@ -1,16 +1,30 @@
 <?php
 
 /* todo
-- create album
-- permissions
-- permissions check for listener
-- news feed publishing
+- create albums
+*/
+
+/* iteration 2
+- set custom cover image
+- photos on individual page with confirm delete, description
+- flesh out photo management systems (CRUD)
+- pictures in news feed
+- privacy
 */
 
 class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 {	
 	public function actionIndex()
 	{
+		$albumModel = $this->_getAlbumModel();
+		
+		$permissions = $albumModel->getPermissions();
+		
+		if (!$permissions['view'])
+		{
+			throw $this->getNoPermissionResponseException();
+		}
+		
 		$userId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		
 		if (empty($userId))
@@ -30,8 +44,6 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$this->canonicalizeRequestUrl(
 			XenForo_Link::buildPublicLink('albums', $user)
 		);
-		
-		$albumModel = $this->_getAlbumModel();
 		
 		$albums = $albumModel->getUserAlbumsByUserId($userId);
 		$albums = $albumModel->prepareAlbums($albums);
@@ -195,15 +207,22 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 	}
 	
 	protected function _assertAlbumValidAndViewable($albumId)
-	{
+	{	
+		$albumModel = $this->_getAlbumModel();
+		
+		$permissions = $albumModel->getPermissions();
+		
+		if (!$permissions['view'])
+		{
+			throw $this->getNoPermissionResponseException();
+		}
+		
 		if (empty($albumId))
 		{
 			return $this->responseError(
 				new XenForo_Phrase('album_no_album_id_specified')
 			);
 		}
-		
-		$albumModel = $this->_getAlbumModel();
 		
 		$album = $albumModel->getAlbumById($albumId);
 		

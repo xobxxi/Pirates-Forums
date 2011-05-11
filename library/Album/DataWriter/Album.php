@@ -140,8 +140,7 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 					$this->get('album_id'),
 					'name',
 					array(
-						'old' => $this->getExisting('name'),
-						'new' => $this->get('name')
+						'old' => $this->getExisting('name')
 					)
 				);
 			}

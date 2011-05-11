@@ -77,6 +77,20 @@ class Album_Model_Album extends XenForo_Model
 		return $album;
 	}
 	
+	public function getAlbumsByIds($albumIds, array $fetchOptions = array())
+	{
+		$sqlClauses = $this->prepareAlbumFetchOptions($fetchOptions);
+		
+		return $this->fetchAllKeyed('
+			SELECT *
+			' . $sqlClauses['selectFields'] . '
+			FROM album
+			' . $sqlClauses['joinTables'] . '
+			WHERE album.album_id IN (' . $this->_getDb()->quote($albumIds) . ')
+		', 'album_id');
+		
+	}
+	
 	public function getAllPhotosForAlbumById($albumId)
 	{
 		$attachmentModel = $this->_getAttachmentModel();
@@ -156,9 +170,16 @@ class Album_Model_Album extends XenForo_Model
 		return $photo;
 	}
 	
-	public function canUploadAndManageAttachments()
+	public function canUploadAndManageAttachments(array $viewingUser = null)
 	{
-		return true; // permissions
+		$permissions = $this->getPermissions($viewingUser);
+		
+		if (!$permissions['upload'])
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public function getAttachmentParams(array $contentData)
@@ -175,6 +196,31 @@ class Album_Model_Album extends XenForo_Model
 		{
 			return false;
 		}
+	}
+	
+	public function getPermissions(array $viewingUser = null)
+	{
+			$this->standardizeViewingUserReference($viewingUser);
+			
+			$userPermissions = $viewingUser['permissions'];
+			
+			$permissions = array(
+				'view'        => $this->_hasPermission($userPermissions, 'album', 'view'),
+				'view_photos' => $this->_hasPermission($userPermissions, 'album', 'view_photos'),
+				'upload'      => false,
+			);
+			
+			if ($viewingUser['user_id'])
+			{
+				$permissions['upload'] = $this->_hasPermission($userPermissions, 'album', 'upload');
+			}
+
+			return $permissions;
+	}
+	
+	protected function _hasPermission($permissions, $group, $permission)
+	{
+		return XenForo_Permission::hasPermission($permissions, $group, $permission);
 	}
 	
 	protected function _getAttachmentModel()

@@ -7,8 +7,11 @@ class Album_Listener
 		switch ($templateName)
 		{
 			case 'member_view':
-				$template->preloadTemplate('pirateProfile_profile_tab');
-				$template->preloadTemplate('pirateProfile_profile_tab_content');
+				$template->preloadTemplate('album_profile_tab');
+				$template->preloadTemplate('album_profile_tab_content');
+				break;
+			case 'forum_list':
+				$template->preloadTemplate('album_recent_activity_block_items');
 				break;
 		}
 	}
@@ -17,12 +20,26 @@ class Album_Listener
 	{
 		switch ($hookName)
 		{
-			// permissions/sanity check
 			case 'member_view_tabs_heading':
-				$contents .= $template->create('album_profile_tab', $template->getParams())->render();
+				$permissions = XenForo_Model::create('Album_Model_Album')->getPermissions();
+				
+				if ($permissions['view'])
+				{
+					$contents .= $template->create('album_profile_tab', $template->getParams())->render();
+				}
+				
 				return $contents;
 			case 'member_view_tabs_content':
-				$contents .= $template->create('album_profile_tab_content', $hookParams)->render();
+				$permissions = XenForo_Model::create('Album_Model_Album')->getPermissions();;
+				
+				if ($permissions['view'])
+				{
+					$contents .= $template->create('album_profile_tab_content', $hookParams)->render();
+				}
+				
+				return $contents;
+			case 'recentActivityBlock_items':
+				$contents .= $template->create('album_recent_activity_block_items', $hookParams)->render();
 				return $contents;
 		}
 	}
