@@ -15,7 +15,7 @@
     <property property_name="categoryStripDescription" property_type="css"><![CDATA[{"color":"rgb(255, 239, 255)","font-size":"10px"}]]></property>
     <property property_name="content" property_type="css"><![CDATA[{"background-color":"rgb(249, 217, 176)","background-image":"@imagePath\/images\/parchment.jpg","background-repeat":"repeat","color":"rgb(0, 0, 0)","padding-bottom":"10px","padding-left":"20px","padding-right":"20px","padding-top":"10px"}]]></property>
     <property property_name="pageWidth" property_type="css"><![CDATA[{"extra":"min-width: 853px;\n_width: 976px;\n_margin: 0 auto;","margin-all":"auto","width":"960px"}]]></property>
-    <property property_name="headerLogoPath" property_type="scalar"><![CDATA[@imagePath/images/logo.jpg]]></property>
+    <property property_name="headerLogoPath" property_type="scalar"><![CDATA[@imagePath/images/logo.png?m=6]]></property>
     <property property_name="navTabSelected" property_type="css"><![CDATA[{"background-color":"rgb(153, 0, 0)","background-image":"@imagePath\/xenforo\/gradients\/navigation-tab.png","background-position":"top","background-repeat":"repeat-x","border-bottom-color":"black","border-bottom-style":"none","border-bottom-width":"1px","border-color":"rgb(255, 255, 255)","border-style":"solid","border-top-left-radius":"2px","border-top-right-radius":"2px","border-width":"1px","color":"rgb(255, 255, 255)","extra":"text-shadow: 0px 0px 3px @primaryLightest;","font-weight":"bold","margin-top":"-2px","padding-top":"2px"}]]></property>
     <property property_name="headerLogoHeight" property_type="scalar"><![CDATA[96px]]></property>
     <property property_name="breadcrumb" property_type="css"><![CDATA[{"background-color":"rgb(243, 237, 211)","background-image":"@imagePath\/xenforo\/gradients\/category-23px-light.png","background-position":"top","background-repeat":"repeat-x","border-color":"rgb(220, 53, 53)","border-radius":"5px","border-style":"solid","border-width":"1px","extra":"overflow: hidden;\nzoom: 1;","font-size":"11px"}]]></property>
@@ -607,13 +607,6 @@ blockquote .bbCodeQuote aside .attribution a:hover
 }
 .attachedFiles .attachedFilesHeader {
          color: rgb(153, 0, 0) !important;
-}
-
-/* signatures */
-.message .signature {
-max-height: 100px;
-max-width: 500px;
-overflow: hidden !important;
 }
 
 /* profile tabs */
