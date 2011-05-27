@@ -196,38 +196,42 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="conversation_message" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:require css="conversationAttachments_conversation_message.css" />
+    <template title="conversation_message" addon_id="XenForo" version_id="1000270" version_string="1.0.2"><![CDATA[<xen:require css="conversationAttachments_conversation_message.css" />
 
 <xen:include template="message">
 	
 	<xen:set var="$messageId">message-{$message.message_id}</xen:set>
-     
-        <xen:set var="$messageContentAfterTemplate"><xen:if is="{$message.attachments}"><xen:include template="attached_files"><xen:map from="$message" to="$post" /></xen:include></xen:if></xen:set>
 	
+        <xen:set var="$messageContentAfterTemplate"><xen:if is="{$message.attachments}"><xen:include template="attached_files"><xen:map from="$message" to="$post" /></xen:include></xen:if></xen:set>
+
 	<xen:set var="$messageAfterTemplate">
 		<div class="messageMeta">
 			<div class="privateControls">
 				<span class="item muted"><xen:username user="$message" class="author" />, 
 					<a href="{xen:link conversations/message, $conversation, 'message_id={$message.message_id}'}" class="datePermalink"><xen:datetime time="$message.message_date" /></a>
 				</span>
+				<xen:hook name="conversation_message_private_controls">
 				<xen:if is="{$message.canEdit}">
 					<a href="{xen:link 'conversations/edit-message', $conversation, 'm={$message.message_id}'}"
-						class="item control edit OverlayTrigger"
+						class="item control edit {xen:if $xenOptions.messageInlineEdit, OverlayTrigger}"
 						data-overlayOptions="{&quot;fixed&quot;:false}" 
 						data-href="{xen:link conversations/edit-message-inline, $conversation, 'm={$message.message_id}'}"
 						data-messageSelector="#message-{$message.message_id}"><span></span>{xen:phrase edit}</a>
 					<xen:require js="js/xenforo/discussion.js" />
 				</xen:if>
                                 <a href="{xen:link 'conversations/report', $conversation, 'm={$message.message_id}'}" class="OverlayTrigger item control report" data-cacheOverlay="false"><span></span>{xen:phrase report}</a>
+				</xen:hook>
 			</div>
 			
 			<xen:if hascontent="true">
 			<div class="publicControls">
 				<xen:contentcheck>
+					<xen:hook name="conversation_message_public_controls">
 					<xen:if is="{$canReplyConversation}">
 						<a href="{xen:link 'conversations/reply', $conversation, 'm={$message.message_id}'}"
 							class="item control reply ReplyQuote"><span></span>{xen:phrase reply}</a>
 					</xen:if>
+					</xen:hook>
 				</xen:contentcheck>
 			</div>
 			</xen:if>
@@ -961,7 +965,7 @@ blockquote .bbCodeQuote aside .attribution a:hover
 
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="thread_view" addon_id="XenForo" version_id="1000070" version_string="1.0.0"><![CDATA[<xen:title>{$thread.title}{xen:helper pagenumber, $page}</xen:title>
+    <template title="thread_view" addon_id="XenForo" version_id="1000270" version_string="1.0.2"><![CDATA[<xen:title>{$thread.title}{xen:helper pagenumber, $page}</xen:title>
 <xen:h1>{$thread.title}</xen:h1>
 
 <xen:description>
@@ -1167,6 +1171,8 @@ blockquote .bbCodeQuote aside .attribution a:hover
 		<xen:set var="$showMoreOptions">1</xen:set>
 	</xen:include>
 </xen:if>
+
+<xen:hook name="thread_view_qr_after" params="{xen:array 'thread={$thread}'}" />
 
 {xen:raw $threadStatusHtml}
 
