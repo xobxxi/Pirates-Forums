@@ -17,9 +17,9 @@ class RecentActivityBlock_Listener
 		switch ($hookName)
 		{
 			case 'forum_list_sidebar':
+				$hookParams    += array('visitor' => XenForo_Visitor::getInstance());
 				$recentActivity = XenForo_Model::create('RecentActivityBlock_Model_RecentActivity');
 				$activity       = $recentActivity->getRecentActivity();
-				if (empty($activity)) return $contents;
 				$hookParams    += $activity;
 				$search         = '<!-- block: forum_stats -->';
 				$replace        = $template->create('sidebar_recent_activity', $hookParams)->render();
@@ -28,3 +28,5 @@ class RecentActivityBlock_Listener
 		}
 	}
 }
+
+// remove phrases
