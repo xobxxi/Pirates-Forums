@@ -794,7 +794,8 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 		$pirateModel = $this->_getPirateModel();
 		$attachmentParams = $pirateModel->getAttachmentParams(array());
-		$attachmentConstraints = PirateProfile_AttachmentHandler_Pirate::getAttachmentConstraints();
+		
+		$attachmentConstraints = $this->_getAttachmentModel()->getAttachmentHandler('pirate')->getAttachmentConstraints();
 
 		$skills = $pirateModel::getSkills(false, true);
 		foreach ($skills as &$name)
@@ -868,7 +869,8 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$attachmentParams = $pirateModel->getAttachmentParams(array(
 			'pirate_id' => $pirate['pirate_id']
 		));
-		$attachmentConstraints = PirateProfile_AttachmentHandler_Pirate::getAttachmentConstraints();
+		
+		$attachmentConstraints = $this->_getAttachmentModel()->getAttachmentHandler('pirate')->getAttachmentConstraints();
 
 		$viewParams = array(
 			'user'					=> $user,
@@ -1315,5 +1317,10 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	protected function _getUserModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_User');
+	}
+	
+	protected function _getAttachmentModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_Attachment');
 	}
 }

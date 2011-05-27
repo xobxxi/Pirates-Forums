@@ -37,7 +37,7 @@ class PirateProfile_AttachmentHandler_Pirate extends XenForo_AttachmentHandler_A
 		return 1;
 	}
 	
-	public static function getAttachmentConstraints()
+	public function getAttachmentConstraints()
 	{
 		$options = XenForo_Application::get('options');
 
