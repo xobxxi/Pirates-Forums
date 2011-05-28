@@ -2,7 +2,6 @@
 
 class SubscribeUsers_ControllerPublic_Thread extends XFCP_SubscribeUsers_ControllerPublic_Thread
 {
-	
 	public function actionIndex()
 	{
 		$response = parent::actionIndex();

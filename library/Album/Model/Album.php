@@ -4,6 +4,26 @@ class Album_Model_Album extends XenForo_Model
 {
 	const FETCH_ALBUM_USER  = 0x01;
 	
+	public function prepareAlbumConditions(array $conditions, array &$fetchOptions)
+	{
+		$db = $this->_getDb();
+		$sqlConditions = array();
+
+		if (isset($conditions['empty']))
+		{
+			if (!$conditions['empty'])
+			{
+				$sqlConditions[] = 'album.photo_count > 0';
+			}
+		}
+		else
+		{
+			$sqlConditions[] = 'album.photo_count > 0';
+		}
+		
+		return $this->getConditionsForClause($sqlConditions);
+	}
+	
 	public function prepareAlbumFetchOptions(array $fetchOptions)
 	{		
 		$selectFields = '';
@@ -49,20 +69,21 @@ class Album_Model_Album extends XenForo_Model
 		);
 	}
 	
-	public function getUserAlbumsByUserId($userId, $fetchOptions = array())
+	public function getUserAlbumsByUserId($userId, array $fetchOptions = array(), array $conditions = array())
 	{
 		$sqlClauses = $this->prepareAlbumFetchOptions($fetchOptions);
+		$whereClause = $this->prepareAlbumConditions($conditions, $fetchOptions);
 		
 		return $this->_getDb()->fetchAll('
 			SELECT *
 			' . $sqlClauses['selectFields'] . '
 			FROM album
 			' . $sqlClauses['joinTables'] . '
-			WHERE user_id = ?
-		', $userId);
+			WHERE user_id = ? AND ' . $whereClause
+		, $userId);
 	}
 	
-	public function getAlbumById($albumId, $fetchOptions = array())
+	public function getAlbumById($albumId, array $fetchOptions = array())
 	{
 		$sqlClauses = $this->prepareAlbumFetchOptions($fetchOptions);
 		
@@ -77,9 +98,10 @@ class Album_Model_Album extends XenForo_Model
 		return $album;
 	}
 	
-	public function getAlbumsByIds($albumIds, array $fetchOptions = array())
+	public function getAlbumsByIds($albumIds, array $fetchOptions = array(), array $conditions = array())
 	{
 		$sqlClauses = $this->prepareAlbumFetchOptions($fetchOptions);
+		$whereClause = $this->prepareAlbumConditions($conditions, $fetchOptions);
 		
 		return $this->fetchAllKeyed('
 			SELECT *
@@ -87,6 +109,7 @@ class Album_Model_Album extends XenForo_Model
 			FROM album
 			' . $sqlClauses['joinTables'] . '
 			WHERE album.album_id IN (' . $this->_getDb()->quote($albumIds) . ')
+				AND ' . $whereClause . '
 		', 'album_id');
 		
 	}
@@ -116,6 +139,8 @@ class Album_Model_Album extends XenForo_Model
 			$album['photos'] = $this->getAllPhotosForAlbumById($album['album_id']);
 		}
 		
+		$album['permissions'] = $this->getPermissions();
+		
 		return $album;
 	}
 	
@@ -144,6 +169,11 @@ class Album_Model_Album extends XenForo_Model
 		$photo = $attachmentModel->prepareAttachment($photo);
 
 		return $photo;
+	}
+	
+	public function removeEmptyAlbums()
+	{
+		return $this->_getDb()->delete('album', 'photo_count < 1');
 	}
 	
 	public function preparePhoto($photo)
@@ -208,11 +238,13 @@ class Album_Model_Album extends XenForo_Model
 				'view'        => $this->_hasPermission($userPermissions, 'album', 'view'),
 				'view_photos' => $this->_hasPermission($userPermissions, 'album', 'view_photos'),
 				'upload'      => false,
+				'manage'      => false
 			);
 			
 			if ($viewingUser['user_id'])
 			{
 				$permissions['upload'] = $this->_hasPermission($userPermissions, 'album', 'upload');
+				$permissions['manage'] = $this->_hasPermission($userPermissions, 'album', 'manage');
 			}
 
 			return $permissions;

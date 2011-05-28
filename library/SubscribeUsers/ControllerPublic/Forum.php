@@ -2,7 +2,6 @@
 
 class SubscribeUsers_ControllerPublic_Forum extends XFCP_SubscribeUsers_ControllerPublic_Forum
 {
-	
 	public function actionCreateThread()
 	{
 		$response = parent::actionCreateThread();
@@ -14,7 +13,10 @@ class SubscribeUsers_ControllerPublic_Forum extends XFCP_SubscribeUsers_Controll
 	{
 		$response = parent::actionAddThread();
 		
-		if (!isset($response->redirectTarget)) return $response;
+		if (!isset($response->redirectTarget))
+		{
+			return $response;
+		}
 		
 	  	preg_match("/.*?(\\d+)/is", $response->redirectTarget, $matches);
 		$thread_id = $matches[1];

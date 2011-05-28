@@ -28,11 +28,13 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 					'requiredError' => 'album_please_enter_album_name'
 				),
 				'photo_count' => array(
-					'type' => self::TYPE_UINT,
-					'max'  => 100
+					'type'    => self::TYPE_UINT,
+					'max'     => 100,
+					'default' => 0
 				),
 				'cover_attachment_id' => array(
-					'type' => self::TYPE_UINT
+					'type'    => self::TYPE_UINT,
+					'default' => 0
 				)
 			)
 		);
@@ -60,7 +62,31 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 		return 'album_id = ' . $this->_db->quote($this->getExisting('album_id'));
 	}
 	
-	protected final function _postSave()
+	protected function _preSave()
+	{
+		$photoHash = $this->getExtraData('attachment_hash');
+		
+		if (!$photoHash)
+		{
+			throw new XenForo_Exception(new XenForo_Phrase('album_hash_id_missing'));
+		}
+		
+		if ($this->isInsert() && ($this->get('photo_count') < 1))
+		{
+			$rows = $this->_db->fetchAll('
+				SELECT *
+				FROM xf_attachment
+				WHERE temp_hash = ?	
+			', $photoHash);
+		
+			if (!$rows)
+			{
+				$this->error(new XenForo_Phrase('album_albums_must_contain_at_least_one_photo'));
+			}
+		}
+	}
+	
+	protected function _postSave()
 	{
 		$photoHash = $this->getExtraData('attachment_hash');
 
@@ -75,12 +101,30 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 		return true;
 	}
 	
+	protected function _postDelete()
+	{
+		$albumId = $this->get('album_id');
+		
+		$this->getModelFromCache('XenForo_Model_NewsFeed')->delete(
+			'album',
+			$albumId
+		);
+		
+		if ($this->get('photo_count') > 0)
+		{
+			$this->getModelFromCache('XenForo_Model_Attachment')->deleteAttachmentsFromContentIds(
+				'album',
+				array($albumId)
+			);
+		}
+	}
+	
 	protected function _associatePhotos($attachmentHash)
 	{
 		$rows = $this->_db->update('xf_attachment', array(
 			'content_type' => 'album',
-			'content_id' => $this->get('album_id'),
-			'temp_hash' => '',
+			'content_id'   => $this->get('album_id'),
+			'temp_hash'    => '',
 			'unassociated' => 0
 		),  'temp_hash = ' . $this->_db->quote($attachmentHash));
 		

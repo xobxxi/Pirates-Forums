@@ -9,11 +9,6 @@
 		}
 	}
 	
-	XenForo.AddPictureButton = function()
-	{
-		$('span#AttachmentUploader').children().filter(':button').val('Add Pictures');
-	}
-	
 	XenForo.register('.ResetButton', 'XenForo.ResetButton');
 	
 }

@@ -43,9 +43,14 @@ class PirateProfile_Listener
 		switch ($hookName)
 		{
 			case 'account_wrapper_sidebar':
-				$search   = 'Personal Details</a></li>';
-				$replace  = $template->create('pirateProfile_account_management_list_item', $template->getParams())->render();
-				$contents = str_replace($search, $search . "\n" . $replace, $contents);
+				$search = "/<li><a[ \n\r\t]+class=\"primaryContent\"[ \n\r\t]+href=\"(index\.php\?)?account\/signature\">/is";
+				preg_match($search, $contents, $matches);
+				if (isset($matches[0]))
+				{
+					$search   = $matches[0];
+					$prefix   = $template->create('pirateProfile_account_management_list_item', $template->getParams())->render();
+					$contents = str_replace($search, $prefix . "\n" . $search, $contents);
+				}
 				return $contents;
 			case 'account_alerts_extra':
 				$contents .= $template->create('pirateProfile_alert_preferences', $template->getParams())->render();
@@ -57,14 +62,28 @@ class PirateProfile_Listener
 				$contents .= $template->create('pirateProfile_profile_tab_content', $hookParams)->render();
 				return $contents;
 			case 'member_card_links':
-				$search   = 'Profile Page</a>';
-				$replace  = $template->create('pirateProfile_member_card_link_item', $template->getParams())->render();
-				$contents = str_replace($search, $search . "\n" . $replace, $contents);
+				$search = "/<a href=\"(index\.php\?)?conversations\/.*?\"/is";
+				preg_match($search, $contents, $matches);
+				$template = $template->create('pirateProfile_member_card_link_item', $template->getParams())->render();
+				if (isset($matches[0]))
+				{
+					$search   = $matches[0];
+					$contents = str_replace($search, $template . "\n" . $search, $contents);
+				}
+				else
+				{
+					$contents .= $template;
+				}
 				return $contents;
 			case 'navigation_visitor_tab_links2':
-				$search   = '<ul class="col2 blockLinksList">';
-				$replace  = $template->create('pirateProfile_navigation_list_item_member', $template->getParams())->render();
-				$contents = str_replace($search, $search . "\n" . $replace, $contents);
+				$search = "/<li><a[ \n\r\t]+href=\"(index\.php\?)?account\/news-feed\">/is";
+				preg_match($search, $contents, $matches);
+				if (isset($matches[0]))
+				{
+					$search   = $matches[0];
+					$prefix  = $template->create('pirateProfile_navigation_list_item_member', $template->getParams())->render();
+					$contents = str_replace($search, $prefix . "\n" . $search, $contents);
+				}
 				return $contents;
 			case 'recentActivityBlock_items':
 				$contents .= $template->create('pirateProfile_recent_activity_block_items', $hookParams)->render();

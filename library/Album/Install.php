@@ -7,14 +7,14 @@ class Album_Install
 		$db = XenForo_Application::get('db');
 
 		$db->query("
-			CREATE TABLE IF NOT EXISTS `album` (
-			  `album_id` int(11) NOT NULL AUTO_INCREMENT,
-			  `user_id` int(11) NOT NULL,
+			CREATE TABLE IF NOT EXISTS album (
+			  album_id int(11) NOT NULL AUTO_INCREMENT,
+			  user_id int(11) NOT NULL,
 			  `name` text NOT NULL,
 			  `date` int(11) NOT NULL,
-			  `photo_count` int(11) NOT NULL,
-			  `cover_attachment_id` int(11) NOT NULL,
-			  PRIMARY KEY (`album_id`)
+			  photo_count int(11) NOT NULL DEFAULT '0',
+			  cover_attachment_id int(11) NOT NULL DEFAULT '0',
+			  PRIMARY KEY (album_id)
 			) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 		");
 		

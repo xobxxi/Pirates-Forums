@@ -2,45 +2,50 @@
 
 class SubscribeUsers_Model_Subscribe extends XenForo_Model
 {
-
-	public function fireSubscribe($thread_id, $input)
+	public function fireSubscribe($threadId, $input)
 	{
 		if (!XenForo_Visitor::getInstance()->hasPermission('forum', 'subscribeUsers'))
 		{
 			return false;
 		}
 			
-		if (!isset($thread_id) OR (!isset($input['subscribe_users'])))
+		if (!isset($threadId) OR (!isset($input['subscribe_users'])))
 		{
 			return false;
 		}
 		
 		$usernames = explode(',', $input['subscribe_users']);
-		if (!isset($usernames)) return $response;
+		
+		if (empty($usernames))
+		{
+			return false;
+		}
+		
 		$users = $this->_getUserModel()->getUsersByNames($usernames);
 		
 		$options = XenForo_Application::get('options');
 		$state   = $options->subscribeUsers_state;
+		
 		switch ($options->subscribeUsers_state)
 		{
 			case 'watch_email':
 			default:
 				$state = 'watch_email';
-			break;
+				break;
 			case 'watch_no_email':
 				$state = 'watch_no_email';
-			break;
+				break;
 		}
 		
 		foreach ($users as $user)
 		{
 			$this->_getThreadWatchModel()->setThreadWatchState(
-				$user['user_id'], $thread_id, 
+				$user['user_id'], $threadId, 
 				$state
 			);
 		}
 		
-		return;
+		return true;
 	}
 	
 	public function checkCanSubscribe($response = false)
@@ -49,19 +54,21 @@ class SubscribeUsers_Model_Subscribe extends XenForo_Model
 			case false:
 			default:
 				$subscribeUsers = false;
-			break;
+				break;
 			case true:
 				$subscribeUsers = true;
-			break;
+				break;
 		}
 		
 		if (!$response)
 		{
 			$params = array('subscribeUsers' => $subscribeUsers);
+			
 			return $params;
 		}
 			
 		$response->params += array('subscribeUsers' => $subscribeUsers);
+		
 		return $response;
 	}
 	
@@ -69,16 +76,17 @@ class SubscribeUsers_Model_Subscribe extends XenForo_Model
 	{	
 		$threadModel = $this->getModelFromCache('SubscribeUsers_Model_Thread');
 		$users = $threadModel->getSubscribedUsers($thread_id);
-		if (empty($users)) return false;
+		
+		if (empty($users))
+		{
+			return false;
+		}
 		
 		$subscribedUsers = $this->_getUserModel()->getUsersByIds($users);
 		
 		return $subscribedUsers;
 	}
 	
-	/**
-	 * @return XenForo_Model_User
-	 */
 	protected function _getUserModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_User');

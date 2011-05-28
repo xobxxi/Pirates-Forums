@@ -37,7 +37,7 @@ class Album_AttachmentHandler_Album extends XenForo_AttachmentHandler_Abstract
 		return ($max <= 0 ? true : $max);
 	}
 	
-	public static function getAttachmentConstraints()
+	public function getAttachmentConstraints()
 	{
 		$options = XenForo_Application::get('options');
 

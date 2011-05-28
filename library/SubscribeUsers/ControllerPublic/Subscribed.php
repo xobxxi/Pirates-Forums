@@ -2,17 +2,20 @@
 
 class SubscribeUsers_ControllerPublic_Subscribed extends XenForo_ControllerPublic_Abstract
 {
-	
 	public function actionIndex()
 	{
 		$visitor = XenForo_Visitor::getInstance();
-		if (!$visitor['is_admin']) throw $this->getNoPermissionResponseException();
 		
-		$threadId        = $this->_input->filterSingle('thread_id', XenForo_Input::UINT);
+		if (!$visitor['is_admin'])
+		{
+			throw $this->getNoPermissionResponseException();
+		}
+		
+		$threadId = $this->_input->filterSingle('thread_id', XenForo_Input::UINT);
 		
 		$ftpHelper = $this->getHelper('ForumThreadPost');
 		$threadFetchOptions = array('readUserId' => $visitor['user_id'], 'watchUserId' => $visitor['user_id']);
-		$forumFetchOptions = array('readUserId' => $visitor['user_id']);
+		$forumFetchOptions  = array('readUserId' => $visitor['user_id']);
 		list($thread, $forum) = $ftpHelper->assertThreadValidAndViewable($threadId, $threadFetchOptions, $forumFetchOptions);
 		
 		if (empty($thread)) 
@@ -34,6 +37,7 @@ class SubscribeUsers_ControllerPublic_Subscribed extends XenForo_ControllerPubli
 			'thread'          => $thread,
 			'subscribedUsers' => $subscribedUsers
 		);
+		
 		return $this->responseView(
 			'SubscribeUsers_ViewPublic_Subscribed', 'subscribeUsers_subscribed_users', $viewParams
 		);

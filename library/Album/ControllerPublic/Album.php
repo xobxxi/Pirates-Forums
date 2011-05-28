@@ -1,10 +1,14 @@
 <?php
 
 /* todo
-- create albums
+- cleanup / insert links
+* on card
+* on dropdown
+* on quicknav
 */
 
 /* iteration 2
+- fix button alignment
 - set custom cover image
 - photos on individual page with confirm delete, description
 - flesh out photo management systems (CRUD)
@@ -48,9 +52,12 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$albums = $albumModel->getUserAlbumsByUserId($userId);
 		$albums = $albumModel->prepareAlbums($albums);
 		
+		$permissions = $albumModel->getPermissions();
+		
 		$viewParams = array(
 			'user'   => $user,
-			'albums' => $albums
+			'albums' => $albums,
+			'permissions' => $permissions
 		);
 		
 		return $this->responseView(
@@ -82,14 +89,42 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		);
 	}
 	
-	public function actionManage()
+	public function actionAdd()
 	{
+		$albumModel = $this->_getAlbumModel();
+		
+		$permissions = $albumModel->getPermissions();
+		if (!$permissions['upload'])
+		{
+			return $this->responseNoPermission();
+		}
+		
+		$attachmentParams      = $albumModel->getAttachmentParams(array());
+		$attachmentConstraints = $this->_getAttachmentModel()->getAttachmentHandler('pirate')->getAttachmentConstraints();
+		
+		$viewParams = array(
+			'user'                  => XenForo_Visitor::getInstance(),
+			'attachmentParams'      => $attachmentParams,
+			'attachmentConstraints' => $attachmentConstraints
+		);
+		
+		return $this->responseView(
+			'Album_ViewPublic_Album_Add',
+			'album_add',
+			$viewParams
+		);
+	}
+	
+	public function actionManage()
+	{	
 		$albumId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		
 		list($album, $user) = $this->_assertAlbumValidAndViewable($albumId);
 		
+		$this->_assertCanManage($album);
+		
 		$attachmentParams      = $this->_getAlbumModel()->getAttachmentParams(array());
-		$attachmentConstraints = Album_AttachmentHandler_Album::getAttachmentConstraints();
+		$attachmentConstraints = $this->_getAttachmentModel()->getAttachmentHandler('pirate')->getAttachmentConstraints();
 		
 		$viewParams = array(
 			'user'                  => $user,
@@ -106,6 +141,72 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		);
 	}
 	
+	public function actionDelete()
+	{	
+		$albumId = $this->_input->filterSingle('id', XenForo_Input::UINT);
+
+		list($album, $user) = $this->_assertAlbumValidAndViewable($albumId);
+
+		$this->_assertCanManage($album);
+
+		if ($this->isConfirmedPost())
+		{
+			$dw = XenForo_DataWriter::create('Album_DataWriter_Album');
+			$dw->setExistingData($albumId);
+			$dw->delete();
+
+			return $this->responseRedirect(
+					XenForo_ControllerResponse_Redirect::SUCCESS,
+					XenForo_Link::buildPublicLink('albums', $user)
+			);
+		}
+
+		$viewParams = array(
+			'album' => $album,
+			'user'	 => $user
+		);
+		return $this->responseView(
+			'Album_ViewPublic_Album_Delete',
+			'album_delete',
+			$viewParams
+		);
+	}
+	
+	public function actionCreate()
+	{	
+		$this->_assertPostOnly();
+		
+		$permissions = $this->_getAlbumModel()->getPermissions();
+		if (!$permissions['upload'])
+		{
+			return $this->responseNoPermission();
+		}
+		
+		$input = $this->_input->filter(array(
+			'name' => XenForo_Input::STRING
+		));
+		
+		$attachment = $this->_input->filter(array(
+			'attachment_hash' => XenForo_Input::STRING)
+		);
+		
+		$dw = XenForo_DataWriter::create('Album_DataWriter_Album');
+		$dw->set('user_id', XenForo_Visitor::getUserId());
+		$dw->set('name', $input['name']);
+		$dw->set('date', XenForo_Application::$time);
+		$dw->setExtraData('attachment_hash', $attachment['attachment_hash']);
+		$dw->preSave();
+		$dw->save();
+		
+		$album = $dw->getMergedData();
+		
+		return $this->responseRedirect(
+			XenForo_ControllerResponse_Redirect::RESOURCE_UPDATED,
+			XenForo_Link::buildPublicLink('albums/view', $album),
+			new XenForo_Phrase('album_the_album_has_been_saved_successfully')
+		);
+	}
+	
 	public function actionSave()
 	{
 		$this->_assertPostOnly();
@@ -113,6 +214,8 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$albumId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		
 		list($album, $user) = $this->_assertAlbumValidAndViewable($albumId);
+		
+		$this->_assertCanManage($album);
 		
 		$input = $this->_input->filter(array(
 			'name' => XenForo_Input::STRING
@@ -127,6 +230,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$dw->set('name', $input['name']);
 		$dw->set('date', XenForo_Application::$time);
 		$dw->setExtraData('attachment_hash', $attachment['attachment_hash']);
+		$dw->preSave();
 		$dw->save();
 		
 		return $this->responseRedirect(
@@ -219,8 +323,8 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		
 		if (empty($albumId))
 		{
-			return $this->responseError(
-				new XenForo_Phrase('album_no_album_id_specified')
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('album_no_album_id_specified'))
 			);
 		}
 		
@@ -244,7 +348,49 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		
 		$album = $albumModel->prepareAlbum($album, true);
 		
+		$album = $this->_applyPermissions($album);
+		
 		return array($album, $user);
+	}
+	
+	protected function _applyPermissions(&$album)
+	{
+		if (!isset($album['permissions']))
+		{
+			return false;
+		}
+		
+		if (!is_array($album['permissions']))
+		{
+			return false;
+		}
+		
+		if ($album['user_id'] == XenForo_Visitor::getUserId())
+		{
+			$album['permissions']['manage'] = true;
+		}
+		
+		return $album;
+	}
+	
+	protected function _assertCanManage($album, &$errorPhraseKey = '')
+	{
+		$permissions = $this->_getAlbumModel()->getPermissions();
+		
+		if ($permissions['upload'])
+		{
+			if ($album['user_id'] == XenForo_Visitor::getUserId())
+			{
+				return true;
+			}
+		}
+		
+		if ($permissions['manage'])
+		{
+			return true;
+		}
+		
+		throw $this->getNoPermissionResponseException($errorPhraseKey);
 	}
 	
 	protected function _getAlbumModel()
@@ -255,5 +401,10 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 	protected function _getUserModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_User');
+	}
+	
+	protected function _getAttachmentModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_Attachment');
 	}
 }
