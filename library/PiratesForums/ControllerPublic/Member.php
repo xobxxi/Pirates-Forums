@@ -4,6 +4,11 @@ class PiratesForums_ControllerPublic_Member extends XFCP_PiratesForums_Controlle
 {
 	public function actionNew()
 	{
+		$criteria = array(
+			'is_banned'  => 0,
+			'user_state' => 'valid'
+		);
+		
 		$latestUsers = $this->_getUserModel()->getLatestUsers(
 			array('is_banned' => 0), array('limit' => 20)
 		);
