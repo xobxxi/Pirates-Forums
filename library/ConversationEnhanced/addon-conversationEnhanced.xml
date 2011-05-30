@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="conversationEnhanced" title="Conversation Enhanced" version_string="2.0.0" version_id="20" url="http://xenforo.com/community/members/jeremy-p.450/" install_callback_class="ConversationEnhanced_Install" install_callback_method="install" uninstall_callback_class="ConversationEnhanced_Install" uninstall_callback_method="uninstall">
+<addon addon_id="conversationEnhanced" title="Conversation Enhanced" version_string="2.1.0" version_id="21" url="http://xenforo.com/community/members/jeremy-p.450/" install_callback_class="ConversationEnhanced_Install" install_callback_method="install" uninstall_callback_class="ConversationEnhanced_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -10,6 +10,8 @@
     <listener event_id="load_class_datawriter" execute_order="10" callback_class="ConversationEnhanced_Listener" callback_method="loadClassDatawriter" active="1" description="Extends datawriters"/>
     <listener event_id="load_class_model" execute_order="10" callback_class="ConversationEnhanced_Listener" callback_method="loadClassModel" active="1" description="Extends models"/>
     <listener event_id="load_class_view" execute_order="10" callback_class="ConversationEnhanced_Listener" callback_method="loadClassView" active="1" description="Extends views"/>
+    <listener event_id="template_create" execute_order="10" callback_class="ConversationEnhanced_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
+    <listener event_id="template_hook" execute_order="10" callback_class="ConversationEnhanced_Listener" callback_method="templateHook" active="1" description="Uses template hooks to spit into templates"/>
   </code_event_listeners>
   <cron/>
   <email_templates/>
@@ -23,6 +25,9 @@
     <interface_groups/>
   </permissions>
   <phrases>
+    <phrase title="conversationEnhanced_message_in_conversation_x" version_id="20" version_string="2.0.0"><![CDATA[Message in conversation '{title}']]></phrase>
+    <phrase title="conversationEnhanced_receiving_members" version_id="20" version_string="2.0.0"><![CDATA[Receiving Members]]></phrase>
+    <phrase title="conversationEnhanced_report_conversation_message" version_id="20" version_string="2.0.0"><![CDATA[Report Conversation Message]]></phrase>
     <phrase title="permission_conversation_addAttachments" version_id="0" version_string="1.0.0"><![CDATA[Add attachments]]></phrase>
     <phrase title="permission_conversation_viewAttachments" version_id="0" version_string="1.0.0"><![CDATA[View attachments]]></phrase>
   </phrases>
@@ -33,5 +38,37 @@
 {
 	width: 66%;
 }]]></template>
+    <template title="conversationEnhanced_message_control_report" version_id="20" version_string="2.0.0"><![CDATA[<a href="{xen:link 'conversations/report', $conversation, 'm={$message.message_id}'}" class="OverlayTrigger item control report" data-cacheOverlay="false"><span></span>{xen:phrase report}</a>]]></template>
+    <template title="conversationEnhanced_report" version_id="20" version_string="2.0.0"><![CDATA[<div class="primaryContent">{xen:helper bodyText, $content.message}</div>
+<dl class="secondaryContent pairsInline">
+	<dt>{xen:phrase conversationEnhanced_receiving_members}:</dt>
+	<dd>
+		<xen:foreach loop="{$content.message_recipients}" key="$user_id" value="$username">
+			<a href="{xen:link members, {xen:array 'user_id={$user_id}', 'username={$username}'}}">{$username}</a>
+		</xen:foreach>
+	</dd>
+</dl>]]></template>
+    <template title="conversationEnhanced_report_message" version_id="20" version_string="2.0.0"><![CDATA[<xen:title>{$conversation.title} - {xen:phrase conversationEnhanced_report_conversation_message}</xen:title>
+<xen:h1>{xen:phrase conversationEnhanced_report_conversation_message}</xen:h1>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:conversations}">{xen:phrase conversations}</xen:breadcrumb>
+	<xen:breadcrumb href="{xen:link full:conversations, $conversation}">{$conversation.title}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link 'conversations/report', $conversation, 'm={$message.message_id}'}" method="post" class="xenForm formOverlay AutoValidator">
+
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_message">{xen:phrase report_reason}:</label></dt>
+		<dd><textarea name="message" id="ctrl_message" rows="2" class="textCtrl Elastic"></textarea></dd>
+	</dl>
+
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd><input type="submit" value="{xen:phrase conversationEnhanced_report_conversation_message}" accesskey="s" class="button primary" /></dd>
+	</dl>
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
   </templates>
 </addon>
