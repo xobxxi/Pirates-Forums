@@ -1,6 +1,6 @@
 <?php
 
-class ConversationAttachments_DataWriter_ConversationMaster extends XFCP_ConversationAttachments_DataWriter_ConversationMaster
+class ConversationEnhanced_DataWriter_ConversationMaster extends XFCP_ConversationEnhanced_DataWriter_ConversationMaster
 {
 	protected function _postDelete()
 	{

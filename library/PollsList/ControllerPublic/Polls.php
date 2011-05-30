@@ -15,10 +15,12 @@ class PollsList_ControllerPublic_Polls extends XenForo_ControllerPublic_Abstract
 		$max = XenForo_Application::get('options')->pollsList_max;
 		
 		$polls  = $this->_getPollsModel()->getRecentPolls($max);
+		
 		$finals = array();
-				
-		foreach ($polls as $poll) {
-			try {
+		foreach ($polls as $poll)
+		{
+			try
+			{
 				list($thread, $forum) = $ftpHelper->assertThreadValidAndViewable($poll['content_id'], $threadFetchOptions, $forumFetchOptions);
 
 				$poll['userInfo'] = $this->_getUserModel()->getUserById($thread['user_id']);

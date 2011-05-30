@@ -1,6 +1,6 @@
 <?php
 
-class ConversationAttachments_Model_Conversation extends XFCP_ConversationAttachments_Model_Conversation
+class ConversationEnhanced_Model_Conversation extends XFCP_ConversationEnhanced_Model_Conversation
 {
 	public function getAndMergeAttachmentsIntoMessages(array $messages)
 	{

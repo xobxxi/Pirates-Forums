@@ -1,6 +1,6 @@
 <?php
 
-class ConversationAttachments_DataWriter_ConversationMessage extends XFCP_ConversationAttachments_DataWriter_ConversationMessage
+class ConversationEnhanced_DataWriter_ConversationMessage extends XFCP_ConversationEnhanced_DataWriter_ConversationMessage
 {
 	const DATA_ATTACHMENT_HASH = 'attachmentHash';
 		

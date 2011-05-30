@@ -28,5 +28,3 @@ class RecentActivityBlock_Listener
 		}
 	}
 }
-
-// remove phrases

@@ -1,6 +1,6 @@
 <?php
 
-class ConversationAttachments_Install
+class ConversationEnhanced_Install
 {
 	public static function install($existingAddOn, $addOnData)
 	{
@@ -26,7 +26,7 @@ class ConversationAttachments_Install
 			'table'      => 'xf_content_type',
 			'identifier' => "xf_content_type.content_type = 'conversation_message'",
 			'fields'     => '`content_type`, `addon_id`, `fields`',
-			'values'     => "'conversation_message', 'conversationAttachments', '{$fields}'"
+			'values'     => "'conversation_message', 'conversationEnhanced', '{$fields}'"
 		);
 		
 		self::insertRow($db, $contentTypeRow, true);
@@ -55,7 +55,7 @@ class ConversationAttachments_Install
 		
 		$db->query("
 			DELETE FROM xf_content_type
-			WHERE xf_content_type.addon_id = 'conversationAttachments'
+			WHERE xf_content_type.addon_id = 'conversationEnhanced'
 		");
 		
 		$db->query("
@@ -75,7 +75,8 @@ class ConversationAttachments_Install
 	{
 		$fields = array();
 		
-		$fields['attachment_handler_class'] = 'ConversationAttachments_AttachmentHandler_ConversationMessage';
+		$fields['attachment_handler_class'] = 'ConversationEnhanced_AttachmentHandler_ConversationMessage';
+		$fields['report_handler_class']     = 'ConversationEnhanced_ReportHandler_ConversationMessage';
 		
 		return $fields;
 	}

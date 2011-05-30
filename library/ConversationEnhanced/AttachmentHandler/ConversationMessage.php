@@ -1,6 +1,6 @@
 <?php
 
-class ConversationAttachments_AttachmentHandler_ConversationMessage extends XenForo_AttachmentHandler_Abstract
+class ConversationEnhanced_AttachmentHandler_ConversationMessage extends XenForo_AttachmentHandler_Abstract
 {
 	protected $_contentIdKey = 'message_id';
 	protected $_conversationModel = null;

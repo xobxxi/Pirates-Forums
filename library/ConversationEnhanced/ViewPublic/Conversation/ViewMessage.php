@@ -1,6 +1,6 @@
 <?php
 
-class ConversationAttachments_ViewPublic_Conversation_ViewMessage extends XFCP_ConversationAttachments_ViewPublic_Conversation_ViewMessage
+class ConversationEnhanced_ViewPublic_Conversation_ViewMessage extends XFCP_ConversationEnhanced_ViewPublic_Conversation_ViewMessage
 {
 	public function renderHtml()
 	{

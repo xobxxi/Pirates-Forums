@@ -1,6 +1,6 @@
 <?php
 
-class ConversationAttachments_ControllerPublic_Conversation extends XFCP_ConversationAttachments_ControllerPublic_Conversation
+class ConversationEnhanced_ControllerPublic_Conversation extends XFCP_ConversationEnhanced_ControllerPublic_Conversation
 {
 	public function actionView()
 	{
@@ -192,9 +192,66 @@ class ConversationAttachments_ControllerPublic_Conversation extends XFCP_Convers
 
 		return $response;
 	}
+	
+	public function actionReport()
+	{
+		$conversationId = $this->_input->filterSingle('conversation_id', XenForo_Input::UINT);
+		$messageId = $this->_input->filterSingle('m', XenForo_Input::UINT);
+
+		list($conversation, $conversationMessage) = $this->_getConversationAndMessageOrError($messageId, $conversationId);
+
+		$this->_assertCanReplyToConversation($conversation);
+
+		if ($this->_request->isPost())
+		{
+			$reportMessage = $this->_input->filterSingle('message', XenForo_Input::STRING);
+			if (!$reportMessage)
+			{
+				return $this->responseError(new XenForo_Phrase('please_enter_reason_for_reporting_this_message'));
+			}
+
+			$this->_getReportModel()->reportContent(
+				'conversation_message',
+				$conversationMessage,
+				$reportMessage
+			);
+
+			$controllerResponse = $this->responseRedirect(
+				XenForo_ControllerResponse_Redirect::SUCCESS,
+				XenForo_Link::buildPublicLink('conversations', $conversation)
+			);
+			
+			return $this->responseRedirect(
+				XenForo_ControllerResponse_Redirect::SUCCESS,
+				$this->getDynamicRedirect(
+					XenForo_Link::buildPublicLink('conversations', $conversation, array('message_id' => $conversationMessage['message_id'])),
+					true
+				),
+				new XenForo_Phrase('thank_you_for_reporting_this_message')
+			);
+		}
+		else
+		{
+			$viewParams = array(
+				'message'      => $conversationMessage,
+				'conversation' => $conversation
+			);
+
+			return $this->responseView(
+				'XenForo_ViewPublic_ConversationMessage_Report',
+				'conversationEnhanced_report_message', // make
+				$viewParams
+			);
+		}
+	}
 
 	protected function _getAttachmentModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_Attachment');
+	}
+	
+	protected function _getReportModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_Report');
 	}
 }

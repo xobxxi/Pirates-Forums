@@ -322,15 +322,13 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 				return $this->responseError(new XenForo_Phrase('pirateProfile_please_enter_reason_for_reporting_this_pirate'));
 			}
 
-			$reportModel = $this->getModelFromCache('XenForo_Model_Report');
-			$reportModel->reportContent('pirate', $pirate, $reportMessage);
+			$this->getModelFromCache('XenForo_Model_Report')->reportContent('pirate', $pirate, $reportMessage);
 
-			$controllerResponse = $this->responseRedirect(
+			return $this->responseRedirect(
 				XenForo_ControllerResponse_Redirect::SUCCESS,
-				XenForo_Link::buildPublicLink('pirates/card', $pirate)
+				XenForo_Link::buildPublicLink('pirates/card', $pirate),
+				new XenForo_Phrase('pirateProfile_thank_you_for_reporting_this_pirate')
 			);
-			$controllerResponse->redirectMessage = new XenForo_Phrase('pirateProfile_thank_you_for_reporting_this_pirate');
-			return $controllerResponse;
 		}
 		else
 		{

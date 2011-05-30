@@ -1,12 +1,4 @@
 <?php
-
-/* todo
-- cleanup / insert links
-* on card
-* on dropdown
-* on quicknav
-*/
-
 /* iteration 2
 - fix button alignment
 - set custom cover image
