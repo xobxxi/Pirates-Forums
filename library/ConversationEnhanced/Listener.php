@@ -66,7 +66,14 @@ class ConversationEnhanced_Listener
 		switch ($hookName)
 		{
 			case 'conversation_message_private_controls':
-				$contents .=  $template->create('conversationEnhanced_message_control_report', $template->getParams())->render();
+				$search = "/data-messageSelector=\"#message-([0-9]+)\"/is";
+				if (preg_match($search, $contents, $match))
+				{
+					$templateParams = $template->getParams();
+					$hookParams['conversation']          = $templateParams['conversation'];
+					$hookParams['message']['message_id'] = $match[1];
+					$contents .=  $template->create('conversationEnhanced_message_control_report', $hookParams)->render();
+				}
 				return $contents;
 		}
 	}

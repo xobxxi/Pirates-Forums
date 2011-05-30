@@ -44,8 +44,7 @@ class PirateProfile_Listener
 		{
 			case 'account_wrapper_sidebar':
 				$search = "/<li><a[ \n\r\t]+class=\"primaryContent\"[ \n\r\t]+href=\"(index\.php\?)?account\/signature\">/is";
-				preg_match($search, $contents, $matches);
-				if (isset($matches[0]))
+				if (preg_match($search, $contents, $matches))
 				{
 					$search   = $matches[0];
 					$prefix   = $template->create('pirateProfile_account_management_list_item', $template->getParams())->render();
@@ -62,10 +61,9 @@ class PirateProfile_Listener
 				$contents .= $template->create('pirateProfile_profile_tab_content', $hookParams)->render();
 				return $contents;
 			case 'member_card_links':
-				$search = "/<a href=\"(index\.php\?)?conversations\/.*?\"/is";
-				preg_match($search, $contents, $matches);
 				$template = $template->create('pirateProfile_member_card_link_item', $template->getParams())->render();
-				if (isset($matches[0]))
+				$search = "/<a href=\"(index\.php\?)?conversations\/.*?\"/is";
+				if (preg_match($search, $contents, $matches))
 				{
 					$search   = $matches[0];
 					$contents = str_replace($search, $template . "\n" . $search, $contents);
@@ -77,11 +75,10 @@ class PirateProfile_Listener
 				return $contents;
 			case 'navigation_visitor_tab_links2':
 				$search = "/<li><a[ \n\r\t]+href=\"(index\.php\?)?account\/news-feed\">/is";
-				preg_match($search, $contents, $matches);
-				if (isset($matches[0]))
+				if (preg_match($search, $contents, $matches))
 				{
 					$search   = $matches[0];
-					$prefix  = $template->create('pirateProfile_navigation_list_item_member', $template->getParams())->render();
+					$prefix   = $template->create('pirateProfile_navigation_list_item_member', $template->getParams())->render();
 					$contents = str_replace($search, $prefix . "\n" . $search, $contents);
 				}
 				return $contents;

@@ -35,8 +35,7 @@ class Album_Listener
 				if ($permissions['view'])
 				{
 					$search = "/<li><a[ \n\r\t]+class=\"primaryContent\"[ \n\r\t]+href=\"(index\.php\?)?account\/signature\">/is";
-					preg_match($search, $contents, $matches);
-					if (isset($matches[0]))
+					if (preg_match($search, $contents, $matches))
 					{
 						$search   = $matches[0];
 						$prefix   = $template->create('album_account_management_list_item', $template->getParams())->render();
@@ -49,12 +48,11 @@ class Album_Listener
 				
 				if ($permissions['view'])
 				{
+					$template = $template->create('album_member_card_link_item', $template->getParams())->render();
 					$search = "/<a href=\"(index\.php\?)?conversations\/.*?\"/is";
-					preg_match($search, $contents, $matches);
-					$template   = $template->create('album_member_card_link_item', $template->getParams())->render();
-					if (isset($matches[0]))
+					if (preg_match($search, $contents, $matches))
 					{
-						$search = $matches[0];
+						$search   = $matches[0];
 						$contents = str_replace($search, $template . "\n" . $search, $contents);
 					}
 					else
@@ -81,21 +79,20 @@ class Album_Listener
 				}
 				
 				return $contents;
-				case 'navigation_visitor_tab_links2':
-					$permissions = XenForo_Model::create('Album_Model_Album')->getPermissions();
+			case 'navigation_visitor_tab_links2':
+				$permissions = XenForo_Model::create('Album_Model_Album')->getPermissions();
 
-					if ($permissions['view'])
+				if ($permissions['view'])
+				{
+					$search = "/<li><a[ \n\r\t]+href=\"(index\.php\?)?account\/news-feed\">/is";
+					if (preg_match($search, $contents, $matches))
 					{
-						$search = "/<li><a[ \n\r\t]+href=\"(index\.php\?)?account\/news-feed\">/is";
-						preg_match($search, $contents, $matches);
-						if (isset($matches[0]))
-						{
-							$search   = $matches[0];
-							$prefix  = $template->create('album_navigation_list_item_member', $template->getParams())->render();
-							$contents = str_replace($search, $prefix . "\n" . $search, $contents);
-						}
+						$search   = $matches[0];
+						$prefix   = $template->create('album_navigation_list_item_member', $template->getParams())->render();
+						$contents = str_replace($search, $prefix . "\n" . $search, $contents);
 					}
-					return $contents;
+				}
+				return $contents;
 			case 'recentActivityBlock_items':
 				$permissions = XenForo_Model::create('Album_Model_Album')->getPermissions();
 				
