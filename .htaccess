@@ -1,9 +1,3 @@
-ErrorDocument 401 default
-ErrorDocument 403 default
-ErrorDocument 404 default
-ErrorDocument 500 default
-
-
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	
