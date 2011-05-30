@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="piratesForums" title="Pirates Forums" version_string="1.1.0" version_id="6" url="http://piratesforums.com" install_callback_class="PiratesForums_Install" install_callback_method="install" uninstall_callback_class="PiratesForums_Install" uninstall_callback_method="uninstall">
+<addon addon_id="piratesForums" title="Pirates Forums" version_string="1.2.0" version_id="8" url="http://piratesforums.com" install_callback_class="PiratesForums_Install" install_callback_method="install" uninstall_callback_class="PiratesForums_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates/>
   <code_events/>
   <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="PiratesForums_Listener" callback_method="loadClassController" active="1" description="Extends controllers"/>
     <listener event_id="load_class_datawriter" execute_order="10" callback_class="PiratesForums_Listener" callback_method="loadClassDatawriter" active="1" description="Extends datawriters"/>
     <listener event_id="load_class_model" execute_order="10" callback_class="PiratesForums_Listener" callback_method="loadClassModel" active="1" description="Extends models"/>
     <listener event_id="template_create" execute_order="10" callback_class="PiratesForums_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
@@ -20,6 +21,7 @@
     <interface_groups/>
   </permissions>
   <phrases>
+    <phrase title="piratesForums_this_is_a_list_of_new_members_at_x" version_id="6" version_string="1.1.0"><![CDATA[This is a list of new members at {board_title}.]]></phrase>
     <phrase title="piratesForums_welcome_message" version_id="1" version_string="1.0.1"><![CDATA[<p class="importantMessage">Ahoy there Pirate, and welcome to our forums!<br />
         To gain full access you must <a href="{register_link}">register.</a> Registration is free and only takes a few moments to complete.<br />
         Already a member? <a href="{login_link}">Login here</a> then!</p>]]></phrase>
@@ -32,7 +34,16 @@
 	'name={xen:helper username, $user, 'subject'}',
 	'report_attributes=href="{xen:link reports, $content}" class="PopupItemLink"'
 }]]></template>
-    <template title="piratesForums_logo_block" version_id="0" version_string="1.0.0"><![CDATA[width="962" height="96" ]]></template>
+    <template title="piratesForums_logo_block" version_id="6" version_string="1.1.0"><![CDATA[width="960" height="96" ]]></template>
+    <template title="piratesForums_members_new" version_id="6" version_string="1.1.0"><![CDATA[<xen:title>{xen:phrase newest_members}</xen:title>
+<xen:description>{xen:phrase piratesForums_this_is_a_list_of_new_members_at_x, 'board_title={$xenOptions.boardTitle}'}</xen:description>
+<xen:container var="$head.robots"><meta name="robots" content="noindex" /></xen:container>
+
+<ol class="section memberList">
+	<xen:foreach loop="$users" value="$user">
+		<xen:include template="member_list_item" />
+	</xen:foreach>
+</ol>]]></template>
     <template title="piratesForums_siteStatusMessage" version_id="0" version_string="1.0.0"><![CDATA[<!--<div style="background-color:#880303;color:#fff;margin:4px;padding:4px;">
 <p><strong></strong></p>
 </div>-->]]></template>

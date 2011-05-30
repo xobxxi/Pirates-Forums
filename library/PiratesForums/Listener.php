@@ -2,6 +2,39 @@
 
 class PiratesForums_Listener
 {
+	public static function loadClassController($class, array &$extend)
+	{
+		switch ($class)
+		{
+			case 'XenForo_ControllerPublic_Member':
+				$extend[] = 'PiratesForums_ControllerPublic_Member';
+				break;
+		}
+	}
+	
+	public static function loadClassDatawriter($class, array &$extend)
+	{
+		switch ($class)
+		{
+			case 'XenForo_DataWriter_DiscussionMessage_ProfilePost':
+				$extend[] = 'PiratesForums_DataWriter_DiscussionMessage_ProfilePost';
+				break;
+			case 'XenForo_DataWriter_ReportComment':
+				$extend[] = 'PiratesForums_DataWriter_ReportComment';
+				break;
+		}
+	}
+	
+	public static function loadClassModel($class, array &$extend)
+	{
+		switch ($class)
+		{
+			case 'XenForo_Model_Report':
+				$extend[] = 'PiratesForums_Model_Report';
+				break;
+		}
+	}
+	
 	public static function templateCreate(&$templateName, array &$params, XenForo_Template_Abstract $template)
 	{
 		switch ($templateName)
@@ -29,29 +62,6 @@ class PiratesForums_Listener
 			case 'page_container_notices':
 				$contents .= $template->create('piratesForums_welcome', $template->getParams())->render();
 				return $contents;
-		}
-	}
-	
-	public static function loadClassDatawriter($class, array &$extend)
-	{
-		switch ($class)
-		{
-			case 'XenForo_DataWriter_DiscussionMessage_ProfilePost':
-				$extend[] = 'PiratesForums_DataWriter_DiscussionMessage_ProfilePost';
-				break;
-			case 'XenForo_DataWriter_ReportComment':
-				$extend[] = 'PiratesForums_DataWriter_ReportComment';
-				break;
-		}
-	}
-	
-	public static function loadClassModel($class, array &$extend)
-	{
-		switch ($class)
-		{
-			case 'XenForo_Model_Report':
-				$extend[] = 'PiratesForums_Model_Report';
-				break;
 		}
 	}
 }

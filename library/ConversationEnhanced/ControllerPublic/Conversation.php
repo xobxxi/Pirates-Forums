@@ -239,7 +239,7 @@ class ConversationEnhanced_ControllerPublic_Conversation extends XFCP_Conversati
 
 			return $this->responseView(
 				'XenForo_ViewPublic_ConversationMessage_Report',
-				'conversationEnhanced_report_message', // make
+				'conversationEnhanced_report_message',
 				$viewParams
 			);
 		}
