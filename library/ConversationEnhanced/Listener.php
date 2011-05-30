@@ -66,7 +66,7 @@ class ConversationEnhanced_Listener
 		switch ($hookName)
 		{
 			case 'conversation_message_private_controls':
-				$search = "/data-messageSelector=\"#message-([0-9]+)\"/is";
+				$search = "/data-messageselector=\"#message-([0-9]+)\"/is";
 				if (preg_match($search, $contents, $match))
 				{
 					$templateParams = $template->getParams();
