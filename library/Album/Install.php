@@ -10,12 +10,24 @@ class Album_Install
 			CREATE TABLE IF NOT EXISTS album (
 			  album_id int(11) NOT NULL AUTO_INCREMENT,
 			  user_id int(11) NOT NULL,
-			  `name` text NOT NULL,
-			  `date` int(11) NOT NULL,
+			  name text NOT NULL,
+			  date int(11) NOT NULL,
 			  photo_count int(11) NOT NULL DEFAULT '0',
-			  cover_attachment_id int(11) NOT NULL DEFAULT '0',
+			  cover_photo_id int(11) NOT NULL DEFAULT '0',
+			  last_position int(11) NOT NULL DEFAULT '0',
 			  PRIMARY KEY (album_id)
 			) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+		");
+		
+		$db->query("
+			CREATE TABLE IF NOT EXISTS album_photo (
+			  photo_id int(11) NOT NULL AUTO_INCREMENT,
+			  album_id int(11) NOT NULL,
+			  attachment_id int(11) NOT NULL,
+			  position int(11) NOT NULL,
+			  description text CHARACTER SET utf8,
+			  PRIMARY KEY (photo_id)
+			) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 		");
 		
 		$fields = self::getFields();
@@ -109,7 +121,7 @@ class Album_Install
 				WHERE {$row['identifier']}
 			");
 			
-			if (!empty($existing))
+			if ($existing)
 			{
 				$db->query("
 					DELETE FROM {$row['table']}

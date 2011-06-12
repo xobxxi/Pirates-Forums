@@ -32,7 +32,11 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 					'max'     => 100,
 					'default' => 0
 				),
-				'cover_attachment_id' => array(
+				'cover_photo_id' => array(
+					'type'    => self::TYPE_UINT,
+					'default' => 0
+				),
+				'last_position' => array(
 					'type'    => self::TYPE_UINT,
 					'default' => 0
 				)
@@ -66,22 +70,20 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 	{
 		$photoHash = $this->getExtraData('attachment_hash');
 		
-		if (!$photoHash)
+		if ($photoHash)
 		{
-			throw new XenForo_Exception(new XenForo_Phrase('album_hash_id_missing'));
-		}
-		
-		if ($this->isInsert() && ($this->get('photo_count') < 1))
-		{
-			$rows = $this->_db->fetchAll('
-				SELECT *
-				FROM xf_attachment
-				WHERE temp_hash = ?	
-			', $photoHash);
-		
-			if (!$rows)
+			if ($this->isInsert() && ($this->get('photo_count') < 1))
 			{
-				$this->error(new XenForo_Phrase('album_albums_must_contain_at_least_one_photo'));
+				$rows = $this->_db->fetchAll('
+					SELECT *
+					FROM xf_attachment
+					WHERE temp_hash = ?	
+				', $photoHash);
+		
+				if (!$rows)
+				{
+					$this->error(new XenForo_Phrase('album_albums_must_contain_at_least_one_photo'));
+				}
 			}
 		}
 	}
@@ -93,7 +95,11 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 		if ($photoHash)
 		{
 			$this->_associatePhotos($photoHash);
-			$this->_setCoverPhoto();
+			
+			if ($this->isInsert())
+			{
+				$this->_setCoverPhoto();
+			}
 		}
 		
 		$this->_publishToNewsFeed();
@@ -116,24 +122,47 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 				'album',
 				array($albumId)
 			);
+			
+			$this->_getAlbumModel()->removeAllPhotosFromAlbumById($albumId);
 		}
 	}
 	
 	protected function _associatePhotos($attachmentHash)
 	{
-		$rows = $this->_db->update('xf_attachment', array(
-			'content_type' => 'album',
-			'content_id'   => $this->get('album_id'),
-			'temp_hash'    => '',
-			'unassociated' => 0
-		),  'temp_hash = ' . $this->_db->quote($attachmentHash));
+		$photos = $this->_db->fetchAll('
+			SELECT *
+			FROM xf_attachment
+			WHERE xf_attachment.temp_hash = ?
+		', $attachmentHash);
 		
-		if ($rows)
+		if ($photos)
 		{
-			$this->set('photo_count', $this->get('photo_count') + $rows, '', array('setAfterPreSave' => true));
+			$new = $this->_db->update('xf_attachment', array(
+				'content_type' => 'album',
+				'content_id'   => $this->get('album_id'),
+				'temp_hash'    => '',
+				'unassociated' => 0
+			),  'temp_hash = ' . $this->_db->quote($attachmentHash));
+			
+			foreach ($photos as $photo)
+			{
+				$position = $this->get('last_position') + 1;
+				
+				$photoDw = XenForo_DataWriter::create('Album_DataWriter_AlbumPhoto');
+				
+				$photoDw->set('album_id', $this->get('album_id'));
+				$photoDw->set('attachment_id', $photo['attachment_id']);
+				$photoDw->set('position', $position);
+				$photoDw->save();
+				
+				$this->set('last_position', $position, '', array('setAfterPreSave' => true));
+			}
+			
+			$this->set('photo_count', $this->get('photo_count') + $new, '', array('setAfterPreSave' => true));
 
 			$this->_db->update('album', array(
-				'photo_count' => $this->get('photo_count')
+				'photo_count'   => $this->get('photo_count'),
+				'last_position' => $this->get('last_position')
 			), 'album_id' . ' = ' .  $this->_db->quote($this->get('album_id')));
 		}
 		
@@ -146,10 +175,10 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 		
 		$cover = end($photos);
 		
-		$this->set('cover_attachment_id', $cover['attachment_id'], '', array('setAfterPreSave' => true));
+		$this->set('cover_photo_id', $cover['photo_id'], '', array('setAfterPreSave' => true));
 		
 		$this->_db->update('album', array(
-			'cover_attachment_id' => $this->get('cover_attachment_id')
+			'cover_photo_id' => $this->get('cover_photo_id')
 			), 'album_id' . ' = ' . $this->_db->quote($this->get('album_id')));
 	}
 	

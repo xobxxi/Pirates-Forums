@@ -23,12 +23,15 @@ class Album_AttachmentHandler_Album extends XenForo_AttachmentHandler_Abstract
 	}
 
 	public function attachmentPostDelete(array $attachment, Zend_Db_Adapter_Abstract $db)
-	{
-		$db->query('
-			UPDATE album
-			SET photo_count = IF(photo_count > 0, photo_count - 1, 0)
-			WHERE album_id = ?
-		', $attachment['content_id']);
+	{	
+		if ($photo = $this->_getAlbumModel()->getPhotoByAttachmentId($attachment['attachment_id'], true))
+		{
+			$dw = XenForo_DataWriter::create('Album_DataWriter_AlbumPhoto');
+			$dw->setExistingData($photo);
+			$dw->delete();
+			
+			$this->_getAlbumModel()->rebuildAlbumById($attachment['content_id']);
+		}
 	}
 
 	public function getAttachmentCountLimit()

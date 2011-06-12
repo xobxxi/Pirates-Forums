@@ -10,8 +10,13 @@ class Album_Route_Prefix_Albums implements XenForo_Route_Interface
 	}
 
 	public function buildLink($originalPrefix, $outputPrefix, $action, $extension, $data, array &$extraParams)
-	{	
-		if (!empty($data['album_id']))
+	{
+		if (isset($data['photo_id']))
+		{
+			return XenForo_Link::buildBasicLinkWithIntegerParam($outputPrefix, $action, $extension, $data, 'photo_id');
+		}
+		
+		if (isset($data['album_id']))
 		{
 			return XenForo_Link::buildBasicLinkWithIntegerParam($outputPrefix, $action, $extension, $data, 'album_id', 'name');
 		}
