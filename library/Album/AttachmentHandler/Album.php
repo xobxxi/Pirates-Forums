@@ -13,23 +13,23 @@ class Album_AttachmentHandler_Album extends XenForo_AttachmentHandler_Abstract
 	protected function _canViewAttachment(array $attachment, array $viewingUser)
 	{
 		$permissions = $this->_getAlbumModel()->getPermissions();
-		
+
 		if (!$permissions['view_photos'])
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 
 	public function attachmentPostDelete(array $attachment, Zend_Db_Adapter_Abstract $db)
-	{	
+	{
 		if ($photo = $this->_getAlbumModel()->getPhotoByAttachmentId($attachment['attachment_id'], true))
 		{
 			$dw = XenForo_DataWriter::create('Album_DataWriter_AlbumPhoto');
 			$dw->setExistingData($photo);
 			$dw->delete();
-			
+
 			$this->_getAlbumModel()->rebuildAlbumById($attachment['content_id']);
 		}
 	}
@@ -39,20 +39,20 @@ class Album_AttachmentHandler_Album extends XenForo_AttachmentHandler_Abstract
 		$max = XenForo_Application::get('options')->albumMaxPhotos;
 		return ($max <= 0 ? true : $max);
 	}
-	
+
 	public function getAttachmentConstraints()
 	{
 		$options = XenForo_Application::get('options');
 
 		return array(
 			'extensions' => array('png', 'jpg', 'jpeg', 'jpe', 'gif'),
-			'size'       => $options->attachmentMaxFileSize * 1024,
-			'width'      => $options->attachmentMaxDimensions['width'],
-			'height'     => $options->attachmentMaxDimensions['height'],
-			'count'      => $options->albumMaxPhotos
+			'size'		 => $options->attachmentMaxFileSize * 1024,
+			'width'		 => $options->attachmentMaxDimensions['width'],
+			'height'	 => $options->attachmentMaxDimensions['height'],
+			'count'		 => $options->albumMaxPhotos
 		);
 	}
-	
+
 	protected function _getAlbumModel()
 	{
 		if (!$this->_albumModel)

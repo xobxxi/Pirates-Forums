@@ -3,9 +3,9 @@
 class Album_DataWriter_AlbumPhoto extends XenForo_DataWriter
 {
 	protected $_username;
-	
+
 	protected function _getFields()
-	{	
+	{
 		$fields = array(
 			'album_photo' => array(
 				'photo_id' => array(
@@ -17,7 +17,7 @@ class Album_DataWriter_AlbumPhoto extends XenForo_DataWriter
 					'required' => true
 				),
 				'attachment_id' => array(
-					'type'     => self::TYPE_UINT,
+					'type'	   => self::TYPE_UINT,
 					'required' => true
 				),
 				'position' => array(
@@ -30,7 +30,7 @@ class Album_DataWriter_AlbumPhoto extends XenForo_DataWriter
 				)
 			)
 		);
-		
+
 		return $fields;
 	}
 
@@ -53,18 +53,18 @@ class Album_DataWriter_AlbumPhoto extends XenForo_DataWriter
 	{
 		return 'photo_id = ' . $this->_db->quote($this->getExisting('photo_id'));
 	}
-	
+
 	protected function _postDelete()
-	{	
+	{
 		$dw = XenForo_DataWriter::create('XenForo_DataWriter_Attachment');
 		if ($dw->setExistingData($this->get('attachment_id'), true))
 		{
 			$dw->delete();
-			
+
 			$this->_getAlbumModel()->rebuildAlbumById($this->get('album_id'));
 		}
 	}
-	
+
 	protected function _getAlbumModel()
 	{
 		return $this->getModelFromCache('Album_Model_Album');

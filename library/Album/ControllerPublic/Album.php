@@ -9,107 +9,107 @@
 */
 
 class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
-{	
+{
 	public function actionIndex()
 	{
 		$albumModel = $this->_getAlbumModel();
-		
+
 		$permissions = $albumModel->getPermissions();
-		
+
 		if (!$permissions['view'])
 		{
 			throw $this->getNoPermissionResponseException();
 		}
-		
+
 		$userId = $this->_input->filterSingle('id', XenForo_Input::UINT);
-		
+
 		if (!$userId)
 		{
 			$userId = XenForo_Visitor::getUserId();
 		}
-		
+
 		$user = $this->_getUserModel()->getUserById($userId);
-		
+
 		if (!$user)
 		{
 			throw $this->responseException($this->responseError(
 				new XenForo_Phrase('requested_member_not_found'), 404)
 			);
 		}
-		
+
 		$this->canonicalizeRequestUrl(
 			XenForo_Link::buildPublicLink('albums', $user)
 		);
-		
+
 		$albums = $albumModel->getUserAlbumsByUserId($userId);
 		$albums = $albumModel->prepareAlbums($albums);
-		
+
 		$permissions = $albumModel->getPermissions();
-		
+
 		$viewParams = array(
-			'user'   => $user,
+			'user'	 => $user,
 			'albums' => $albums,
 			'permissions' => $permissions
 		);
-		
+
 		return $this->responseView(
 			'Album_ViewPublic_Album_Index',
 			'album_user',
 			$viewParams
 		);
 	}
-	
+
 	public function actionView()
 	{
 		$albumId = $this->_input->filterSingle('id', XenForo_Input::UINT);
-		
+
 		list($album, $user) = $this->_assertAlbumValidAndViewable($albumId);
-		
+
 		$this->canonicalizeRequestUrl(
 			XenForo_Link::buildPublicLink('albums/view', $album)
 		);
-		
+
 		$viewParams = array(
-			'user'  => $user,
+			'user'	=> $user,
 			'album' => $album
 		);
-		
+
 		return $this->responseView(
 			'Album_ViewPublic_Album_View',
 			'album_view',
 			$viewParams
 		);
 	}
-	
+
 	public function actionViewPhoto()
 	{
 		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
-		
+
 		list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
-		
+
 		$photo = $this->_getAlbumModel()->preparePhoto($photo, true, $album);
-		
+
 		$viewParams = array(
 			'photo' => $photo,
-			'user'  => $user,
+			'user'	=> $user,
 			'album' => $album
 		);
-		
+
 		return $this->responseView(
 			'Album_ViewPublic_Album_Photo',
 			'album_photo',
 			$viewParams
 		);
 	}
-	
+
 	public function actionSetCover()
 	{
 		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
-		
+
 		list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
-		
+
 		$this->_assertCanManage($album);
-		
+
 		if ($this->isConfirmedPost())
 		{
 			$dw = XenForo_DataWriter::create('Album_DataWriter_Album');
@@ -135,13 +135,13 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 			$viewParams
 		);
 	}
-	
+
 	public function actionManagePhoto()
 	{
 		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
-		
+
 		list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
-		
+
 		$this->_assertCanManage($album);
 
 		if ($this->_request->isPost())
@@ -149,7 +149,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 			$input = $this->_input->filter(array(
 				'description' => XenForo_Input::STRING
 			));
-			
+
 			$dw = XenForo_DataWriter::create('Album_DataWriter_AlbumPhoto');
 			$dw->setExistingData($photoId);
 			$dw->set('description', $input['description']);
@@ -161,7 +161,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 
 				$viewParams = array(
 					'photo' => $photo,
-					'user'  => $user,
+					'user'	=> $user,
 					'album' => $album
 				);
 
@@ -176,20 +176,20 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 				);
 			}
 		}
-		
+
 		$viewParams = array(
 			'photo' => $photo,
-			'user'  => $user,
+			'user'	=> $user,
 			'album' => $album
 		);
-		
+
 		return $this->responseView(
 			'Album_ViewPublic_Album_ManagePhoto',
 			'album_photo_manage',
 			$viewParams
 		);
 	}
-	
+
 	public function actionDeletePhoto()
 	{
 		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
@@ -215,68 +215,68 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 			'album' => $album,
 			'user'	=> $user
 		);
-		
+
 		return $this->responseView(
 			'Album_ViewPublic_Album_DeletePhoto',
 			'album_photo_delete',
 			$viewParams
 		);
 	}
-	
+
 	public function actionAdd()
 	{
 		$albumModel = $this->_getAlbumModel();
-		
+
 		$permissions = $albumModel->getPermissions();
-		
+
 		if (!$permissions['upload'])
 		{
 			return $this->responseNoPermission();
 		}
-		
-		$attachmentParams      = $albumModel->getAttachmentParams(array());
+
+		$attachmentParams	   = $albumModel->getAttachmentParams(array());
 		$attachmentConstraints = $this->_getAttachmentModel()->getAttachmentHandler('pirate')->getAttachmentConstraints();
-		
+
 		$viewParams = array(
-			'user'                  => XenForo_Visitor::getInstance(),
-			'attachmentParams'      => $attachmentParams,
+			'user'					=> XenForo_Visitor::getInstance(),
+			'attachmentParams'		=> $attachmentParams,
 			'attachmentConstraints' => $attachmentConstraints
 		);
-		
+
 		return $this->responseView(
 			'Album_ViewPublic_Album_Add',
 			'album_add',
 			$viewParams
 		);
 	}
-	
+
 	public function actionManage()
-	{	
+	{
 		$albumId = $this->_input->filterSingle('id', XenForo_Input::UINT);
-		
+
 		list($album, $user) = $this->_assertAlbumValidAndViewable($albumId);
-		
+
 		$this->_assertCanManage($album);
-		
-		$attachmentParams      = $this->_getAlbumModel()->getAttachmentParams(array());
+
+		$attachmentParams	   = $this->_getAlbumModel()->getAttachmentParams(array());
 		$attachmentConstraints = $this->_getAttachmentModel()->getAttachmentHandler('pirate')->getAttachmentConstraints();
-		
+
 		$viewParams = array(
-			'user'                  => $user,
-			'album'                 => $album,
+			'user'					=> $user,
+			'album'					=> $album,
 			'attachmentParams'		=> $attachmentParams,
 			'attachmentConstraints' => $attachmentConstraints
 		);
-		
+
 		return $this->responseView(
 			'Album_ViewPublic_Album_Manage',
 			'album_manage',
 			$viewParams
 		);
 	}
-	
+
 	public function actionDelete()
-	{	
+	{
 		$albumId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 
 		list($album, $user) = $this->_assertAlbumValidAndViewable($albumId);
@@ -299,32 +299,32 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 			'album' => $album,
 			'user'	=> $user
 		);
-		
+
 		return $this->responseView(
 			'Album_ViewPublic_Album_Delete',
 			'album_delete',
 			$viewParams
 		);
 	}
-	
+
 	public function actionCreate()
-	{	
+	{
 		$this->_assertPostOnly();
-		
+
 		$permissions = $this->_getAlbumModel()->getPermissions();
 		if (!$permissions['upload'])
 		{
 			return $this->responseNoPermission();
 		}
-		
+
 		$input = $this->_input->filter(array(
 			'name' => XenForo_Input::STRING
 		));
-		
+
 		$attachment = $this->_input->filter(array(
 			'attachment_hash' => XenForo_Input::STRING)
 		);
-		
+
 		$dw = XenForo_DataWriter::create('Album_DataWriter_Album');
 		$dw->set('user_id', XenForo_Visitor::getUserId());
 		$dw->set('name', $input['name']);
@@ -332,34 +332,34 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$dw->setExtraData('attachment_hash', $attachment['attachment_hash']);
 		$dw->preSave();
 		$dw->save();
-		
+
 		$album = $dw->getMergedData();
-		
+
 		return $this->responseRedirect(
 			XenForo_ControllerResponse_Redirect::RESOURCE_CREATED,
 			XenForo_Link::buildPublicLink('albums/view', $album),
 			new XenForo_Phrase('album_the_album_has_been_saved_successfully')
 		);
 	}
-	
+
 	public function actionSave()
 	{
 		$this->_assertPostOnly();
-		
+
 		$albumId = $this->_input->filterSingle('id', XenForo_Input::UINT);
-		
+
 		list($album, $user) = $this->_assertAlbumValidAndViewable($albumId);
-		
+
 		$this->_assertCanManage($album);
-		
+
 		$input = $this->_input->filter(array(
 			'name' => XenForo_Input::STRING
 		));
-		
+
 		$attachment = $this->_input->filter(array(
 			'attachment_hash' => XenForo_Input::STRING)
 		);
-		
+
 		$dw = XenForo_DataWriter::create('Album_DataWriter_Album');
 		$dw->setExistingData($albumId);
 		$dw->set('name', $input['name']);
@@ -367,14 +367,14 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$dw->setExtraData('attachment_hash', $attachment['attachment_hash']);
 		$dw->preSave();
 		$dw->save();
-		
+
 		return $this->responseRedirect(
 			XenForo_ControllerResponse_Redirect::RESOURCE_UPDATED,
 			XenForo_Link::buildPublicLink('albums/view', $album),
 			new XenForo_Phrase('album_the_album_has_been_saved_successfully')
 		);
 	}
-	
+
 	public static function getSessionActivityDetailsForList(array $activities)
 	{
 		foreach ($activities AS $key => $activity)
@@ -388,12 +388,12 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 					{
 						return new XenForo_Phrase('album_viewing_albums');
 					}
-					
+
 					$userModel = XenForo_Model::create('XenForo_Model_User');
-					
+
 					$user = $userModel->getUserById($activity['params']['id']);
 					$link = XenForo_Link::buildPublicLink('albums', $user);
-					
+
 					if ($activity['params']['id'] != $activity['user_id'])
 					{
 						return array(
@@ -421,13 +421,13 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 					{
 						return new XenForo_Phrase('album_viewing_albums');
 					}
-					
+
 					$albumModel = XenForo_Model::create('Album_Model_Album');
-					
+
 					$album = $albumModel->getAlbumById($activity['params']['id']);
 					$album = $albumModel->prepareAlbum($album);
 					$link  = XenForo_Link::buildPublicLink('albums/view', $album);
-					
+
 					return array(
 						$key => array(
 							new XenForo_Phrase('album_viewing_album'),
@@ -443,15 +443,15 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 					{
 						return new XenForo_Phrase('album_viewing_albums');
 					}
-					
+
 					$albumModel = XenForo_Model::create('Album_Model_Album');
-					
+
 					$photo = $albumModel->getPhotoById($activity['params']['id']);
 					$photo = $albumModel->preparePhoto($photo);
 					$album = $albumModel->getAlbumById($photo['album_id']);
 					$album = $albumModel->prepareAlbum($album);
 					$link  = XenForo_Link::buildPublicLink('albums/view-photo', $photo);
-					
+
 					return array(
 						$key => array(
 							new XenForo_Phrase('album_viewing_photo_in_album'),
@@ -467,113 +467,113 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 			}
 		}
 	}
-	
+
 	protected function _assertAlbumValidAndViewable($albumId)
-	{	
+	{
 		$albumModel = $this->_getAlbumModel();
-		
+
 		$permissions = $albumModel->getPermissions();
-		
+
 		if (!$permissions['view'])
 		{
 			throw $this->getNoPermissionResponseException();
 		}
-		
+
 		if (!$albumId)
 		{
 			throw $this->responseException($this->responseError(
 				new XenForo_Phrase('album_no_album_id_specified'))
 			);
 		}
-		
+
 		$album = $albumModel->getAlbumById($albumId);
-		
+
 		if (!$album)
 		{
 			throw $this->responseException($this->responseError(
 				new XenForo_Phrase('album_requested_album_not_found'), 404)
 			);
 		}
-		
+
 		$user = $this->_getUserModel()->getUserById($album['user_id']);
-		
+
 		if (!$user)
 		{
 			throw $this->responseException($this->responseError(
 				new XenForo_Phrase('requested_member_not_found'), 404)
 			);
 		}
-		
+
 		$album = $albumModel->prepareAlbum($album, true);
-		
+
 		$album = $this->_applyPermissions($album);
-		
+
 		return array($album, $user);
 	}
-	
+
 	protected function _assertPhotoValidAndViewable($photoId)
 	{
 		$albumModel = $this->_getAlbumModel();
-		
+
 		$permissions = $albumModel->getPermissions();
-		
+
 		if (!$permissions['view_photos'])
 		{
 			throw $this->getNoPermissionResponseException();
 		}
-		
+
 		if (!$photoId)
 		{
 			throw $this->responseException($this->responseError(
 				new XenForo_Phrase('album_no_photo_id_specified'))
 			);
 		}
-		
+
 		$photo = $albumModel->getPhotoById($photoId);
-		
+
 		if (!$photo)
 		{
 			throw $this->responseException($this->responseError(
 				new XenForo_Phrase('album_requested_photo_not_found'), 404)
 			);
 		}
-		
+
 		list($album, $user) = $this->_assertAlbumValidAndViewable($photo['album_id']);
-		
+
 		$photo = $albumModel->preparePhoto($photo);
-		
+
 		if ($photo['photo_id'] == $album['cover_photo_id'])
 		{
 			$photo['is_cover'] = true;
 		}
-		
+
 		return array($photo, $album, $user);
 	}
-	
+
 	protected function _applyPermissions(&$album)
 	{
 		if (!isset($album['permissions']))
 		{
 			return false;
 		}
-		
+
 		if (!is_array($album['permissions']))
 		{
 			return false;
 		}
-		
+
 		if ($album['user_id'] == XenForo_Visitor::getUserId())
 		{
 			$album['permissions']['manage'] = true;
 		}
-		
+
 		return $album;
 	}
-	
+
 	protected function _assertCanManage($album, &$errorPhraseKey = '')
 	{
 		$permissions = $this->_getAlbumModel()->getPermissions();
-		
+
 		if ($permissions['upload'])
 		{
 			if ($album['user_id'] == XenForo_Visitor::getUserId())
@@ -581,25 +581,25 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 				return true;
 			}
 		}
-		
+
 		if ($permissions['manage'])
 		{
 			return true;
 		}
-		
+
 		throw $this->getNoPermissionResponseException($errorPhraseKey);
 	}
-	
+
 	protected function _getAlbumModel()
 	{
 		return $this->getModelFromCache('Album_Model_Album');
 	}
-	
+
 	protected function _getUserModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_User');
 	}
-	
+
 	protected function _getAttachmentModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_Attachment');

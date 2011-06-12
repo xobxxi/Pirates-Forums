@@ -5,7 +5,7 @@
 	{
 		$link.click(function(e) {
 			e.preventDefault();
-			
+
 			XenForo.ajax(
 				$link.attr('href'),
 				{},
@@ -22,15 +22,15 @@
 			);
 		});
 	}
-	
+
 	XenForo.AlbumPhotoDescriptionEditor = function($element) { this.__construct($element); };
 	XenForo.AlbumPhotoDescriptionEditor.prototype =
 	{
 		__construct: function($button)
 		{
 			this.$descriptionContainer = $('.photoDescriptionContainer');
-			this.$description          = $('.photoDescription');
-			this.$descriptionForm      = $('.photoDescriptionForm');
+			this.$description		   = $('.photoDescription');
+			this.$descriptionForm	   = $('.photoDescriptionForm');
 
 			if ($button.attr('href'))
 			{
@@ -49,8 +49,8 @@
 		click: function(e)
 		{
 			e.preventDefault();
-            
-            this.$description.xfHide(0);
+
+			this.$description.xfHide(0);
 			this.$descriptionForm.xfShow(0);
 			this.$descriptionForm.find('input[name="description"]').focus();
 		},
@@ -95,8 +95,8 @@
 			}
 		}
 	};
-	
-	
+
+
 	// *********************************************************************
 	XenForo.register('a.AlbumPhotoLoader', 'XenForo.AlbumPhotoLoader');
 	XenForo.register('.AlbumPhotoDescriptionEditor', 'XenForo.AlbumPhotoDescriptionEditor');

@@ -2,8 +2,8 @@
 
 class Album_Model_Album extends XenForo_Model
 {
-	const FETCH_ALBUM_USER  = 0x01;
-	
+	const FETCH_ALBUM_USER	= 0x01;
+
 	public function prepareAlbumConditions(array $conditions, array &$fetchOptions)
 	{
 		$db = $this->_getDb();
@@ -20,17 +20,17 @@ class Album_Model_Album extends XenForo_Model
 		{
 			$sqlConditions[] = 'album.photo_count > 0';
 		}
-		
+
 		return $this->getConditionsForClause($sqlConditions);
 	}
-	
+
 	public function prepareAlbumFetchOptions(array $fetchOptions)
-	{		
+	{
 		$selectFields = '';
 		$joinTables = '';
-		
+
 		$db = $this->_getDb();
-		
+
 		if (isset($fetchOptions['likeUserId']))
 		{
 			if (empty($fetchOptions['likeUserId']))
@@ -49,7 +49,7 @@ class Album_Model_Album extends XenForo_Model
 							AND liked_content.like_user_id = ' .$db->quote($fetchOptions['likeUserId']) . ')';
 			}
 		}
-		
+
 		if (!empty($fetchOptions['join']))
 		{
 			if ($fetchOptions['join'] & self::FETCH_ALBUM_USER)
@@ -68,12 +68,12 @@ class Album_Model_Album extends XenForo_Model
 			'joinTables'   => $joinTables,
 		);
 	}
-	
+
 	public function getUserAlbumsByUserId($userId, array $fetchOptions = array(), array $conditions = array())
 	{
 		$sqlClauses = $this->prepareAlbumFetchOptions($fetchOptions);
 		$whereClause = $this->prepareAlbumConditions($conditions, $fetchOptions);
-		
+
 		return $this->_getDb()->fetchAll('
 			SELECT *
 			' . $sqlClauses['selectFields'] . '
@@ -82,11 +82,11 @@ class Album_Model_Album extends XenForo_Model
 			WHERE album.user_id = ? AND ' . $whereClause
 		, $userId);
 	}
-	
+
 	public function getAlbumById($albumId, array $fetchOptions = array())
 	{
 		$sqlClauses = $this->prepareAlbumFetchOptions($fetchOptions);
-		
+
 		return $this->_getDb()->fetchRow('
 			SELECT *
 			' . $sqlClauses['selectFields'] . '
@@ -95,12 +95,12 @@ class Album_Model_Album extends XenForo_Model
 			WHERE album.album_id = ?
 		', $albumId);
 	}
-	
+
 	public function getAlbumsByIds($albumIds, array $fetchOptions = array(), array $conditions = array())
 	{
 		$sqlClauses = $this->prepareAlbumFetchOptions($fetchOptions);
 		$whereClause = $this->prepareAlbumConditions($conditions, $fetchOptions);
-		
+
 		return $this->fetchAllKeyed('
 			SELECT *
 			' . $sqlClauses['selectFields'] . '
@@ -109,9 +109,9 @@ class Album_Model_Album extends XenForo_Model
 			WHERE album.album_id IN (' . $this->_getDb()->quote($albumIds) . ')
 				AND ' . $whereClause . '
 		', 'album_id');
-		
+
 	}
-	
+
 	public function getAllPhotosForAlbumById($albumId)
 	{
 		$photosData = $this->fetchAllKeyed('
@@ -119,7 +119,7 @@ class Album_Model_Album extends XenForo_Model
 			FROM album_photo
 			WHERE album_photo.album_id = ?
 		', 'position', $albumId);
-		
+
 		if ($photosData)
 		{
 			$attachmentModel = $this->_getAttachmentModel();
@@ -134,7 +134,7 @@ class Album_Model_Album extends XenForo_Model
 					$photos[$photoData['position']] = array_merge($photoData, $attachments[$photoData['attachment_id']]);
 				}
 			}
-			
+
 			if (empty($photos))
 			{
 				return false;
@@ -146,17 +146,17 @@ class Album_Model_Album extends XenForo_Model
 			{
 				$photo = $this->preparePhoto($photo);
 			}
-			
+
 			return $photos;
 		}
-		
+
 		return false;
 	}
-	
+
 	public function getNewestPhotosForAlbumById($albumId, $fetchOptions = array())
 	{
 		$limitOptions = $this->prepareLimitFetchOptions($fetchOptions);
-		
+
 		$photosData = $this->fetchAllKeyed($this->limitQueryResults('
 			SELECT *
 			FROM album_photo
@@ -164,13 +164,13 @@ class Album_Model_Album extends XenForo_Model
 			ORDER BY album_photo.position ASC
 			', $limitOptions['limit'], $limitOptions['offset']
 		), 'position', $albumId);
-		
+
 		if ($photosData)
 		{
 			$attachmentModel = $this->_getAttachmentModel();
-		
+
 			$attachments = $attachmentModel->getAttachmentsByContentId('album', $albumId);
-		
+
 			$photos = array();
 			foreach ($photosData as $photoData)
 			{
@@ -179,56 +179,56 @@ class Album_Model_Album extends XenForo_Model
 					$photos[$photoData['position']] = array_merge($photoData, $attachments[$photoData['attachment_id']]);
 				}
 			}
-			
+
 			if (empty($photos))
 			{
 				return false;
 			}
-		
+
 			$photos = $attachmentModel->prepareAttachments($photos);
-		
+
 			foreach ($photos as &$photo)
 			{
 				$photo = $this->preparePhoto($photo);
 			}
-		
+
 			return $photos;
 		}
-		
+
 		return false;
 	}
-	
+
 	public function getCoverPhotoForAlbum($album, $photos = false)
 	{
 		$cover = $this->getPhotoById($album['cover_photo_id']);
-		
+
 		if ($cover['album_id'] != $album['album_id'])
 		{
 			if (!$photos)
 			{
 				$photos = $this->getAllPhotosForAlbumById($album['album_id']);
-				
+
 				if (!$photos)
 				{
 					return false;
 				}
 			}
-			
+
 			$cover = end($photos);
-		
+
 			$dw = XenForo_DataWriter::create('Album_DataWriter_Album');
 			$dw->setExistingData($album);
 			$dw->set('cover_photo_id', $cover['photo_id']);
 			$dw->save();
 		}
-		
+
 		return $cover;
 	}
-	
+
 	public function prepareAlbum($album, $getAllPhotos = false)
 	{
-		$album['name']  = XenForo_Helper_String::censorString($album['name']);
-		
+		$album['name']	= XenForo_Helper_String::censorString($album['name']);
+
 		if ($getAllPhotos)
 		{
 			$album['photos'] = $this->getAllPhotosForAlbumById($album['album_id']);
@@ -238,28 +238,28 @@ class Album_Model_Album extends XenForo_Model
 		{
 			$album['cover'] = $this->getCoverPhotoForAlbum($album);
 		}
-		
+
 		$album['permissions'] = $this->getPermissions();
-		
+
 		return $album;
 	}
-	
+
 	public function prepareAlbums($albums)
 	{
 		foreach ($albums as &$album)
 		{
 			$album = $this->prepareAlbum($album);
 		}
-		
+
 		return $albums;
 	}
-	
+
 	public function rebuildAlbumById($albumId)
 	{
 		$photos = $this->getAllPhotosForAlbumById($albumId);
-		
+
 		$position = 1;
-		
+
 		if ($photos)
 		{
 			foreach ($photos as $photo)
@@ -268,20 +268,20 @@ class Album_Model_Album extends XenForo_Model
 				$photoDw->setExistingData($photo);
 				$photoDw->set('position', $position);
 				$photoDw->save();
-			
+
 				$position++;
 			}
 		}
-		
+
 		$photoCount = $position - 1;
-		
+
 		$albumDw = XenForo_DataWriter::create('Album_DataWriter_Album');
 		$albumDw->setExistingData($albumId);
 		$albumDw->set('photo_count', $photoCount);
 		$albumDw->set('last_position', $photoCount);
 		$albumDw->save();
 	}
-	
+
 	public function getPhotoById($photoId, $postDelete = false)
 	{
 		$photoData = $this->_getDb()->fetchRow('
@@ -289,32 +289,32 @@ class Album_Model_Album extends XenForo_Model
 			FROM album_photo
 			WHERE album_photo.photo_id = ?
 		', $photoId);
-		
+
 		if ($photoData)
 		{
 			$attachmentModel = $this->_getAttachmentModel();
-		
+
 			$attachment = $attachmentModel->getAttachmentById($photoData['attachment_id']);
-		
+
 			if (!$attachment)
 			{
 				if ($postDelete)
 				{
 					return $photoData;
 				}
-			
+
 				return false;
 			}
-		
+
 			$photo = array_merge($photoData, $attachment);
 			$photo = $attachmentModel->prepareAttachment($photo);
-		
+
 			return $photo;
 		}
-		
+
 		return false;
 	}
-	
+
 	public function getPhotoByAttachmentId($attachmentId, $postDelete = false)
 	{
 		$photoData = $this->_getDb()->fetchRow('
@@ -322,71 +322,71 @@ class Album_Model_Album extends XenForo_Model
 			FROM album_photo
 			WHERE album_photo.attachment_id = ?
 		', $attachmentId);
-		
+
 		if ($photoData)
 		{
 			$attachmentModel = $this->_getAttachmentModel();
-		
+
 			$attachment = $attachmentModel->getAttachmentById($attachmentId);
-		
+
 			if (!$attachment)
 			{
 				if ($postDelete)
 				{
 					return $photoData;
 				}
-			
+
 				return false;
 			}
-		
+
 			$photo = array_merge($photoData, $attachment);
 			$photo = $attachmentModel->prepareAttachment($photo);
-		
+
 			return $photo;
 		}
-		
+
 		return false;
 	}
-	
+
 	public function removeAllPhotosFromAlbumById($albumId)
 	{
 		return $this->_getDb()->delete(
 			'album_photo',
 			'album_id =' . $this->_db->quote($albumId));
 	}
-	
+
 	public function removeEmptyAlbums()
 	{
 		return $this->_getDb()->delete('album', 'photo_count < 1');
 	}
-	
+
 	public function preparePhoto($photo, $page = false, array $album = array())
 	{
-		$boxHeight   = 100;
-		$photoHeight = $photo['thumbnail_height']; 
-		
+		$boxHeight	 = 100;
+		$photoHeight = $photo['thumbnail_height'];
+
 		$offset = 0;
-		
+
 		if ($photoHeight < $boxHeight)
 		{
 			$difference = $boxHeight - $photoHeight;
-			$offset     = intval(round($difference / 2));
+			$offset		= intval(round($difference / 2));
 		}
-		
+
 		if ($photoHeight > $boxHeight)
 		{
 			$difference = $photoHeight - $boxHeight;
-			$offset     = intval(round(-$difference / 2));
+			$offset		= intval(round(-$difference / 2));
 		}
-		
+
 		$photo['offset'] = $offset;
-		
+
 		if ($page)
 		{
 			if ($photo['width'] > 668)
 			{
 				$ratio = 668 / $photo['width'];
-				$photo['width']  = 668;
+				$photo['width']	 = 668;
 				$photo['height'] = intval(round($photo['height'] * $ratio));
 			}
 
@@ -394,15 +394,15 @@ class Album_Model_Album extends XenForo_Model
 			{
 				$ratio = 720 / $photo['height'];
 				$photo['height'] = 720;
-				$photo['width']  = intval(round($photo['width'] * $ratio));
+				$photo['width']	 = intval(round($photo['width'] * $ratio));
 			}
 			else if ($photo['height'] < 453)
 			{
 				$photo['margin-top'] = intval(round((453 - $photo['height']) / 2));
 			}
-			
+
 			$previous = $photo['position'] - 1;
-			$next     = $photo['position'] + 1;
+			$next	  = $photo['position'] + 1;
 			if (isset($album['photos'][$previous]))
 			{
 				$photo['prev'] = $album['photos'][$previous];
@@ -424,22 +424,22 @@ class Album_Model_Album extends XenForo_Model
 
 		$photo['description_raw'] = $photo['description'];
 		$photo['description']  = XenForo_Helper_String::censorString($photo['description']);
-		
+
 		return $photo;
 	}
-	
+
 	public function canUploadAndManageAttachments(array $viewingUser = null)
 	{
 		$permissions = $this->getPermissions($viewingUser);
-		
+
 		if (!$permissions['upload'])
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	public function getAttachmentParams(array $contentData)
 	{
 		if ($this->canUploadAndManageAttachments())
@@ -455,20 +455,20 @@ class Album_Model_Album extends XenForo_Model
 			return false;
 		}
 	}
-	
+
 	public function getPermissions(array $viewingUser = null)
 	{
 			$this->standardizeViewingUserReference($viewingUser);
-			
+
 			$userPermissions = $viewingUser['permissions'];
-			
+
 			$permissions = array(
-				'view'        => $this->_hasPermission($userPermissions, 'album', 'view'),
+				'view'		  => $this->_hasPermission($userPermissions, 'album', 'view'),
 				'view_photos' => $this->_hasPermission($userPermissions, 'album', 'view_photos'),
-				'upload'      => false,
-				'manage'      => false
+				'upload'	  => false,
+				'manage'	  => false
 			);
-			
+
 			if ($viewingUser['user_id'])
 			{
 				$permissions['upload'] = $this->_hasPermission($userPermissions, 'album', 'upload');
@@ -477,12 +477,12 @@ class Album_Model_Album extends XenForo_Model
 
 			return $permissions;
 	}
-	
+
 	protected function _hasPermission($permissions, $group, $permission)
 	{
 		return XenForo_Permission::hasPermission($permissions, $group, $permission);
 	}
-	
+
 	protected function _getAttachmentModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_Attachment');

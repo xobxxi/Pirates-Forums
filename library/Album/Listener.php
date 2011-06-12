@@ -24,35 +24,35 @@ class Album_Listener
 				break;
 		}
 	}
-	
+
 	public static function templateHook($hookName, &$contents, array $hookParams, XenForo_Template_Abstract $template)
 	{
 		switch ($hookName)
 		{
 			case 'account_wrapper_sidebar':
 				$permissions = XenForo_Model::create('Album_Model_Album')->getPermissions();
-				
+
 				if ($permissions['view'])
 				{
 					$search = "/<li><a[ \n\r\t]+class=\"primaryContent\"[ \n\r\t]+href=\"(index\.php\?)?account\/signature\">/is";
 					if (preg_match($search, $contents, $matches))
 					{
-						$search   = $matches[0];
-						$prefix   = $template->create('album_account_management_list_item', $template->getParams())->render();
+						$search	  = $matches[0];
+						$prefix	  = $template->create('album_account_management_list_item', $template->getParams())->render();
 						$contents = str_replace($search, $prefix . "\n" . $search, $contents);
 					}
 				}
 				return $contents;
 			case 'member_card_links':
 				$permissions = XenForo_Model::create('Album_Model_Album')->getPermissions();
-				
+
 				if ($permissions['view'])
 				{
 					$template = $template->create('album_member_card_link_item', $template->getParams())->render();
 					$search = "/<a href=\"(index\.php\?)?conversations\/.*?\"/is";
 					if (preg_match($search, $contents, $matches))
 					{
-						$search   = $matches[0];
+						$search	  = $matches[0];
 						$contents = str_replace($search, $template . "\n" . $search, $contents);
 					}
 					else
@@ -63,21 +63,21 @@ class Album_Listener
 				return $contents;
 			case 'member_view_tabs_heading':
 				$permissions = XenForo_Model::create('Album_Model_Album')->getPermissions();
-				
+
 				if ($permissions['view'])
 				{
 					$contents .= $template->create('album_profile_tab', $template->getParams())->render();
 				}
-				
+
 				return $contents;
 			case 'member_view_tabs_content':
 				$permissions = XenForo_Model::create('Album_Model_Album')->getPermissions();
-				
+
 				if ($permissions['view'])
 				{
 					$contents .= $template->create('album_profile_tab_content', $hookParams)->render();
 				}
-				
+
 				return $contents;
 			case 'navigation_visitor_tab_links2':
 				$permissions = XenForo_Model::create('Album_Model_Album')->getPermissions();
@@ -87,15 +87,15 @@ class Album_Listener
 					$search = "/<li><a[ \n\r\t]+href=\"(index\.php\?)?account\/news-feed\">/is";
 					if (preg_match($search, $contents, $matches))
 					{
-						$search   = $matches[0];
-						$prefix   = $template->create('album_navigation_list_item_member', $template->getParams())->render();
+						$search	  = $matches[0];
+						$prefix	  = $template->create('album_navigation_list_item_member', $template->getParams())->render();
 						$contents = str_replace($search, $prefix . "\n" . $search, $contents);
 					}
 				}
 				return $contents;
 			case 'recentActivityBlock_items':
 				$permissions = XenForo_Model::create('Album_Model_Album')->getPermissions();
-				
+
 				if ($permissions['view'])
 				{
 					$contents .= $template->create('album_recent_activity_block_items', $hookParams)->render();
