@@ -14,7 +14,6 @@ class Album_Install
 			  date int(11) NOT NULL,
 			  photo_count int(11) NOT NULL DEFAULT '0',
 			  cover_photo_id int(11) NOT NULL DEFAULT '0',
-			  last_position int(11) NOT NULL DEFAULT '0',
 			  PRIMARY KEY (album_id)
 			) ENGINE=InnoDB	 DEFAULT CHARSET=utf8;
 		");
@@ -27,7 +26,7 @@ class Album_Install
 			  position int(11) NOT NULL,
 			  description text CHARACTER SET utf8,
 			  PRIMARY KEY (photo_id)
-			) ENGINE=MyISAM	 DEFAULT CHARSET=utf8;
+			) ENGINE=InnoDB	 DEFAULT CHARSET=utf8;
 		");
 
 		$fields = self::getFields();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="album" title="User Albums" version_string="0.5.0 Beta" version_id="5" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
+<addon addon_id="album" title="User Albums" version_string="0.5.5 Beta" version_id="6" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -28,9 +28,9 @@
     </permission_groups>
     <permissions>
       <permission permission_group_id="album" permission_id="manage" permission_type="flag" depend_permission_id="upload" default_value="unset" interface_group_id="album" display_order="30"/>
-      <permission permission_group_id="album" permission_id="upload" permission_type="flag" default_value="unset" interface_group_id="album" display_order="20"/>
+      <permission permission_group_id="album" permission_id="upload" permission_type="flag" depend_permission_id="view_photos" default_value="unset" interface_group_id="album" display_order="20"/>
       <permission permission_group_id="album" permission_id="view" permission_type="flag" default_value="allow" interface_group_id="album" display_order="0"/>
-      <permission permission_group_id="album" permission_id="view_photos" permission_type="flag" default_value="unset" interface_group_id="album" display_order="10"/>
+      <permission permission_group_id="album" permission_id="view_photos" permission_type="flag" depend_permission_id="view" default_value="unset" interface_group_id="album" display_order="10"/>
     </permissions>
     <interface_groups>
       <interface_group interface_group_id="album" display_order="1000"/>
@@ -40,17 +40,18 @@
     <phrase title="album_added" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Added]]></phrase>
     <phrase title="album_add_album" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Add Album]]></phrase>
     <phrase title="album_add_description" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Add a description]]></phrase>
-    <phrase title="album_add_photos" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Add Photos]]></phrase>
     <phrase title="album_albums" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[Albums]]></phrase>
     <phrase title="album_albums_must_contain_at_least_one_photo" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Albums must contain at least one photo.]]></phrase>
     <phrase title="album_album_name" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Album Name]]></phrase>
     <phrase title="album_all_album_contents_will_be_removed" version_id="2" version_string="0.1.0 Alpha"><![CDATA[All photos, comments, and likes in this album will be removed.]]></phrase>
     <phrase title="album_all_photo_contents_will_be_removed" version_id="2" version_string="0.1.0 Alpha"><![CDATA[All comments and likes for this photo will be removed.]]></phrase>
     <phrase title="album_close" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Close]]></phrase>
+    <phrase title="album_cover_photo" version_id="5" version_string="0.5.0 Beta"><![CDATA[Cover Photo]]></phrase>
     <phrase title="album_delete_album" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Delete Album]]></phrase>
     <phrase title="album_delete_album_x" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Delete Album: {album}]]></phrase>
     <phrase title="album_delete_photo" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Delete Photo]]></phrase>
     <phrase title="album_delete_photo_in_album_x" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Delete Photo In Album: {album}]]></phrase>
+    <phrase title="album_delete_this_photo" version_id="5" version_string="0.5.0 Beta"><![CDATA[Delete This Photo]]></phrase>
     <phrase title="album_edit_photo" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Edit Photo]]></phrase>
     <phrase title="album_from_the_album" version_id="2" version_string="0.1.0 Alpha"><![CDATA[From the album: <a{link_params}>{album}</a>]]></phrase>
     <phrase title="album_hash_id_missing" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Hash ID missing.]]></phrase>
@@ -74,7 +75,9 @@
     <phrase title="album_save_photo" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Save Photo]]></phrase>
     <phrase title="album_set_cover_photo_for_x" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Set Cover Photo For: {album}]]></phrase>
     <phrase title="album_the_album_has_been_saved_successfully" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[The album has been saved successfully.]]></phrase>
+    <phrase title="album_the_cover_photo_has_been_changed" version_id="5" version_string="0.5.0 Beta"><![CDATA[The cover photo has been changed.]]></phrase>
     <phrase title="album_the_photo_has_been_saved_successfully" version_id="2" version_string="0.1.0 Alpha"><![CDATA[The photo has been saved successfully.]]></phrase>
+    <phrase title="album_upload_photos" version_id="5" version_string="0.5.0 Beta"><![CDATA[Upload Photos]]></phrase>
     <phrase title="album_user_no_albums" version_id="1" version_string="0.0.1 Alpha"><![CDATA[This user has not created any albums.]]></phrase>
     <phrase title="album_viewing_album" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Viewing album]]></phrase>
     <phrase title="album_viewing_albums" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[Viewing albums]]></phrase>
@@ -108,7 +111,7 @@
   </route_prefixes>
   <style_properties/>
   <templates>
-    <template title="album.css" version_id="2" version_string="0.1.0 Alpha"><![CDATA[#albums.primaryContent,
+    <template title="album.css" version_id="5" version_string="0.5.0 Beta"><![CDATA[#albums.primaryContent,
 #album.primaryContent
 {
         overflow: hidden;
@@ -186,7 +189,7 @@
 
 #albumPhoto .photoInfo .photoControls
 {
-        min-height: 25px;
+        min-height: 27px;
         overflow: hidden;
         margin-bottom: 5px;
 }
@@ -199,6 +202,11 @@
 #albumPhoto .photoInfo .photoDescriptionContainer .photoDescription em
 {
         font-style: italic;
+}
+
+#albumPhoto .photoInfo .photoDescriptionContainer .photoDescriptionForm .formValidationInlineError
+{
+        margin-left: 60px;
 }
 
 #albumPhoto .photoInfo .photoControl
@@ -217,19 +225,27 @@
         min-width: 12px;
 }
 
-#albumPhoto .photoInfo .photoControl.photoSetCover
-{
-        background-image: url({xen:property imagePath}/album/icons/photos.png);
-}
-
-#albumPhoto .photoInfo .photoControl.photoDelete
-{
-        background-image: url({xen:property imagePath}/album/icons/delete.png);
-}
-
 #albumPhoto .photoInfo .photoDescriptionContainer .photoDescriptionForm input[type=text]
 {
-        width: 80%;
+        width: 81%;
+}
+
+.extraCounter
+{
+        color: green;
+        margin-left: 2px;
+}
+
+.extraCounter.warning
+{
+    color: orange;
+    font-weight: bold;
+}
+
+.extraCounter.error
+{
+    color: red;
+    font-weight: bold;
 }
 
 #albumPhoto .photoInfo .leftBar
@@ -245,6 +261,10 @@
        text-align: left;
 }
 
+#albumPhoto .photoInfo .rightBar a
+{
+       display: block;
+}
 
 #albumPhoto .photoInfo .leftBar .userInfo .avatar
 {
@@ -325,9 +345,10 @@
         text-decoration: none;
 }
 
-.xenOverlay a.navButton:active
+.xenOverlay a.navButton:active,
+.xenOverlay #albumPhoto .data .navigation a:active
 {
-       background-color: rgb(239, 239, 239) !important;
+       background-color: rgb(239, 239, 239);
 }
 
 .xenOverlay #albumPhoto .data .navigation a
@@ -373,7 +394,7 @@
     <template title="album_account_management_list_item" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<xen:if is="{$visitor.user_id}">
         <li><a class="primaryContent" href="{xen:link albums, $visitor}">{xen:phrase album_your_albums}</a></li>
 </xen:if>]]></template>
-    <template title="album_add" version_id="2" version_string="0.1.0 Alpha"><![CDATA[<xen:require css="album_manage.css" />
+    <template title="album_add" version_id="5" version_string="0.5.0 Beta"><![CDATA[<xen:require css="album_manage.css" />
 <xen:require js="js/album/album.js" />
 
 <xen:title>{xen:phrase album_add_album}</xen:title>
@@ -406,20 +427,14 @@
 	<dd>
 		<input type="submit" class="button primary" value="{xen:phrase album_save_album}" />
                 <xen:include template="attachment_upload_button">
-                        <xen:set var="$buttonText">{xen:phrase album_add_photos}</xen:set>
+                        <xen:set var="$buttonText">{xen:phrase album_upload_photos}</xen:set>
                 </xen:include>
                 <input type="reset" class="button OverlayCloser ResetButton" value="{xen:phrase cancel}" />
 	</dd>
 </dl>
 
 <input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
-</form>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		new XenForo.AddPhotosButton();
-	});
-</script>]]></template>
+</form>]]></template>
     <template title="album_delete" version_id="2" version_string="0.1.0 Alpha"><![CDATA[<xen:title>{xen:phrase album_delete_album_x, 'album={$album.name}'}</xen:title>
 
 <xen:navigation>
@@ -442,7 +457,7 @@
 	<input type="hidden" name="_xfConfirm" value="1" />
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="album_manage" version_id="2" version_string="0.1.0 Alpha"><![CDATA[<xen:require css="album_manage.css" />
+    <template title="album_manage" version_id="5" version_string="0.5.0 Beta"><![CDATA[<xen:require css="album_manage.css" />
 
 <xen:title>{xen:phrase album_manage_album}: {$album.name}</xen:title>
 
@@ -475,7 +490,7 @@
 	<dd>
 		<input type="submit" class="button primary" value="{xen:phrase album_save_album}" />
                 <xen:include template="attachment_upload_button">
-                        <xen:set var="$buttonText">{xen:phrase album_add_photos}</xen:set>
+                        <xen:set var="$buttonText">{xen:phrase album_upload_photos}</xen:set>
                 </xen:include>
                 <input type="button" value="{xen:phrase album_delete_album}" class="button OverlayTrigger DisableOnSubmit" data-href="{xen:link albums/delete, $album}">
 	</dd>
@@ -502,8 +517,9 @@ div.label,
     <template title="album_navigation_list_item_member" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<xen:if is="{$visitor.user_id}">
         <li><a href="{xen:link albums, $visitor}">{xen:phrase album_your_albums}</a></li>
 </xen:if>]]></template>
-    <template title="album_photo" version_id="2" version_string="0.1.0 Alpha"><![CDATA[<xen:require css="album.css" />
+    <template title="album_photo" version_id="5" version_string="0.5.0 Beta"><![CDATA[<xen:require css="album.css" />
 <xen:require js="js/album/album.js" />
+<xen:require js="js/album/popstate.js" />
 
 <xen:title>
 {xen:phrase album_xs_albums_y,
@@ -519,7 +535,7 @@ div.label,
 
 <xen:if is="{$album.permissions.manage}">
 	<xen:topctrl>
-		<a href="{xen:link albums/manage, $album}" class="callToAction"><span>{xen:phrase album_manage_album}</span></a>
+		<a href="{xen:link albums/manage, $album}" class="callToAction"><span>{xen:phrase album_upload_photos}</span></a>
 	</xen:topctrl>
 </xen:if>
 
@@ -532,13 +548,13 @@ div.label,
                 </div>
                 <xen:if is="{$album.photo_count} > 1">
                         <div class="navigation">
-                                <a class="navButton prev AlbumPhotoLoader" href="{xen:link albums/view-photo, $photo.prev}">{xen:phrase album_previous}</a>
-                                <a class="navButton next AlbumPhotoLoader" href="{xen:link albums/view-photo, $photo.next}">{xen:phrase album_next}</a>
+                                <a class="navButton prev AlbumNavigation" href="{xen:link albums/view-photo, $photo.prev}" title="{xen:phrase album_previous}">{xen:phrase album_previous}</a>
+                                <a class="navButton next AlbumNavigation" href="{xen:link albums/view-photo, $photo.next}" title="{xen:phrase album_next}">{xen:phrase album_next}</a>
                         </div>
                 </xen:if>
         </div>
         <xen:if is="{$album.photo_count} > 1">
-                <a class="AlbumPhotoLoader" href="{xen:link albums/view-photo, $photo.next}" data-photo-id="{$photo.photo_id}">
+                <a class="AlbumNavigation" href="{xen:link albums/view-photo, $photo.next}" title="{xen:phrase album_next}">
                         <div id="photo-{$photo.attachment_id}" class="photo">
                                 <img id="photo" src="{xen:link attachments, $photo}" alt="{xen:if {$photo.description}, {$photo.description}, {$photo.filename}}" width="{$photo.width}" height="{$photo.height}" {xen:if $photo.margin-top, 'style="margin-top: {$photo.margin-top}px;"'} />
                         </div>
@@ -551,15 +567,16 @@ div.label,
 
         <div class="photoInfo">
                 <div class="photoControls">
-                         <div class="leftBar">
+                        <xen:if is="{$album.permissions.manage}">
+                                <div class="leftBar">
+                                        <xen:include template="album_photo_description" />
+                                </div>
+                                <div class="rightBar">
+                                        <xen:include template="album_photo_set_cover" />
+                                </div>
+                        <xen:else />
                                 <xen:include template="album_photo_description" />
-                         </div>
-                         <xen:if is="{$album.permissions.manage}">
-                         <div class="rightBar">
-                                <xen:if is="!{$photo.is_cover}"><a class="photoControl photoSetCover OverlayTrigger" href="{xen:link albums/set-cover, $photo}"></a></xen:if>
-                                <a class="photoControl photoDelete OverlayTrigger" href="{xen:link albums/delete-photo, $photo}"></a>
-                         </div>
-                         </xen:if>
+                        </xen:if>
                 </div>
 
                 <div class="photoLinks">
@@ -577,6 +594,9 @@ div.label,
                                                 'album={$album.name}'}
                                 </div>
                                 <a href="{xen:link attachments, $photo}" target="_blank">{xen:phrase album_view_full_size}</a>
+                                <xen:if is="{$album.permissions.manage}">
+                                        <a class="OverlayTrigger" href="{xen:link albums/delete-photo, $photo}">{xen:phrase album_delete_this_photo}</a>
+                                </xen:if>
                         </div>
                 </div>
         </div>
@@ -585,7 +605,7 @@ div.label,
                 var url = '{xen:jsescape {xen:link albums/view-photo, $photo}}';
                 if (window.location.pathname + window.location.search != '/' + url)
                 {
-                        window.history.pushState('', '', url);
+                        window.history.pushState(null, '', url);
                 }
 
                 if ($('.a.close.OverlayCloser'))
@@ -623,21 +643,21 @@ div.label,
 	<input type="hidden" name="_xfConfirm" value="1" />
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="album_photo_description" version_id="2" version_string="0.1.0 Alpha"><![CDATA[<xen:if is="{$photo.description} OR {$album.permissions.manage}">
+    <template title="album_photo_description" version_id="5" version_string="0.5.0 Beta"><![CDATA[<xen:if is="{$photo.description} OR {$album.permissions.manage}">
 <div class="photoDescriptionContainer">
          <p class="photoDescription {xen:if '{$album.permissions.manage} && !{$photo.description}', 'AlbumPhotoDescriptionEditor'}">
                  {xen:if {$photo.description}, {$photo.description}, '<em>{xen:phrase album_add_description}</em>'}
                  <xen:if is="{$album.permissions.manage}"><a class="photoControl photoDescriptionEdit {xen:if {$photo.description}, 'AlbumPhotoDescriptionEditor'}" href="{xen:link albums/manage-photo, $photo}"></a></xen:if>
          </p>
          <xen:if is="{$album.permissions.manage}">
-                <form action="{xen:link albums/manage-photo, $photo}" id="description-{$photo.photo_id}" method="post" class="photoDescriptionForm" style="display: none;">
-                        <input type="text" name="description" id="ctrl_photo_description" class="textCtrl" {xen:if $photo.description, 'value="{$photo.description_raw}"'} />
+                <form action="{xen:link albums/manage-photo, $photo}" id="description-{$photo.photo_id}" method="post" class="photoDescriptionForm AutoValidator" data-fieldValidatorUrl="{xen:link albums/validate-field.json}" style="display: none;">
+                        <input type="text" name="description" id="ctrl_photo_description" class="textCtrl AlbumDescriptionCounter" {xen:if $photo.description, 'value="{$photo.description_raw}"'} />
                         <input type="submit" class="button primary" value="{xen:phrase save}">
                 </form>
         </xen:if>
 </div>
 </xen:if>]]></template>
-    <template title="album_photo_manage" version_id="2" version_string="0.1.0 Alpha"><![CDATA[<xen:require css="album_manage.css" />
+    <template title="album_photo_manage" version_id="5" version_string="0.5.0 Beta"><![CDATA[<xen:require css="album_manage.css" />
 
 <xen:title>
         {xen:phrase album_edit_photo}
@@ -656,7 +676,7 @@ div.label,
 	<dt>
                 <label for="ctrl_photo_description">{xen:phrase album_photo_description}:</label>
         </dt>
-	<dd><input type="text" name="description" value="{$photo.description}" id="ctrl_photo_description" class="textCtrl" /></dd>
+	<dd><input type="text" name="description" value="{$photo.description_raw}" id="ctrl_photo_description" class="textCtrl AlbumDescriptionCounter" /></dd>
 </dl>
 
 <dl class="ctrlUnit submitUnit">
@@ -669,6 +689,13 @@ div.label,
 
 <input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
+    <template title="album_photo_set_cover" version_id="5" version_string="0.5.0 Beta"><![CDATA[<xen:if is="{$album.permissions.manage}">
+	<form action="{xen:link albums/set-cover, $photo}" method="post" class="AlbumSetCover">
+		<label><input type="checkbox" name="_xfConfirm" value="1" class="" {xen:if {$photo.is_cover}, 'disabled="disabled"'} {xen:checked $photo.is_cover} />
+				{xen:phrase album_cover_photo}</label>
+		<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+	</form>
+</xen:if>]]></template>
     <template title="album_profile_tab" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[<li><a href="{$requestPaths.requestUri}#albums">{xen:phrase album_albums}</a></li>
 
 <xen:edithint template="album_profile_tab_content" />
@@ -680,7 +707,7 @@ div.label,
 </li>
 
 <xen:edithint template="album_user" />]]></template>
-    <template title="album_recent_activity_block_items" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'name'">
+    <template title="album_recent_activity_block_items" version_id="5" version_string="0.5.0 Beta"><![CDATA[<xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'name'">
 	{xen:phrase album_x_renamed_an_album_from_y_to_z,
                 'username={xen:helper username, $item.user, 'primaryText'}',
                 'old={$item.name.old}',
@@ -690,20 +717,12 @@ div.label,
 </xen:if>
 
 <xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'photos'">
-        <xen:if is="{$item.photos.new} == 1">
-                {xen:phrase album_x_has_added_a_new_photo_to_album_z,
-                        'username={xen:helper username, $item.user, 'primaryText'}',
-                        'link_params=href="{xen:link albums/view, $item.content}"',
-                        'name={$item.content.name}'
+        {xen:phrase album_x_has_added_new_photos_to_album_z,
+                'username={xen:helper username, $item.user, 'primaryText'}',
+                'new={$item.photos.new}',
+                'link_params=href="{xen:link albums/view, $item.content}"',
+                'name={$item.content.name}'
         }
-        <xen:else />
-                {xen:phrase album_x_has_added_y_new_photos_to_album_z,
-                        'username={xen:helper username, $item.user, 'primaryText'}',
-                        'new={$item.photos.new}',
-                        'link_params=href="{xen:link albums/view, $item.content}"',
-                        'name={$item.content.name}'
-                }
-        </xen:if>
 </xen:if>
 
 <xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'add'">
@@ -777,7 +796,7 @@ div.label,
 	        </div>
 	</xen:if>
 </div>]]></template>
-    <template title="album_view" version_id="2" version_string="0.1.0 Alpha"><![CDATA[<xen:require css="album.css" />
+    <template title="album_view" version_id="5" version_string="0.5.0 Beta"><![CDATA[<xen:require css="album.css" />
 
 <xen:title>
 {xen:phrase album_xs_albums_y,
@@ -796,20 +815,28 @@ div.label,
 	</xen:topctrl>
 </xen:if>
 
-<div id="album" class="primaryContent" data-author="{$user.username}">
-        <xen:if is="{$album.photos}">
-        	<xen:foreach loop="$album.photos" value="$photo">
-	                <div id="photo-{$photo.attachment_id}" class="imageBox">
-	                        <a class="OverlayTrigger" href="{xen:link albums/view-photo, $photo}" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}">
-	                                <div class="thumbnail">
-	                                        <img src="{$photo.thumbnailUrl}" alt="{$photo.filename}" style="margin-top: {$photo.offset}px;" />
-	                                </div>
-	                        </a>
-	                </div>
-	        </xen:foreach>
-        <xen:else />
-                <p>{xen:phrase album_no_photos_in_album}</p>
-        </xen:if>
+<div id="albumView">
+	<div id="album" class="primaryContent" data-author="{$user.username}">
+	        <xen:if is="{$album.photos}">
+	        	<xen:foreach loop="$album.photos" value="$photo">
+		                <div id="photo-{$photo.attachment_id}" class="imageBox">
+		                        <a class="OverlayTrigger" href="{xen:link albums/view-photo, $photo}" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}">
+		                                <div class="thumbnail">
+		                                        <img src="{$photo.thumbnailUrl}" alt="{$photo.filename}" style="margin-top: {$photo.offset}px;" />
+		                                </div>
+		                        </a>
+		                </div>
+		        </xen:foreach>
+	        <xen:else />
+	                <p>{xen:phrase album_no_photos_in_album}</p>
+	        </xen:if>
+	</div>
+
+        <xen:if is="{$visitor.user_id} == {$user.user_id} AND {$album.permissions.upload}">
+	        <div class="sectionFooter">
+	                <a href="{xen:link albums/manage, $album}">{xen:phrase album_upload_photos}</a>
+	        </div>
+	</xen:if>
 </div>]]></template>
     <template title="news_feed_item_album_add" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<h3 class="description">
 {xen:phrase album_x_has_added_a_new_album_y,

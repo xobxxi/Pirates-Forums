@@ -35,10 +35,6 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 				'cover_photo_id' => array(
 					'type'	  => self::TYPE_UINT,
 					'default' => 0
-				),
-				'last_position' => array(
-					'type'	  => self::TYPE_UINT,
-					'default' => 0
 				)
 			)
 		);
@@ -146,7 +142,7 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 
 			foreach ($photos as $photo)
 			{
-				$position = $this->get('last_position') + 1;
+				$position = $this->get('photo_count') + 1;
 
 				$photoDw = XenForo_DataWriter::create('Album_DataWriter_AlbumPhoto');
 
@@ -155,14 +151,11 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 				$photoDw->set('position', $position);
 				$photoDw->save();
 
-				$this->set('last_position', $position, '', array('setAfterPreSave' => true));
+				$this->set('photo_count', $position, '', array('setAfterPreSave' => true));
 			}
-
-			$this->set('photo_count', $this->get('photo_count') + $new, '', array('setAfterPreSave' => true));
 
 			$this->_db->update('album', array(
 				'photo_count'	=> $this->get('photo_count'),
-				'last_position' => $this->get('last_position')
 			), 'album_id' . ' = ' .	 $this->_db->quote($this->get('album_id')));
 		}
 

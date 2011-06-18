@@ -1,11 +1,11 @@
 <?php
 /* iteration 3
 [*] Likes, comments, reporting (for album?)
-[*] Privacy Controls
-[*] JS Popstate
-[*] Fix .photo
-[*] AutoValidate description
-[*] Remove last_position/photo_count redundancy
+[*] Privacy Controls (Include in session activity)
+// privacy settings for session activity
+// change popstate logic
+
+// data vocab, schema.org
 */
 
 class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
@@ -116,12 +116,27 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 			$dw->setExistingData($album);
 			$dw->set('cover_photo_id', $photo['photo_id']);
 			$dw->save();
-
-			return $this->responseRedirect(
-				XenForo_ControllerResponse_Redirect::RESOURCE_UPDATED,
-				XenForo_Link::buildPublicLink('albums/view-photo', $photo),
-				new XenForo_Phrase('album_the_album_has_been_saved_successfully')
-			);
+			
+			if ($this->_noRedirect())
+			{
+				list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
+				
+				$viewParams = array(
+					'photo' => $photo,
+					'user'	=> $user,
+					'album' => $album
+				);
+				
+				return $this->responseView('Album_ViewPublic_Album_SetCover', '', $viewParams);
+			}
+			else
+			{
+				return $this->responseRedirect(
+					XenForo_ControllerResponse_Redirect::RESOURCE_UPDATED,
+					XenForo_Link::buildPublicLink('albums/view-photo', $photo),
+					new XenForo_Phrase('album_the_cover_photo_has_been_changed')
+				);
+			}
 		}
 
 		$viewParams = array(
@@ -188,6 +203,13 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 			'album_photo_manage',
 			$viewParams
 		);
+	}
+	
+	public function actionValidateField()
+	{
+		$this->_assertPostOnly();
+
+		return $this->_validateField('Album_DataWriter_AlbumPhoto');
 	}
 
 	public function actionDeletePhoto()

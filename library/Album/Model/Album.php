@@ -278,7 +278,6 @@ class Album_Model_Album extends XenForo_Model
 		$albumDw = XenForo_DataWriter::create('Album_DataWriter_Album');
 		$albumDw->setExistingData($albumId);
 		$albumDw->set('photo_count', $photoCount);
-		$albumDw->set('last_position', $photoCount);
 		$albumDw->save();
 	}
 
