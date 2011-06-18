@@ -7,9 +7,9 @@ ErrorDocument 500 default
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	
-	#RewriteCond %{HTTP_HOST} !^(piratesforums\.com)$
-	#RewriteCond %{REQUEST_FILENAME} !-f
-	#RewriteRule ^(.*)$ http://piratesforums.com/$1 [R=301,L]
+	RewriteCond %{HTTP_HOST} !^(piratesforums\.com)$
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^(.*)$ http://piratesforums.com/$1 [R=301,L]
 	
 	RewriteCond %{REQUEST_FILENAME} -f [OR]
 	RewriteCond %{REQUEST_FILENAME} -l [OR]
