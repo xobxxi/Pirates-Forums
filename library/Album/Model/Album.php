@@ -118,6 +118,7 @@ class Album_Model_Album extends XenForo_Model
 			SELECT *
 			FROM album_photo
 			WHERE album_photo.album_id = ?
+			ORDER BY album_photo.position ASC
 		', 'position', $albumId);
 
 		if ($photosData)
@@ -161,7 +162,7 @@ class Album_Model_Album extends XenForo_Model
 			SELECT *
 			FROM album_photo
 			WHERE album_photo.album_id = ?
-			ORDER BY album_photo.position ASC
+			ORDER BY album_photo.position DESC
 			', $limitOptions['limit'], $limitOptions['offset']
 		), 'position', $albumId);
 
@@ -226,7 +227,7 @@ class Album_Model_Album extends XenForo_Model
 	}
 
 	public function prepareAlbum($album, $getAllPhotos = false)
-	{
+	{	
 		$album['name']	= XenForo_Helper_String::censorString($album['name']);
 
 		if ($getAllPhotos)
@@ -476,10 +477,57 @@ class Album_Model_Album extends XenForo_Model
 
 			return $permissions;
 	}
+	
+	public function canViewAlbum(array $album, array $user = array(), &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+		
+		if (!$user)
+		{
+			$user = $this->_getUserModel()->getUserById($album['user_id'],
+				array('followingUserId' => XenForo_Visitor::getUserId())
+			);
+			
+			if (!$user)
+			{
+				return false;
+			}
+		}
+
+		if ($viewingUser['user_id'] == $user['user_id'])
+		{
+			return true;
+		}
+		
+		$permissions = $this->getPermissions($viewingUser);
+
+		if (!$permissions['view'])
+		{
+			return false;
+		}
+		
+		if ($permissions['manage'])
+		{
+			return true;
+		}
+		
+		if (!$this->_getUserModel()->passesPrivacyCheck($album['allow_view'], $user, $viewingUser))
+		{
+			$errorPhraseKey = 'album_member_limits_viewing_album';
+			return false;
+		}
+
+		return true;
+	}
 
 	protected function _hasPermission($permissions, $group, $permission)
 	{
 		return XenForo_Permission::hasPermission($permissions, $group, $permission);
+	}
+	
+	protected function _getUserModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_User');
 	}
 
 	protected function _getAttachmentModel()

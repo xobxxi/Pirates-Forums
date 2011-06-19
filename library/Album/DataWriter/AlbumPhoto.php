@@ -26,7 +26,8 @@ class Album_DataWriter_AlbumPhoto extends XenForo_DataWriter
 				),
 				'description' => array(
 					'type'			=> self::TYPE_STRING,
-					'maxLength'		=> 250
+					'maxLength'		=> 250,
+					'default'       => ''
 				)
 			)
 		);

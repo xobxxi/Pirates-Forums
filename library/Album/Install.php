@@ -10,12 +10,13 @@ class Album_Install
 			CREATE TABLE IF NOT EXISTS album (
 			  album_id int(11) NOT NULL AUTO_INCREMENT,
 			  user_id int(11) NOT NULL,
+			  allow_view enum('everyone','members','followed','none') NOT NULL DEFAULT 'everyone',
 			  name text NOT NULL,
 			  date int(11) NOT NULL,
 			  photo_count int(11) NOT NULL DEFAULT '0',
 			  cover_photo_id int(11) NOT NULL DEFAULT '0',
 			  PRIMARY KEY (album_id)
-			) ENGINE=InnoDB	 DEFAULT CHARSET=utf8;
+			) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 		");
 
 		$db->query("

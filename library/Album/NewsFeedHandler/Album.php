@@ -15,7 +15,17 @@ class Album_NewsFeedHandler_Album extends XenForo_NewsFeedHandler_Abstract
 			return array();
 		}
 
-		return $albumModel->getAlbumsByIds($contentIds);
+		$albums = $albumModel->getAlbumsByIds($contentIds);
+		
+		foreach ($albums as $key => $album)
+		{
+			if (!$albumModel->canViewAlbum($album))
+			{
+				unset($albums[$key]);
+			}
+		}
+		
+		return $albums;
 	}
 
 	protected function _prepareName(array $item)

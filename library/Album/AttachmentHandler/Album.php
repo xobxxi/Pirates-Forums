@@ -12,9 +12,16 @@ class Album_AttachmentHandler_Album extends XenForo_AttachmentHandler_Abstract
 
 	protected function _canViewAttachment(array $attachment, array $viewingUser)
 	{
-		$permissions = $this->_getAlbumModel()->getPermissions();
-
+		$albumModel = $this->_getAlbumModel();
+		
+		$permissions = $albumModel->getPermissions();
 		if (!$permissions['view_photos'])
+		{
+			return false;
+		}
+		
+		$album = $albumModel->getAlbumById($attachment['content_id']);
+		if (!$albumModel->canViewAlbum($album))
 		{
 			return false;
 		}

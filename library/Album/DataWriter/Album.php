@@ -21,6 +21,11 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 					'required' => true,
 					'default'  => XenForo_Application::$time
 				),
+				'allow_view' => array(
+					'type'         => self::TYPE_STRING,
+					'default'      => 'everyone',
+					'verification' => array('$this', '_verifyPrivacyChoice')
+				),
 				'name' => array(
 					'type'			=> self::TYPE_STRING,
 					'maxLength'		=> 32,
@@ -227,6 +232,16 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 				);
 			}
 		}
+	}
+	
+	protected function _verifyPrivacyChoice(&$choice, $dw, $fieldName)
+	{
+		if (!in_array(strtolower($choice), array('everyone', 'members', 'followed', 'none')))
+		{
+			$choice = 'none';
+		}
+
+		return true;
 	}
 
 	protected function _setUsername($id)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="album" title="User Albums" version_string="0.5.5 Beta" version_id="6" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
+<addon addon_id="album" title="User Albums" version_string="0.6.0 Beta" version_id="7" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -57,6 +57,8 @@
     <phrase title="album_hash_id_missing" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Hash ID missing.]]></phrase>
     <phrase title="album_make_cover_photo" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Make Cover Photo]]></phrase>
     <phrase title="album_manage_album" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[Manage Album]]></phrase>
+    <phrase title="album_member_limits_viewing_album" version_id="6" version_string="0.5.5 Beta"><![CDATA[This member limits who may view this album.]]></phrase>
+    <phrase title="album_member_limits_viewing_albums" version_id="6" version_string="0.5.5 Beta"><![CDATA[This member limits who may view some albums.]]></phrase>
     <phrase title="album_new_photos" version_id="2" version_string="0.1.0 Alpha"><![CDATA[New Photos]]></phrase>
     <phrase title="album_next" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Next]]></phrase>
     <phrase title="album_no_album_id_specified" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[No album ID was specified.]]></phrase>
@@ -83,6 +85,7 @@
     <phrase title="album_viewing_albums" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[Viewing albums]]></phrase>
     <phrase title="album_viewing_photo_in_album" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Viewing photo in album]]></phrase>
     <phrase title="album_view_full_size" version_id="2" version_string="0.1.0 Alpha"><![CDATA[View Full Size]]></phrase>
+    <phrase title="album_who_may_view_this_album" version_id="6" version_string="0.5.5 Beta"><![CDATA[Who may view this album]]></phrase>
     <phrase title="album_x" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{album}]]></phrase>
     <phrase title="album_xs_albums" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{username}'s albums]]></phrase>
     <phrase title="album_xs_albums_y" version_id="2" version_string="0.1.0 Alpha"><![CDATA[{username}'s Albums - {album}]]></phrase>
@@ -111,7 +114,7 @@
   </route_prefixes>
   <style_properties/>
   <templates>
-    <template title="album.css" version_id="5" version_string="0.5.0 Beta"><![CDATA[#albums.primaryContent,
+    <template title="album.css" version_id="6" version_string="0.5.5 Beta"><![CDATA[#albums.primaryContent,
 #album.primaryContent
 {
         overflow: hidden;
@@ -228,6 +231,12 @@
 #albumPhoto .photoInfo .photoDescriptionContainer .photoDescriptionForm input[type=text]
 {
         width: 81%;
+}
+
+#albumPhoto .photoInfo .AlbumSetCover label.enabled,
+#albumPhoto .photoInfo .AlbumSetCover label.enabled input[type="checkbox"]
+{
+        cursor: pointer;
 }
 
 .extraCounter
@@ -394,7 +403,7 @@
     <template title="album_account_management_list_item" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<xen:if is="{$visitor.user_id}">
         <li><a class="primaryContent" href="{xen:link albums, $visitor}">{xen:phrase album_your_albums}</a></li>
 </xen:if>]]></template>
-    <template title="album_add" version_id="5" version_string="0.5.0 Beta"><![CDATA[<xen:require css="album_manage.css" />
+    <template title="album_add" version_id="6" version_string="0.5.5 Beta"><![CDATA[<xen:require css="album_manage.css" />
 <xen:require js="js/album/album.js" />
 
 <xen:title>{xen:phrase album_add_album}</xen:title>
@@ -410,7 +419,18 @@
 	<dt>
                 <label for="ctrl_album_name">{xen:phrase album_album_name}:</label>
         </dt>
-	<dd><input type="text" name="name" value="{$album.name}" id="ctrl_album_name" class="textCtrl" data-liveTitleTemplate="{xen:phrase album_add_album}: <em>%s</em>" /></dd>
+	<dd><input type="text" name="name" id="ctrl_album_name" class="textCtrl" data-liveTitleTemplate="{xen:phrase album_add_album}: <em>%s</em>" /></dd>
+
+        <dt>
+                <label for="ctrl_album_allow_view">{xen:phrase album_who_may_view_this_album}:</label>
+        </dt>
+	<dd id="ctrl_album_allow_view">
+		<select name="allow_view" class="textCtrl autoSize" id="ctrl_album_allow_view">
+			<option value="everyone">{xen:phrase all_visitors}</option>
+			<option value="members">{xen:phrase members_only}</option>
+			<option value="followed">{xen:phrase people_you_follow_only}</option>
+                </select>
+	</dd>
 </dl>
 
 <xen:if is="{$attachmentParams}">
@@ -429,7 +449,6 @@
                 <xen:include template="attachment_upload_button">
                         <xen:set var="$buttonText">{xen:phrase album_upload_photos}</xen:set>
                 </xen:include>
-                <input type="reset" class="button OverlayCloser ResetButton" value="{xen:phrase cancel}" />
 	</dd>
 </dl>
 
@@ -457,7 +476,7 @@
 	<input type="hidden" name="_xfConfirm" value="1" />
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="album_manage" version_id="5" version_string="0.5.0 Beta"><![CDATA[<xen:require css="album_manage.css" />
+    <template title="album_manage" version_id="6" version_string="0.5.5 Beta"><![CDATA[<xen:require css="album_manage.css" />
 
 <xen:title>{xen:phrase album_manage_album}: {$album.name}</xen:title>
 
@@ -474,6 +493,17 @@
                 <label for="ctrl_album_name">{xen:phrase album_album_name}:</label>
         </dt>
 	<dd><input type="text" name="name" value="{$album.name}" id="ctrl_album_name" class="textCtrl" data-liveTitleTemplate="{xen:phrase album_manage_album}: <em>%s</em>" /></dd>
+
+        <dt>
+                <label for="ctrl_album_allow_view">{xen:phrase album_who_may_view_this_album}:</label>
+        </dt>
+	<dd id="ctrl_album_allow_view">
+		<select name="allow_view" class="textCtrl autoSize" id="ctrl_album_allow_view">
+			<option value="everyone" {xen:selected "{$album.allow_view} == 'everyone' "}>{xen:phrase all_visitors}</option>
+			<option value="members"  {xen:selected "{$album.allow_view} == 'members'  "}>{xen:phrase members_only}</option>
+			<option value="followed" {xen:selected "{$album.allow_view} == 'followed' "}>{xen:phrase people_you_follow_only}</option>
+                </select>
+	</dd>
 </dl>
 
 <xen:if is="{$attachmentParams}">
@@ -689,9 +719,9 @@ div.label,
 
 <input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="album_photo_set_cover" version_id="5" version_string="0.5.0 Beta"><![CDATA[<xen:if is="{$album.permissions.manage}">
+    <template title="album_photo_set_cover" version_id="6" version_string="0.5.5 Beta"><![CDATA[<xen:if is="{$album.permissions.manage}">
 	<form action="{xen:link albums/set-cover, $photo}" method="post" class="AlbumSetCover">
-		<label><input type="checkbox" name="_xfConfirm" value="1" class="" {xen:if {$photo.is_cover}, 'disabled="disabled"'} {xen:checked $photo.is_cover} />
+		<label {xen:if '!{$photo.is_cover}', 'class="enabled"'}><input type="checkbox" name="_xfConfirm" value="1" {xen:if {$photo.is_cover}, 'disabled="disabled"'} {xen:checked $photo.is_cover} />
 				{xen:phrase album_cover_photo}</label>
 		<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 	</form>
@@ -752,7 +782,7 @@ div.label,
 	<input type="hidden" name="_xfConfirm" value="1" />
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="album_user" version_id="2" version_string="0.1.0 Alpha"><![CDATA[<xen:require css="album.css" />
+    <template title="album_user" version_id="6" version_string="0.5.5 Beta"><![CDATA[<xen:require css="album.css" />
 
 <xen:title>{xen:phrase album_albums}</xen:title>
 
@@ -787,7 +817,7 @@ div.label,
 		                </div>
 		        </xen:foreach>
 		<xen:else />
-			<p>{xen:phrase album_user_no_albums}</p>
+			<p>{xen:if $filtered, {xen:phrase album_member_limits_viewing_albums}, {xen:phrase album_user_no_albums}}</p>
 		</xen:if>
 	</div>
 	<xen:if is="{$visitor.user_id} == {$user.user_id} AND {$permissions.upload}">

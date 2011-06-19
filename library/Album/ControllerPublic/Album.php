@@ -1,11 +1,7 @@
 <?php
 /* iteration 3
-[*] Likes, comments, reporting (for album?)
-[*] Privacy Controls (Include in session activity)
-// privacy settings for session activity
+[*] Likes, comments, reporting
 // change popstate logic
-
-// data vocab, schema.org
 */
 
 class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
@@ -27,8 +23,10 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		{
 			$userId = XenForo_Visitor::getUserId();
 		}
-
-		$user = $this->_getUserModel()->getUserById($userId);
+		
+		$user = $this->_getUserModel()->getUserById($userId,
+			array('followingUserId' => XenForo_Visitor::getUserId())
+		);
 
 		if (!$user)
 		{
@@ -42,14 +40,26 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		);
 
 		$albums = $albumModel->getUserAlbumsByUserId($userId);
+		
+		$filtered = false;
+		foreach ($albums as $key => $album)
+		{
+			if (!$albumModel->canViewAlbum($album, $user, $errorPhraseKey))
+			{
+				unset($albums[$key]);
+				$filtered = true;
+			}
+		}
+		
 		$albums = $albumModel->prepareAlbums($albums);
 
 		$permissions = $albumModel->getPermissions();
 
 		$viewParams = array(
-			'user'	 => $user,
-			'albums' => $albums,
-			'permissions' => $permissions
+			'user'	      => $user,
+			'albums'      => $albums,
+			'permissions' => $permissions,
+			'filtered'    => $filtered
 		);
 
 		return $this->responseView(
@@ -340,7 +350,8 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		}
 
 		$input = $this->_input->filter(array(
-			'name' => XenForo_Input::STRING
+			'name' => XenForo_Input::STRING,
+			'allow_view' => XenForo_Input::STRING
 		));
 
 		$attachment = $this->_input->filter(array(
@@ -351,6 +362,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$dw->set('user_id', XenForo_Visitor::getUserId());
 		$dw->set('name', $input['name']);
 		$dw->set('date', XenForo_Application::$time);
+		$dw->set('allow_view', $input['allow_view']);
 		$dw->setExtraData('attachment_hash', $attachment['attachment_hash']);
 		$dw->preSave();
 		$dw->save();
@@ -375,7 +387,8 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$this->_assertCanManage($album);
 
 		$input = $this->_input->filter(array(
-			'name' => XenForo_Input::STRING
+			'name'       => XenForo_Input::STRING,
+			'allow_view' => XenForo_Input::STRING
 		));
 
 		$attachment = $this->_input->filter(array(
@@ -386,6 +399,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$dw->setExistingData($albumId);
 		$dw->set('name', $input['name']);
 		$dw->set('date', XenForo_Application::$time);
+		$dw->set('allow_view', $input['allow_view']);
 		$dw->setExtraData('attachment_hash', $attachment['attachment_hash']);
 		$dw->preSave();
 		$dw->save();
@@ -447,6 +461,10 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 					$albumModel = XenForo_Model::create('Album_Model_Album');
 
 					$album = $albumModel->getAlbumById($activity['params']['id']);
+					if (!$albumModel->canViewAlbum($album))
+					{
+						return new XenForo_Phrase('album_viewing_albums');
+					}
 					$album = $albumModel->prepareAlbum($album);
 					$link  = XenForo_Link::buildPublicLink('albums/view', $album);
 
@@ -471,6 +489,10 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 					$photo = $albumModel->getPhotoById($activity['params']['id']);
 					$photo = $albumModel->preparePhoto($photo);
 					$album = $albumModel->getAlbumById($photo['album_id']);
+					if (!$albumModel->canViewAlbum($album))
+					{
+						return new XenForo_Phrase('album_viewing_albums');
+					}
 					$album = $albumModel->prepareAlbum($album);
 					$link  = XenForo_Link::buildPublicLink('albums/view-photo', $photo);
 
@@ -516,14 +538,21 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 				new XenForo_Phrase('album_requested_album_not_found'), 404)
 			);
 		}
-
-		$user = $this->_getUserModel()->getUserById($album['user_id']);
+		
+		$user = $this->_getUserModel()->getUserById($album['user_id'],
+			array('followingUserId' => XenForo_Visitor::getUserId())
+		);
 
 		if (!$user)
 		{
 			throw $this->responseException($this->responseError(
 				new XenForo_Phrase('requested_member_not_found'), 404)
 			);
+		}
+		
+		if (!$albumModel->canViewAlbum($album, $user, $errorPhraseKey))
+		{
+			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
 		}
 
 		$album = $albumModel->prepareAlbum($album, true);
