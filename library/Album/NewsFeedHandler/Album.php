@@ -27,6 +27,16 @@ class Album_NewsFeedHandler_Album extends XenForo_NewsFeedHandler_Abstract
 		
 		return $albums;
 	}
+	
+	protected function _prepareAdd(array $item)
+	{
+		$item['content']['attachments'] = $this->_getAlbumModel()->getNewestPhotosForAlbumById(
+			$item['content']['album_id'],
+			array('limit' => 10)
+		);
+		
+		return $item;
+	}
 
 	protected function _prepareName(array $item)
 	{
@@ -41,10 +51,19 @@ class Album_NewsFeedHandler_Album extends XenForo_NewsFeedHandler_Abstract
 
 		$extraData = unserialize($item['extra_data']);
 		unset($item['extra_data']);
+		
+		if ($extraData['new'] > 1)
+		{
+			$item['single'] = false;
+		}
+		else
+		{
+			$item['single'] = true;
+		}
 
 		$item['content']['attachments'] = $this->_getAlbumModel()->getNewestPhotosForAlbumById(
 			$item['content']['album_id'],
-			array('limit' => $extraData['new'])
+			array('limit' => min($extraData['new'], 10))
 		);
 
 		return $item;

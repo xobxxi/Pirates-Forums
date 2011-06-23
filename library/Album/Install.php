@@ -15,19 +15,10 @@ class Album_Install
 			  date int(11) NOT NULL,
 			  photo_count int(11) NOT NULL DEFAULT '0',
 			  cover_photo_id int(11) NOT NULL DEFAULT '0',
+			  likes int(10) NOT NULL DEFAULT '0',
+			  like_users blob NOT NULL,
 			  PRIMARY KEY (album_id)
 			) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-		");
-
-		$db->query("
-			CREATE TABLE IF NOT EXISTS album_photo (
-			  photo_id int(11) NOT NULL AUTO_INCREMENT,
-			  album_id int(11) NOT NULL,
-			  attachment_id int(11) NOT NULL,
-			  position int(11) NOT NULL,
-			  description text CHARACTER SET utf8,
-			  PRIMARY KEY (photo_id)
-			) ENGINE=InnoDB	 DEFAULT CHARSET=utf8;
 		");
 
 		$fields = self::getFields();
@@ -54,11 +45,54 @@ class Album_Install
 		);
 
 		self::insertRow($db, $contentTypeRow, true);
+		
+		self::installPhotos($db);
 
 		$contentTypeModel = XenForo_Model::create('XenForo_Model_ContentType');
 		$contentTypeModel->rebuildContentTypeCache();
 
 		return true;
+	}
+	
+	public static function installPhotos($db)
+	{
+		$db->query("
+			CREATE TABLE IF NOT EXISTS album_photo (
+			  photo_id int(11) NOT NULL AUTO_INCREMENT,
+			  album_id int(11) NOT NULL,
+			  attachment_id int(11) NOT NULL,
+			  position int(11) NOT NULL,
+			  description text CHARACTER SET utf8,
+			  likes int(10) NOT NULL DEFAULT '0',
+			  like_users blob NOT NULL,
+			  PRIMARY KEY (photo_id)
+			) ENGINE=InnoDB	 DEFAULT CHARSET=utf8;
+		");
+		
+		$fields = self::getPhotoFields();
+		foreach ($fields as $name => $value)
+		{
+			$row = array(
+				'table'		 => 'xf_content_type_field',
+				'identifier' => "xf_content_type_field.content_type = 'album_photo'
+					AND xf_content_type_field.field_name = '{$name}'",
+				'fields'	 => '`content_type`, `field_name`, `field_value`',
+				'values'	 => "'album_photo', '{$name}', '{$value}'"
+			);
+
+			self::insertRow($db, $row, true);
+		}
+
+		$fields = serialize($fields);
+
+		$contentTypeRow = array(
+			'table'		 => 'xf_content_type',
+			'identifier' => "xf_content_type.content_type = 'album_photo'",
+			'fields'	 => '`content_type`, `addon_id`, `fields`',
+			'values'	 => "'album_photo', 'album', '{$fields}'"
+		);
+
+		self::insertRow($db, $contentTypeRow, true);
 	}
 
 	public static function uninstall()
@@ -69,10 +103,20 @@ class Album_Install
 			DROP TABLE IF EXISTS
 				album;
 		");
+		
+		$db->query("
+			DROP TABLE IF EXISTS
+				album_photo;
+		");
 
 		$db->query("
 			DELETE FROM xf_content_type_field
 			WHERE xf_content_type_field.content_type = 'album'
+		");
+		
+		$db->query("
+			DELETE FROM xf_content_type_field
+			WHERE xf_content_type_field.content_type = 'album_photo'
 		");
 
 		$db->query("
@@ -108,6 +152,18 @@ class Album_Install
 		$fields['attachment_handler_class'] = 'Album_AttachmentHandler_Album';
 		$fields['news_feed_handler_class']	= 'Album_NewsFeedHandler_Album';
 
+		return $fields;
+	}
+	
+	public static function getPhotoFields()
+	{
+		$fields = array();
+		
+		$fields['alert_handler_class']      = 'Album_AlertHandler_AlbumPhoto';
+		$fields['like_handler_class']       = 'Album_LikeHandler_AlbumPhoto';
+		$fields['news_feed_handler_class']	= 'Album_NewsFeedHandler_AlbumPhoto';
+		$fields['report_handler_class']     = 'Album_ReportHandler_AlbumPhoto';
+		
 		return $fields;
 	}
 
