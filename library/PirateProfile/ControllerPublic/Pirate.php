@@ -674,30 +674,30 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			$viewParams
 		);
 	}
-	
+
 	public function actionCommentLike()
 	{
 		$commentId = $this->_input->filterSingle('comment', XenForo_Input::UINT);
-		
+
 		list($comment, $pirate, $user) = $this->_assertPirateCommentValidAndViewable($commentId);
-		
+
 		$pirateId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 		if ($pirateId != $comment['pirate_id'])
 		{
 			return $this->responseNoPermission();
 		}
-		
+
 		if (!$this->_getPirateModel()->canLikePirateComment($comment, $errorPhraseKey))
 		{
 			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
 		}
-		
+
 		$likeModel = $this->getModelFromCache('XenForo_Model_Like');
 
 		$existingLike = $likeModel->getContentLikeByLikeUser(
 			'pirate_comment', $commentId, XenForo_Visitor::getUserId()
 		);
-		
+
 		if ($this->_request->isPost())
 		{
 			if ($existingLike)
@@ -710,7 +710,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 					'pirate_comment', $commentId, $comment['user_id']
 				);
 			}
-			
+
 			$liked = ($existingLike ? false : true);
 
 			if ($this->_noRedirect() && $latestUsers !== false)
@@ -756,13 +756,13 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			);
 		}
 	}
-	
+
 	public function actionCommentLikes()
 	{
 		$commentId = $this->_input->filterSingle('comment', XenForo_Input::UINT);
-		
+
 		list($comment, $pirate, $user) = $this->_assertPirateCommentValidAndViewable($commentId);
-		
+
 		$likes = $this->getModelFromCache('XenForo_Model_Like')
 		              ->getContentLikes('pirate_comment', $commentId);
 		if (!$likes)
@@ -776,9 +776,9 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 			'pirate'  => $pirate,
 			'comment' => $comment,
 			'user'    => $user,
-			'likes'   => $likes	
+			'likes'   => $likes
 		);
-		
+
 		return $this->responseView(
 			'PirateProfile_ViewPublic_Pirate_CommentLikes',
 			'pirateProfile_comment_likes',
@@ -792,7 +792,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 		$pirateModel = $this->_getPirateModel();
 		$attachmentParams = $pirateModel->getAttachmentParams(array());
-		
+
 		$attachmentConstraints = $this->_getAttachmentModel()->getAttachmentHandler('pirate')->getAttachmentConstraints();
 
 		$skills = $pirateModel::getSkills(false, true);
@@ -867,7 +867,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		$attachmentParams = $pirateModel->getAttachmentParams(array(
 			'pirate_id' => $pirate['pirate_id']
 		));
-		
+
 		$attachmentConstraints = $this->_getAttachmentModel()->getAttachmentHandler('pirate')->getAttachmentConstraints();
 
 		$viewParams = array(
@@ -1080,7 +1080,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 						return $doing;
 					}
-					
+
 					$userModel	= XenForo_Model::create('XenForo_Model_User');
 					$pirateUser = $userModel->getUserById($activity['params']['id']);
 					$link		= XenForo_Link::buildPublicLink('pirates', $pirateUser);
@@ -1110,7 +1110,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 						return $doing;
 					}
-				
+
 					$pirateModel = XenForo_Model::create('PirateProfile_Model_Pirate');
 					$pirate		 = $pirateModel->getPirateById($activity['params']['id']);
 					$link		 = XenForo_Link::buildPublicLink('pirates/card', $pirate);
@@ -1180,7 +1180,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 		return array($pirate, $user);
 	}
-	
+
 	protected function _assertPirateCommentValidAndViewable($commentId)
 	{
 		$pirateModel = $this->_getPirateModel();
@@ -1190,9 +1190,9 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 		{
 			throw $this->getNoPermissionResponseException();
 		}
-		
+
 		$comment = $pirateModel->getPirateCommentById($commentId);
-		
+
 		if (empty($comment))
 		{
 			throw $this->responseException($this->responseError(
@@ -1316,7 +1316,7 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 	{
 		return $this->getModelFromCache('XenForo_Model_User');
 	}
-	
+
 	protected function _getAttachmentModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_Attachment');

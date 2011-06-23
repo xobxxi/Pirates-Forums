@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="recentActivityBlock" title="Recent Activity Block" version_string="1.3.1" version_id="16" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="recentActivityBlock" title="Recent Activity Block" version_string="1.4.0" version_id="17" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -35,7 +35,7 @@
   <route_prefixes/>
   <style_properties/>
   <templates>
-    <template title="sidebar_recent_activity" version_id="1" version_string="1.0.1"><![CDATA[<div id="recentActivity" class="section avatarList">
+    <template title="sidebar_recent_activity" version_id="16" version_string="1.3.1"><![CDATA[<div id="recentActivity" class="section avatarList">
         <div class="secondaryContent">
 	        <h3><a href="{xen:link recent-activity}" title="{xen:phrase recentActivity_view_more_recent_activity}">{xen:phrase recent_activity}</a></h3>
 	        <xen:include template="sidebar_recent_activity_feed">
@@ -43,12 +43,13 @@
 	        </xen:include>
         </div>
 </div>]]></template>
-    <template title="sidebar_recent_activity_feed" version_id="9" version_string="1.2.0"><![CDATA[<xen:if is="{$newsFeed}">
+    <template title="sidebar_recent_activity_feed" version_id="16" version_string="1.3.1"><![CDATA[<xen:if is="{$newsFeed}">
 	<ol>
 		<xen:foreach loop="$newsFeed" value="$item">		
 			<xen:include template="sidebar_recent_activity_feed_item" />
 		</xen:foreach>
 	</ol>
+        <div class="footnote"><a href="{xen:link recent-activity}" title="{xen:phrase recentActivity_view_more_recent_activity}">{xen:phrase recentActivity_view_more}</a></div>
 <xen:else />
 	{xen:raw $noContentHtml}
 </xen:if>]]></template>
