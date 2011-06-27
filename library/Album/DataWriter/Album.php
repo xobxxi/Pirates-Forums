@@ -40,6 +40,14 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 				'cover_photo_id' => array(
 					'type'	  => self::TYPE_UINT,
 					'default' => 0
+				),
+				'likes' => array(
+					'type' => self::TYPE_UINT_FORCED,
+					'default' => 0
+				),
+				'like_users' => array(
+					'type' => self::TYPE_SERIALIZED,
+					'default' => 'a:0:{}'
 				)
 			)
 		);
