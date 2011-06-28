@@ -19,7 +19,7 @@ class PiratesNewsFeed_Model_PiratesNewsFeed  extends XenForo_Model
 		$itemsCount = $options->piratesNewsFeed_count;
 
 		$feed = 'http://blog.piratesonline.go.com/blog/pirates/feed2/entries/atom?numEntries=' . $itemsCount;
-		if (!$data = simplexml_load_file($feed))
+		if (!$data = @simplexml_load_file($feed))
 		{
 			return $existing;
 		}
