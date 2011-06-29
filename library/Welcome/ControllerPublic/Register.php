@@ -149,7 +149,7 @@ class Welcome_ControllerPublic_Register extends XFCP_Welcome_ControllerPublic_Re
 			return $user;
 		}
 
-		return $this->_getUserModel()->getUserIdFromUser($user);
+		return $user['user_id'];
 	}
 
 	protected function _hideConversationFromUsers($id, array $users)

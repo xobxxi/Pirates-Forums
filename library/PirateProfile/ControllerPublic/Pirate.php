@@ -644,7 +644,8 @@ class PirateProfile_ControllerPublic_Pirate extends XenForo_ControllerPublic_Abs
 
 		$comments = $pirateModel->getPirateCommentsByPirate($pirateId, $beforeDate, array(
 			'join'  => PirateProfile_Model_Pirate::FETCH_COMMENT_USER,
-			'limit' => 50
+			'limit' => 50,
+			'likeUserId' => XenForo_Visitor::getUserId()
 		));
 
 		if (!$comments)

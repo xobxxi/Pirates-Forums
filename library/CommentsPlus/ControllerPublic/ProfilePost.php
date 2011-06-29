@@ -2,6 +2,37 @@
 
 class CommentsPlus_ControllerPublic_ProfilePost extends XFCP_CommentsPlus_ControllerPublic_ProfilePost
 {
+	public function actionComments()
+	{
+		$response = parent::actionComments();
+		if (isset($response->params['comments']))
+		{
+			$profilePost = $response->params['profilePost'];
+			$profilePostId = $profilePost['profile_post_id'];
+			
+			$user = $response->params['user'];
+			
+			$beforeDate = $this->_input->filterSingle('before', XenForo_Input::UINT);
+			
+			$profilePostModel = $this->_getProfilePostModel();
+
+			$comments = $profilePostModel->getProfilePostCommentsByProfilePost($profilePostId, $beforeDate, array(
+				'join' => XenForo_Model_ProfilePost::FETCH_COMMENT_USER,
+				'limit' => 50,
+				'likeUserId' => XenForo_Visitor::getUserId()
+			));
+			
+			foreach ($comments AS &$comment)
+			{
+				$comment = $profilePostModel->prepareProfilePostComment($comment, $profilePost, $user);
+			}
+			
+			$response->params['comments'] = $comments;
+		}
+		
+		return $response;
+	}
+	
 	public function actionCommentEdit()
 	{
 		$commentId = $this->_input->filterSingle('comment', XenForo_Input::UINT);
