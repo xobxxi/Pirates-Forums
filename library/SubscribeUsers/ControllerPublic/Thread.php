@@ -6,13 +6,9 @@ class SubscribeUsers_ControllerPublic_Thread extends XFCP_SubscribeUsers_Control
 	{
 		$response = parent::actionIndex();
 
-		if (is_a($response, 'XenForo_ControllerResponse_View'))
+		if (isset($response->params))
 		{
-			$canViewSubscribed = false;
-			$visitor = XenForo_Visitor::getInstance();
-			if ($visitor['is_admin']) $canViewSubscribed = true;
-		
-			$response->params += array('canViewSubscribed' => $canViewSubscribed);
+			$response->params += array('canSubscribeUsers' => $this->_getThreadModel()->canSubscribeUsers());
 		}
 		
 		return $response;
@@ -22,26 +18,63 @@ class SubscribeUsers_ControllerPublic_Thread extends XFCP_SubscribeUsers_Control
 	{
 		$response = parent::actionEdit();
 		
-		return $this->getSubscribeModel()->checkCanSubscribe($response);
+		if (isset($response->params))
+		{
+			$response->params += array('canSubscribeUsers' => $this->_getThreadModel()->canSubscribeUsers());
+		}
+		
+		return $response;
 	}
 	
 	public function actionSave()
 	{
 		$response = parent::actionSave();
 		
-	  	$thread_id = $this->_input->filterSingle('thread_id', XenForo_Input::UINT);
+		$subscribeModel = $this->_getThreadModel();
 		
-		$input = $this->_input->filter(array(
-			'subscribe_users' => XenForo_Input::STRING
-		));
+		if ($subscribeModel->canSubscribeUsers())
+		{
+	  		$threadId = $this->_input->filterSingle('thread_id', XenForo_Input::UINT);
 		
-		$this->getSubscribeModel()->fireSubscribe($thread_id, $input);
+			$users = $this->_input->filterSingle('subscribe_users', XenForo_Input::STRING);
+			
+			$subscribeModel->subscribeUsersToThreadById($threadId, $users);
+		}
 		
 		return $response;
 	}
 	
-	protected function getSubscribeModel()
-	{
-		return $this->getModelFromCache('SubscribeUsers_Model_Subscribe');
+	public function actionViewSubscribed()
+	{	
+		if (!$this->_getThreadModel()->canSubscribeUsers())
+		{
+			throw $this->getNoPermissionResponseException();
+		}
+		
+		$threadId = $this->_input->filterSingle('thread_id', XenForo_Input::UINT);
+		$visitorId = XenForo_Visitor::getUserId();
+		
+		$ftpHelper = $this->getHelper('ForumThreadPost');
+		$threadFetchOptions = array('readUserId' => $visitorId, 'watchUserId' => $visitorId);
+		$forumFetchOptions  = array('readUserId' => $visitorId);
+		list($thread, $forum) = $ftpHelper->assertThreadValidAndViewable($threadId, $threadFetchOptions, $forumFetchOptions);
+		
+		$this->canonicalizeRequestUrl(
+			XenForo_Link::buildPublicLink('threads/view-subscribed', $thread)
+		);
+		
+		$subscribedUsers = $this->_getThreadWatchModel()->getUsersWatchingThread($thread['thread_id'], $forum['node_id']);
+		
+		$viewParams = array(
+			'nodeBreadCrumbs' => $ftpHelper->getNodeBreadCrumbs($forum),
+			'thread'          => $thread,
+			'subscribedUsers' => $subscribedUsers
+		);
+		
+		return $this->responseView(
+			'SubscribeUsers_ViewPublic_Subscribed',
+			'subscribeUsers_subscribed_users',
+			$viewParams
+		);
 	}
 }

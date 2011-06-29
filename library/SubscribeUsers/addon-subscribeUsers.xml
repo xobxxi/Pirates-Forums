@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="subscribeUsers" title="Subscribe Users" version_string="1.1.2" version_id="5" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="subscribeUsers" title="Subscribe Users" version_string="2.0.0" version_id="10" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -7,6 +7,7 @@
   <code_events/>
   <code_event_listeners>
     <listener event_id="load_class_controller" execute_order="10" callback_class="SubscribeUsers_Listener" callback_method="loadClassController" active="1" description="Listens for XenForo_ControllerPublic_Forum class"/>
+    <listener event_id="load_class_model" execute_order="10" callback_class="SubscribeUsers_Listener" callback_method="loadClassModel" active="1" description="Extends models"/>
     <listener event_id="template_create" execute_order="10" callback_class="SubscribeUsers_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
     <listener event_id="template_hook" execute_order="10" callback_class="SubscribeUsers_Listener" callback_method="templateHook" active="1" description="Uses template hook to spit into templates"/>
   </code_event_listeners>
@@ -35,27 +36,26 @@
     <phrase title="option_subscribeUsers_state_explain" version_id="0" version_string="1.0.0"><![CDATA[The state of watch for the subscribed users. Can be 'watch_email' or 'watch_no_email'.]]></phrase>
     <phrase title="permission_forum_subscribeUsers" version_id="0" version_string="1.0.0"><![CDATA[Subscribe Users]]></phrase>
     <phrase title="subscribeUsers_no_users_subscribed" version_id="2" version_string="1.0.2"><![CDATA[No users are subscribed to this thread.]]></phrase>
-    <phrase title="subscribeUsers_subscribed_users" version_id="2" version_string="1.0.2"><![CDATA[Subscribed Users]]></phrase>
     <phrase title="subscribeUsers_subscribe_users" version_id="2" version_string="1.0.2"><![CDATA[Subscribe Users]]></phrase>
+    <phrase title="subscribeUsers_users_subscribed_to_thread_x" version_id="5" version_string="1.1.2"><![CDATA[Users Subscribed To Thread: {thread}]]></phrase>
     <phrase title="subscribeUsers_view_subscribed_users" version_id="2" version_string="1.0.2"><![CDATA[View Subscribed Users]]></phrase>
   </phrases>
-  <route_prefixes>
-    <route_type type="public">
-      <prefix original_prefix="subscribed" class="SubscribeUsers_Route_Prefix_Subscribed" build_link="data_only"/>
-    </route_type>
-  </route_prefixes>
+  <route_prefixes/>
   <style_properties/>
   <templates>
-    <template title="subscribeUsers_input" version_id="2" version_string="1.0.2"><![CDATA[<xen:if is="{$subscribeUsers}">
+    <template title="subscribeUsers_input" version_id="5" version_string="1.1.2"><![CDATA[<xen:if is="{$canSubscribeUsers}">
         <dl class="ctrlUnit">
                 <dt><label for="ctrl_subscribe_users">{xen:phrase subscribeUsers_subscribe_users}:</label></dt>
                 <dd><input type="text" name="subscribe_users" class="textCtrl AutoComplete" id="ctrl_subscribe_users" maxlength="100" />
                 <p class="explain">{xen:phrase separate_names_with_comma}</p></dd>
         </dl>
 </xen:if>]]></template>
-    <template title="subscribeUsers_subscribed_users" version_id="2" version_string="1.0.2"><![CDATA[<xen:require css="subscribeUsers_subscribed_users.css" />
+    <template title="subscribeUsers_subscribed_users" version_id="5" version_string="1.1.2"><![CDATA[<xen:require css="subscribeUsers_subscribed_users.css" />
 
-<xen:title>{xen:phrase subscribeUsers_subscribed_users}</xen:title>
+<xen:title>
+{xen:phrase subscribeUsers_users_subscribed_to_thread_x,
+        'thread={$thread.title}'}
+</xen:title>
 
 <xen:navigation>
         <xen:breadcrumb source="$nodeBreadCrumbs" />
@@ -68,7 +68,7 @@
 
 <ul>
         <xen:foreach loop="$subscribedUsers" value="$user" i="$i">
-        <li><a href="{xen:link members, $user}" class="username">{$user.username}</a></li>
+        <li><xen:username user="$user" /></li>
         </xen:foreach>
 </ul>
 
@@ -84,8 +84,8 @@
         margin-left: 20px;
         list-style-type: disc;
 }]]></template>
-    <template title="subscribeUsers_thread_tools_list_item" version_id="2" version_string="1.0.2"><![CDATA[<xen:if is="{$canViewSubscribed}">
-<li><a href="{xen:link subscribed, $thread}" class="OverlayTrigger">{xen:phrase subscribeUsers_view_subscribed_users}</a></li>
+    <template title="subscribeUsers_thread_tools_list_item" version_id="5" version_string="1.1.2"><![CDATA[<xen:if is="{$canSubscribeUsers}">
+<li><a href="{xen:link threads/view-subscribed, $thread}" class="OverlayTrigger">{xen:phrase subscribeUsers_view_subscribed_users}</a></li>
 </xen:if>]]></template>
   </templates>
 </addon>

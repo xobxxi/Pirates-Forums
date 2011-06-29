@@ -14,6 +14,16 @@ class SubscribeUsers_Listener
 				break;
 		}
     }
+
+	public static function loadClassModel($class, array &$extend)
+    {
+		switch ($class)
+		{
+			case 'XenForo_Model_Thread':
+				$extend[] = 'SubscribeUsers_Model_Thread';
+				break;
+		}
+    }
 	
 	public static function templateCreate(&$templateName, array &$params, XenForo_Template_Abstract $template)
 	{
@@ -30,9 +40,7 @@ class SubscribeUsers_Listener
 		switch ($hookName)
 		{
 			case 'thread_create_fields_main':
-				$subscribeModel = XenForo_Model::create('SubscribeUsers_Model_Subscribe');
-				$hookParams    += $subscribeModel->checkCanSubscribe();
-				$contents      .= $template->create('subscribeUsers_input', $hookParams)->render();
+				$contents      .= $template->create('subscribeUsers_input', $template->getParams())->render();
 				return $contents;
 		}
 	}
