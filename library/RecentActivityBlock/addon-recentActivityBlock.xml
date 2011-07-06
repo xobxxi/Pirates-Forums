@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="recentActivityBlock" title="Recent Activity Block" version_string="1.4.1" version_id="18" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="recentActivityBlock" title="Recent Activity Block" version_string="1.4.2" version_id="19" url="http://piratesforums.com" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates/>
   <code_events/>
   <code_event_listeners>
+    <listener event_id="file_health_check" execute_order="10" callback_class="RecentActivityBlock_Listener" callback_method="fileHealthCheck" active="1" description="Adds file hashes to health check"/>
     <listener event_id="template_create" execute_order="10" callback_class="RecentActivityBlock_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
     <listener event_id="template_hook" execute_order="10" callback_class="RecentActivityBlock_Listener" callback_method="templateHook" active="1" description="Uses template hook to spit into sidebar"/>
   </code_event_listeners>

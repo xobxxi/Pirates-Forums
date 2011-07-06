@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="commentsPlus" title="Comments Plus" version_string="2.5.0" version_id="8" url="http://piratesforums.com" install_callback_class="CommentsPlus_Install" install_callback_method="install" uninstall_callback_class="CommentsPlus_Install" uninstall_callback_method="uninstall">
+<addon addon_id="commentsPlus" title="Comments Plus" version_string="2.5.1" version_id="9" url="http://piratesforums.com" install_callback_class="CommentsPlus_Install" install_callback_method="install" uninstall_callback_class="CommentsPlus_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates/>
   <code_events/>
   <code_event_listeners>
+    <listener event_id="file_health_check" execute_order="10" callback_class="CommentsPlus_Listener" callback_method="fileHealthCheck" active="1" description="Adds file hashes to health check"/>
     <listener event_id="load_class_controller" execute_order="10" callback_class="CommentsPlus_Listener" callback_method="loadClassController" active="1" description="Extends controllers"/>
     <listener event_id="load_class_datawriter" execute_order="10" callback_class="CommentsPlus_Listener" callback_method="loadClassDatawriter" active="1" description="Extends datawriters"/>
     <listener event_id="load_class_model" execute_order="10" callback_class="CommentsPlus_Listener" callback_method="loadClassModel" active="1" description="Extends models"/>
