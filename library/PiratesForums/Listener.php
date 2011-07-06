@@ -55,13 +55,18 @@ class PiratesForums_Listener
 				$search   = 'alt="Pirates of the Caribbean Online - Pirates Forums" ';
 				$replace  = $template->create('piratesForums_logo_block', $hookParams)->render();
 				$contents = str_replace($search, $search . $replace, $contents);
-				return $contents;
+				break;
 			case 'page_container_content_title_bar':
 				$contents .= $template->create('piratesForums_siteStatusMessage', $hookParams)->render();
-				return $contents;
+				break;
 			case 'page_container_notices':
 				$contents .= $template->create('piratesForums_welcome', $template->getParams())->render();
-				return $contents;
+				break;
 		}
+	}
+	
+	public static function fileHealthCheck(XenForo_ControllerAdmin_Abstract $controller, array &$hashes)
+	{
+	    $hashes += PiratesForums_FileSums::getHashes();
 	}
 }

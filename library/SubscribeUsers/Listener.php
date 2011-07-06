@@ -41,7 +41,12 @@ class SubscribeUsers_Listener
 		{
 			case 'thread_create_fields_main':
 				$contents      .= $template->create('subscribeUsers_input', $template->getParams())->render();
-				return $contents;
+				break;
 		}
+	}
+	
+	public static function fileHealthCheck(XenForo_ControllerAdmin_Abstract $controller, array &$hashes)
+	{
+	    $hashes += SubscribeUsers_FileSums::getHashes();
 	}
 }

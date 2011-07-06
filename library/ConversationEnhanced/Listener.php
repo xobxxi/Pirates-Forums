@@ -69,7 +69,12 @@ class ConversationEnhanced_Listener
 				$templateParams = $template->getParams();
 				$hookParams['conversation']          = $templateParams['conversation'];
 				$contents .=  $template->create('conversationEnhanced_message_control_report', $hookParams)->render();
-				return $contents;
+				break;
 		}
+	}
+	
+	public static function fileHealthCheck(XenForo_ControllerAdmin_Abstract $controller, array &$hashes)
+	{
+	    $hashes += ConversationEnhanced_FileSums::getHashes();
 	}
 }

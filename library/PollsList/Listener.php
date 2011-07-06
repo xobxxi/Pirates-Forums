@@ -19,7 +19,12 @@ class PollsList_Listener
 			case 'navigation_tabs_forums':
 				$template = $template->create('pollsList_navigation_list_item', $hookParams)->render();
 				$contents = $template . $contents;
-				return $contents;
+				break;
 		}
+	}
+	
+	public static function fileHealthCheck(XenForo_ControllerAdmin_Abstract $controller, array &$hashes)
+	{
+	    $hashes += PollsList_FileSums::getHashes();
 	}
 }

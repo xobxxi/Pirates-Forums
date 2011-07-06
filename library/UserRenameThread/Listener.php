@@ -11,4 +11,9 @@ class UserRenameThread_Listener
 				break;
 		}
 	}
+	
+	public static function fileHealthCheck(XenForo_ControllerAdmin_Abstract $controller, array &$hashes)
+	{
+	    $hashes += UserRenameThread_FileSums::getHashes();
+	}
 }

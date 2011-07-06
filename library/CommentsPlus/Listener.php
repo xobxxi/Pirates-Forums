@@ -51,7 +51,12 @@ class CommentsPlus_Listener
 		{
 			case 'account_alerts_messages_on_profile_pages':
 				$contents .= $template->create('commentsPlus_alert_preferences', $template->getParams())->render();
-				return $contents;
+				break;
 		}
+	}
+	
+	public static function fileHealthCheck(XenForo_ControllerAdmin_Abstract $controller, array &$hashes)
+	{
+	    $hashes += CommentsPlus_FileSums::getHashes();
 	}
 }

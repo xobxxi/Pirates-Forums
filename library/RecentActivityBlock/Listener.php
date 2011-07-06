@@ -24,7 +24,12 @@ class RecentActivityBlock_Listener
 				$search         = '<!-- block: forum_stats -->';
 				$replace        = $template->create('sidebar_recent_activity', $hookParams)->render();
 				$contents       = str_replace($search, $replace . $search, $contents);
-			return $contents;
+			    break;
 		}
+	}
+	
+	public static function fileHealthCheck(XenForo_ControllerAdmin_Abstract $controller, array &$hashes)
+	{
+	    $hashes += RecentActivityBlock_FileSums::getHashes();
 	}
 }

@@ -11,4 +11,9 @@ class PiratesNewsFeed_Listener
 				break;
 		}
 	}
+	
+	public static function fileHealthCheck(XenForo_ControllerAdmin_Abstract $controller, array &$hashes)
+	{
+	    $hashes += PiratesNewsFeed_FileSums::getHashes();
+	}
 }
