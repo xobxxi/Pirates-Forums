@@ -91,8 +91,18 @@ class ConversationEnhanced_Model_Conversation extends XFCP_ConversationEnhanced_
 		return true;
 	}
 	
+	public function canReportConversationMessage($conversationMessage, $conversation, &$errorPhraseKey = '', array $nodePermissions = null ,array $viewingUser = null)
+	{
+	    return $this->_getUserModel()->canReportContent($errorPhraseKey, $viewingUser);
+	}
+	
 	protected function _getAttachmentModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_Attachment');
+	}
+	
+	protected function _getUserModel()
+	{
+	    return $this->getModelFromCache('XenForo_Model_User');
 	}
 }

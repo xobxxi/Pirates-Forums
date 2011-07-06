@@ -201,6 +201,11 @@ class ConversationEnhanced_ControllerPublic_Conversation extends XFCP_Conversati
 		list($conversation, $conversationMessage) = $this->_getConversationAndMessageOrError($messageId, $conversationId);
 
 		$this->_assertCanReplyToConversation($conversation);
+		
+		if (!$this->_getConversationModel()->canReportConversationMessage($conversationMessage, $conversation, $errorPhraseKey))
+		{
+			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
+		}
 
 		if ($this->_request->isPost())
 		{

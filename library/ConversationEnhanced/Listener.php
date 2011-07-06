@@ -63,13 +63,18 @@ class ConversationEnhanced_Listener
 	
 	public static function templateHook($hookName, &$contents, array $hookParams, XenForo_Template_Abstract $template)
 	{
-		switch ($hookName)
-		{
-			case 'conversation_message_private_controls':
-				$templateParams = $template->getParams();
-				$hookParams['conversation']          = $templateParams['conversation'];
-				$contents .=  $template->create('conversationEnhanced_message_control_report', $hookParams)->render();
-				break;
+	    $conversationModel = XenForo_Model::create('XenForo_Model_Conversation');
+	    $templateParams    = $template->getParams();
+	    
+	    if ($conversationModel->canReportConversationMessage($hookParams['message'], $templateParams['conversation']))
+	    {
+		    switch ($hookName)
+    		{
+    			case 'conversation_message_private_controls':
+    				$hookParams['conversation'] = $templateParams['conversation'];
+    				$contents .=  $template->create('conversationEnhanced_message_control_report', $hookParams)->render();
+    				break;
+    		}
 		}
 	}
 	
