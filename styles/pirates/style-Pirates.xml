@@ -140,10 +140,6 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 </div>
 </xen:hook>]]></template>
-    <template title="conversationEnhanced_conversation_message.css" addon_id="conversationEnhanced" version_id="21" version_string="2.1.0"><![CDATA[.attachment
-{
-	width: 66% !important;
-}]]></template>
     <template title="conversation_add" addon_id="XenForo" version_id="1000170" version_string="1.0.1"><![CDATA[<xen:title>{xen:phrase start_new_conversation}</xen:title>
 
 <xen:navigation>
@@ -200,21 +196,22 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 
 	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="conversation_message" addon_id="XenForo" version_id="1000270" version_string="1.0.2"><![CDATA[<xen:require css="conversationEnhanced_conversation_message.css" />
+    <template title="conversation_message" addon_id="XenForo" version_id="1000370" version_string="1.0.3"><![CDATA[<xen:require css="conversationEnhanced_conversation_message.css" />
 
 <xen:include template="message">
 	
 	<xen:set var="$messageId">message-{$message.message_id}</xen:set>
-	
-        <xen:set var="$messageContentAfterTemplate"><xen:if is="{$message.attachments}"><xen:include template="attached_files"><xen:map from="$message" to="$post" /></xen:include></xen:if></xen:set>
 
+	<xen:set var="$messageContentAfterTemplate"><xen:if is="{$message.attachments}"><xen:include template="attached_files"><xen:map from="$message" to="$post" /></xen:include></xen:if></xen:set>
+
+	
 	<xen:set var="$messageAfterTemplate">
 		<div class="messageMeta">
 			<div class="privateControls">
 				<span class="item muted"><xen:username user="$message" class="author" />, 
 					<a href="{xen:link conversations/message, $conversation, 'message_id={$message.message_id}'}" class="datePermalink"><xen:datetime time="$message.message_date" /></a>
 				</span>
-				<xen:hook name="conversation_message_private_controls">
+				<xen:hook name="conversation_message_private_controls" params="{xen:array 'message={$message}'}">
 				<xen:if is="{$message.canEdit}">
 					<a href="{xen:link 'conversations/edit-message', $conversation, 'm={$message.message_id}'}"
 						class="item control edit {xen:if $xenOptions.messageInlineEdit, OverlayTrigger}"
@@ -229,7 +226,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 			<xen:if hascontent="true">
 			<div class="publicControls">
 				<xen:contentcheck>
-					<xen:hook name="conversation_message_public_controls">
+					<xen:hook name="conversation_message_public_controls" params="{xen:array 'message={$message}'}">
 					<xen:if is="{$canReplyConversation}">
 						<a href="{xen:link 'conversations/reply', $conversation, 'm={$message.message_id}'}"
 							class="item control reply ReplyQuote"><span></span>{xen:phrase reply}</a>

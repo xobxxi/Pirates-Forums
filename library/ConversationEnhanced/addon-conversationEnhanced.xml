@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="conversationEnhanced" title="Conversation Enhanced" version_string="2.1.0" version_id="21" url="http://xenforo.com/community/members/jeremy-p.450/" install_callback_class="ConversationEnhanced_Install" install_callback_method="install" uninstall_callback_class="ConversationEnhanced_Install" uninstall_callback_method="uninstall">
+<addon addon_id="conversationEnhanced" title="Conversation Enhanced" version_string="2.1.1" version_id="21" url="http://xenforo.com/community/members/jeremy-p.450/" install_callback_class="ConversationEnhanced_Install" install_callback_method="install" uninstall_callback_class="ConversationEnhanced_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -34,9 +34,9 @@
   <route_prefixes/>
   <style_properties/>
   <templates>
-    <template title="conversationEnhanced_conversation_message.css" version_id="0" version_string="1.0.0"><![CDATA[.attachment
+    <template title="conversationEnhanced_conversation_message.css" version_id="21" version_string="2.1.0"><![CDATA[.attachment
 {
-	width: 66%;
+	width: 66% !important;
 }]]></template>
     <template title="conversationEnhanced_message_control_report" version_id="20" version_string="2.0.0"><![CDATA[<a href="{xen:link 'conversations/report', $conversation, 'm={$message.message_id}'}" class="OverlayTrigger item control report" data-cacheOverlay="false"><span></span>{xen:phrase report}</a>]]></template>
     <template title="conversationEnhanced_report" version_id="20" version_string="2.0.0"><![CDATA[<div class="primaryContent">{xen:helper bodyText, $content.message}</div>
