@@ -11,7 +11,7 @@ class PirateProfile_Route_Prefix_Pirates implements XenForo_Route_Interface
 
 	public function buildLink($originalPrefix, $outputPrefix, $action, $extension, $data, array &$extraParams)
 	{	
-		if (!empty($data['pirate_id']))
+		if (isset($data['pirate_id']))
 		{
 			return XenForo_Link::buildBasicLinkWithIntegerParam($outputPrefix, $action, $extension, $data, 'pirate_id', 'name');
 		}

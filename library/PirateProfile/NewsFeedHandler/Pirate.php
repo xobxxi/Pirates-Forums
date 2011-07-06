@@ -4,17 +4,15 @@ class PirateProfile_NewsFeedHandler_Pirate extends XenForo_NewsFeedHandler_Abstr
 {
 	public function getContentByIds(array $contentIds, $model, array $viewingUser)
 	{
+		$pirateModel = $model->getModelFromCache('PirateProfile_Model_Pirate');
 		
-		$pirates = array();
-		
-		$permissions = $model->getModelFromCache('PirateProfile_Model_Pirate')
-		                     ->getPermissions($viewingUser);
+		$permissions = $pirateModel->getPermissions($viewingUser);
 		if (!$permissions['view'])
 		{
-			return $pirates;
+			return false;
 		}
 		
-		return $model->getModelFromCache('PirateProfile_Model_Pirate')->getPiratesByIds($contentIds);
+		return $pirateModel->getPiratesByIds($contentIds);
 	}
 	
 	protected function _prepareName(array $item)

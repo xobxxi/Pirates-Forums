@@ -36,7 +36,7 @@ class ConversationEnhanced_ReportHandler_ConversationMessage extends XenForo_Rep
 
 	public function getVisibleReportsForUser(array $reports, array $viewingUser)
 	{
-		if ($viewingUser['is_moderator'] || $viewingUser['is_admin'])
+		if ($viewingUser['is_admin'])
 		{
 			return $reports;
 		}

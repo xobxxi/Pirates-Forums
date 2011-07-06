@@ -11,22 +11,40 @@ class PirateProfile_DataWriter_PirateComment extends XenForo_DataWriter
 	{
 		return array(
 			'pirate_comment' => array(
-				'pirate_comment_id'   => array('type' => self::TYPE_UINT,   'autoIncrement' => true),
-				'pirate_id'           => array('type' => self::TYPE_UINT,   'required' => true),
-				'user_id'                => array('type' => self::TYPE_UINT,   'required' => true),
-				'username'               => array('type' => self::TYPE_STRING, 'required' => true, 'maxLength' => 50,
-						'requiredError' => 'please_enter_valid_name'
+				'pirate_comment_id' => array(
+					'type'          => self::TYPE_UINT,
+					'autoIncrement' => true
 				),
-				'comment_date'           => array('type' => self::TYPE_UINT,   'required' => true, 'default' => XenForo_Application::$time),
-				'message'                => array('type' => self::TYPE_STRING, 'required' => true,
-						'requiredError' => 'please_enter_valid_message'
+				'pirate_id' => array(
+					'type'     => self::TYPE_UINT,
+					'required' => true
+				),
+				'user_id' => array(
+					'type'     => self::TYPE_UINT,
+					'required' => true
+				),
+				'username' => array(
+					'type'          => self::TYPE_STRING,
+					'required'      => true,
+					'maxLength'     => 50,
+					'requiredError' => 'please_enter_valid_name'
+				),
+				'comment_date' => array(
+					'type'     => self::TYPE_UINT,  
+					'required' => true,
+					'default'  => XenForo_Application::$time
+				),
+				'message' => array(
+					'type'          => self::TYPE_STRING,
+					'required'      => true,
+					'requiredError' => 'please_enter_valid_message'
 				),
 				'likes' => array(
-					'type' => self::TYPE_UINT_FORCED,
+					'type'    => self::TYPE_UINT_FORCED,
 					'default' => 0
 				),
 				'like_users' => array(
-					'type' => self::TYPE_SERIALIZED,
+					'type'    => self::TYPE_SERIALIZED,
 					'default' => 'a:0:{}'
 				)
 			)

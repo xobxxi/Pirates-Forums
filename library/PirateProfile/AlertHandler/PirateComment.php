@@ -6,6 +6,12 @@ class PirateProfile_AlertHandler_PirateComment extends XenForo_AlertHandler_Abst
 	{
 		$pirateModel = $model->getModelFromCache('PirateProfile_Model_Pirate');
 		
+		$permissions = $pirateModel->getPermissions();
+		if (!$permissions['view'])
+		{
+			return false;
+		}
+		
 		$comments = $pirateModel->getPirateCommentsByIds(
 			$contentIds, array('join' => PirateProfile_Model_Pirate::FETCH_COMMENT_USER)
 		);

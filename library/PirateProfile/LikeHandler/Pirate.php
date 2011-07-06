@@ -18,12 +18,10 @@ class PirateProfile_LikeHandler_Pirate extends XenForo_LikeHandler_Abstract
 		$permissions = $pirateModel->getPermissions($viewingUser);
 		if (!$permissions['view'])
 		{
-			return $pirates;
+			return false;
 		}
 	
-		$pirates = $pirateModel->getPiratesByIds($contentIds);
-		
-		return $pirates; 
+		return $pirateModel->getPiratesByIds($contentIds);
 	}
 
 	public function getListTemplateName()

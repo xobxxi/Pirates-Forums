@@ -14,10 +14,14 @@ class PirateProfile_LikeHandler_PirateComment extends XenForo_LikeHandler_Abstra
 	public function getContentData(array $contentIds, array $viewingUser)
 	{
 		$pirateModel = XenForo_Model::create('PirateProfile_Model_Pirate');
-	
-		$comments = $pirateModel->getPirateCommentsByIds($contentIds);
 		
-		return $comments; 
+		$permissions = $pirateModel->getPermissions($viewingUser);
+		if (!$permissions['view'])
+		{
+			return false;
+		}
+		
+		return $pirateModel->getPirateCommentsByIds($contentIds);
 	}
 
 	public function getListTemplateName()
