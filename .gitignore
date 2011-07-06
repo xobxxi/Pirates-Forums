@@ -1,5 +1,6 @@
 *.DS_Store
 .htaccess
+htaccess.txt
 admin.php
 admindav.php
 cron.php
