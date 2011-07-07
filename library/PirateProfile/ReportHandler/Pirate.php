@@ -2,7 +2,7 @@
 
 class PirateProfile_ReportHandler_Pirate extends XenForo_ReportHandler_Abstract
 {
-
+    // rewrite:
 	public function getReportDetailsFromContent(array $content)
 	{
 		$pirateModel = XenForo_Model::create('PirateProfile_Model_Pirate');
@@ -25,16 +25,14 @@ class PirateProfile_ReportHandler_Pirate extends XenForo_ReportHandler_Abstract
 	}
 
 	public function getVisibleReportsForUser(array $reports, array $viewingUser)
-	{
-		$pirateModel = XenForo_Model::create('PirateProfile_Model_Pirate');
-		
-		$permissions = $pirateModel->getPermissions($viewingUser);
-		if ($permissions['manage'])
+	{		
+		$permissions = XenForo_Model::create('PirateProfile_Model_Pirate')->getPermissions($viewingUser);
+		if (!$permissions['manage'])
 		{
-			return $reports;
+			return array();
 		}
 		
-		return array();
+		return $reports;
 	}
 
 	public function getContentTitle(array $report, array $contentInfo)

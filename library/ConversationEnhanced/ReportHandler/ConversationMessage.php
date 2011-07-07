@@ -41,7 +41,7 @@ class ConversationEnhanced_ReportHandler_ConversationMessage extends XenForo_Rep
 			return $reports;
 		}
 		
-		return false;
+		return array();
 	}
 
 	public function getContentTitle(array $report, array $contentInfo)
