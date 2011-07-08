@@ -161,6 +161,7 @@ class Album_DataWriter_Album extends XenForo_DataWriter
 
 				$photoDw->set('album_id', $this->get('album_id'));
 				$photoDw->set('attachment_id', $photo['attachment_id']);
+				$photoDw->set('user_id', $this->get('user_id'));
 				$photoDw->set('position', $position);
 				$photoDw->save();
 

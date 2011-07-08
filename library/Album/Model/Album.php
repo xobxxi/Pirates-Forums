@@ -2,7 +2,9 @@
 
 class Album_Model_Album extends XenForo_Model
 {
-	const FETCH_ALBUM_USER	= 0x01;
+	const FETCH_ALBUM_USER = 0x01;
+	const FETCH_PHOTO_USER = 0x01;
+	const FETCH_PHOTO_COMMENT_USER = 0x01;
 
 	public function prepareAlbumConditions(array $conditions, array &$fetchOptions)
 	{
@@ -68,7 +70,7 @@ class Album_Model_Album extends XenForo_Model
 			'joinTables'   => $joinTables,
 		);
 	}
-	
+
 	public function preparePhotoFetchOptions(array $fetchOptions)
 	{
 		$selectFields = '';
@@ -94,12 +96,33 @@ class Album_Model_Album extends XenForo_Model
 							AND liked_content.like_user_id = ' .$db->quote($fetchOptions['likeUserId']) . ')';
 			}
 		}
+		
+		if (!empty($fetchOptions['join']))
+		{
+			if ($fetchOptions['join'] & self::FETCH_PHOTO_USER)
+			{
+				$selectFields .= ',
+					user.*,
+					IF(user.username IS NULL, album_photo.user_id, user.user_id) AS user_id';
+				$joinTables .= '
+					LEFT JOIN xf_user AS user ON
+						(user.user_id = album_photo.user_id)';
+			}
+		}
 
 		return array(
 			'selectFields' => $selectFields,
 			'joinTables'   => $joinTables,
 		);
 	}
+	
+	public function getAllAlbums()
+    {
+        return $this->fetchAllKeyed('
+        	SELECT *
+        	FROM album
+        ', 'album_id');  
+    }
 
 	public function getUserAlbumsByUserId($userId, array $fetchOptions = array(), array $conditions = array())
 	{
@@ -143,6 +166,14 @@ class Album_Model_Album extends XenForo_Model
 		', 'album_id');
 
 	}
+	
+	public function getAllPhotos()
+    {
+        return $this->fetchAllKeyed('
+        	SELECT *
+        	FROM album_photo
+        ', 'photo_id');
+    }
 
 	public function getAllPhotosForAlbumById($albumId)
 	{
@@ -259,7 +290,7 @@ class Album_Model_Album extends XenForo_Model
 	}
 
 	public function prepareAlbum($album, $getAllPhotos = false)
-	{	
+	{
 		$album['name']	= XenForo_Helper_String::censorString($album['name']);
 
 		if ($getAllPhotos)
@@ -350,7 +381,7 @@ class Album_Model_Album extends XenForo_Model
 
 		return false;
 	}
-	
+
 	public function getPhotosByIds($photoIds, $postDelete = false, $fetchOptions = array())
 	{
 		$sqlClauses = $this->preparePhotoFetchOptions($fetchOptions);
@@ -362,14 +393,14 @@ class Album_Model_Album extends XenForo_Model
 			' . $sqlClauses['joinTables'] . '
 			WHERE album_photo.photo_id IN (' . $this->_getDb()->quote($photoIds) . ')
 		', 'photo_id');
-		
+
 		if ($photosData)
 		{
 			$attachmentModel = $this->_getAttachmentModel();
-			
+
 			$photos = array();
 			foreach ($photosData as $photoData)
-			{	
+			{
 				if (!$attachment = $attachmentModel->getAttachmentById($photoData['attachment_id']))
 				{
 					if ($postDelete)
@@ -385,20 +416,20 @@ class Album_Model_Album extends XenForo_Model
 				{
 					$photo = array_merge($photoData, $attachment);
 				}
-			
+
 				$photos[$photo['photo_id']] = $photo;
 			}
-			
+
 			if (empty($photos))
 			{
 				return false;
 			}
-			
+
 			$photos = $attachmentModel->prepareAttachments($photos);
-			
+
 			return $photos;
 		}
-		
+
 		return false;
 	}
 
@@ -511,7 +542,7 @@ class Album_Model_Album extends XenForo_Model
 
 		$photo['description_raw'] = $photo['description'];
 		$photo['description']  = XenForo_Helper_String::censorString($photo['description']);
-		
+
 		$photo['likeUsers'] = unserialize($photo['like_users']);
 
 		return $photo;
@@ -547,37 +578,37 @@ class Album_Model_Album extends XenForo_Model
 
 	public function getPermissions(array $viewingUser = null)
 	{
-			$this->standardizeViewingUserReference($viewingUser);
+		$this->standardizeViewingUserReference($viewingUser);
 
-			$userPermissions = $viewingUser['permissions'];
+		$userPermissions = $viewingUser['permissions'];
 
-			$permissions = array(
-				'view'		  => $this->_hasPermission($userPermissions, 'album', 'view'),
-				'view_photos' => $this->_hasPermission($userPermissions, 'album', 'view_photos'),
-				'report'      => false,
-				'upload'	  => false,
-				'manage'	  => false
-			);
+		$permissions = array(
+			'view'		  => $this->_hasPermission($userPermissions, 'album', 'view'),
+			'view_photos' => $this->_hasPermission($userPermissions, 'album', 'view_photos'),
+			'report'      => false,
+			'upload'	  => false,
+			'manage'	  => false
+		);
 
-			if ($viewingUser['user_id'])
-			{
-				$permissions['upload'] = $this->_hasPermission($userPermissions, 'album', 'upload');
-				$permissions['manage'] = $this->_hasPermission($userPermissions, 'album', 'manage');
-			}
+		if ($viewingUser['user_id'])
+		{
+			$permissions['upload'] = $this->_hasPermission($userPermissions, 'album', 'upload');
+			$permissions['manage'] = $this->_hasPermission($userPermissions, 'album', 'manage');
+		}
 
-			return $permissions;
+		return $permissions;
 	}
-	
+
 	public function canViewAlbum(array $album, array $user = null, &$errorPhraseKey = '', array $viewingUser = null)
 	{
 		$this->standardizeViewingUserReference($viewingUser);
-		
+
 		if (!$user)
 		{
 			$user = $this->_getUserModel()->getUserById($album['user_id'],
 				array('followingUserId' => XenForo_Visitor::getUserId())
 			);
-			
+
 			if (!$user)
 			{
 				return false;
@@ -588,19 +619,19 @@ class Album_Model_Album extends XenForo_Model
 		{
 			return true;
 		}
-		
+
 		$permissions = $this->getPermissions($viewingUser);
 
 		if (!$permissions['view'])
 		{
 			return false;
 		}
-		
+
 		if ($permissions['manage'])
 		{
 			return true;
 		}
-		
+
 		if (!$this->_getUserModel()->passesPrivacyCheck($album['allow_view'], $user, $viewingUser))
 		{
 			$errorPhraseKey = 'album_member_limits_viewing_album';
@@ -609,19 +640,12 @@ class Album_Model_Album extends XenForo_Model
 
 		return true;
 	}
-	
+
 	public function canReportAlbum(array $album = null, &$errorPhraseKey = '', array $viewingUser = null)
 	{
-		$this->standardizeViewingUserReference($viewingUser);
-		
-		if ($viewingUser['user_id'] > 0)
-		{
-			return true;
-		}
-		
-		return false;
+		return $this->_getUserModel()->canReportContent($errorPhraseKey, $viewingUser);
 	}
-	
+
 	public function canLikeAlbum(array $album = null, &$errorPhraseKey = '', array $viewingUser = null)
 	{
 		$this->standardizeViewingUserReference($viewingUser);
@@ -631,7 +655,7 @@ class Album_Model_Album extends XenForo_Model
 			$errorPhraseKey = 'liking_own_content_cheating';
 			return false;
 		}
-		
+
 		if ($viewingUser['user_id'] > 0)
 		{
 			return true;
@@ -639,12 +663,256 @@ class Album_Model_Album extends XenForo_Model
 
 		return false;
 	}
+	
+	public function canCommentOnAlbum(array $album = null, &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+		
+		if ($viewingUser['user_id'])
+		{
+			$permissions = $this->getPermissions($viewingUser);
+			if ($permissions['view_photos'])
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public function prepareAlbumPhotoCommentFetchOptions(array $fetchOptions)
+	{
+		$selectFields = '';
+		$joinTables = '';
+		
+		$db = $this->_getDb();
+
+		if (isset($fetchOptions['likeUserId']))
+		{
+			if (empty($fetchOptions['likeUserId']))
+			{
+				$selectFields .= ',
+					0 AS like_date';
+			}
+			else
+			{
+				$selectFields .= ',
+					liked_content.like_date';
+				$joinTables .= '
+					LEFT JOIN xf_liked_content AS liked_content
+						ON (liked_content.content_type = \'album_photo_comment\'
+							AND liked_content.content_id = album_photo_comment.album_photo_comment_id
+							AND liked_content.like_user_id = ' . $db->quote($fetchOptions['likeUserId']) . ')';
+			}
+		}
+
+		if (!empty($fetchOptions['join']))
+		{
+			if ($fetchOptions['join'] & self::FETCH_PHOTO_COMMENT_USER)
+			{
+				$selectFields .= ',
+					user.*,
+					IF(user.username IS NULL, album_photo_comment.username, user.username) AS username';
+				$joinTables .= '
+					LEFT JOIN xf_user AS user ON
+						(user.user_id = album_photo_comment.user_id)';
+			}
+		}
+
+		return array(
+			'selectFields' => $selectFields,
+			'joinTables'   => $joinTables
+		);
+	}
+	
+	public function getAlbumPhotoCommentById($albumPhotoCommentId, $fetchOptions = array())
+	{
+		$sqlClauses = $this->prepareAlbumPhotoCommentFetchOptions($fetchOptions);
+		
+		return $this->_getDb()->fetchRow('
+			SELECT album_photo_comment.*
+			' . $sqlClauses['selectFields'] . '
+			FROM album_photo_comment
+			' . $sqlClauses['joinTables'] . '
+			WHERE album_photo_comment.album_photo_comment_id = ?
+		', $albumPhotoCommentId);
+	}
+	
+	public function getAlbumPhotoCommentsByIds(array $albumPhotoCommentIds, $fetchOptions = array())
+	{
+		$sqlClauses = $this->prepareAlbumPhotoCommentFetchOptions($fetchOptions);
+
+		return $this->fetchAllKeyed('
+			SELECT album_photo_comment.*
+			' . $sqlClauses['selectFields'] . '
+			FROM album_photo_comment
+			' . $sqlClauses['joinTables'] . '
+			WHERE album_photo_comment.album_photo_comment_id IN (' . $this->_getDb()->quote($albumPhotoCommentIds) . ')
+		', 'album_photo_comment_id');
+	}
+	
+	public function getAlbumPhotoCommentUserIds($photoId)
+	{
+		return $this->_getDb()->fetchCol('
+			SELECT DISTINCT user_id
+			FROM album_photo_comment
+			WHERE photo_id = ?
+		', $photoId);
+	}
+	
+	public function getAlbumPhotoCommentsByPhoto($photoId, $beforeDate = 0, array $fetchOptions = array())
+	{
+		$sqlClauses = $this->prepareAlbumPhotoCommentFetchOptions($fetchOptions);
+		$limitOptions = $this->prepareLimitFetchOptions($fetchOptions);
+
+		if ($beforeDate)
+		{
+			$beforeCondition = 'AND album_photo_comment.comment_date < ' . $this->_getDb()->quote($beforeDate);
+		}
+		else
+		{
+			$beforeCondition = '';
+		}
+
+		$results = $this->fetchAllKeyed($this->limitQueryResults(
+			'
+				SELECT album_photo_comment.*
+				' . $sqlClauses['selectFields'] . '
+				FROM album_photo_comment
+					' . $sqlClauses['joinTables'] . '
+				WHERE album_photo_comment.photo_id = ?
+					' . $beforeCondition . '
+				ORDER BY album_photo_comment.comment_date DESC
+			', $limitOptions['limit'], $limitOptions['offset']
+		), 'album_photo_comment_id', $photoId);
+
+		return array_reverse($results, true);
+	}
+	
+	public function addAlbumPhotoCommentsToPhoto(array $photo, array $fetchOptions = array())
+	{
+		if ($photo['latest_comment_ids'])
+		{
+			foreach (explode(',', $photo['latest_comment_ids']) AS $commentId)
+			{
+				$commentIdMap[intval($commentId)] = $photo['photo_id'];
+			}
+			
+			$photo['comments'] = array();
+		}
+
+		if (isset($commentIdMap))
+		{
+			$comments = $this->getAlbumPhotoCommentsByIds(array_keys($commentIdMap), $fetchOptions);
+			foreach ($commentIdMap AS $commentId => $photoId)
+			{
+				if (isset($comments[$commentId]))
+				{
+					if (!isset($photo['first_shown_comment_date']))
+					{
+						$photo['first_shown_comment_date'] = $comments[$commentId]['comment_date'];
+					}
+					$photo['comments'][$commentId] = $comments[$commentId];
+				}
+			}
+		}
+
+		return $photo;
+	}
+	
+	public function prepareAlbumComment(array $comment, array $album, array $user, array $viewingUser = null)
+	{
+	    $this->standardizeViewingUserReference($viewingUser);
+	    
+		$comment['permissions'] = array(
+			'edit'   => $this->canEditAlbumComment($comment, $album, $user, $null, $viewingUser),
+			'delete' => $this->canDeleteAlbumComment($comment, $album, $user, $null, $viewingUser),
+			'like'   => $this->canLikeAlbumComment($comment, $null, $viewingUser)
+		);
+		
+		$comment['likeUsers'] = unserialize($comment['like_users']);
+		
+		return $comment;
+	}
+	
+	public function canEditAlbumComment(array $comment, array $album, array $user, &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+
+		if (!$viewingUser['user_id'])
+		{
+			return false;
+		}
+		
+		$permissions = $this->getPermissions($viewingUser);
+		if ($permissions['manage'])
+		{
+			return true;
+		}
+		
+		if ($viewingUser['user_id'] == $comment['user_id'])
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function canDeleteAlbumComment(array $comment, array $album, array $user, &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+
+		if (!$viewingUser['user_id'])
+		{
+			return false;
+		}
+		
+		$permissions = $this->getPermissions($viewingUser);
+		if ($permissions['manage'])
+		{
+			return true;
+		}
+
+		if ($viewingUser['user_id'] == $comment['user_id'])
+		{
+			return true;
+		}
+		else if ($viewingUser['user_id'] == $album['user_id'])
+		{
+			return true;
+		}
+        
+        return false;
+	}
+	
+	
+	public function canLikeAlbumComment(array $comment, &$errorPhraseKey = '', array $viewingUser = null)
+	{
+		$this->standardizeViewingUserReference($viewingUser);
+		
+		if ($comment['user_id'] == $viewingUser['user_id'])
+		{
+			$errorPhraseKey = 'liking_own_content_cheating';
+			return false;
+		}
+		
+		if ($viewingUser['user_id'])
+		{
+			$permissions = $this->getPermissions($viewingUser);
+			if ($permissions['view'])
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	protected function _hasPermission($permissions, $group, $permission)
 	{
 		return XenForo_Permission::hasPermission($permissions, $group, $permission);
 	}
-	
+
 	protected function _getUserModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_User');

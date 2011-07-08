@@ -1,16 +1,21 @@
 <?php
 
-class Album_ViewPublic_Album_LikeConfirmedPhoto extends XenForo_ViewPublic_Base
+class Album_ViewPublic_Album_CommentLikeConfirmedPhoto extends XenForo_ViewPublic_Base
 {
 	public function renderJson()
 	{
-		$photo = $this->_params['photo'];
+		$photo   = $this->_params['photo'];
+		$comment = $this->_params['comment'];
 
-		if (!empty($photo['likeUsers']))
+		if (!empty($comment['likeUsers']))
 		{
 			$params = array(
-				'message'  => $photo,
-				'likesUrl' => XenForo_Link::buildPublicLink('album/likes-photo', $photo)
+				'message'  => $comment,
+				'likesUrl' => XenForo_Link::buildPublicLink(
+					'albums/comment-likes-photo',
+					$photo,
+					array('comment' => $comment['album_photo_comment_id'])
+				)
 			);
 
 			$output = $this->_renderer->getDefaultOutputArray(get_class($this), $params, 'likes_summary');

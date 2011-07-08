@@ -2,6 +2,16 @@
 
 class Album_Listener
 {
+    public static function loadClassDataWriter($class, array &$extend)
+	{
+		switch ($class)
+		{
+			case 'XenForo_DataWriter_User':
+				$extend[] = 'Album_DataWriter_User';
+				break;
+		}
+	}
+    
 	public static function templateCreate(&$templateName, array &$params, XenForo_Template_Abstract $template)
 	{
 		switch ($templateName)
@@ -41,7 +51,10 @@ class Album_Listener
 						$prefix	  = $template->create('album_account_management_list_item', $template->getParams())->render();
 						$contents = str_replace($search, $prefix . "\n" . $search, $contents);
 					}
-					return $contents;
+					break;
+				case 'account_alerts_extra':
+        			$contents .= $template->create('album_alert_preferences', $template->getParams())->render();
+        			break;
 				case 'member_card_links':
 					$template = $template->create('album_member_card_link_item', $template->getParams())->render();
 					$search = "/<a href=\"(index\.php\?)?conversations\/.*?\"/is";
@@ -54,13 +67,13 @@ class Album_Listener
 					{
 						$contents .= $template;
 					}
-					return $contents;
+					break;
 				case 'member_view_tabs_heading':
 					$contents .= $template->create('album_profile_tab', $template->getParams())->render();
-					return $contents;
+					break;
 				case 'member_view_tabs_content':
 					$contents .= $template->create('album_profile_tab_content', $hookParams)->render();
-					return $contents;
+					break;
 				case 'navigation_visitor_tab_links2':
 					if ($permissions['upload'])
 					{
@@ -72,12 +85,16 @@ class Album_Listener
 							$contents = str_replace($search, $prefix . "\n" . $search, $contents);
 						}
 					}
-					return $contents;
+					break;
 				case 'recentActivityBlock_items':
 					$contents .= $template->create('album_recent_activity_block_items', $hookParams)->render();
-					return $contents;
+					break;
 			}
 		}
-		
+	}
+	
+	public static function fileHealthCheck(XenForo_ControllerAdmin_Abstract $controller, array &$hashes)
+	{
+	    $hashes += Album_FileSums::getHashes();
 	}
 }

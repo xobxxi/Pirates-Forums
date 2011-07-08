@@ -8,13 +8,13 @@ class Album_Install
 
 		$db->query("
 			CREATE TABLE IF NOT EXISTS album (
-			  album_id int(11) NOT NULL AUTO_INCREMENT,
-			  user_id int(11) NOT NULL,
+			  album_id int(10) NOT NULL AUTO_INCREMENT,
+			  user_id int(10) NOT NULL,
 			  allow_view enum('everyone','members','followed','none') NOT NULL DEFAULT 'everyone',
 			  name text NOT NULL,
-			  date int(11) NOT NULL,
-			  photo_count int(11) NOT NULL DEFAULT '0',
-			  cover_photo_id int(11) NOT NULL DEFAULT '0',
+			  date int(10) NOT NULL,
+			  photo_count int(10) NOT NULL DEFAULT '0',
+			  cover_photo_id int(10) NOT NULL DEFAULT '0',
 			  likes int(10) NOT NULL DEFAULT '0',
 			  like_users blob NOT NULL,
 			  PRIMARY KEY (album_id)
@@ -58,10 +58,10 @@ class Album_Install
 	{
 		$db->query("
 			CREATE TABLE IF NOT EXISTS album_photo (
-			  photo_id int(11) NOT NULL AUTO_INCREMENT,
-			  album_id int(11) NOT NULL,
-			  attachment_id int(11) NOT NULL,
-			  position int(11) NOT NULL,
+			  photo_id int(10) NOT NULL AUTO_INCREMENT,
+			  album_id int(10) NOT NULL,
+			  attachment_id int(10) NOT NULL,
+			  position int(10) NOT NULL,
 			  description text CHARACTER SET utf8,
 			  likes int(10) NOT NULL DEFAULT '0',
 			  like_users blob NOT NULL,
@@ -90,6 +90,50 @@ class Album_Install
 			'identifier' => "xf_content_type.content_type = 'album_photo'",
 			'fields'	 => '`content_type`, `addon_id`, `fields`',
 			'values'	 => "'album_photo', 'album', '{$fields}'"
+		);
+
+		self::insertRow($db, $contentTypeRow, true);
+		
+		self::installPhotoComments($db);
+	}
+	
+	public static function installPhotoComments($db)
+	{
+	    $db->query("
+	        CREATE TABLE IF NOT EXISTS album_photo_comment (
+              album_photo_comment_id int(10) NOT NULL AUTO_INCREMENT,
+              photo_id int(10) NOT NULL,
+              user_id int(10) NOT NULL,
+              username varchar(50) CHARACTER SET utf8 NOT NULL,
+              comment_date int(10) NOT NULL,
+              likes int(10) NOT NULL DEFAULT '0',
+              like_users blob NOT NULL,
+              message mediumtext CHARACTER SET utf8 NOT NULL,
+              PRIMARY KEY (album_photo_comment_id)
+            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+	    ");
+	    
+	    $fields = self::getPhotoCommentFields();
+	    foreach ($fields as $name => $value)
+		{
+			$row = array(
+				'table'		 => 'xf_content_type_field',
+				'identifier' => "xf_content_type_field.content_type = 'album_photo_comment'
+					AND xf_content_type_field.field_name = '{$name}'",
+				'fields'	 => '`content_type`, `field_name`, `field_value`',
+				'values'	 => "'album_photo_comment', '{$name}', '{$value}'"
+			);
+
+			self::insertRow($db, $row, true);
+		}
+
+		$fields = serialize($fields);
+
+		$contentTypeRow = array(
+			'table'		 => 'xf_content_type',
+			'identifier' => "xf_content_type.content_type = 'album_photo_comment'",
+			'fields'	 => '`content_type`, `addon_id`, `fields`',
+			'values'	 => "'album_photo_comment', 'album', '{$fields}'"
 		);
 
 		self::insertRow($db, $contentTypeRow, true);
@@ -165,6 +209,17 @@ class Album_Install
 		$fields['report_handler_class']     = 'Album_ReportHandler_AlbumPhoto';
 		
 		return $fields;
+	}
+	
+	public static function getPhotoCommentFields()
+	{
+	    $fields = array();
+	    
+	    $fields['alert_handler_class']     = 'Album_AlertHandler_AlbumPhotoComment';
+	    $fields['like_handler_class']      = 'Album_LikeHandler_AlbumPhotoComment';
+	    $fields['news_feed_handler_class'] = 'Album_NewsFeedHandler_AlbumPhotoComment';
+	    
+	    return $fields;
 	}
 
 	public static function insertRow($db, $row, $overwrite = false)

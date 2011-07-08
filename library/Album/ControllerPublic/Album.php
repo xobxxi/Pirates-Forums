@@ -1,6 +1,8 @@
 <?php
-/* iteration 3
-[*] Likes, comments, reporting
+/* 1.0.0
+[*]
+// likes/comments for albums
+// reports for comments
 // change popstate logic
 // add non hooks to pirates style
 */
@@ -24,7 +26,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		{
 			$userId = XenForo_Visitor::getUserId();
 		}
-		
+
 		$user = $this->_getUserModel()->getUserById($userId,
 			array('followingUserId' => XenForo_Visitor::getUserId())
 		);
@@ -41,7 +43,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		);
 
 		$albums = $albumModel->getUserAlbumsByUserId($userId);
-		
+
 		$filtered = false;
 		foreach ($albums as $key => $album)
 		{
@@ -51,7 +53,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 				$filtered = true;
 			}
 		}
-		
+
 		$albums = $albumModel->prepareAlbums($albums);
 
 		$permissions = $albumModel->getPermissions();
@@ -97,8 +99,23 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 
 		list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
-
-		$photo = $this->_getAlbumModel()->preparePhoto($photo, true, $album);
+        
+        $albumModel = $this->_getAlbumModel();
+        
+		$photo = $albumModel->preparePhoto($photo, true, $album);
+		
+		$photo = $albumModel->addAlbumPhotoCommentsToPhoto($photo, array(
+			'join'       => Album_Model_Album::FETCH_PHOTO_COMMENT_USER,
+			'likeUserId' => XenForo_Visitor::getUserId()
+		));
+		
+		if (isset($photo['comments']))
+		{
+			foreach ($photo['comments'] as &$comment)
+			{
+				$comment = $albumModel->prepareAlbumComment($comment, $album, $user);
+			}
+		}
 
 		$viewParams = array(
 			'photo' => $photo,
@@ -112,7 +129,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 			$viewParams
 		);
 	}
-	
+
 	public function actionReportPhoto()
 	{
 		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
@@ -155,7 +172,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 			);
 		}
 	}
-	
+
 	public function actionLikePhoto()
 	{
 		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
@@ -261,6 +278,353 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		);
 	}
 
+    public function actionCommentPhoto()
+	{
+		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
+
+		list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
+        
+        $albumModel = $this->_getAlbumModel();
+        
+		if (!$albumModel->canCommentOnAlbum($album, $errorPhraseKey))
+		{
+			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
+		}
+
+		if ($this->_request->isPost())
+		{
+			$message = $this->_input->filterSingle('message', XenForo_Input::STRING);
+			$visitor = XenForo_Visitor::getInstance();
+
+			$dw = XenForo_DataWriter::create('Album_DataWriter_AlbumPhotoComment');
+			$dw->setExtraData(Album_DataWriter_AlbumPhotoComment::DATA_ALBUM_PHOTO_USER, $user);
+			$dw->setExtraData(Album_DataWriter_AlbumPhotoComment::DATA_ALBUM_PHOTO, $album);
+			$dw->bulkSet(array(
+				'photo_id' => $photoId,
+				'user_id'  => $visitor['user_id'],
+				'username' => $visitor['username'],
+				'message'  => $message
+			));
+			$dw->save();
+
+			if ($this->_noRedirect())
+			{
+				$comment = $albumModel->getPhotoCommentById(
+					$dw->get('photo_comment_id'),
+					array('join' => Album_Model_Album::FETCH_PHOTO_COMMENT_USER)
+				);
+
+				$viewParams = array(
+					'comment' => $albumModel->preparePhotoComment($comment, $photo, $user),
+					'photo'   => $photo,
+					'user'    => $user
+				);
+
+				return $this->responseView(
+					'Album_ViewPublic_Album_CommentPhoto',
+					'',
+					$viewParams
+				);
+			}
+			else
+			{
+				return $this->responseRedirect(
+						XenForo_ControllerResponse_Redirect::SUCCESS,
+						XenForo_Link::buildPublicLink('albums/view-photo', $photo)
+				);
+			}
+		}
+		else
+		{
+			$viewParams = array(
+				'photo' => $photo,
+				'album' => $album,
+				'user'  => $user
+			);
+
+			return $this->responseView(
+				'Album_ViewPublic_Album_CommentPhoto',
+				'album_photo_comment_post',
+				$viewParams
+			);
+		}
+	}
+
+	public function actionCommentEditPhoto()
+	{
+		$photoId   = $this->_input->filterSingle('id', XenForo_Input::UINT);
+		$commentId = $this->_input->filterSingle('comment', XenForo_Input::UINT);
+
+		$albumModel = $this->_getAlbumModel();
+
+		$comment = $albumModel->getAlbumPhotoCommentById($commentId);
+
+		if (empty($comment))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('requested_comment_not_found'), 404)
+			);
+		}
+
+		list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
+
+
+		if ($photoId != $comment['photo_id'])
+		{
+			return $this->responseNoPermission();
+		}
+
+		if (!$albumModel->canEditAlbumComment($comment, $album, $user, $errorPhraseKey))
+		{
+			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
+		}
+
+		if ($this->_request->isPost())
+		{
+			$inputMessage = $this->_input->filterSingle('message', XenForo_Input::STRING);
+
+			$dw = XenForo_DataWriter::create('Album_DataWriter_AlbumPhotoComment');
+			$dw->setExistingData($commentId);
+			$dw->set('message', $inputMessage);
+			$dw->save();
+
+			return $this->responseRedirect(
+					XenForo_ControllerResponse_Redirect::SUCCESS,
+					XenForo_Link::buildPublicLink('albums/view-photo', $photo)
+			);
+		}
+		else
+		{
+			$viewParams = array(
+				'comment' => $comment,
+				'photo'   => $photo,
+				'album'   => $album,
+				'user'    => $user
+			);
+
+			return $this->responseView(
+				'Album_ViewPublic_Album_CommentEditPhoto',
+				'album_photo_comment_edit',
+				$viewParams
+			);
+		}
+	}
+
+	public function actionCommentDeletePhoto()
+	{
+		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
+		$commentId = $this->_input->filterSingle('comment', XenForo_Input::UINT);
+
+		$albumModel = $this->_getAlbumModel();
+
+		$comment = $albumModel->getAlbumPhotoCommentById($commentId);
+
+		if (empty($comment))
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('requested_comment_not_found'), 404)
+			);
+		}
+
+		list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
+
+		if ($photoId != $comment['photo_id'])
+		{
+			return $this->responseNoPermission();
+		}
+
+		if (!$albumModel->canDeleteAlbumComment($comment, $photo, $user, $errorPhraseKey))
+		{
+			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
+		}
+
+		if ($this->isConfirmedPost())
+		{
+			$dw = XenForo_DataWriter::create('Album_DataWriter_AlbumPhotoComment');
+			$dw->setExistingData($commentId);
+			$dw->delete();
+
+			return $this->responseRedirect(
+					XenForo_ControllerResponse_Redirect::SUCCESS,
+					XenForo_Link::buildPublicLink('albums/view-photo', $photo)
+			);
+		}
+		else
+		{
+			$viewParams = array(
+				'comment' => $comment,
+				'photo'   => $photo,
+				'album'   => $album,
+				'user'    => $user
+			);
+
+			return $this->responseView(
+				'Album_ViewPublic_Album_CommentDeletePhoto',
+				'album_photo_comment_delete',
+				$viewParams
+			);
+		}
+	}
+
+	public function actionCommentsPhoto()
+	{
+		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
+
+		list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
+
+		$beforeDate = $this->_input->filterSingle('before', XenForo_Input::UINT);
+
+		$albumModel = $this->_getAlbumModel();
+
+		$comments = $albumModel->getAlbumPhotoCommentsByPhoto($photoId, $beforeDate, array(
+			'join'  => Album_Model_Album::FETCH_PHOTO_COMMENT_USER,
+			'limit' => 50,
+			'likeUserId' => XenForo_Visitor::getUserId()
+		));
+
+		if (!$comments)
+		{
+			return $this->responseMessage(new XenForo_Phrase('no_comments_to_display'));
+		}
+
+		foreach ($comments AS &$comment)
+		{
+			$comment = $albumModel->prepareAlbumComment($comment, $album, $user);
+		}
+
+		$firstCommentShown = reset($comments);
+		$lastCommentShown = end($comments);
+
+		$viewParams = array(
+			'comments'          => $comments,
+			'firstCommentShown' => $firstCommentShown,
+			'lastCommentShown'  => $lastCommentShown,
+			'photo'             => $photo,
+			'album'             => $album,
+			'user'              => $user
+		);
+
+		return $this->responseView(
+			'Album_ViewPublic_Album_Comments',
+			'album_photo_comments',
+			$viewParams
+		);
+	}
+
+	public function actionCommentLikePhoto()
+	{
+		$commentId = $this->_input->filterSingle('comment', XenForo_Input::UINT);
+
+		list($comment, $photo, $album, $user) = $this->_assertAlbumPhotoCommentValidAndViewable($commentId);
+
+		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
+		if ($photoId != $comment['photo_id'])
+		{
+			return $this->responseNoPermission();
+		}
+
+		if (!$this->_getAlbumModel()->canLikeAlbumComment($comment, $errorPhraseKey))
+		{
+			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
+		}
+
+		$likeModel = $this->getModelFromCache('XenForo_Model_Like');
+
+		$existingLike = $likeModel->getContentLikeByLikeUser(
+			'album_photo_comment', $commentId, XenForo_Visitor::getUserId()
+		);
+
+		if ($this->_request->isPost())
+		{
+			if ($existingLike)
+			{
+				$latestUsers = $likeModel->unlikeContent($existingLike);
+			}
+			else
+			{
+				$latestUsers = $likeModel->likeContent(
+					'album_photo_comment', $commentId, $comment['user_id']
+				);
+			}
+
+			$liked = ($existingLike ? false : true);
+
+			if ($this->_noRedirect() && $latestUsers !== false)
+			{
+				$comment['likeUsers'] = $latestUsers;
+				$comment['likes'] += ($liked ? 1 : -1);
+				$comment['like_date'] = ($liked ? XenForo_Application::$time : 0);
+
+				$viewParams = array(
+					'comment' => $comment,
+					'photo'   => $photo,
+					'album'   => $album,
+					'user'    => $user,
+					'liked'   => $liked,
+				);
+
+				return $this->responseView(
+					'Album_ViewPublic_Album_CommentLikeConfirmedPhoto',
+					'',
+					$viewParams
+				);
+			}
+			else
+			{
+				return $this->responseRedirect(
+						XenForo_ControllerResponse_Redirect::SUCCESS,
+						XenForo_Link::buildPublicLink('albums/view-photo', $photo)
+				);
+			}
+		}
+		else
+		{
+			$viewParams = array(
+				'comment' => $comment,
+				'photo'   => $photo,
+				'album'   => $album,
+				'user'    => $user,
+				'like'    => $existingLike
+			);
+
+			return $this->responseView(
+				'Album_ViewPublic_Album_LikeCommentPhoto',
+				'album_photo_comment_like',
+				$viewParams
+			);
+		}
+	}
+
+	public function actionCommentLikesPhoto()
+	{
+		$commentId = $this->_input->filterSingle('comment', XenForo_Input::UINT);
+
+		list($comment, $photo, $album, $user) = $this->_assertAlbumPhotoCommentValidAndViewable($commentId);
+
+		$likes = $this->getModelFromCache('XenForo_Model_Like')
+		              ->getContentLikes('album_photo_comment', $commentId);
+		if (!$likes)
+		{
+			return $this->responseError(
+				new XenForo_Phrase('album_no_one_has_liked_this_comment_yet')
+			);
+		}
+
+		$viewParams = array(
+			'photo'   => $photo,
+			'comment' => $comment,
+			'album'   => $album,
+			'user'    => $user,
+			'likes'   => $likes
+		);
+
+		return $this->responseView(
+			'Album_ViewPublic_Album_CommentLikesPhoto',
+			'album_photo_comment_likes',
+			$viewParams
+		);
+	}
+
 	public function actionSetCover()
 	{
 		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
@@ -275,17 +639,17 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 			$dw->setExistingData($album);
 			$dw->set('cover_photo_id', $photo['photo_id']);
 			$dw->save();
-			
+
 			if ($this->_noRedirect())
 			{
 				list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
-				
+
 				$viewParams = array(
 					'photo' => $photo,
 					'user'	=> $user,
 					'album' => $album
 				);
-				
+
 				return $this->responseView('Album_ViewPublic_Album_SetCover', '', $viewParams);
 			}
 			else
@@ -363,7 +727,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 			$viewParams
 		);
 	}
-	
+
 	public function actionValidateField()
 	{
 		$this->_assertPostOnly();
@@ -439,7 +803,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 
 		$this->_assertCanManage($album);
 
-		$attachmentParams	   = $this->_getAlbumModel()->getAttachmentParams(array());
+		$attachmentParams	   = $this->_getAlbumModel()->getAttachmentParams(array('album_id' => $album['album_id']));
 		$attachmentConstraints = $this->_getAttachmentModel()->getAttachmentHandler('album')->getAttachmentConstraints();
 
 		$viewParams = array(
@@ -687,7 +1051,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 				new XenForo_Phrase('album_requested_album_not_found'), 404)
 			);
 		}
-		
+
 		$user = $this->_getUserModel()->getUserById($album['user_id'],
 			array('followingUserId' => XenForo_Visitor::getUserId())
 		);
@@ -698,7 +1062,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 				new XenForo_Phrase('requested_member_not_found'), 404)
 			);
 		}
-		
+
 		if (!$albumModel->canViewAlbum($album, $user, $errorPhraseKey))
 		{
 			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
@@ -749,14 +1113,30 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 
 		return array($photo, $album, $user);
 	}
+	
+	protected function _assertAlbumPhotoCommentValidAndViewable($commentId)
+	{
+		$comment = $this->_getAlbumModel()->getAlbumPhotoCommentById($commentId);
+
+		if (!$comment)
+		{
+			throw $this->responseException($this->responseError(
+				new XenForo_Phrase('requested_comment_not_found'), 404)
+			);
+		}
+
+		list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($comment['photo_id']);
+
+		return array($comment, $photo, $album, $user);
+	}
 
 	protected function _applyPermissions(&$album)
 	{
 		$albumModel = $this->_getAlbumModel();
-		
+
 		$album['permissions']['report'] = $albumModel->canReportAlbum($album);
 		$album['permissions']['like']   = $albumModel->canLikeAlbum($album);
-		
+
 		if (!isset($album['permissions']))
 		{
 			return false;

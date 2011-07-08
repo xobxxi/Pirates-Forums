@@ -14,7 +14,7 @@ class Album_NewsFeedHandler_AlbumPhoto extends XenForo_NewsFeedHandler_Abstract
 			return false;
 		}
 		
-		$photos = $albumModel->getPhotosByIds($contentIds);
+		$photos = $albumModel->getPhotosByIds($contentIds, false, array('join' => Album_Model_Album::FETCH_PHOTO_USER));
 		
 		$albumIds = array();
 		foreach ($photos as $photo)
@@ -33,15 +33,6 @@ class Album_NewsFeedHandler_AlbumPhoto extends XenForo_NewsFeedHandler_Abstract
 			}
 		}
 		
-		
-		$userIds = array();
-		foreach ($albums as $album)
-		{
-			$userIds[] = $album['user_id'];
-		}
-		
-		$users = $model->getModelFromCache('XenForo_Model_User')->getUsersByIds($userIds);
-		
 		$content = array();
 		foreach ($photos as $photo)
 		{
@@ -51,7 +42,6 @@ class Album_NewsFeedHandler_AlbumPhoto extends XenForo_NewsFeedHandler_Abstract
 			$content[$photo['photo_id']] = array(
 				'photo' => $photo,
 				'album' => $album,
-				'user'  => $user
 			);
 		}
 		

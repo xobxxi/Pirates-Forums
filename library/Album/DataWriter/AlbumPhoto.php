@@ -20,6 +20,10 @@ class Album_DataWriter_AlbumPhoto extends XenForo_DataWriter
 					'type'	   => self::TYPE_UINT,
 					'required' => true
 				),
+				'user_id' => array(
+					'type'	   => self::TYPE_UINT,
+					'required' => true
+				),
 				'position' => array(
 					'type'	   => self::TYPE_UINT,
 					'required' => true
@@ -36,6 +40,23 @@ class Album_DataWriter_AlbumPhoto extends XenForo_DataWriter
 				'like_users' => array(
 					'type' => self::TYPE_SERIALIZED,
 					'default' => 'a:0:{}'
+				),
+				'comment_count' => array(
+					'type'    => self::TYPE_UINT_FORCED,
+					'default' => 0
+				),
+				'first_comment_date' => array(
+					'type'    => self::TYPE_UINT,
+					'default' => 0
+				),
+				'last_comment_date' => array(
+				'type'    => self::TYPE_UINT,
+				'default' => 0
+				),
+				'latest_comment_ids' => array(
+					'type'      => self::TYPE_BINARY,
+					'default'   => '',
+					'maxLength' => 100
 				)
 			)
 		);
@@ -88,6 +109,61 @@ class Album_DataWriter_AlbumPhoto extends XenForo_DataWriter
 				', array($likes, $likes, $userId));
 			}
 		}
+	}
+	
+	public function rebuildAlbumPhotoCommentCounters()
+	{
+		$db = $this->_db;
+		$photoId = $this->get('photo_id');
+
+		$counts = $db->fetchRow('
+			SELECT COUNT(*) AS comment_count,
+				MIN(comment_date) AS first_comment_date,
+				MAX(comment_date) AS last_comment_date
+			FROM album_photo_comment
+			WHERE photo_id = ?
+		', $photoId);
+
+		if ($counts['comment_count'])
+		{
+			$ids = $db->fetchCol($db->limit(
+				'
+					SELECT album_photo_comment_id
+					FROM album_photo_comment
+					WHERE photo_id = ?
+					ORDER BY comment_date DESC
+				', 3
+			), $photoId);
+			$ids = array_reverse($ids);
+		}
+		else
+		{
+			$ids = array();
+		}
+
+		$this->bulkSet($counts);
+		$this->set('latest_comment_ids', implode(',', $ids));
+	}
+	
+	public function insertNewComment($commentId, $commentDate)
+	{
+		$this->set('comment_count', $this->get('comment_count') + 1);
+		if (!$this->get('first_comment_date') || $commentDate < $this->get('first_comment_date'))
+		{
+			$this->set('first_comment_date', $commentDate);
+		}
+		$this->set('last_comment_date', max($this->get('last_comment_date'), $commentDate));
+
+		$latest = $this->get('latest_comment_ids');
+		$ids = ($latest ? explode(',', $latest) : array());
+		$ids[] = $commentId;
+
+		if (count($ids) > 3)
+		{
+			$ids = array_slice($ids, -3);
+		}
+
+		$this->set('latest_comment_ids', implode(',', $ids));
 	}
 
 	protected function _getAlbumModel()
