@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="album" title="User Albums" version_string="0.9.5 Beta" version_id="11" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
+<addon addon_id="album" title="User Albums" version_string="0.9.6 Beta" version_id="12" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -7,7 +7,7 @@
   <code_events/>
   <code_event_listeners>
     <listener event_id="file_health_check" execute_order="10" callback_class="Album_Listener" callback_method="fileHealthCheck" active="1" description="Adds file hashes to health check"/>
-    <listener event_id="load_class_datawriter" execute_order="10" callback_class="Album_Listener" callback_method="loadClassDatawriter" active="1" description="Extends datawriters"/>
+    <listener event_id="init_dependencies" execute_order="10" callback_class="Album_Listener" callback_method="initDependencies" active="1" description="Adds dependencies"/>
     <listener event_id="template_create" execute_order="10" callback_class="Album_Listener" callback_method="templateCreate" active="1" description="Preloads templates"/>
     <listener event_id="template_hook" execute_order="10" callback_class="Album_Listener" callback_method="templateHook" active="1" description="Uses template hooks to spit into templates"/>
   </code_event_listeners>
@@ -1331,9 +1331,9 @@ div.label,
 	'username={xen:helper username, $user, 'subject'}',
 	'photo_params= href="{xen:link albums/view-photo, $content}" class="OverlayTrigger PopupItemLink" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
         'album={$content.album.name}'}]]></template>
-    <template title="alert_album_photo_like" version_id="9" version_string="0.9.0 Beta"><![CDATA[{xen:phrase album_x_liked_your_photo_in_album_y,
-	'username={xen:helper username, $content, 'subject'}',
-	'photo_params= href="{xen:link albums/view-photo, $content.photo}" class="OverlayTrigger PopupItemLink" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
+    <template title="alert_album_photo_like" version_id="11" version_string="0.9.5 Beta"><![CDATA[{xen:phrase album_x_liked_your_photo_in_album_y,
+	'username={xen:helper username, $user, 'subject'}',
+	'photo_params= href="{xen:link albums/view-photo, $content}" class="OverlayTrigger PopupItemLink" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
         'album={$content.album.name}'
 }]]></template>
     <template title="news_feed_item_album_add" version_id="10" version_string="0.9.0 Beta"><![CDATA[<h3 class="description">

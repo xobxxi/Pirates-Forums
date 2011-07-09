@@ -2,16 +2,11 @@
 
 class Album_Listener
 {
-    public static function loadClassDataWriter($class, array &$extend)
-	{
-		switch ($class)
-		{
-			case 'XenForo_DataWriter_User':
-				$extend[] = 'Album_DataWriter_User';
-				break;
-		}
-	}
-    
+    public static function initDependencies(XenForo_Dependencies_Abstract $dependencies, array $data)
+    {
+        XenForo_DataWriter_User::$usernameChangeUpdates['permanent']['album_photo_comment_username'] = array('album_photo_comment', 'username', 'user_id');
+    }
+       
 	public static function templateCreate(&$templateName, array &$params, XenForo_Template_Abstract $template)
 	{
 		switch ($templateName)
