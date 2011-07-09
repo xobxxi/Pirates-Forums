@@ -37,7 +37,6 @@ class Album_NewsFeedHandler_AlbumPhoto extends XenForo_NewsFeedHandler_Abstract
 		foreach ($photos as $photo)
 		{
 			$album = $albums[$photo['album_id']];
-			$user  = $users[$album['user_id']];
 			
 			$content[$photo['photo_id']] = array(
 				'photo' => $photo,
