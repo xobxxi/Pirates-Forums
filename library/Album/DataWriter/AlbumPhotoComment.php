@@ -98,7 +98,7 @@ class Album_DataWriter_AlbumPhotoComment extends XenForo_DataWriter
 						$photoUser['user_id'],
 						$this->get('user_id'),
 						$this->get('username'),
-						'album',
+						'album_photo',
 						$photoId,
 						'comment_your_photo'
 					);

@@ -175,7 +175,7 @@ class Album_Model_Album extends XenForo_Model
         ', 'photo_id');
     }
 
-	public function getAllPhotosForAlbumById($albumId)
+	public function getAllPhotosForAlbumById($albumId, $postDelete = false)
 	{
 		$photosData = $this->fetchAllKeyed('
 			SELECT *
@@ -186,6 +186,11 @@ class Album_Model_Album extends XenForo_Model
 
 		if ($photosData)
 		{
+		    if ($postDelete)
+		    {
+		        return $photosData;
+		    }
+		    
 			$attachmentModel = $this->_getAttachmentModel();
 
 			$attachments = $attachmentModel->getAttachmentsByContentId('album', $albumId);
@@ -193,23 +198,20 @@ class Album_Model_Album extends XenForo_Model
 			$photos = array();
 			foreach ($photosData as $photoData)
 			{
-				if (isset($attachments[$photoData['attachment_id']]))
-				{
-					$photos[$photoData['position']] = array_merge($photoData, $attachments[$photoData['attachment_id']]);
-				}
+				$photos[$photoData['position']] = array_merge($photoData, $attachments[$photoData['attachment_id']]);
 			}
 
 			if (empty($photos))
 			{
 				return false;
 			}
-
+            
 			$photos = $attachmentModel->prepareAttachments($photos);
 
-			foreach ($photos as &$photo)
-			{
-				$photo = $this->preparePhoto($photo);
-			}
+		    foreach ($photos as &$photo)
+    		{
+    			$photo = $this->preparePhoto($photo);
+    		}
 
 			return $photos;
 		}
@@ -468,9 +470,16 @@ class Album_Model_Album extends XenForo_Model
 
 	public function removeAllPhotosFromAlbumById($albumId)
 	{
-		return $this->_getDb()->delete(
-			'album_photo',
-			'album_id =' . $this->_db->quote($albumId));
+	    $photos = $this->getAllPhotosForAlbumById($albumId, true);
+	    
+	    foreach ($photos as $photo)
+	    {
+	        $dw = XenForo_DataWriter::create('Album_DataWriter_AlbumPhoto');
+	        $dw->setExistingData($photo);
+	        $dw->delete();
+	    }
+	    
+		return true;
 	}
 
 	public function removeEmptyAlbums()

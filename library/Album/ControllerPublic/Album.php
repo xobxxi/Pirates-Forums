@@ -4,7 +4,6 @@
 // likes/comments for albums
 // reports for comments
 // change popstate logic
-// add non hooks to pirates style
 */
 
 class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
@@ -309,13 +308,13 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 
 			if ($this->_noRedirect())
 			{
-				$comment = $albumModel->getPhotoCommentById(
-					$dw->get('photo_comment_id'),
+				$comment = $albumModel->getAlbumPhotoCommentById(
+					$dw->get('album_photo_comment_id'),
 					array('join' => Album_Model_Album::FETCH_PHOTO_COMMENT_USER)
 				);
 
 				$viewParams = array(
-					'comment' => $albumModel->preparePhotoComment($comment, $photo, $user),
+					'comment' => $albumModel->prepareAlbumComment($comment, $album, $user),
 					'photo'   => $photo,
 					'user'    => $user
 				);
@@ -505,7 +504,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		);
 
 		return $this->responseView(
-			'Album_ViewPublic_Album_Comments',
+			'Album_ViewPublic_Album_CommentsPhoto',
 			'album_photo_comments',
 			$viewParams
 		);
@@ -1134,8 +1133,9 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 	{
 		$albumModel = $this->_getAlbumModel();
 
-		$album['permissions']['report'] = $albumModel->canReportAlbum($album);
-		$album['permissions']['like']   = $albumModel->canLikeAlbum($album);
+		$album['permissions']['report']  = $albumModel->canReportAlbum($album);
+		$album['permissions']['like']    = $albumModel->canLikeAlbum($album);
+		$album['permissions']['comment'] = $albumModel->canCommentOnAlbum($album);
 
 		if (!isset($album['permissions']))
 		{
