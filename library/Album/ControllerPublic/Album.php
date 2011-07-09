@@ -1010,8 +1010,8 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 
 					return array(
 						$key => array(
-							new XenForo_Phrase('album_viewing_photo_in_album'),
-							new XenForo_Phrase('album_x',
+							new XenForo_Phrase('album_viewing'),
+							new XenForo_Phrase('album_photo_in_album_x',
 								array('album' => $album['name'])
 							),
 							$link,

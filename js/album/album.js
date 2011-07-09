@@ -211,7 +211,7 @@
 				$(ajaxData.photoSetCover).xfInsert('replaceAll', this.$form, 'xfShow', 0);
 			}
 			
-			XenForo.alert(ajaxData.alertMessage, 'info', 1000);
+			XenForo.alert(ajaxData.alertMessage, 'info', 1500);
 		}
 	};
 

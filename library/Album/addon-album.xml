@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="album" title="User Albums" version_string="0.9.0 Beta" version_id="10" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
+<addon addon_id="album" title="User Albums" version_string="0.9.5 Beta" version_id="11" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -84,6 +84,7 @@
     <phrase title="album_photos" version_id="0" version_string="0.0.1 (pre-alpha)"><![CDATA[Photos]]></phrase>
     <phrase title="album_photo_comments" version_id="8" version_string="0.7.0 Beta"><![CDATA[Photo Comments]]></phrase>
     <phrase title="album_photo_description" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Photo Description]]></phrase>
+    <phrase title="album_photo_in_album_x" version_id="10" version_string="0.9.0 Beta"><![CDATA[photo in album {album}]]></phrase>
     <phrase title="album_photo_in_xs_album_y" version_id="7" version_string="0.6.0 Beta"><![CDATA[Photo in {username}'s Album - {album}]]></phrase>
     <phrase title="album_photo_x_of_y" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Photo {current} of {total}]]></phrase>
     <phrase title="album_please_enter_album_name" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Please enter a name for the album.]]></phrase>
@@ -112,7 +113,6 @@
     <phrase title="album_viewing" version_id="9" version_string="0.9.0 Beta"><![CDATA[Viewing]]></phrase>
     <phrase title="album_viewing_album" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Viewing album]]></phrase>
     <phrase title="album_viewing_albums" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[Viewing albums]]></phrase>
-    <phrase title="album_viewing_photo_in_album" version_id="2" version_string="0.1.0 Alpha"><![CDATA[Viewing photo in album]]></phrase>
     <phrase title="album_view_full_size" version_id="2" version_string="0.1.0 Alpha"><![CDATA[View Full Size]]></phrase>
     <phrase title="album_who_may_view_this_album" version_id="6" version_string="0.5.5 Beta"><![CDATA[Who may view this album]]></phrase>
     <phrase title="album_x" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{album}]]></phrase>
@@ -120,15 +120,15 @@
     <phrase title="album_xs_albums_y" version_id="2" version_string="0.1.0 Alpha"><![CDATA[{username}'s Albums - {album}]]></phrase>
     <phrase title="album_x_also_commented_on_ys_photo_in_album_z" version_id="9" version_string="0.9.0 Beta"><![CDATA[{username} also commented on <a{photo_params}>{owner}'s photo in the album {album}</a>.]]></phrase>
     <phrase title="album_x_commented_on_your_photo_in_album_y" version_id="9" version_string="0.9.0 Beta"><![CDATA[{username} commented on <a{photo_params}>your photo in the album {album}</a>.]]></phrase>
-    <phrase title="album_x_has_added_a_new_album_y" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{username} has added a new photo  album: <a {link_params}>{name}</a>.]]></phrase>
-    <phrase title="album_x_has_added_a_new_photo_to_album_z" version_id="7" version_string="0.6.0 Beta"><![CDATA[{username} has added a new photo to the album <a {link_params}>{name}</a>.]]></phrase>
-    <phrase title="album_x_has_added_new_photos_to_album_z" version_id="2" version_string="0.1.0 Alpha"><![CDATA[{username} has added new photos to the album <a {link_params}>{name}</a>.]]></phrase>
+    <phrase title="album_x_has_added_a_new_album_y" version_id="10" version_string="0.9.0 Beta"><![CDATA[{username} has added a new photo  album: <a{album_params}>{album}</a>.]]></phrase>
+    <phrase title="album_x_has_added_a_new_photo_to_album_z" version_id="10" version_string="0.9.0 Beta"><![CDATA[{username} has added a new photo to the album <a{album_params}>{album}</a>.]]></phrase>
+    <phrase title="album_x_has_added_new_photos_to_album_z" version_id="10" version_string="0.9.0 Beta"><![CDATA[{username} has added new photos to the album <a{album_params}>{album}</a>.]]></phrase>
     <phrase title="album_x_liked_your_comment_on_ys_photo_in_album_z" version_id="9" version_string="0.9.0 Beta"><![CDATA[{username} liked your comment on <a{photo_params}>{owner}'s photo in the album {album}</a>.]]></phrase>
     <phrase title="album_x_liked_your_photo_in_album_y" version_id="9" version_string="0.9.0 Beta"><![CDATA[{username} liked <a{photo_params}>your photo in the album {album}</a>.]]></phrase>
-    <phrase title="album_x_liked_ys_photo_in_album_z" version_id="8" version_string="0.7.0 Beta"><![CDATA[{username} liked <a{photo_link_params}>{owner}'s photo in the album {album}</a>.]]></phrase>
+    <phrase title="album_x_liked_ys_photo_in_album_z" version_id="10" version_string="0.9.0 Beta"><![CDATA[{username} liked <a{photo_params}>{owner}'s photo in the album {album}</a>.]]></phrase>
     <phrase title="album_x_photos" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{photos} Photos]]></phrase>
     <phrase title="album_x_photos_in_album" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{photos} photos in album]]></phrase>
-    <phrase title="album_x_renamed_an_album_from_y_to_z" version_id="1" version_string="0.0.1 Alpha"><![CDATA[{username} renamed an album from {old} to <a {link_params}>{new}</a>.]]></phrase>
+    <phrase title="album_x_renamed_an_album_from_y_to_z" version_id="10" version_string="0.9.0 Beta"><![CDATA[{username} renamed an album from {old} to <a{album_params}>{new}</a>.]]></phrase>
     <phrase title="album_your_albums" version_id="1" version_string="0.0.1 Alpha"><![CDATA[Your Albums]]></phrase>
     <phrase title="album_you_sure_you_want_to_like_this_comment" version_id="8" version_string="0.7.0 Beta"><![CDATA[Are you sure you want to like this comment?]]></phrase>
     <phrase title="album_you_sure_you_want_to_like_this_photo" version_id="7" version_string="0.6.0 Beta"><![CDATA[Are you sure you want to like this photo?]]></phrase>
@@ -153,7 +153,7 @@
   </route_prefixes>
   <style_properties/>
   <templates>
-    <template title="album.css" version_id="9" version_string="0.9.0 Beta"><![CDATA[#albums.primaryContent,
+    <template title="album.css" version_id="10" version_string="0.9.0 Beta"><![CDATA[#albums.primaryContent,
 #album.primaryContent
 {
         overflow: hidden;
@@ -330,6 +330,11 @@
 {
         display: block;
         font-weight: bold;
+}
+
+#albumPhoto .photoInfo .leftBar .photoDate .item.control
+{
+        margin-left: 10px;
 }
 
 #albumPhoto .photoInfo .leftBar .messageSimple
@@ -620,7 +625,7 @@ div.label,
     <template title="album_navigation_list_item_member" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<xen:if is="{$visitor.user_id}">
         <li><a href="{xen:link albums, $visitor}">{xen:phrase album_your_albums}</a></li>
 </xen:if>]]></template>
-    <template title="album_photo" version_id="9" version_string="0.9.0 Beta"><![CDATA[<xen:require css="album.css" />
+    <template title="album_photo" version_id="10" version_string="0.9.0 Beta"><![CDATA[<xen:require css="album.css" />
 <xen:require js="js/album/album.js" />
 <xen:require js="js/album/popstate.js" />
 <xen:require js="js/xenforo/comments_simple.js" />
@@ -687,6 +692,7 @@ div.label,
 
                 <div class="photoLinks">
                         <div class="leftBar">
+				<form>
                                 <div class="userInfo overlayOnly">
                                         <xen:avatar user="$user" size="s" img="true" />
                                         <xen:username user="$user" />
@@ -736,6 +742,7 @@ div.label,
 						</xen:if>
 					</ol>
 				</div>
+			</form>
                         </div>
                         <div class="rightBar">
                                 <div class="albumInfo overlayOnly">
@@ -1153,56 +1160,54 @@ div.label,
 </li>
 
 <xen:edithint template="album_user" />]]></template>
-    <template title="album_recent_activity_block_items" version_id="7" version_string="0.6.0 Beta"><![CDATA[<xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'name'">
+    <template title="album_recent_activity_block_items" version_id="10" version_string="0.9.0 Beta"><![CDATA[<xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'add'">
+	{xen:phrase album_x_has_added_a_new_album_y,
+        	'username={xen:helper username, $item.user, 'primaryText'}',
+        	'album_params= href="{xen:link albums/view, $item.content}"',
+        	'album={$item.content.name}'
+	}
+</xen:if>
+
+<xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'name'">
 	{xen:phrase album_x_renamed_an_album_from_y_to_z,
-                'username={xen:helper username, $item.user, 'primaryText'}',
-                'old={$item.name.old}',
-                'link_params=href="{xen:link albums/view, $item.content}"',
-                'new={$item.content.name}'
-        }
+     	   'username={xen:helper username, $item.user, 'primaryText'}',
+     	   'old={$item.name.old}',
+    	   'album_params= href="{xen:link albums/view, $item.content}"',
+    	   'new={$item.content.name}'
+	}
 </xen:if>
 
 <xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'photos'">
-	<xen:if is="!{$item.single}">
+	<xen:if is="!{$single}">
 		{xen:phrase album_x_has_added_new_photos_to_album_z,
 		        'username={xen:helper username, $item.user, 'primaryText'}',
-		        'link_params=href="{xen:link albums/view, $item.content}"',
-		        'name={$item.content.name}'
+		        'album_params= href="{xen:link albums/view, $item.content}"',
+		        'album={$item.content.name}'
 		}
 	<xen:else />
 		{xen:phrase album_x_has_added_a_new_photo_to_album_z,
 		        'username={xen:helper username, $item.user, 'primaryText'}',
-		        'link_params=href="{xen:link albums/view, $item.content}"',
-		        'name={$item.content.name}'
+		        'album_params= href="{xen:link albums/view, $item.content}"',
+		        'album={$item.content.name}'
 		}
 	</xen:if>
-</xen:if>
-
-<xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'add'">
-        {xen:phrase album_x_has_added_a_new_album_y,
-                'username={xen:helper username, $item.user, 'primaryText'}',
-                'link_params=href="{xen:link albums/view, $item.content}"',
-                'name={$item.content.name}'
-        }
 </xen:if>
 
 <xen:if is="{$item.content_type} == 'album_photo' AND {$item.action} == 'like'">
-	<xen:if is="{$item.content.album.user_id} != {$visitor.user_id}">
-		{xen:phrase album_x_liked_ys_photo_in_album_z,
-			'username={xen:helper username, $item.user, 'subject'}',
-		        'owner={xen:helper username, $item.content.user}',
-			'photo_link_params= href="{xen:link albums/view-photo, $item.content.photo}" class="PopupItemLink OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}"',
-		        'album_link_params= href="{xen:link albums/view, $item.content.album}"',
-		        'album={$item.content.album.name}'
-		}
-	<xen:else />
-		{xen:phrase album_x_liked_your_photo_in_album_y,
-			'username={xen:helper username, $item.user, 'subject'}',
-			'photo_link_params= href="{xen:link albums/view-photo, $item.content.photo}" class="PopupItemLink OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}"',
-		        'album_link_params= href="{xen:link albums/view, $item.content.album}"',
-		        'album={$item.content.album.name}'
-		}
-	</xen:if>
+    <xen:if is="{$content.photo.user_id} != {$visitor.user_id}">
+        {xen:phrase album_x_liked_ys_photo_in_album_z,
+        	'username={xen:helper username, $item.user, 'subject'}',
+            'owner={$item.content.photo.username}',
+        	'photo_params= href="{xen:link albums/view-photo, $item.content.photo}" class="PopupItemLink OverlayTrigger" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
+            'album={$item.content.album.name}'
+        }
+    <xen:else />
+        {xen:phrase album_x_liked_your_photo_in_album_y,
+        	'username={xen:helper username, $item.user, 'subject'}',
+        	'photo_params= href="{xen:link albums/view-photo, $item.content.photo}" class="PopupItemLink OverlayTrigger" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
+            'album={$item.content.album.name}'
+        }
+    </xen:if>
 </xen:if>]]></template>
     <template title="album_set_cover" version_id="7" version_string="0.6.0 Beta"><![CDATA[<xen:title>{xen:phrase album_set_cover_photo_for_x, 'album={$album.name}'}</xen:title>
 
@@ -1312,12 +1317,12 @@ div.label,
 	        </div>
 	</xen:if>
 </div>]]></template>
-    <template title="alert_album_photo_comment_like" version_id="9" version_string="0.9.0 Beta"><![CDATA[{xen:phrase album_x_liked_your_comment_on_ys_photo_in_album_z,
+    <template title="alert_album_photo_comment_like" version_id="10" version_string="0.9.0 Beta"><![CDATA[{xen:phrase album_x_liked_your_comment_on_ys_photo_in_album_z,
 	'username={xen:helper username, $user, 'subject'}',
 	'owner={$content.photo.username}',
         'photo_params= href="{xen:link albums/view-photo, $content.photo}" class="OverlayTrigger PopupItemLink" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
         'album={$content.album.name}'}]]></template>
-    <template title="alert_album_photo_comment_other_commenter" version_id="9" version_string="0.9.0 Beta"><![CDATA[{xen:phrase album_x_also_commented_on_ys_photo_in_album_z,
+    <template title="alert_album_photo_comment_other_commenter" version_id="10" version_string="0.9.0 Beta"><![CDATA[{xen:phrase album_x_also_commented_on_ys_photo_in_album_z,
 	'username={xen:helper username, $user, 'subject'}',
         'owner={$content.username}',
 	'photo_params= href="{xen:link albums/view-photo, $content}" class="OverlayTrigger PopupItemLink" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
@@ -1331,11 +1336,11 @@ div.label,
 	'photo_params= href="{xen:link albums/view-photo, $content.photo}" class="OverlayTrigger PopupItemLink" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
         'album={$content.album.name}'
 }]]></template>
-    <template title="news_feed_item_album_add" version_id="7" version_string="0.6.0 Beta"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_album_add" version_id="10" version_string="0.9.0 Beta"><![CDATA[<h3 class="description">
 {xen:phrase album_x_has_added_a_new_album_y,
         'username={xen:helper username, $user, 'primaryText'}',
-        'link_params=href="{xen:link albums/view, $content}"',
-        'name={$content.name}'
+        'album_params= href="{xen:link albums/view, $content}"',
+        'album={$content.name}'
 }
 </h3>
 
@@ -1360,26 +1365,26 @@ div.label,
         </xen:contentcheck>
 </xen:if>
 </xen:if>]]></template>
-    <template title="news_feed_item_album_name" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_album_name" version_id="10" version_string="0.9.0 Beta"><![CDATA[<h3 class="description">
 {xen:phrase album_x_renamed_an_album_from_y_to_z,
         'username={xen:helper username, $user, 'primaryText'}',
         'old={$name.old}',
-        'link_params=href="{xen:link albums/view, $content}"',
+        'album_params= href="{xen:link albums/view, $content}"',
         'new={$content.name}'
 }
 </h3>]]></template>
-    <template title="news_feed_item_album_photos" version_id="7" version_string="0.6.0 Beta"><![CDATA[<h3 class="description">
+    <template title="news_feed_item_album_photos" version_id="10" version_string="0.9.0 Beta"><![CDATA[<h3 class="description">
 	<xen:if is="!{$single}">
 		{xen:phrase album_x_has_added_new_photos_to_album_z,
 		        'username={xen:helper username, $user, 'primaryText'}',
-		        'link_params=href="{xen:link albums/view, $content}"',
-		        'name={$content.name}'
+		        'album_params= href="{xen:link albums/view, $content}"',
+		        'album={$content.name}'
 		}
 	<xen:else />
 		{xen:phrase album_x_has_added_a_new_photo_to_album_z,
 		        'username={xen:helper username, $user, 'primaryText'}',
-		        'link_params=href="{xen:link albums/view, $content}"',
-		        'name={$content.name}'
+		        'album_params= href="{xen:link albums/view, $content}"',
+		        'album={$content.name}'
 		}
 	</xen:if>
 </h3>
@@ -1391,18 +1396,18 @@ div.label,
 </p>
 
 <xen:include template="news_feed_item_album_attached_photos" />]]></template>
-    <template title="news_feed_item_album_photo_like" version_id="9" version_string="0.9.0 Beta"><![CDATA[<h3 class="description">
-<xen:if is="{$content.album.user_id} != {$visitor.user_id}">
+    <template title="news_feed_item_album_photo_like" version_id="10" version_string="0.9.0 Beta"><![CDATA[<h3 class="description">
+<xen:if is="{$content.photo.user_id} != {$visitor.user_id}">
 {xen:phrase album_x_liked_ys_photo_in_album_z,
 	'username={xen:helper username, $user, 'subject'}',
-        'owner={$content.username}',
-	'photo_link_params= href="{xen:link albums/view-photo, $content.photo}" class="PopupItemLink OverlayTrigger" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
+        'owner={$content.photo.username}',
+	'photo_params= href="{xen:link albums/view-photo, $content.photo}" class="PopupItemLink OverlayTrigger" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
         'album={$content.album.name}'
 }
 <xen:else />
 {xen:phrase album_x_liked_your_photo_in_album_y,
 	'username={xen:helper username, $user, 'subject'}',
-	'photo_link_params= href="{xen:link albums/view-photo, $content.photo}" class="PopupItemLink OverlayTrigger" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
+	'photo_params= href="{xen:link albums/view-photo, $content.photo}" class="PopupItemLink OverlayTrigger" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
         'album={$content.album.name}'
 }
 </xen:if>
