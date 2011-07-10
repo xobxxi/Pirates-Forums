@@ -20,13 +20,18 @@
 								$(ajaxData.templateHtml).xfInsert('replaceAll', '.albumPhoto', 'xfShow', 0, function()
 								{
 									this.success = true;
+									$('.albumPhoto #photo').hide();
+									$('.albumPhoto #photo').load(function()
+									{
+										$('.albumPhoto #photo').show();
+									});
 								});
 							}
 							else
 							{
 								this.success = false;
 							}
-						})
+						});
 					}
 				}
 			);

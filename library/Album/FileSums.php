@@ -8,7 +8,7 @@ class Album_FileSums
   'library/Album/AlertHandler/AlbumPhoto.php' => '56ee88d0bd86849a60c5ceef3d50b346',
   'library/Album/AlertHandler/AlbumPhotoComment.php' => '8e123a4332cb4ff9aded0daaec036010',
   'library/Album/AttachmentHandler/Album.php' => '3d3c4eace285891c2f045aef569fde7d',
-  'library/Album/ControllerPublic/Album.php' => '1f70a623a0756e1e1f20f283d4162a6c',
+  'library/Album/ControllerPublic/Album.php' => '4a1a482b96dd8b0355b20373e0c4de26',
   'library/Album/CronEntry/Album.php' => 'c876ae21ffa6ec8ae76c6199457ef4b4',
   'library/Album/DataWriter/Album.php' => '7b80310b8515d29b97008eb2d55e9014',
   'library/Album/DataWriter/AlbumPhoto.php' => '7fc1fbf473f1523fce1a678d0d4c54b3',
@@ -29,7 +29,7 @@ class Album_FileSums
   'library/Album/ViewPublic/Album/LikeConfirmedPhoto.php' => 'd668411fcc7b47afd96a2a0da0cc1db0',
   'library/Album/ViewPublic/Album/ManagePhoto.php' => '429a65cebff613533cc7186dda66995f',
   'library/Album/ViewPublic/Album/SetCover.php' => '1b0a093a57bd1e1cdb329952221c78fc',
-  'js/album/album.js' => '2c9756db9655ae87db1ad0c2b5fc507a',
+  'js/album/album.js' => 'efe99110c9c83c36ede3ec8e9c82ef68',
   'js/album/popstate.js' => 'd41d8cd98f00b204e9800998ecf8427e',
 );
 	}
