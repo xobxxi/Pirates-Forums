@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="album" title="User Albums" version_string="0.9.8 Beta" version_id="13" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
+<addon addon_id="album" title="User Albums" version_string="0.9.9 Beta" version_id="14" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -646,12 +646,12 @@ div.label,
     <template title="album_navigation_list_item_member" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<xen:if is="{$visitor.user_id}">
         <li><a href="{xen:link albums, $visitor}">{xen:phrase album_your_albums}</a></li>
 </xen:if>]]></template>
-    <template title="album_photo" version_id="12" version_string="0.9.6 Beta"><![CDATA[<xen:require css="album.css" />
+    <template title="album_photo" version_id="14" version_string="0.9.9 Beta"><![CDATA[<xen:require css="album.css" />
 <xen:require js="js/album/album.js" />
 <xen:require js="js/album/popstate.js" />
-<xen:require js="js/xenforo/comments_simple.js" />
 <xen:require css="message.css" />
 <xen:require css="message_simple.css" />
+<xen:require js="js/xenforo/comments_simple.js" />
 
 <xen:title>
 {xen:phrase album_xs_albums_y,
@@ -784,6 +784,12 @@ div.label,
         </div>
 	<script type="text/javascript">
                 <!--
+                $('.albumPhoto #photo').hide();
+                $('.albumPhoto #photo').load(function()
+                {
+                        $('.albumPhoto #photo').show();
+                });
+
                 var url = '{xen:jsescape {xen:link albums/view-photo, $photo}}';
                 if (window.location.pathname + window.location.search != '/' + url)
                 {

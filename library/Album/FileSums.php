@@ -29,7 +29,7 @@ class Album_FileSums
   'library/Album/ViewPublic/Album/LikeConfirmedPhoto.php' => 'd668411fcc7b47afd96a2a0da0cc1db0',
   'library/Album/ViewPublic/Album/ManagePhoto.php' => '429a65cebff613533cc7186dda66995f',
   'library/Album/ViewPublic/Album/SetCover.php' => '1b0a093a57bd1e1cdb329952221c78fc',
-  'js/album/album.js' => 'efe99110c9c83c36ede3ec8e9c82ef68',
+  'js/album/album.js' => 'e2a2365256387078bc3c6e9e67b8ffba',
   'js/album/popstate.js' => 'd41d8cd98f00b204e9800998ecf8427e',
 );
 	}
