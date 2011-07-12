@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="album" title="User Albums" version_string="0.9.9 Beta" version_id="15" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
+<addon addon_id="album" title="User Albums" version_string="0.9.9 Beta" version_id="16" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1190,7 +1190,7 @@ div.label,
 </li>
 
 <xen:edithint template="album_user" />]]></template>
-    <template title="album_recent_activity_block_items" version_id="10" version_string="0.9.0 Beta"><![CDATA[<xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'add'">
+    <template title="album_recent_activity_block_items" version_id="15" version_string="0.9.9 Beta"><![CDATA[<xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'add'">
 	{xen:phrase album_x_has_added_a_new_album_y,
         	'username={xen:helper username, $item.user, 'primaryText'}',
         	'album_params= href="{xen:link albums/view, $item.content}"',
@@ -1208,7 +1208,7 @@ div.label,
 </xen:if>
 
 <xen:if is="{$item.content_type} == 'album' AND {$item.action} == 'photos'">
-	<xen:if is="!{$single}">
+	<xen:if is="!{$item.single}">
 		{xen:phrase album_x_has_added_new_photos_to_album_z,
 		        'username={xen:helper username, $item.user, 'primaryText'}',
 		        'album_params= href="{xen:link albums/view, $item.content}"',
@@ -1224,18 +1224,18 @@ div.label,
 </xen:if>
 
 <xen:if is="{$item.content_type} == 'album_photo' AND {$item.action} == 'like'">
-    <xen:if is="{$content.photo.user_id} != {$visitor.user_id}">
+    <xen:if is="{$item.content.photo.user_id} != {$visitor.user_id}">
         {xen:phrase album_x_liked_ys_photo_in_album_z,
         	'username={xen:helper username, $item.user, 'subject'}',
-            'owner={$item.content.photo.username}',
-        	'photo_params= href="{xen:link albums/view-photo, $item.content.photo}" class="PopupItemLink OverlayTrigger" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
-            'album={$item.content.album.name}'
+                'owner={$item.content.photo.username}',
+                'photo_params= href="{xen:link albums/view-photo, $item.content.photo}" class="PopupItemLink OverlayTrigger" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
+                'album={$item.content.album.name}'
         }
     <xen:else />
         {xen:phrase album_x_liked_your_photo_in_album_y,
         	'username={xen:helper username, $item.user, 'subject'}',
         	'photo_params= href="{xen:link albums/view-photo, $item.content.photo}" class="PopupItemLink OverlayTrigger" data-cacheoverlay="false" data-overlayoptions="{&quot;fixed&quot;:false}"',
-            'album={$item.content.album.name}'
+                'album={$item.content.album.name}'
         }
     </xen:if>
 </xen:if>]]></template>
