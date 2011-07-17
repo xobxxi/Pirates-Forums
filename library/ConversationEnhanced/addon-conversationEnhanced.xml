@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="conversationEnhanced" title="Conversation Enhanced" version_string="2.1.2" version_id="22" url="http://xenforo.com/community/members/jeremy-p.450/" install_callback_class="ConversationEnhanced_Install" install_callback_method="install" uninstall_callback_class="ConversationEnhanced_Install" uninstall_callback_method="uninstall">
+<addon addon_id="conversationEnhanced" title="Conversation Enhanced" version_string="2.1.3" version_id="23" url="http://xenforo.com/community/members/jeremy-p.450/" install_callback_class="ConversationEnhanced_Install" install_callback_method="install" uninstall_callback_class="ConversationEnhanced_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -40,12 +40,12 @@
 	width: 66% !important;
 }]]></template>
     <template title="conversationEnhanced_message_control_report" version_id="20" version_string="2.0.0"><![CDATA[<a href="{xen:link 'conversations/report', $conversation, 'm={$message.message_id}'}" class="OverlayTrigger item control report" data-cacheOverlay="false"><span></span>{xen:phrase report}</a>]]></template>
-    <template title="conversationEnhanced_report" version_id="20" version_string="2.0.0"><![CDATA[<div class="primaryContent">{xen:helper bodyText, $content.message}</div>
+    <template title="conversationEnhanced_report" version_id="22" version_string="2.1.2"><![CDATA[<div class="primaryContent">{xen:helper bodyText, $content.message}</div>
 <dl class="secondaryContent pairsInline">
 	<dt>{xen:phrase conversationEnhanced_receiving_members}:</dt>
 	<dd>
 		<xen:foreach loop="{$content.message_recipients}" key="$user_id" value="$username">
-			<a href="{xen:link members, {xen:array 'user_id={$user_id}', 'username={$username}'}}">{$username}</a>
+			<a href="{xen:link members, {xen:array 'user_id={$user_id}', 'username={$username}'}}">{$username}</a>, 
 		</xen:foreach>
 	</dd>
 </dl>]]></template>
