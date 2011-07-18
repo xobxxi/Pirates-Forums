@@ -16,7 +16,7 @@ class Album_LikeHandler_AlbumPhoto extends XenForo_LikeHandler_Abstract
 		$albumModel = XenForo_Model::create('Album_Model_Album');
 		
 		$permissions = $albumModel->getPermissions($viewingUser);
-		if (!$permissions['view_photo'])
+		if (!$permissions['view_photos'])
 		{
 			return false;
 		}

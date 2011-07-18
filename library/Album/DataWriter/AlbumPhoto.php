@@ -105,7 +105,7 @@ class Album_DataWriter_AlbumPhoto extends XenForo_DataWriter
 				$this->_db->query('
 					UPDATE xf_user
 					SET like_count = IF(like_count > ?, like_count - ?, 0)
-					WHERE user_id =
+					WHERE user_id = ?
 				', array($likes, $likes, $userId));
 			}
 		}
