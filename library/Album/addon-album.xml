@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="album" title="User Albums" version_string="0.9.9 Beta" version_id="16" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
+<addon addon_id="album" title="User Albums" version_string="0.9.9 Beta" version_id="17" url="http://piratesforums.com" install_callback_class="Album_Install" install_callback_method="install" uninstall_callback_class="Album_Install" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -153,7 +153,7 @@
   </route_prefixes>
   <style_properties/>
   <templates>
-    <template title="album.css" version_id="12" version_string="0.9.6 Beta"><![CDATA[#albums.primaryContent,
+    <template title="album.css" version_id="16" version_string="0.9.9 Beta"><![CDATA[#albums.primaryContent,
 #album.primaryContent
 {
         overflow: hidden;
@@ -163,8 +163,8 @@
 #album .imageBox
 {
         display: inline-block;
-        float: left;
-        margin: 10px;
+        margin: 5px;
+        vertical-align: top;
 }
 
 #albums .imageBox .thumbnail,
@@ -367,12 +367,8 @@
 {
         min-height: 36px;
         border-bottom: 1px solid rgb(238, 238, 238);
-        margin-bottom: 10px;
-}
-
-#albumPhoto .photoInfo .rightBar .albumInfo p.stats
-{
-        margin-top: 4px;
+        padding-bottom: 6px;
+        margin-bottom: 6px;
 }
 
 .xenOverlay #albumPhoto
@@ -646,7 +642,7 @@ div.label,
     <template title="album_navigation_list_item_member" version_id="1" version_string="0.0.1 Alpha"><![CDATA[<xen:if is="{$visitor.user_id}">
         <li><a href="{xen:link albums, $visitor}">{xen:phrase album_your_albums}</a></li>
 </xen:if>]]></template>
-    <template title="album_photo" version_id="14" version_string="0.9.9 Beta"><![CDATA[<xen:require css="album.css" />
+    <template title="album_photo" version_id="16" version_string="0.9.9 Beta"><![CDATA[<xen:require css="album.css" />
 <xen:require js="js/album/album.js" />
 <xen:require js="js/album/popstate.js" />
 <xen:require css="message.css" />
@@ -770,9 +766,6 @@ div.label,
                                         {xen:phrase album_from_the_album,
                                                 'link_params= href="{xen:link albums/view, $album}"',
                                                 'album={$album.name}'}
-                                        <p class="stats">{xen:phrase album_photo_x_of_y,
-                                           'current={$photo.position}',
-                                           'total={$album.photo_count}'}</p>
                                 </div>
                                 <a href="{xen:link attachments, $photo}" target="_blank">{xen:phrase album_view_full_size}</a>
                                 <xen:if is="{$album.permissions.report}"><a class="OverlayTrigger" href="{xen:link albums/report-photo, $photo}">{xen:phrase album_report_this_photo}</a></xen:if>
@@ -788,6 +781,7 @@ div.label,
                 $('.albumPhoto #photo').load(function()
                 {
                         $('.albumPhoto #photo').show();
+                        $('#albumPhoto .photo').css('background-image', 'none');
                 });
 
                 var url = '{xen:jsescape {xen:link albums/view-photo, $photo}}';
@@ -1179,12 +1173,12 @@ div.label,
 		<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 	</form>
 </xen:if>]]></template>
-    <template title="album_profile_tab" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[<li><a href="{$requestPaths.requestUri}#albums">{xen:phrase album_albums}</a></li>
+    <template title="album_profile_tab" version_id="16" version_string="0.9.9 Beta"><![CDATA[<li><a href="{$requestPaths.requestUri}#userAlbums">{xen:phrase album_albums}</a></li>
 
 <xen:edithint template="album_profile_tab_content" />
 <xen:edithint template="album_user" />
 ]]></template>
-    <template title="album_profile_tab_content" version_id="0" version_string="0.0.1 Pre-alpha"><![CDATA[<li id="album" class="profileContent" data-loadUrl="{xen:link albums, $user}">
+    <template title="album_profile_tab_content" version_id="16" version_string="0.9.9 Beta"><![CDATA[<li id="userAlbums" class="profileContent" data-loadUrl="{xen:link albums, $user}">
         {xen:phrase loading}...
         <noscript><a href="{xen:link albums, $user}">{xen:phrase view}</a></noscript>
 </li>
