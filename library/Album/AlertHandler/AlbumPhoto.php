@@ -14,6 +14,11 @@ class Album_AlertHandler_AlbumPhoto extends XenForo_AlertHandler_Abstract
 
 		$photos = $albumModel->getPhotosByIds($contentIds, false, array('join' => Album_Model_Album::FETCH_PHOTO_USER));
 		
+		if (!$photos)
+		{
+		    return false;
+		}
+		
 		foreach ($photos as $photo)
 		{
 		    $albumIds[] = $photo['album_id'];
