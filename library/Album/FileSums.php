@@ -5,7 +5,7 @@ class Album_FileSums
 	public static function getHashes()
 	{
 		return array (
-  'library/Album/AlertHandler/AlbumPhoto.php' => '56ee88d0bd86849a60c5ceef3d50b346',
+  'library/Album/AlertHandler/AlbumPhoto.php' => 'efd098ae5900e6e7da8bb6674e6bdf2c',
   'library/Album/AlertHandler/AlbumPhotoComment.php' => '8e123a4332cb4ff9aded0daaec036010',
   'library/Album/AttachmentHandler/Album.php' => '3d3c4eace285891c2f045aef569fde7d',
   'library/Album/ControllerPublic/Album.php' => '4a1a482b96dd8b0355b20373e0c4de26',
