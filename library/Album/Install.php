@@ -110,7 +110,7 @@ class Album_Install
               like_users blob NOT NULL,
               message mediumtext CHARACTER SET utf8 NOT NULL,
               PRIMARY KEY (album_photo_comment_id)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 	    ");
 	    
 	    $fields = self::getPhotoCommentFields();

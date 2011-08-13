@@ -98,16 +98,16 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 
 		list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
-        
+
         $albumModel = $this->_getAlbumModel();
-        
+
 		$photo = $albumModel->preparePhoto($photo, true, $album);
-		
+
 		$photo = $albumModel->addAlbumPhotoCommentsToPhoto($photo, array(
 			'join'       => Album_Model_Album::FETCH_PHOTO_COMMENT_USER,
 			'likeUserId' => XenForo_Visitor::getUserId()
 		));
-		
+
 		if (isset($photo['comments']))
 		{
 			foreach ($photo['comments'] as &$comment)
@@ -282,9 +282,9 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 		$photoId = $this->_input->filterSingle('id', XenForo_Input::UINT);
 
 		list($photo, $album, $user) = $this->_assertPhotoValidAndViewable($photoId);
-        
+
         $albumModel = $this->_getAlbumModel();
-        
+
 		if (!$albumModel->canCommentOnAlbum($album, $errorPhraseKey))
 		{
 			throw $this->getErrorOrNoPermissionResponseException($errorPhraseKey);
@@ -1112,7 +1112,7 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 
 		return array($photo, $album, $user);
 	}
-	
+
 	protected function _assertAlbumPhotoCommentValidAndViewable($commentId)
 	{
 		$comment = $this->_getAlbumModel()->getAlbumPhotoCommentById($commentId);

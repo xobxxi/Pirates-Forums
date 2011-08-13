@@ -1,5 +1,7 @@
 *.DS_Store
+.buildpath
 .htaccess
+.project
 htaccess.txt
 admin.php
 admindav.php
@@ -10,7 +12,9 @@ hash_tool.php
 index.php
 payment_callback.php
 rgba.php
+.settings/
 data/
+dw/
 install/
 internal_data/
 js/index.html
