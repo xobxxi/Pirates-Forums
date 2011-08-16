@@ -940,6 +940,10 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 					$userModel = XenForo_Model::create('XenForo_Model_User');
 
 					$user = $userModel->getUserById($activity['params']['id']);
+					if (!$user)
+					{
+					    return new XenForo_Phrase('album_viewing_albums');
+					}
 					$link = XenForo_Link::buildPublicLink('albums', $user);
 
 					if ($activity['params']['id'] != $activity['user_id'])
@@ -973,6 +977,10 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 					$albumModel = XenForo_Model::create('Album_Model_Album');
 
 					$album = $albumModel->getAlbumById($activity['params']['id']);
+					if (!$album)
+					{
+					    return new XenForo_Phrase('album_viewing_albums');
+					}
 					if (!$albumModel->canViewAlbum($album))
 					{
 						return new XenForo_Phrase('album_viewing_albums');
@@ -999,8 +1007,16 @@ class Album_ControllerPublic_Album extends XenForo_ControllerPublic_Abstract
 					$albumModel = XenForo_Model::create('Album_Model_Album');
 
 					$photo = $albumModel->getPhotoById($activity['params']['id']);
+					if (!$photo)
+					{
+					    return new XenForo_Phrase('album_viewing_albums');
+					}
 					$photo = $albumModel->preparePhoto($photo);
 					$album = $albumModel->getAlbumById($photo['album_id']);
+					if (!$album)
+					{
+					    return new XenForo_Phrase('album_viewing_albums');
+					}
 					if (!$albumModel->canViewAlbum($album))
 					{
 						return new XenForo_Phrase('album_viewing_albums');
