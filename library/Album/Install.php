@@ -45,7 +45,7 @@ class Album_Install
 		);
 
 		self::insertRow($db, $contentTypeRow, true);
-		
+
 		self::installPhotos($db);
 
 		$contentTypeModel = XenForo_Model::create('XenForo_Model_ContentType');
@@ -53,7 +53,7 @@ class Album_Install
 
 		return true;
 	}
-	
+
 	public static function installPhotos($db)
 	{
 		$db->query("
@@ -61,14 +61,19 @@ class Album_Install
 			  photo_id int(10) NOT NULL AUTO_INCREMENT,
 			  album_id int(10) NOT NULL,
 			  attachment_id int(10) NOT NULL,
+			  user_id int(10) NOT NULL,
 			  position int(10) NOT NULL,
 			  description text CHARACTER SET utf8,
 			  likes int(10) NOT NULL DEFAULT '0',
 			  like_users blob NOT NULL,
+			  comment_count int(10) NOT NULL DEFAULT '0',
+  			  first_comment_date int(10) NOT NULL DEFAULT '0',
+  			  last_comment_date int(10) NOT NULL DEFAULT '0',
+  			  latest_comment_ids varbinary(100) NOT NULL,
 			  PRIMARY KEY (photo_id)
 			) ENGINE=InnoDB	 DEFAULT CHARSET=utf8;
 		");
-		
+
 		$fields = self::getPhotoFields();
 		foreach ($fields as $name => $value)
 		{
@@ -93,10 +98,10 @@ class Album_Install
 		);
 
 		self::insertRow($db, $contentTypeRow, true);
-		
+
 		self::installPhotoComments($db);
 	}
-	
+
 	public static function installPhotoComments($db)
 	{
 	    $db->query("
@@ -112,7 +117,7 @@ class Album_Install
               PRIMARY KEY (album_photo_comment_id)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 	    ");
-	    
+
 	    $fields = self::getPhotoCommentFields();
 	    foreach ($fields as $name => $value)
 		{
@@ -147,7 +152,7 @@ class Album_Install
 			DROP TABLE IF EXISTS
 				album;
 		");
-		
+
 		$db->query("
 			DROP TABLE IF EXISTS
 				album_photo;
@@ -157,7 +162,7 @@ class Album_Install
 			DELETE FROM xf_content_type_field
 			WHERE xf_content_type_field.content_type = 'album'
 		");
-		
+
 		$db->query("
 			DELETE FROM xf_content_type_field
 			WHERE xf_content_type_field.content_type = 'album_photo'
@@ -198,27 +203,27 @@ class Album_Install
 
 		return $fields;
 	}
-	
+
 	public static function getPhotoFields()
 	{
 		$fields = array();
-		
+
 		$fields['alert_handler_class']      = 'Album_AlertHandler_AlbumPhoto';
 		$fields['like_handler_class']       = 'Album_LikeHandler_AlbumPhoto';
 		$fields['news_feed_handler_class']	= 'Album_NewsFeedHandler_AlbumPhoto';
 		$fields['report_handler_class']     = 'Album_ReportHandler_AlbumPhoto';
-		
+
 		return $fields;
 	}
-	
+
 	public static function getPhotoCommentFields()
 	{
 	    $fields = array();
-	    
+
 	    $fields['alert_handler_class']     = 'Album_AlertHandler_AlbumPhotoComment';
 	    $fields['like_handler_class']      = 'Album_LikeHandler_AlbumPhotoComment';
 	    $fields['news_feed_handler_class'] = 'Album_NewsFeedHandler_AlbumPhotoComment';
-	    
+
 	    return $fields;
 	}
 
